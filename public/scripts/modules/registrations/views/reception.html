@@ -1,0 +1,998 @@
+<style>
+  .md-datepicker-input-container{
+  width:100%;
+  }
+</style>
+        <form autocomplete="off">
+          <div ng-cloak>
+            <md-content>
+              <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Register patient">
+                  <md-content class="md-padding">
+                  <div layout="row">
+                    <md-input-container  flex=20>
+                            <label>Searching Prefference</label>
+                            <md-select ng-model="patient.search_preferrence" ng-change=checkStatus(patient.search_preferrence) required>
+                               <md-option value="1" selected>Inside Facility</md-option>
+                               <md-option value="2">Outside Facility</md-option>
+                            </md-select>
+                          </md-input-container>
+                   	     <md-autocomplete flex required flex ng-if="patient.search_preferrence==1"
+                          md-search-text="searchPatients"
+                          md-input-name="patients"
+                          md-no-cache="true"
+                          md-clear-button="true"
+                          md-items="item in quickSearchPatients(searchPatients,patient.search_preferrence)"
+                          md-item-text="item.fullname+'  '+item.medical_record_number+' '+item.mobile_number"
+                          md-selected-item-change="openDialog(item,patient.search_preferrence)"
+                          md-floating-label="Search Re-attendence Patients "
+                          md-min-length="3" md-autofocus>
+                          <md-item-template>
+                                 <span md-highlight-text="searchPatients">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+                          <md-input-container class="md-block" flex ng-if="patient.search_preferrence==2">
+                            <label>Enter Patient Registration Number</label>
+                            <input type="text" ng-model="patient.registration_number" required>
+                          </md-input-container>
+
+
+                             <md-input-container  ng-if="patient.search_preferrence==2">
+                             <md-button class="md-raised md-primary" ng-click="searchRemotely(patient.registration_number)">Search</md-button>
+                          </md-input-container>
+
+                           
+                          </div>
+						 <br> 
+						  
+                      
+                    <div role="form">
+				     <div ng-if="firstFormShow==true && secondFormShow==false">
+                        <div layout-gt-sm="row">
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>First name</label>
+                            <input type="text" ng-model="patient.first_name" required>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Middle Name</label>
+                            <input type="text" ng-model="patient.middle_name" required>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Last Name</label>
+                            <input type="text" ng-model="patient.last_name" required>
+                          </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Gender</label>
+                            <md-select ng-model="patient.gender" ng-click="getFacilities()" required>
+                              <md-option value="">Please select gender</md-option>
+                              <md-option value="Male">Male</md-option>
+                              <md-option value="Female">Female</md-option>
+                            </md-select>
+                          </md-input-container>
+                          <br />
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Date of birth</label>
+                            <md-datepicker md-max-date="today_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="calculateAge('date')" required></md-datepicker>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Age</label>
+                            <input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge('age')">
+                          </md-input-container>
+                          <md-input-container flex-gt-sm>
+                            <label>Unit</label>
+                            <md-select ng-model="patient.age_unit" ng-Change="calculateAge('unit')">
+                              <md-option value="Years" selected="selected">Year(s)</md-option>
+                              <md-option value="Months">Month(s)</md-option>
+                              <md-option value="Days">Day(s)</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                          <md-input-container flex-gt-sm>
+                            <label for="mobile_number">Mobile Number</label>
+                            <input id="mobile_number" type="text" ng-model="patient.mobile_number">
+                          </md-input-container>
+                          <md-input-container flex-gt-sm>
+                            <label for="tribe">Tribe</label>
+                            <input type="text" ng-model="patient.tribe"
+                              uib-typeahead ="tribe as tribe.tribe_name for tribe in seachTribes($viewValue)">  
+                          </md-input-container>  
+						  
+						   <md-autocomplete flex  flex
+                            md-search-text="search"
+                            md-input-name="patient"
+                            md-no-cache="true"
+                            md-items="item in getResidence(search)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="selectedResidence(item)"
+                            md-floating-label="Search Residence"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete> 
+                           </div>
+                        
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                          <md-button class="md-raised md-primary" ng-click="patientQuickRegistration(patient,residence)">Quick Register</md-button>
+                          <md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>
+                          <div class="label">Raised</div>
+                        </section>
+                      </div>
+                      <!-- page two -->
+                      <div ng-if="firstFormShow==false && secondFormShow==true">
+                        <h4>Other Patient Information</h4>
+                        <div layout="row">
+                          <md-input-container    flex="40">
+                            <label>MARITAL STATUS</label>
+                            <md-select ng-model="patient.marital">
+                              <md-option value=""></md-option>
+                              <md-option ng-repeat="marital in maritals" value={{marital.id}}>{{marital.marital_status}}</md-option>
+                            </md-select>
+                          </md-input-container>
+                          <md-input-container   flex="40">
+                            <label>Occupation</label>
+                            <input type="text" ng-model="patient.occupation" id="Occupation" uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue">
+                          </md-input-container>
+                        </div>
+                        <div layout="row">
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Country</label>
+                            <input type="text" ng-model="patient.country" uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Next of Kin Name *</label>
+                            <input type="text" ng-model="others.next_of_kin_name" id="Kin">
+                          </md-input-container>
+                          <md-autocomplete flex  flex
+                            md-search-text="search"
+                            md-input-name="patient"
+                            md-no-cache="false"
+                            md-items="item in getResidence(search)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="selectedResidencekin(item)"
+                            md-floating-label="Search Next Of Kin Residence"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+                        </div>
+                        <div layout="row">
+                          <md-input-container    flex="40">
+                            <label>Relationship</label>
+                            <md-select ng-model="patient.relationship">
+                              <md-option ng-value=""></md-option>
+                              <md-option ng-repeat="relationship in relationships" ng-value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+                            </md-select>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Mobile Number:(<i>Optional</i>)</label>
+                            <input id="mobile_number" type="text" ng-model="patient.mobile_number_next_kin">
+                          </md-input-container>
+                        </div>
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                          <md-button class="md-raised" ng-click="showFirstForm(patient,others,residence)">Previous</md-button>
+                    <md-button class="md-raised md-primary" ng-click="patientQuickRegistration(patient,residence)">Submit</md-button>
+                        </section>
+                      </div>
+        </form>
+        </div>
+        <!-- end register patient -->
+        </md-content>
+        </md-tab>
+		
+		<md-tab label="Advanced Search">
+                  <md-content class="md-padding">
+				   <md-card>
+                                  <md-card-content>
+                 <div layout="row">
+                          <div flex="40">
+						   <div layout-gt-sm="row">
+                       
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Search by :Registration Number</label>
+                            <input type="text" ng-model="reg_number" required>
+                          </md-input-container>
+						  
+						  <md-input-container class="md-block" flex-gt-sm>
+                           
+                  <md-button class="md-raised md-primary" ng-click="searchByReg(reg_number)">Search</md-button>
+				   </md-input-container>
+                           
+                          </div>
+                          </div>
+                          <div flex="30">
+						  
+						  <div layout-gt-sm="row">
+                       
+                       <md-input-container class="md-block" flex-gt-sm>
+                       <label>Search by :Mobile Number</label>
+                            <input type="text" ng-model="mob_num" required>
+                          </md-input-container>
+						   <md-input-container class="md-block" flex-gt-sm>
+                           
+                  <md-button class="md-raised md-primary" ng-click="searchByMobile(mob_num)">Search</md-button>
+				   </md-input-container>
+                           
+                          </div>
+						  </div> 
+						  <div flex="30">
+						  
+						  <div layout-gt-sm="row">
+                       
+                              <md-input-container class="md-block" flex-gt-sm>
+                            <label>Search by :Name</label>
+                            <input type="text" ng-model="surName" required>
+                          </md-input-container>
+						   <md-input-container class="md-block" flex-gt-sm>
+                           
+                  <md-button class="md-raised md-primary" ng-click="searchBySurname(surName)">Search</md-button>
+				   </md-input-container>
+                           
+                          </div>
+						  </div>
+						  </div>
+						  
+						  
+						 <br> 
+						 </md-card-content>
+						  </md-card>
+			 <span ng-if="regInfo.length ==0" style="text-align:center;font-size:20px;" > No results found for this search ,change your search</span>
+						<table class="table table-bordered table-striped" ng-if="regInfo[0].first_name.length >0">
+                        <thead>
+                        <tr>
+                           <th><span>MEDICAL RECORD NUMBER</span></th>
+							 
+							<th><span> PATIENT NAME</span></th>
+							<th><span>MOBILE NUMBER</span></th>
+							<th><span>GENDER</span></th>
+							<th><span>REG DATE</span></th>
+
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+               <tr ng-repeat="patient in regInfo  track by $index">	
+               <td><a ng-click="openDialog(patient)" style="cursor: pointer;" >{{patient.medical_record_number}}</a></td>
+               <td>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</td>
+               
+               <td>{{patient.mobile_number}}</td>
+			   <td>{{patient.gender}}</td>
+			   <td>{{patient.created_at}}</td></tr></tbody></table><md-content>
+		 </md-tab>
+		
+		
+        <md-tab label="Insurance" ng-click="getNonCollectedCards()">
+        <md-content class="md-padding">
+		
+		
+		 <vertical-tabs >
+                            				
+							
+							
+				<vertical-tab-pane title="Card Verification">
+				<div layout="row">
+        <md-input-container flex>
+        <label>Insuarance </label>
+        <md-select ng-model="insuarance.type">
+        <md-option value="NHIF" selected="selected">NHIF</md-option>
+        <md-option value="CHF">CHF</md-option>
+        <md-option value="NSSF">NSSF</md-option>
+        </md-select>
+        </md-input-container>
+        <md-input-container flex>
+        <label>Card Number </label>
+        <input type="text" ng-model="insuarance.nhif_card">
+        </md-input-container>
+		 <md-input-container flex>
+        <label>Visit Type </label>
+        <md-select ng-model="insuarance.visitType">
+        <md-option ng-value="1" selected="selected">Normal Visit</md-option>
+        <md-option ng-value="2">Emegency</md-option>
+        <md-option ng-value="3">Refferal</md-option>
+        <md-option ng-value="4">Investigation Refferal</md-option>
+        </md-select>
+        </md-input-container>
+		
+		<md-input-container ng-if="insuarance.visitType==3" flex>
+        <label>Refferal Number </label>
+        <input type="text" ng-model="insuarance.refferal_no">
+        </md-input-container>
+		<md-input-container flex>
+        <md-button class="md-raised md-primary" ng-click="verification(insuarance)">Verify</md-button>
+        </md-input-container>
+        <md-input-container flex>
+        <div ng-if="dataLoading">
+        <img src="/img/wait.gif" width="80px" height="80px"> </img>
+        Connecting to NHIF SERVER...
+        </div>
+        </md-input-container>
+        </div>
+		</vertical-tab-pane>
+	    
+
+
+                            <vertical-tab-pane title="Offline Registerd  Clients ">       
+
+        <form  name="searchForm">
+    <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex >
+                        <md-button class="md-raised md-primary" ng-click="getNonVerified(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+                      </form>
+                                   
+                             
+                                <div layout="row">
+                               <table class="table table-bordered table-striped" ng-if="nonverifiedLists.length >0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            
+              <th sortable="placed" class="sortable">
+                                <span>PATIENT NAME</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MEDICAL RECORD NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MOBILE NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>GENDER</span>
+                            </th>
+
+                             <th sortable="placed" class="sortable">
+                                <span>CARD #</span>
+                            </th>
+                             <th sortable="placed" class="sortable">
+                                <span>ACTION</span>
+                            </th>
+
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item  ng-repeat="nonverifiedList in nonverifiedLists track by $index" >
+            
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                             <td >{{nonverifiedList.first_name}} {{nonverifiedList.middle_name}} {{nonverifiedList.last_name}}</td>
+                             <td >{{nonverifiedList.medical_record_number}}</td>
+                             <td >{{nonverifiedList.mobile_number}}</td>
+               <td >{{nonverifiedList.gender}}</td>
+               <td > {{nonverifiedList.card_no}}</td>
+               
+                        <td > <span ng-click="verifyNhifCard(nonverifiedList)" style="cursor: pointer;"> Verify </span></td>
+                               </tr>
+                        </tbody>
+                    </table>     
+                   
+                   
+                   
+                                </div>                              
+                            </vertical-tab-pane>  
+
+                             <vertical-tab-pane title="NHIF Card Collection">       
+
+        <form  name="searchForm">
+    <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex >
+                        <md-button class="md-raised md-primary" ng-click="getNonVerified(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+                      </form>
+                                   
+                             
+                                <div layout="row">
+                               <table class="table table-bordered table-striped" ng-if="nonCardCollectedLists.length >0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            
+              <th sortable="placed" class="sortable">
+                                <span>PATIENT NAME</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MEDICAL RECORD NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MOBILE NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>GENDER</span>
+                            </th>
+<th sortable="placed" class="sortable">
+                                <span>TIME ATTENDED</span>
+                            </th>
+                             <th sortable="placed" class="sortable">
+                                <span>CARD #</span>
+                            </th>
+                             <th sortable="placed" class="sortable">
+                                <span>ACTION</span>
+                            </th>
+
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item  ng-repeat="nonverifiedList in nonCardCollectedLists track by $index" >
+            
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                             <td >{{nonverifiedList.first_name}} {{nonverifiedList.middle_name}} {{nonverifiedList.last_name}}</td>
+                             <td >{{nonverifiedList.medical_record_number}}</td>
+                             <td >{{nonverifiedList.mobile_number}}</td>
+               <td >{{nonverifiedList.gender}}</td>
+               <td >{{nonverifiedList.attended_time}}</td>
+               <td > {{nonverifiedList.card_no}}</td>
+               
+                        <td > <span ng-click="giveNhifCard(nonverifiedList)" style="cursor: pointer;"> Give Card </span></td>
+                               </tr>
+                        </tbody>
+                    </table>     
+                   
+                   
+                   
+                                </div>                              
+                            </vertical-tab-pane>  
+
+                             
+							
+							
+							   </vertical-tabs >
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        
+        </md-content>
+        </md-tab>
+		<md-tab label="Change Patient Category">
+                  <md-content class="md-padding">
+                  <div layout="row">
+                   	    <md-autocomplete flex required flex
+                        md-search-text="patientsCategory"
+                        md-input-name="patientsCategory"
+                        md-no-cache="true"
+                        md-clear-button="true"
+                        md-items="item in quickSearchPatients(patientsCategory)"
+                        md-item-text="item.fullname+'  '+item.medical_record_number+' '+item.mobile_number"
+                        md-selected-item-change="getPatientCategory(item)"
+                        md-floating-label="Search For Patients to change Category "
+                        md-min-length="6" md-autofocus>
+                        <md-item-template>
+                        <span md-highlight-text="patientsCategory">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}
+                         </span>
+                        </md-item-template>
+                        </md-autocomplete>						   
+                        </div>
+					 <br> 
+
+              <h1 align="center" ng-if="patientCategories.length ==0"> SORRY THIS CLIENT NOT YET ASSIGNED ANY BILL </h1>
+
+                <md-card ng-if="patientCategories.length >0">
+                <md-card-content>
+                 <div layout="row">
+                  <h2 align="center">CHANGE PATIENT PAYMENTS CATEGORY FOR {{patientCategories[0].first_name+" "+patientCategories[0].middle_name +" "+patientCategories[0].last_name }} </h2>
+                </div>
+               <div layout="row">
+                <div flex>
+                 <div layout-gt-sm="row">                       
+                   
+                         <h3 align="center"> CURRENT PAYMENT CATEGORY: {{patientCategories[0].sub_category_name }}<h3>
+                          </div>
+                          </div>
+                          </div>
+                  <div layout="row">           
+                        
+              <div flex>              
+              <div layout-gt-sm="row">
+                       <md-input-container flex="50">
+                                    <label>Payment Category</label>
+
+
+              <md-select ng-model="patientCategory">
+                   <md-option value=""></md-option>
+                            <md-option ng-repeat="patientCat in userFeesPaymentsCategories"
+                              value="{{patientCat.id}}">
+                               {{patientCat.sub_category_name}}
+                                        </md-option>
+                                    </md-select>
+
+                                </md-input-container>
+                           
+            <md-button class="md-raised md-primary" 
+            ng-click="changeCategory(patientCategory,patientCategories[0])">ChangePatientCategory</md-button>
+           </md-input-container>
+                           
+                          </div>
+              </div>
+              </div>
+              
+              
+             <br> 
+             </md-card-content>
+              </md-card>
+
+
+		 </md-content>
+		 </md-tab>
+		
+        <md-tab label="Register Corpse">
+        <md-content class="md-padding">
+<form  name="searchForm">
+                          <div layout-gt-sm="row">
+                              <md-autocomplete flex required flex
+                                               md-search-text="searchText"
+                                               md-input-name="corpses"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in getCorpses(searchText)"
+     md-item-text="item.first_name+'  '+item.middle_name+' '+item.last_name+',Reg#.'+item.corpse_record_number"
+                                     md-item-text="item.corpse_record_number"
+                                               md-selected-item-change="getCorpseEdit(item)"
+                                               md-floating-label="Search for Corpses to edit their names and other details"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.corpse_record_number}} {{item.mobile_number}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+                          </div>
+                      </form>
+
+               <div flex="100">
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;">
+                                  <h3 align="center">A: TAARIFA ZA MAREHEMU</h3>
+                                </md-list-item>
+                            </md-list>
+                        </div>
+		
+		<div layout="row">
+        <md-input-container flex>
+        <label>First Name</label>
+        <input required name="firstName" ng-model="corpse_details.first_name">       
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Middle Name</label>
+        <input required name="clientName" ng-model="corpse_details.middle_name">        
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Last Name</label>
+        <input required name="clientName" ng-model="corpse_details.last_name">
+        </md-input-container>
+    
+        </div>
+    
+    <div layout="row">
+        <md-input-container flex>
+        <label>Gender</label>
+        <md-select name="type" ng-model="corpse_details.gender" required>
+        <md-option value="Male">Male</md-option>
+        <md-option value="Female">Female</md-option>
+        </md-select>
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Date of Birth</label>
+        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse_details.dob"></md-datepicker>
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Date of Death</label>
+        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse_details.dod"></md-datepicker>       
+        </md-input-container>
+        </div>
+    
+    <div layout="row">
+        <md-autocomplete flex  flex
+                            md-search-text="search"
+                            md-input-name="patient"
+                            md-no-cache="false"
+                            md-items="item in getResidence(search)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="whereCorpseFound(item)"
+                            md-floating-label="Where Corpse Found/taken?"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+    
+        <md-input-container flex>
+        <label>Death Condition</label>
+        <input name="clientName" ng-model="corpse_details.death_condition">
+            
+     </md-input-container>
+    
+          
+    <md-input-container >
+                        <label>Time of Death</label>
+                        <input ng-model="corpse_details.time_death" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+    
+        </div>
+    
+     <div layout="row">
+        <md-input-container flex>
+        <label>Identity Number</label>
+        <input  name="firstName" ng-model="corpse_details.identityNumber">       
+        </md-input-container>
+    
+         <md-input-container flex>
+        <label>Identity Issuer</label>
+        <md-select name="type" ng-model="corpse_details.identityType" required>
+        <md-option value="1">NIDA </md-option>
+        <md-option value="2">NEC</md-option>
+        <md-option value="3">NHIF</md-option>
+        <md-option value="4">CHF</md-option>
+        <md-option value="5">NONE</md-option>
+        </md-select>
+        </md-input-container>
+    
+         <md-input-container class="md-block" flex-gt-sm>
+                            <label>Nationality</label>
+                            <input type="text" ng-model="corpse_details.country" uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                          </md-input-container>
+    
+        </div>
+          <div flex="100">
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;">
+                                  <h3 align="center">B: TAARIFA ZA ALIYELETA MAITI</h3>
+                                </md-list-item>
+                            </md-list>
+                        </div>
+
+                        <div layout="row">
+        <md-input-container flex>
+        <label>Names</label>
+        <input required  ng-model="corpse_details.names">       
+        </md-input-container>
+    
+        <md-input-container    flex>
+                            <label>Relationship</label>
+                            <md-select ng-model="corpse_details.relationship">
+                              <md-option value=""></md-option>
+                              <md-option ng-repeat="relationship in relationships" value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+                            </md-select>
+                          </md-input-container>
+    
+        </div>
+          
+     <div layout="row">
+        <md-input-container flex>
+        <label>Mobile Number</label>
+        <input  ng-model="corpse_details.mobile_number">       
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Storage Reason</label>
+        <md-select name="reason" ng-model="corpse_details.storage_reason" required>
+        <md-option value="1">Uchunguzi</md-option>
+        <md-option value="2">Kuhifadhi</md-option>
+        </md-select>
+     </md-input-container>
+    
+        <md-input-container flex>
+        <label>Vehicle Number</label>
+        <input   ng-model="corpse_details.vehicle_number">
+        </md-input-container>
+    
+        </div>
+    
+    
+      <div layout="row">
+    
+     <md-input-container flex>
+        <label>Other Descriptions</label>
+        <input  ng-model="corpse_details.description">       
+        </md-input-container>                     
+     </div>
+    <div layout="row" class="pull-right">     
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <md-button class="md-raised md-primary" ng-click="corpse_quick_registration(corpse_details,residence)">Save</md-button>
+                          
+        </section>
+           </div>    
+            
+        </md-content>
+        </md-tab>
+
+
+<md-tab label="Reports">
+    <md-content class="md-padding">
+        <!--vertical tabs start-->
+        <vertical-tabs >
+            <vertical-tab-pane title="Registered Patients">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getMahudhuriOPDRegistration(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="getListFromTheatresReport(pef)">
+
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered" border="1" ng-if="opd_mahudhurio.male_under_one_month >=0">
+                            <caption> <b class="">
+
+                                <div  class="text-center"> <h5>  RIPOTI YA USAJILI  YA WAGONJWA WA NJE (OPD)</h5></div>
+
+                                <hr>
+
+                                <b class="col-md-4">Jina la Kituo: {{facility_address.facility_name }} </b>
+                                <b class="col-md-4">Wilaya : {{facility_address.council_name}}  </b>
+                                <b class="col-md-4">Mkoa : {{facility_address.region_name}} </b>
+                                <P></P>
+                                <P></P>
+                                <P></P>
+                                <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}} </b>
+                                <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+                                <hr>
+                            </b></caption>
+
+                            <tr style="background-color:#c1c1c1">
+
+                                <th rowspan="2"> Na </th>
+                                <th  rowspan="2">Maelezo</th>
+                                <th colspan="3">Umri chini ya mwezi 1</th>
+
+                                <th colspan="3">Umrimwezi 1 hadi umri chini ya mwaka 1</th>
+
+                                <th colspan="3">Umri
+                                    mwaka 1
+                                    hadi umri
+                                    chini ya
+                                    miaka 5</th>
+
+                                <th colspan="3">miaka 5
+                                    hadi
+                                    miaka
+                                    chini ya 60</th>
+
+                                <th colspan="3">Umri
+                                    miaka 60
+                                    na
+                                    kuendelea</th>
+
+                                <th colspan="3">Jumla
+                                    Kuu</th>
+
+
+                            </tr>
+
+                            <tr style="background-color:#c1c1c1">
+
+
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+
+
+
+                            </tr>
+
+                            <tr>
+
+                                <th> 1 </th>
+                                <th> Mahudhurio ya OPD </th>
+                               <th>{{(opd_mahudhurio.male_under_one_month ) * 1 + (opd_mahudhurio_marudio.male_under_one_month)*1}}</th>
+                            <th>{{(opd_mahudhurio.female_under_one_month ) * 1 + (opd_mahudhurio_marudio.female_under_one_month)*1 }}</th>
+                            <th>{{( opd_mahudhurio.total_under_one_month)*1 + (opd_mahudhurio_marudio.total_under_one_month)*1}}</th>
+                            <th>{{(opd_mahudhurio.male_under_one_year)* 1+ (opd_mahudhurio_marudio.male_under_one_year)*1 }}</th>
+                            <th>{{(opd_mahudhurio.female_under_one_year)*1 + (opd_mahudhurio_marudio.female_under_one_year)*1}}</th>
+                            <th>{{(opd_mahudhurio.total_under_one_year)*1 + (opd_mahudhurio_marudio.total_under_one_year)*1}}</th>
+                            <th>{{(opd_mahudhurio.male_under_five_year)*1 + (opd_mahudhurio_marudio.male_under_five_year)*1}}</th>
+                            <th>{{(opd_mahudhurio.female_under_five_year)*1+ (opd_mahudhurio_marudio.female_under_five_year)*1 }}</th>
+                            <th>{{(opd_mahudhurio.total_under_five_year)*1+(opd_mahudhurio_marudio.total_under_five_year)*1}}</th>
+                            <th>{{(opd_mahudhurio.male_above_five_under_sixty)*1 + (opd_mahudhurio_marudio.male_above_five_under_sixty)*1}}</th>
+                <th>{{(opd_mahudhurio.female_above_five_under_sixty)*1 + (opd_mahudhurio_marudio.female_above_five_under_sixty)*1}}</th>
+                            <th>{{(opd_mahudhurio.total_above_five_under_sixty)*1+ (opd_mahudhurio_marudio.total_above_five_under_sixty)*1}}</th>
+                            <th>{{(opd_mahudhurio.male_above_sixty*1)+(opd_mahudhurio_marudio.male_above_sixty)*1}}</th>
+                            <th>{{(opd_mahudhurio.female_above_sixty*1)+(opd_mahudhurio_marudio.female_above_sixty)*1}}</th>
+                            <th>{{(opd_mahudhurio.total_above_sixty)*1+(opd_mahudhurio_marudio.total_above_sixty)*1}}</th>
+                            <th>{{(opd_mahudhurio.grand_total_male)*1+(opd_mahudhurio_marudio.grand_total_male)*1}}</th>
+                            <th>{{(opd_mahudhurio.grand_total_female)*1+(opd_mahudhurio_marudio.grand_total_female)*1}}</th>
+                            <th>{{(opd_mahudhurio.grand_total)*1+(opd_mahudhurio_marudio.grand_total)*1}}</th>
+
+
+                            </tr>                                   <tr>
+
+                            <th> 2 </th>
+                            <th> Wagonjwa walio hudhuria kwa mara ya kwanza katika kituo hiki mwaka huu* </th>
+                            <th>{{opd_mahudhurio.male_under_one_month}}</th>
+                            <th>{{opd_mahudhurio.female_under_one_month }}</th>
+                            <th>{{opd_mahudhurio.total_under_one_month}}</th>
+                            <th>{{opd_mahudhurio.male_under_one_year}}</th>
+                            <th>{{opd_mahudhurio.female_under_one_year}}</th>
+                            <th>{{opd_mahudhurio.total_under_one_year}}</th>
+                            <th>{{opd_mahudhurio.male_under_five_year}}</th>
+                            <th>{{opd_mahudhurio.female_under_five_year }}</th>
+                            <th>{{opd_mahudhurio.total_under_five_year}}</th>
+                            <th>{{opd_mahudhurio.male_above_five_under_sixty}}</th>
+                            <th>{{opd_mahudhurio.female_above_five_under_sixty}}</th>
+                            <th>{{opd_mahudhurio.total_above_five_under_sixty}}</th>
+                            <th>{{opd_mahudhurio.male_above_sixty}}</th>
+                            <th>{{opd_mahudhurio.female_above_sixty}}</th>
+                            <th>{{opd_mahudhurio.total_above_sixty}}</th>
+                            <th>{{opd_mahudhurio.grand_total_male}}</th>
+                            <th>{{opd_mahudhurio.grand_total_female}}</th>
+                            <th>{{opd_mahudhurio.grand_total}}</th>
+
+                        </tr>
+                            <tr>
+
+                                <th> 3 </th>
+                                <th> Mahudhurio ya marudio </th>
+                                <th>{{opd_mahudhurio_marudio.male_under_one_month}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_under_one_month }}</th>
+                                <th>{{opd_mahudhurio_marudio.total_under_one_month}}</th>
+                                <th>{{opd_mahudhurio_marudio.male_under_one_year}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_under_one_year}}</th>
+                                <th>{{opd_mahudhurio_marudio.total_under_one_year}}</th>
+                                <th>{{opd_mahudhurio_marudio.male_under_five_year}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_under_five_year }}</th>
+                                <th>{{opd_mahudhurio_marudio.total_under_five_year}}</th>
+                               <th>{{opd_mahudhurio_marudio.male_above_five_under_sixty}}</th>
+                              <th>{{opd_mahudhurio_marudio.female_above_five_under_sixty}}</th>
+                                <th>{{opd_mahudhurio_marudio.total_above_five_under_sixty}}</th>
+                                <th>{{opd_mahudhurio_marudio.male_above_sixty}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_above_sixty}}</th>
+                                <th>{{opd_mahudhurio_marudio.total_above_sixty}}</th>
+                                <th>{{opd_mahudhurio_marudio.grand_total_male}}</th>
+                                <th>{{opd_mahudhurio_marudio.grand_total_female}}</th>
+                                <th>{{opd_mahudhurio_marudio.grand_total}}</th>
+
+
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+ <vertical-tab-pane title="Performance Report">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getStaffPerfomance(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="getStaffPerfomance(pef)">
+
+                    <div flex="85" ng-if="results.number_registered >=0">
+
+                        <table class="table table-bordered table-striped" ng-if="results.number_registered >=0">
+                            <thead>
+                            <tr>
+                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                    <span>No.</span>
+                                </th>
+
+                                <th sortable="placed" class="sortable">
+                                    <span>PATIENTS REGISTERED</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr grid-item  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    1
+                                </td>
+                                <td >{{results.number_registered}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+
+
+
+        </vertical-tabs>
+        <!--vertical tabs end-->
+    </md-content>
+</md-tab>
+
+
+
+        <md-tab label="EDIT PATIENT">
+        <md-content class="md-padding">
+        
+        <md-content class="md-padding">
+        <form  name="searchForm">
+        <div layout-gt-sm="row">
+        <md-autocomplete flex required flex
+          md-search-text="searchText"
+          md-input-name="patients"
+          md-no-cache="true"
+                         md-clear-button="true"
+          md-items="item in getPatientToEdit(searchText)"
+          md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+          md-selected-item-change="selectedPatientToEdit(item,$event)"
+          md-floating-label="Search Patient "
+          md-min-length="4" md-autofocus>
+        <md-item-template>
+        <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} </span>
+        </md-item-template>
+        </md-autocomplete>
+        </div>
+        </form>
+        </md-content>
+        </md-content>
+        </md-tab>
+        </md-tabs>
+        </md-content>

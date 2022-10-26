@@ -1,0 +1,278 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Nutrition Assessment" ng-click="setTabPendingAdmission(1)">
+                   <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any ward grade to set price" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+        <h2 ng-if="admin.length==0" align="center">NO PENDING REQUEST FOR ADMISSION SENT RIGHT NOW.</h2>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="admin.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME TO ADMIT
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admin in admin track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admin.fullname}}({{admin.medical_record_number}}) ,</td>
+                            <td >{{admin.updated_at}}</td>
+                              <td >{{admin.ward_name}}</td>
+                              <td>{{admin.name}}({{admin.doctor_mob}})</td>
+                             <td><md-button class="md-raised md-primary" ng-click="getAdmission(admin.patient_id,admin.ward_id,admin.admission_id)">ADMIT</md-button></td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+<md-tab label="Nutrition Councelling" ng-click="setTabAdmission(1)">
+       <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any ward grade to set price" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME TO ADMIT
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selected_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option ng-repeat="bedState in bedStates" ng-click="changedValueBed(bedState,admitted)"  ng-value=bedState.id>{{bedState.TemplateName}}</md-option>
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+
+<md-tab label="HIV Status" ng-click="setTabAdmission(1)">
+    <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any ward grade to set price" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME TO ADMIT
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option ng-repeat="chartList in chartsReserved" ng-click="getChats(chartList,admitted)">{{chartList.TemplateName}}</md-option>
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="Nutrition Intervention" ng-click="setTabAdmission(1)" >
+     <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any ward grade to set price" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME TO ADMIT
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option  ng-click="nursingCareOptions(1,admitted)">Write Plans</md-option>
+         <md-option  ng-click="nursingCareOptions(2,admitted)">Preview Plans</md-option>
+         
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="Exit Reasons" ng-click="setTabAdmission(1)">
+    <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any ward grade to set price" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME TO ADMIT
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option  ng-click="nursingCareOptions(1,admitted)">Provide Drug</md-option>
+         <md-option  ng-click="nursingCareOptions(2,admitted)">Drug Sheet</md-option>
+         
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+
+
+</md-tabs>
+</md-content>
+</div>

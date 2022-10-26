@@ -1,0 +1,754 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >LABOUR HMIS SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>FOMU YA TAARIFA YA KITABU CHA 12: REJESTA YA WAZAZI</h5></div>
+
+					<hr>
+
+					<b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					<b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+					<P></P>
+					<P></P>
+					<P></P>
+					<b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					<b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<hr>
+				</b></caption>
+					<tr style="background-color:#c1c1c1">
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">No</th>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelekezo</th>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri (<20)</th>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri(>20)</th>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1 </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliotarajiwa kujifungua katika eneo la huduma</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2 </td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Taarifa ya Waliojifungua</th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2a </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungulia katika kituo cha kutolea huduma za afya</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2b </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungua kabla ya kufika kituoni (BBA)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2c </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozalishwa na wakunga wa jadi (TBA)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2d </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungua nyumbani (H) bila msaada wa TBA </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;"><i>Jumla waliojifungua (2a+2b+2c+2d)</i> </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2e </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozalishwa na watoa huduma wenye ujuzi </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Asilimia ya waliojifungulia katika vituo vya kutolea
+							huduma za afya ( 2a/1) x 100 </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3 </td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Taarifa kuhusu uchungu </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungua baada ya saa 12 toka uchungu kuanza </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Taarifa ya njia za kujifungua </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Kawaida (KW) </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4b</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Vacuum (VM)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4c</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Breech delivery (BR)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4d</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Caesarian Section (CS)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> <i>Jumla (4a+4b+4c+4d)</i></td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4e</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya wanawake waliopata Oxytocin baada ya kujifungua</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4f</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya wanawake waliopata Egometrine baada ya kujifungua </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4g</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya wanawake waliopata Misoprostol baada ya kujifungua </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> Matatizo kabla ya kujifungua</th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> APH</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Pre-mature Rupture of Membrane (PROM) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> High BP</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Pre eclampsia</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Eclampsia </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5f</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Anaemia</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5g</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Malaria </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5h</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> HIV+ stage III au IV</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> <i>Jumla wenye matatizo kabla ya kujifungua
+							(5a+5b+5c+5d+5e+5f+5g+5h)</i> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5i</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliokeketwa (FGM)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> Matatizo wakati na baada ya kujifungua</th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> PPH</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Pre eclampsia </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  Eclampsia</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  Obstructed Labour</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Retained Placenta </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6f</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  Third degree tear</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6g</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Ruptured Uterus </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6h</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  Uambukizo/ Sepsis</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> <i>Jumla ya matatizo baada ya kujifungua
+							(6a+6b+6c+6d+6e+6f+6g)</i> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">EmOC </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Amepewa Antibiotic</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Amepewa Uterotonic </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Amepewa Magnesim Sulphate </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Ameondolewa kondo la nyuma kwa mkono</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">PMTCT </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Jumla waliopimwa VVU ANC</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliogundulika Positive kutoka ANC </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla waliopimwa VVU wakati na baada ya kujifungua </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliogund ulika Positive wakati na baada ya kujifungua</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><i>Jumla Walio na VVU (8b+8f)</i> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8e</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliochagua kunyonyesha maziwa ya mama pekee (EBF)</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8f</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliochagua ulishaji wa maziwa mbadala (RF) </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr> <tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8g</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa ARV Prophylaxis (tail) wakati wa kuruhusiwa </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8h</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopata rufaa kwenda kliniki ya huduma na matibabu
+						ya wenye VVU (CTC)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto Waliozaliwa mmoja</th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla ya watoto waliozaliwa hai </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozaliwa hai Uzito<2.5kg </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliozaliwa hai Uzito =>2.5kg</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliozaliwa wafu Macerated (MSB)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozaliwa wafu Fresh (FSB) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9f</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozaliwa na mama wenye VVU </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9g</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa dawa za ARV </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><i>Jumla ya watoto waliozaliwa (hai na wafu) (9a+9d+9e)</i> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9h</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto wenye APGAR Score chini ya 7 katika dakika 5</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto Waliozaliwa mapacha</th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla ya watoto waliozaliwa hai </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozaliwa hai Uzito<2.5kg </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliozaliwa haiUzito =>2.5kg</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliozaliwa wafu Macerated (MSB)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozaliwa wafu Fresh (FSB) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10f</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliozaliwa na mama wenye VVU </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9g</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa dawa za ARV </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><i>Jumla ya watoto waliozaliwa (hai na wafu)
+							(10a+10f+10g)</i> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr >
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10h</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto wenye APGAR Score chini ya 7 katika dakika 5</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto waliosaidiwa kupumua </th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto Waliosaidiwa kupumua-suction</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr> <tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto waliosaidiwa kupumua- stimulation </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr><tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto waliosaidiwa kupumua- bag and mask</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+					<tr style="background-color:#c1c1c1">
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> Huduma nyinginezo</th>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12a</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto walionyonyeshwa ndani ya saa moja
+							baada ya kuzaliwa </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12b</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya Mama waliopewa rufaa</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12c</td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya Watoto waliopewa rufaa </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+				</table>
+				<p></p>
+				<div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+				<p></p>
+				<div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+				<p></p>
+				<div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+				<p></p>
+				<div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+		</div>
+		<div class="row no-print">
+			<table width="100%">
+				<tr><td>
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('labour')">
+						SEND TO DHIS
+					</button>
+				</td></tr>
+			</table>
+		</div>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

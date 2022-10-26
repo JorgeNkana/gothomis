@@ -1,0 +1,161 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+
+    .not_applicable {
+        background-color:#c1c1c1;
+    }
+
+    @media print {
+        .no-print{display:none;}
+    }
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >TOP TEN DISEASES</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+            <div class="to-print">
+                <table class="table-responsive"  style="border:thin solid black; width:100%">
+                    <caption> <b class="">
+                        <div class="text-center"> <h8>'SIRI'</h8></div>
+                        <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                        <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+                        <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                        <div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+
+                        <div  class="text-center"> <h5>TOP TEN DISEASES</h5></div>
+
+                        <hr>
+
+                        <b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+                        <b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+                        <b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+                        <P></P>
+                        <P></P>
+                        <P></P>
+                        <b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+                        <b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+                        <hr>
+                    </b></caption>
+                    <tr style="background-color:#c1c1c1">
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2"> Na </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  rowspan="2">Disease</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Umri chini ya mwezi 1</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Umrimwezi 1 hadi umri chini ya mwaka 1</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Umri
+                            mwaka 1
+                            hadi umri
+                            chini ya
+                            miaka 5</th>
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">miaka 5
+                            hadi
+                            miaka
+                            chini ya 60</th>
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Umri
+                            miaka 60
+                            na
+                            kuendelea</th>
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Jumla
+                            Kuu</th>
+                    </tr>
+                    <tr style="background-color:#c1c1c1">
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+
+
+
+                    </tr>
+                    <tr ng-repeat="item in toptens" >
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}} </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.description}} </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_0_1_month}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_0_1_month }}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_0_1_month}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_0_11_month}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_0_11_month}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_0_11_month}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_1_5_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_1_5_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_1_5_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_6_59_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_6_59_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_6_59_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_above_60_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_above_60_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_above_60_year}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_total_attendance}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_total_attendance}}</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.grand_total_attendance}}</th>
+
+                    </tr>
+
+
+
+                </table>
+            </div>
+            <div class="row no-print">
+                <table width="100%">
+                    <tr><td>
+                        <button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('topten')">
+                            SEND TO DHIS
+                        </button>
+                    </td></tr>
+                </table>
+            </div>
+        </div>
+        </md-content>
+</md-dialog>

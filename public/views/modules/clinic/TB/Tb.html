@@ -1,0 +1,238 @@
+<div ng-cloak="">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Consultation Queue">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                               uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                               typeahead-on-select="getConsultationModal($item)" autocomplete="off">
+                    </md-input-container>
+                    <div class="col-md-12">
+                        <hr ng-if="resdatas.length>0">
+                        <b  ng-if="resdatas.length>0" class="text-center">INCOMING TRANSFER</b>
+                        <hr ng-if="resdatas.length>0">
+                        <div class="wrapper">
+                            <div ng-repeat="pt in resdatas" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="getConsultationModal(pt)">
+                                <a href="">
+                                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                    <span class="mdl-chip__text" >{{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}} </span>
+                                    <a  class="mdl-chip__action"></a>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="my performance">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getPerformance(pef)">Search</md-button>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" ng-if="performanceRange.length>0 || performanceThisMonth.length>0">
+                        Dear <strong>{{currentUser.name}}</strong>, you have consulted {{performanceRange[0].total_clients}} patients from {{ pef.start }} to {{ pef.end }}.
+
+                        Also a total of {{performanceThisMonth[0].total_patients}} patients this current month. <br>
+                        Thank you!
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="TB REPORT">
+                <div >
+                    <input type="datetime" ng-model="data.start_date" datetime-picker date-only date-format="yyyy-MM-dd hh:mm:ss" placeholder="Start Date">
+                    <input type="datetime"  ng-model="data.end_date" datetime-picker date-only date-format="yyyy-MM-dd hh:mm:ss" placeholder="End Date">
+
+                    <md-button   ng-click="Tb_mtuha(data)" class="md-raised md-raised-search ">Search</md-button>
+                </div>
+                <div id='divtoprint_tb' ng-if="attendances" class=" table-responsive">
+
+
+                    <p></p>
+
+                    <a ng-click="PrintContent_tb();"   title="Print" class="no-print   "><b class="glyphicon glyphicon-print "></b>  </a>
+
+                    <div >
+
+                        <center>
+                            <div class="text-center"> <h8>'SIRI'</h8></div>
+                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII, JINSIA, WAZEE NA WATOTO </h8></div>
+                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                            <div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+
+                            <p></p>
+                            TAREHE YA KUANZA:&nbsp;&nbsp;&nbsp; {{data.start_date}} &nbsp;&nbsp;&nbsp; TAREHE YA MWSHO:&nbsp;&nbsp;&nbsp;{{data.end_date}}
+                            <hr>
+
+                              <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                                <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                                <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+
+                            <hr>
+                     </center>
+                        
+                         
+
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1">
+
+                            <tr style="background-color: beige">
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">TB Cases Registered</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">TB Patient Testing For HIV</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">TB Patient, HIV Positive</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">TB Patient,Referred to CTC</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">TB Patient,Registered at CTC</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">Receiving CPT</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="4">Receiving ART</th>
+
+                                <th class="mdl-data-table__cell--non-numeric" rowspan="3">HIV patient Screen For TB</th>
+                                <th class="mdl-data-table__cell--non-numeric"  >Patients on anti_TB from CTC</th>
+
+
+                            </tr>
+                            <tr style="background-color:bisque">
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Male</td>
+                                <td class="mdl-data-table__cell--non-numeric" colspan="2">Female</td>
+                                <td class="mdl-data-table__cell--non-numeric" rowspan="2"> </td>
+
+                            </tr>
+                            <tr style="background-color: beige">
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+                                <td class="mdl-data-table__cell--non-numeric"><15</td>
+                                <td class="mdl-data-table__cell--non-numeric">15+</td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[0][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[0][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[0][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[0][0].female_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[1][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[1][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[1][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[1][0].female_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[2][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[2][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[2][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[2][0].female_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[3][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[3][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[3][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[3][0].female_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[4][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[4][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[4][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[4][0].female_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[5][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[5][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[5][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[5][0].female_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[6][0].male_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[6][0].male_above_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[6][0].female_less_5}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[6][0].female_above_5}}</td>
+
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[2][0].total}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{attendances[7][0].total}}</td>
+
+
+                            </tr>  <tr style="background-color:#c1c1c1">
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+                            <td class="mdl-data-table__cell--non-numeric"> </td>
+
+                        </tr>
+                        </table>
+
+                </div>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>

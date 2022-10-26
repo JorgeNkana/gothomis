@@ -1,0 +1,45 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+
+                        <div class="form-top">
+                            <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                                {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="md-form col-sm-8">
+                                <i class="fa fa-comments prefix"></i>
+                                <textarea type="text" ng-model="clinic.note"  id="form17" class="md-textarea"></textarea>
+                                <label for="form17"> Write Clinical Notes Summary </label>
+                            </div>
+
+                            <div class="form-group col-md-2 col-sm-4">
+                                <label>Investigation Priority</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="clinic.priority" placeholder="Select Duration Unit"
+                                       uib-typeahead ="urgent as urgent.urgent
+                                for urgent in urgent | limitTo:12 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <button ng-click="referPatient(clinic,selectedPatient)" class="btn btn-success pull-right">Send Patient</button>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

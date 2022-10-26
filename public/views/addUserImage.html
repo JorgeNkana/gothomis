@@ -1,0 +1,45 @@
+<div id="wrapper" ng-controller='rolesController'>
+
+    <ng-include src="'public'">
+
+
+
+        <ng-include src="'public'">
+
+
+
+
+
+
+            <ng-include src="'/views/searchBox.html'">
+
+
+
+
+
+
+
+                <div class="row">
+
+                    <!--  include registration form -->
+
+                    <!---menu warning-->
+                    <div ng-if='menu.length >0'>
+                        <ng-include src="'/views/modules/admin/userImage.html'">
+
+                    </div>
+                    <div ng-if='menu.length < 1'>
+                        <p>
+                            <button class='btn btn-danger align-center'>You are not authorized to access this Options</button>
+
+                    </div>
+                    <!---menu warning-->
+                </div>
+
+
+
+
+                <ng-include src="'/views/footer.html'">
+
+</div>
+</div>

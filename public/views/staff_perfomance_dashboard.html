@@ -1,0 +1,158 @@
+<md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                 <md-tab label="Staff Performance" ng-click="getPendingOutsideCorpses()">
+                   <md-content class="md-padding">
+
+
+<div>
+
+    <div layout-padding style="width:80%;margin:0 auto;">
+        <div layout="row">
+            <div layout="row">
+
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="dt_start" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="dt_end" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">Search</md-button>
+                    </md-input-container>
+<md-input-container ng-if="DoctorsPerfomaces.length>0">
+                        <md-button class="md-raised md-secondary" class="md-block col-md-4 col-sm-4" ng-click="staff_performance()">Print</md-button>
+                    </md-input-container>
+
+                    <input type="text" class="no-print md-block  " ng-model="search" placeholder="Search or Filtering " >
+
+                </div>
+
+            </div>
+        </div>
+<div id='staff_perform'>
+
+        <div   ng-if="DoctorsPerfomaces && DoctorsPerfomaces.length<1">
+            <center><h1 class="md-title ">  No Data Available....</h1></center>
+        </div>
+
+
+
+        <table ng-if="DoctorsPerfomaces.length>0" style="width:100%" border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <center>  <div  ng-if="DoctorsPerfomaces.length>0" class="text-center"><h5> STAFF PERFORMANCE</h5></div></center>
+
+            <hr  ng-if="DoctorsPerfomaces.length>0">
+
+            <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+            <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Kuanzia Tarehe:{{dt_start | date:'dd.MM.yyyy'}} </b>
+            <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Hadi Tarehe:{{dt_end | date:'dd.MM.yyyy'}} </b>
+
+            </b></caption>
+
+
+            <tr style="background-color:#c1c1c1">
+                <th class="mdl-data-table__cell--non-numeric">No.</th>
+                <th class="mdl-data-table__cell--non-numeric">JINA LA DAKTARI</th>
+                <th class="mdl-data-table__cell--non-numeric">CHEO</th>
+                <th class="mdl-data-table__cell--non-numeric">WAGONJWA ALIOWAHUDUMIA</th>
+
+            </tr>
+
+            <tr ng-repeat="DoctorsPerfomace in DoctorsPerfomaces | filter:search track by $index">
+                <td class="mdl-data-table__cell--non-numeric"> {{$index+1}}</td>
+                <td class="mdl-data-table__cell--non-numeric"> {{DoctorsPerfomace.doctor_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{DoctorsPerfomace.prof_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{DoctorsPerfomace.total_clerked}}</td>
+            </tr>
+
+
+        </table>
+
+    </div>
+    </div>
+
+    </md-grid-list>
+</div>
+
+</md-content>
+</md-tab>
+
+ <md-tab label="Staff Insurance Performance" >
+                   <md-content class="md-padding">
+
+<div>
+
+    <div layout-padding style="width:80%;margin:0 auto;">
+        <div layout="row">
+            <div layout="row">
+
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="dated.dt_start" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="dated.dt_end" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="getInsurancePerformance(dated)">Search</md-button>
+                    </md-input-container>
+<md-input-container >
+                        <md-button class="md-raised md-secondary" class="md-block col-md-4 col-sm-4" ng-click="getPrintedInsurancePerformance()">Print</md-button>
+                    </md-input-container>
+
+                    <input type="text" class="no-print md-block  " ng-model="search" placeholder="Search or Filtering " >
+
+                </div>
+
+            </div>
+        </div>
+<div id='ins_staff_perform'>
+
+        <div   ng-if="DoctorsPerfomaces && DoctorsPerfomaces.length<1">
+            <center><h1 class="md-title ">  No Data Available....</h1></center>
+        </div>
+
+
+
+        <table  style="width:100%" border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <center>  <div    class="text-center"><h5> STAFF PERFORMANCE</h5></div></center>
+
+            <hr  ng-if="insurancePerformances.length>0">
+
+            <b   class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+            <b   class="col-md-4">Kuanzia Tarehe:{{dated.dt_start | date:'dd.MM.yyyy'}} </b>
+            <b  class="col-md-4">Hadi Tarehe:{{dated.dt_end | date:'dd.MM.yyyy'}} </b>
+ 
+            </b></caption>
+
+
+            <tr style="background-color:#c1c1c1">
+                <th class="mdl-data-table__cell--non-numeric">No.</th>
+                <th class="mdl-data-table__cell--non-numeric">JINA LA DAKTARI</th>
+                <th class="mdl-data-table__cell--non-numeric">JINA LA BIMA</th>
+                <th class="mdl-data-table__cell--non-numeric">WAGONJWA ALIOWAHUDUMIA</th>
+
+            </tr>
+
+            <tr ng-repeat="DoctorsPerfomace in insurancePerformances | filter:search track by $index">
+                <td class="mdl-data-table__cell--non-numeric"> {{$index+1}}</td>
+                <td class="mdl-data-table__cell--non-numeric"> {{DoctorsPerfomace.doctor_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{DoctorsPerfomace.insurance}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{DoctorsPerfomace.total_clerked}}</td>
+            </tr>
+
+
+        </table>
+
+    </div>
+    </div>
+                   </md-content>
+               </md-tab>
+           </md-tabs>
+
+</md-tabs>
+<

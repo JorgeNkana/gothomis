@@ -1,0 +1,36 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="nursingCareController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+
+                    <div class="form-bottom">
+
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">  <p>
+                                            <span ng-if="!selectedPatient.fullname">NURSING CARE PRINTOUTS</span>
+
+                                            <span ng-if="selectedPatient.fullname">NAME:  {{selectedPatient.fullname}} MRN: {{selectedPatient.medical_record_number}} Admission DAY: {{selectedPatient.updated_at}}</span>  </p>
+                                        </div><br>
+
+                                        <div class="row">
+
+                                            <form>
+                                                <div class="input-group">
+                                                    <input data-toggle="tooltip" type="text" placeholder="Search for admitted Patients" name="search"
+                                                           uib-typeahead="admission as admission.fullname+','+admission.medical_record_number for admission in searchAdmitted($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                           typeahead-on-select="searchAdmittedForPrintOuts(selectedPatient)"
+                                                           class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div></form>
+                                        </div>
+
+
+                                    </div>
+                                </div>

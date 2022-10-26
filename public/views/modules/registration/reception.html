@@ -1,0 +1,1809 @@
+<style>
+  .md-datepicker-input-container{
+  width:100%;
+  }
+</style> 
+	<div ng-cloak>
+		<md-content>
+		  <md-tabs md-dynamic-height md-border-bottom>
+			<md-tab label="Register patient">
+			  <md-content class="md-padding">
+				<form  name="searchForm1">
+					<div layout-gt-sm="row">
+					<md-autocomplete flex required flex
+					  md-search-text="searchText1"
+					  md-input-name="reattendance_patients"
+					  md-no-cache="true"
+									 md-clear-button="true"
+					  md-items="item in getPatientToEncounter(searchText1)"
+					  md-item-text="item.first_name+' '+item.middle_name+' ' +item.last_name+' '+item.medical_record_number+' '+item.mobile_number"
+					  md-selected-item-change="openDialog(item,$event)"
+					  md-floating-label="Search Re-attended Patients "
+					  md-min-length="3" md-autofocus>
+					<md-item-template>
+					<span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}</span>
+					</md-item-template>
+					</md-autocomplete>
+					</div>
+				</form>
+                    
+				<div role="form">
+				<div ng-if="firstFormShow==true && secondFormShow==false">
+					<div layout-gt-sm="row">
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>First name</label>
+						<input type="text" ng-model="patient.first_name" required>
+					  </md-input-container>
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Middle Name</label>
+						<input type="text" ng-model="patient.middle_name" required>
+					  </md-input-container>
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Last Name</label>
+						<input type="text" ng-model="patient.last_name" required>
+					  </md-input-container>
+					</div>
+					<div layout-gt-sm="row">
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Gender</label>
+						<md-select ng-model="patient.gender" ng-click="getFacilities()" required>
+						  <md-option value="">Please select gender</md-option>
+						  <md-option value="Male">Male</md-option>
+						  <md-option value="Female">Female</md-option>
+						</md-select>
+					  </md-input-container>
+					  <br />
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Date of birth</label>
+						<md-datepicker md-max-date="today_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="calculateAge('date')" required></md-datepicker>
+					  </md-input-container>
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Age</label>
+						<input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge('age')">
+					  </md-input-container>
+					  <md-input-container flex-gt-sm>
+						<label>Unit</label>
+						<md-select ng-model="patient.age_unit" ng-Change="calculateAge('unit')">
+						  <md-option value="Years" selected="selected">Year(s)</md-option>
+						  <md-option value="Months">Month(s)</md-option>
+						  <md-option value="Days">Day(s)</md-option>
+						</md-select>
+					  </md-input-container>
+					</div>
+					<div layout-gt-sm="row">
+					  <!--<md-input-container flex-gt-sm>-->
+					  <!--<label for="form6">Patient Residence *</label>-->
+					  <!--<input type="text" ng-model="patient.resedence_id"-->
+					  <!--uib-typeahead="resdata as resdata.residence_name for resdata in showSearchResidences($viewValue) | filter:$viewValue"-->
+					  <!--&gt;-->
+					  <!--</md-input-container>-->
+					  <md-input-container flex-gt-sm>
+						<label for="mobile_number">Mobile Number</label>
+						<input id="mobile_number" type="text" ng-model="patient.mobile_number">
+					  </md-input-container>
+					  <md-input-container flex-gt-sm>
+						<label for="tribe">Tribe</label>
+						<input type="text" ng-model="patient.tribe"
+						  uib-typeahead ="tribe as tribe.tribe_name for tribe in seachTribes($viewValue)">  
+					  </md-input-container>
+					</div>
+					<div layout-gt-sm="row">
+					  <md-autocomplete flex  flex
+						md-search-text="search1"
+						md-input-name="residences"
+						md-no-cache="true"
+						md-items="item in getResidence(search1)"
+						md-item-text="item.residence_name+' '+item.council_name"
+						md-selected-item-change="selectedResidence(item)"
+						md-floating-label="Search Residence"
+						md-min-length="3" md-autofocus>
+						<md-item-template>
+						  <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+						</md-item-template>
+					  </md-autocomplete>
+					</div>
+					<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+					  <md-button class="md-raised md-primary" ng-click="patient_quick_registration(patient,residence)">Quick Register</md-button>
+					  <md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>
+					  <div class="label">Raised</div>
+					</section>
+				  </div>
+				  <!-- page two -->
+				  <div ng-if="firstFormShow==false && secondFormShow==true">
+					<h4>Other Patient Information</h4>
+					<div layout="row">
+					  <md-input-container    flex="40">
+						<label>MARITAL STATUS</label>
+						<md-select ng-model="others.marital">
+						  <md-option value=""></md-option>
+						  <md-option ng-repeat="marital in maritals" value={{marital.id}}>{{marital.marital_status}}</md-option>
+						</md-select>
+					  </md-input-container>
+					  <md-input-container   flex="40">
+						<label>Occupation</label>
+						<input type="text" ng-model="others.occupation" id="Occupation" uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue">
+					  </md-input-container>
+					</div>
+					<div layout="row">
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Country</label>
+						<input type="text" ng-model="others.country" uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+					  </md-input-container>
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Next of Kin Name *</label>
+						<input type="text" ng-model="others.next_of_kin_name" id="Kin">
+					  </md-input-container>
+					  <md-autocomplete flex  flex
+						md-search-text="search2"
+						md-input-name="kin_residence"
+						md-no-cache="false"
+						md-items="item in getResidence(search2)"
+						md-item-text="item.residence_name+' '+item.council_name"
+						md-selected-item-change="selectedResidencekin(item)"
+						md-floating-label="Search Next Of Kin Residence"
+						md-min-length="3" md-autofocus>
+						<md-item-template>
+						  <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+						</md-item-template>
+					  </md-autocomplete>
+					</div>
+					<div layout="row">
+					  <md-input-container    flex="40">
+						<label>Relationship</label>
+						<md-select ng-model="others.relationship">
+						  <md-option ng-value=""></md-option>
+						  <md-option ng-repeat="relationship in relationships" ng-value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+						</md-select>
+					  </md-input-container>
+					  <md-input-container class="md-block" flex-gt-sm>
+						<label>Mobile Number:(<i>Optional</i>)</label>
+						<input id="mobile_number" type="text" ng-model="others.mobile_number_next_kin">
+					  </md-input-container>
+					</div>
+					<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+					  <md-button class="md-raised" ng-click="showFirstForm(patient,others,residence)">Previous</md-button>
+					  <md-button class="md-raised md-primary" ng-click="fullRegistration(patient,others,residence)">Submit</md-button>
+					</section>
+				  </div>
+				</div>
+			</md-content>
+        </md-tab>
+		<md-tab label="Insurance" ng-click="getNonCollectedCards()">
+        <md-content class="md-padding">
+		
+		
+		 <vertical-tabs >
+                            				
+							
+							
+				<vertical-tab-pane title="Card Verification">
+				<div layout="row">
+        <md-input-container flex>
+        <label>Insuarance </label>
+        <md-select ng-model="insuarance.type">
+        <md-option value="NHIF" selected="selected">NHIF</md-option>
+        <md-option value="CHF">CHF</md-option>
+        <md-option value="NSSF">NSSF</md-option>
+        </md-select>
+        </md-input-container>
+        <md-input-container flex>
+        <label>Card Number </label>
+        <input type="text" ng-model="insuarance.nhif_card">
+        </md-input-container>
+		 <md-input-container flex>
+        <label>Visit Type </label>
+        <md-select ng-model="insuarance.visitType">
+        <md-option ng-value="1" selected="selected">Normal Visit</md-option>
+        <md-option ng-value="2">Emegency</md-option>
+        <md-option ng-value="3">Refferal</md-option>
+        <md-option ng-value="4">Investigation Refferal</md-option>
+        </md-select>
+        </md-input-container>
+		
+		<md-input-container ng-if="insuarance.visitType==3" flex>
+        <label>Refferal Number </label>
+        <input type="text" ng-model="insuarance.refferal_no">
+        </md-input-container>
+		<md-input-container flex>
+        <md-button class="md-raised md-primary" ng-click="verification(insuarance)">Verify</md-button>
+        </md-input-container>
+        <md-input-container flex>
+        <div ng-if="dataLoading">
+        <img src="/img/wait.gif" width="80px" height="80px"> </img>
+        Connecting to NHIF SERVER...
+        </div>
+        </md-input-container>
+        </div>
+		</vertical-tab-pane>
+	    
+
+
+                            <vertical-tab-pane title="Offline Registerd  Clients ">       
+
+        <form  name="searchForm">
+    <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex >
+                        <md-button class="md-raised md-primary" ng-click="getNonVerified(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+                      </form>
+                                   
+                             
+                                <div layout="row">
+                               <table class="table table-bordered table-striped" ng-if="nonverifiedLists.length >0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            
+              <th sortable="placed" class="sortable">
+                                <span>PATIENT NAME</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MEDICAL RECORD NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MOBILE NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>GENDER</span>
+                            </th>
+
+                             <th sortable="placed" class="sortable">
+                                <span>CARD #</span>
+                            </th>
+                             <th sortable="placed" class="sortable">
+                                <span>ACTION</span>
+                            </th>
+
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item  ng-repeat="nonverifiedList in nonverifiedLists track by $index" >
+            
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                             <td >{{nonverifiedList.first_name}} {{nonverifiedList.middle_name}} {{nonverifiedList.last_name}}</td>
+                             <td >{{nonverifiedList.medical_record_number}}</td>
+                             <td >{{nonverifiedList.mobile_number}}</td>
+               <td >{{nonverifiedList.gender}}</td>
+               <td > {{nonverifiedList.card_no}}</td>
+               
+                        <td > <span ng-click="verifyNhifCard(nonverifiedList)" style="cursor: pointer;"> Verify </span></td>
+                               </tr>
+                        </tbody>
+                    </table>     
+                   
+                   
+                   
+                                </div>                              
+                            </vertical-tab-pane>  
+
+                             <vertical-tab-pane title="NHIF Card Collection">       
+
+        <form  name="searchForm">
+    <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container flex >
+                        <md-button class="md-raised md-primary" ng-click="getNonCollectedCards(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+                      </form>
+                                   
+                             
+                                <div layout="row">
+                               <table class="table table-bordered table-striped" ng-if="nonCardCollectedLists.length >0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            
+              <th sortable="placed" class="sortable">
+                                <span>PATIENT NAME</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MEDICAL RECORD NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>MOBILE NUMBER</span>
+                            </th>
+              <th sortable="placed" class="sortable">
+                                <span>GENDER</span>
+                            </th>
+<th sortable="placed" class="sortable">
+                                <span>TIME ATTENDED</span>
+                            </th>
+                             <th sortable="placed" class="sortable">
+                                <span>CARD #</span>
+                            </th>
+                             <th sortable="placed" class="sortable">
+                                <span>ACTION</span>
+                            </th>
+
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item  ng-repeat="nonverifiedList in nonCardCollectedLists track by $index" >
+            
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                             <td >{{nonverifiedList.first_name}} {{nonverifiedList.middle_name}} {{nonverifiedList.last_name}}</td>
+                             <td >{{nonverifiedList.medical_record_number}}</td>
+                             <td >{{nonverifiedList.mobile_number}}</td>
+               <td >{{nonverifiedList.gender}}</td>
+               <td >{{nonverifiedList.attended_time}}</td>
+               <td > {{nonverifiedList.card_no}}</td>
+               
+                        <td > <span ng-click="giveNhifCard(nonverifiedList)" style="cursor: pointer;"> Give Card </span></td>
+                               </tr>
+                        </tbody>
+                    </table>     
+                   
+                   
+                   
+                                </div>                              
+                            </vertical-tab-pane>  
+
+                             
+							
+							
+							   </vertical-tabs >
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        
+        </md-content>
+        </md-tab>
+
+     <md-tab label="CHANGE PATIENT CATEGORY">
+                  <md-content class="md-padding">
+                      <!--<md-input-container class="md-block">
+                          <input type="text"   typeahead-on-select="" ng-model="selectedPatient"
+                                 placeholder="Type medical record number"
+                                 uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearch($viewValue) | limitTo:8 | filter:$viewValue">
+                      </md-input-container>-->
+                      <md-autocomplete flex required flex
+                                       md-search-text="searchText"
+                                       md-input-name="patients"
+                                       md-no-cache="true"
+                                       md-clear-button="true"
+                                       md-items="selectedPatient in getPatientToEncounter(searchText)"
+                                       md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                                       md-selected-item-change="DisplayInfors(selectedPatient)"
+                                       md-floating-label="Search Patient To Change Category "
+                                       md-min-length="4" md-autofocus>
+                          <md-item-template>
+                              <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+                          </md-item-template>
+                      </md-autocomplete>
+
+                      <div >
+                          <div >
+                              <div class="form-top-left">
+                                  <b><span><i class=" " aria-hidden="true"></i></span>
+                                      {{selectedPatientInf.first_name}} {{selectedPatientInf.middle_name}}
+                                      {{selectedPatientInf.last_name}} ({{selectedPatientInf.medical_record_number}})
+                                      {{selectedPatientInf.dob}}  {{selectedPatientInf.gender}}<p></p>
+
+                                  </b>
+
+                              </div>
+                              <hr>
+                          </div>
+
+                          <!--Category changing SETTING STARTING-->
+
+                          <div class="row">
+                              <md-input-container class="md-block   col-md-12 col-sm-4">
+                                  <label> Choose Category</label>
+
+                                  <input type="text" ng-model="category" typeahead-on-select="change_patient_category_receiption(category,selectedPatientInf)"
+                                         uib-typeahead=" category as category.patient_category   for  category in patientCategory | filter:$viewValue"
+
+                                         typeahead-show-hint="true" typeahead-min-length="0">
+
+
+                              </md-input-container>
+
+                              <div class="  col-md-12 col-sm-4">
+                                  <md-button class="md-raised md-primary"
+                                             ng-click="change_patient_category_receiption(category,selectedPatientInf)">SAVE CHANGES
+                                  </md-button>
+
+                              </div>
+
+
+                          </div>
+
+                      </div>
+
+                  </md-content>
+              </md-tab>
+              <!--Category changing SETTING ending-->
+
+        <md-tab label="Corpse">
+        <md-content class="md-padding">
+    
+    
+    <vertical-tabs >
+         <vertical-tab-pane title="TAARIFA ZA MAREHEMU">
+    
+         <div layout="row">
+        <md-input-container flex>
+        <label>First Name</label>
+        <input required name="firstName" ng-model="corpse_details.first_name">       
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Middle Name</label>
+        <input required name="clientName" ng-model="corpse_details.middle_name">        
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Last Name</label>
+        <input required name="clientName" ng-model="corpse_details.last_name">
+        </md-input-container>
+    
+        </div>
+    
+    <div layout="row">
+        <md-input-container flex>
+        <label>Gender</label>
+        <md-select name="type" ng-model="corpse_details.gender" required>
+        <md-option value="Male">Male</md-option>
+        <md-option value="Female">Female</md-option>
+        </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Date of birth</label>
+            <md-datepicker md-max-date="today_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="calculateAge('date')" required></md-datepicker>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Age</label>
+            <input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge('age')">
+        </md-input-container>
+        <md-input-container flex-gt-sm>
+            <label>Unit</label>
+            <md-select ng-model="patient.age_unit" ng-Change="calculateAge('unit')">
+                <md-option value="Years" selected="selected">Year(s)</md-option>
+                <md-option value="Months">Month(s)</md-option>
+                <md-option value="Days">Day(s)</md-option>
+            </md-select>
+        </md-input-container>
+
+
+    
+        <md-input-container flex>
+        <label>Date of Death</label>
+        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse_details.dod"></md-datepicker>       
+        </md-input-container>
+        </div>
+    
+    <div layout="row">
+        <md-autocomplete flex  flex
+                            md-search-text="search3"
+                            md-input-name="residence2"
+                            md-no-cache="false"
+                            md-items="item in getResidence(search3)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="whereCorpseFound(item)"
+                            md-floating-label="Where Corpse Found/taken?"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+    
+        <md-input-container flex>
+        <label>Death Condition</label>
+        <input name="clientName" ng-model="corpse_details.death_condition">
+            
+     </md-input-container>
+    
+          
+    <md-input-container >
+                        <label>Time of Death</label>
+                        <input ng-model="corpse_details.time_death" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+    
+        </div>
+    
+     <div layout="row">
+        <md-input-container flex>
+        <label>Identity Number</label>
+        <input  name="firstName" ng-model="corpse_details.identityNumber">       
+        </md-input-container>
+    
+         <md-input-container flex>
+        <label>Identity Issuer</label>
+        <md-select name="type" ng-model="corpse_details.identityType" required>
+        <md-option value="1">NIDA </md-option>
+        <md-option value="2">NEC</md-option>
+        <md-option value="3">NHIF</md-option>
+        <md-option value="4">CHF</md-option>
+        <md-option value="5">DRIVING LICENCE</md-option>
+        <md-option value="6">OTHER</md-option>
+        <md-option value="7">NONE</md-option>
+        </md-select>
+        </md-input-container>
+    
+         <md-input-container class="md-block" flex-gt-sm>
+                            <label>Nationality</label>
+                            <input type="text" ng-model="corpse_country.country" uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                          </md-input-container>
+    
+        </div>
+    
+      <div layout="row" class="pull-right">
+      
+ <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+ <md-button class="md-raised md-primary" ng-click="verifyDetails(corpse_details,corpse_country)">Verify</md-button>                 
+ </section>
+    </div>
+                                     
+                            </vertical-tab-pane>
+              
+    <vertical-tab-pane title="TAARIFA ZA ALIYELETA MAITI">
+         <div layout="row">
+        <md-input-container flex>
+        <label>Names</label>
+        <input required  ng-model="corpse.names">       
+        </md-input-container>
+    
+         <md-autocomplete flex  flex
+                            md-search-text="search4"
+                            md-input-name="residence3"
+                            md-no-cache="false"
+                            md-items="item in getResidence(search4)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="selectedResidence(item)"
+                            md-floating-label="Residences"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+    
+              <md-input-container    flex>
+                            <label>Relationship</label>
+                            <md-select ng-model="corpse.relationship">
+                              <md-option value=""></md-option>
+                              <md-option ng-repeat="relationship in relationships" value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+                            </md-select>
+                          </md-input-container>
+    
+        </div>
+          
+     <div layout="row">
+        <md-input-container flex>
+        <label>Mobile Number</label>
+        <input  ng-model="corpse.mobile_number">       
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Storage Reason</label>
+        <md-select name="reason" ng-model="corpse.storage_reason" required>
+        <md-option value="1">Uchunguzi</md-option>
+        <md-option value="2">Kuhifadhi</md-option>
+        </md-select>
+     </md-input-container>
+    
+        <md-input-container flex>
+        <label>Vehicle Number</label>
+        <input   ng-model="corpse.vehicle_number">
+        </md-input-container>
+    
+        </div>
+    
+    
+      <div layout="row">
+    
+     <md-input-container flex>
+        <label>Other Descriptions</label>
+        <input  ng-model="corpse.description">       
+        </md-input-container>
+
+             <span ng-if="mali1" >
+         <div layout="row" >
+        <md-input-container flex>
+        <label>Expenses</label>
+        <input required  ng-model="corpse.corpse_properties">
+        </md-input-container>
+
+          <md-input-container    flex>
+                            <label>Who was Given To</label>
+                             <input required  ng-model="corpse.properties_brought_to">
+          </md-input-container>
+
+              <md-input-container    flex>
+                            <label>Date Given</label>
+                            <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse.time_death"></md-datepicker>
+                          </md-input-container>
+
+        </div>
+
+
+
+
+          </span>
+          <md-input-container flex="">
+            <md-checkbox  ng-model="mali1"  >
+                Tick kama kuna Vitu/Mali za marehemu zilizokabidhiwa.
+              </md-checkbox>  
+            </md-input-container>       
+               
+     </div>
+                     <div layout="row" class="pull-right" >
+      
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                          <md-button class="md-raised md-primary" ng-click="corpse_quick_registration(corpse,residence)">Save</md-button>
+                          
+        </section>
+           </div>                
+                            </vertical-tab-pane>
+              
+              <!--<vertical-tab-pane title="MALI ZA MAREHEMU">-->
+              <!--<span >-->
+                    <!--<p>Hakuna vitu vya marehemu vilivyokabidhiwa</p>-->
+              <!--</span>-->
+              <!--<span >-->
+         <!--<div layout="row" >-->
+        <!--<md-input-container flex>-->
+        <!--<label>Expenses</label>-->
+        <!--<input required  ng-model="corpse.corpse_properties">-->
+        <!--</md-input-container>-->
+    <!---->
+          <!--<md-input-container    flex>-->
+                            <!--<label>Who was Given To</label>-->
+                             <!--<input required  ng-model="corpse.names">-->
+          <!--</md-input-container>-->
+    <!---->
+              <!--<md-input-container    flex>-->
+                            <!--<label>Date Given</label>-->
+                            <!--<md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse.time_death"></md-datepicker>   -->
+                          <!--</md-input-container>-->
+    <!---->
+        <!--</div>-->
+          <!---->
+    <!---->
+    <!---->
+                     <!--<div layout="row" class="pull-right">-->
+      <!---->
+        <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>-->
+                          <!--<md-button class="md-raised md-primary" ng-click="corpse_quick_registration(corpse,residence)">Save</md-button>-->
+                          <!---->
+        <!--</section>-->
+           <!--</div>        -->
+          <!--</span>      -->
+                            <!--</vertical-tab-pane>-->
+              
+    <vertical-tab-pane title="TAARIFA ZA MTOA MAITI">
+     <form  name="searchForm3">
+                          <div layout-gt-sm="row">
+                              <md-autocomplete flex required flex
+                                               md-search-text="searchText3"
+                                               md-input-name="corpses"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in getCorpses(searchText3)"
+     md-item-text="item.first_name+'  '+item.middle_name+' '+item.last_name+',Reg#.'+item.corpse_record_number"
+                                     md-item-text="item.corpse_record_number"
+                                               md-selected-item-change="getCorpseDetails(item)"
+                                               md-floating-label="Search for Corpses to get form"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.corpse_record_number}} {{item.mobile_number}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+                          </div>
+                      </form>
+      
+    
+      <span ng-if="selectedCorpse.first_name">
+        
+      <div layout="row">
+        <md-input-container flex>
+        <label>Names</label>
+        <input required  ng-model="corpseTaker.names">       
+        </md-input-container>
+    
+         <md-autocomplete flex  flex
+                            md-search-text="search6"
+                            md-input-name="CorpseTakerResidences"
+                            md-no-cache="false"
+                            md-items="item in getResidence(search6)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="corpseTakerResidence(item)"
+                            md-floating-label="Residences"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+    
+              <md-input-container    flex>
+                            <label>Relationship</label>
+                            <md-select ng-model="corpseTaker.relationship">
+                              <md-option value=""></md-option>
+                              <md-option ng-repeat="relationship in relationships" value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+                            </md-select>
+                          </md-input-container>
+    
+        </div>
+          
+     <div layout="row">
+        <md-input-container flex>
+        <label>Mobile Number</label>
+        <input  ng-model="corpseTaker.mobile_number">       
+        </md-input-container>
+    
+         <md-autocomplete flex  flex
+                            md-search-text="funeral"
+                            md-input-name="whereFuneral"
+                            md-no-cache="false"
+                            md-items="item in getResidence(funeral)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="selectedResidenceWhereFuneral(item)"
+                            md-floating-label="Where Funeral takes place"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchTextA">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+    
+        <md-input-container flex>
+        <label>Vehicle Number</label>
+        <input   ng-model="corpseTaker.vehicle_number">
+        </md-input-container>
+    
+        </div>    
+    
+     <div layout="row">
+        <md-input-container flex>
+        <label>Identity Number</label>
+        <input  name="firstName" ng-model="corpseTaker.identityNumber">       
+        </md-input-container>
+    
+         <md-input-container flex>
+        <label>Identity Issuer</label>
+        <md-select name="type" ng-model="corpseTaker.identityType" required>
+        <md-option value="NIDA">NIDA </md-option>
+        <md-option value="NEC">NEC</md-option>
+        <md-option value="NHIF">NHIF</md-option>
+        <md-option value="CHF">CHF</md-option>
+            <md-option value="DRIVING LICENCE">DRIVING LICENCE</md-option>
+        <md-option value="OTHER">OTHER</md-option>
+        <md-option value="NONE">NONE</md-option>
+        </md-select>
+        </md-input-container>
+    
+    
+        </div>
+    
+    
+                     <div layout="row" class="pull-right">
+      
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+         <md-button class="md-raised md-primary" ng-click="corpseDischarge(corpseTaker)">Save</md-button>
+                          
+        </section>
+           </div>        
+                           
+          </span> 
+      
+        
+                                     
+                            </vertical-tab-pane>
+              
+    <vertical-tab-pane title="HARIRI TAARIFA ZA MAITI">
+     <form  name="searchForm4">
+                          <div layout-gt-sm="row">
+                              <md-autocomplete flex required flex
+                                               md-search-text="searchText4"
+                                               md-input-name="corpses2"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in getCorpses(searchText4)"
+     md-item-text="item.first_name+'  '+item.middle_name+' '+item.last_name+',Reg#.'+item.corpse_record_number"
+                                     md-item-text="item.corpse_record_number"
+                                               md-selected-item-change="getCorpseEdit(item)"
+                                               md-floating-label="Search for Corpses to get form"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.corpse_record_number}} {{item.mobile_number}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+                          </div>
+                      </form>
+      
+    
+    <span ng-if="corpse_details.first_name">
+        
+    <div layout="row">
+        <md-input-container flex>
+        <label>First Name</label>
+       <input required name="firstName" ng-model="corpse_details.first_name">
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Middle Name</label>
+        <input required name="clientName" ng-model="corpse_details.middle_name">        
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Last Name</label>
+        <input required name="clientName" ng-model="corpse_details.last_name">
+        </md-input-container>
+    
+        </div>
+    
+    <div layout="row">
+        <md-input-container flex>
+        <label>Gender</label>
+        <md-select name="type" ng-model="corpse_details.gender" required>
+        <md-option ng-if="corpse_details.gender" value="{{corpse_details.gender}}" selected>{{corpse_details.gender}}</md-option>
+        <md-option value="Male">Male</md-option>
+        <md-option value="Female">Female</md-option>
+        </md-select>
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Date of Birth</label>
+        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse_details.dob"></md-datepicker>
+        </md-input-container>
+    
+        <md-input-container flex>
+        <label>Date of Death</label>
+        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse_details.dod"></md-datepicker>       
+        </md-input-container>
+        </div>
+    
+    <div layout="row">
+        <md-autocomplete flex  flex
+                            md-search-text="search7"
+                            md-input-name="residence6"
+                            md-no-cache="false"
+                            md-items="item in getResidence(search7)"
+                            md-item-text="item.residence_name+' '+item.council_name"
+                            md-selected-item-change="whereCorpseFound(item)"
+                            md-floating-label="Where Corpse Found/taken?"
+                            md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+    
+        <md-input-container flex>
+        <label>Death Condition</label>
+        <input name="clientName" ng-model="corpse_details.death_condition">
+            
+     </md-input-container>
+    
+        <md-input-container flex>
+        <label>Time of Death</label>
+        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="corpse_details.time_death"></md-datepicker>       
+        </md-input-container>
+        </div>
+    
+    
+                     <div layout="row" class="pull-right">
+      
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+         <md-button class="md-raised md-primary" ng-click="editCorpses(corpse_details,corpse_details.id)">Save Changes</md-button>
+                          
+        </section>
+           </div>        
+                           
+          </span> 
+      
+        
+                                     
+                            </vertical-tab-pane>
+               
+    
+    </vertical-tabs >
+         
+        </md-content>
+        </md-tab>
+
+
+<md-tab label="Reports">
+    <md-content class="md-padding">
+        <!--vertical tabs start-->
+        <vertical-tabs >
+            <vertical-tab-pane title="Registered Patients">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getMahudhuriOPDRegistration(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="getListFromTheatresReport(pef)">
+
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered" border="1" ng-if="opd_mahudhurio.male_under_one_month >=0">
+                            <caption> <b class="">
+
+                                <div  class="text-center"> <h5>  RIPOTI YA USAJILI  YA WAGONJWA WA NJE (OPD)</h5></div>
+
+                                <hr>
+
+                                <b class="col-md-4">Jina la Kituo: {{facility_address.facility_name }} </b>
+                                <b class="col-md-4">Wilaya : {{facility_address.council_name}}  </b>
+                                <b class="col-md-4">Mkoa : {{facility_address.region_name}} </b>
+                                <P></P>
+                                <P></P>
+                                <P></P>
+                                <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}} </b>
+                                <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+                                <hr>
+                            </b></caption>
+
+                            <tr style="background-color:#c1c1c1">
+
+                                <th rowspan="2"> Na </th>
+                                <th  rowspan="2">Maelezo</th>
+                                <th colspan="3">Umri chini ya mwezi 1</th>
+
+                                <th colspan="3">Umrimwezi 1 hadi umri chini ya mwaka 1</th>
+
+                                <th colspan="3">Umri
+                                    mwaka 1
+                                    hadi umri
+                                    chini ya
+                                    miaka 5</th>
+
+                                <th colspan="3">miaka 5
+                                    hadi
+                                    miaka
+                                    chini ya 60</th>
+
+                                <th colspan="3">Umri
+                                    miaka 60
+                                    na
+                                    kuendelea</th>
+
+                                <th colspan="3">Jumla
+                                    Kuu</th>
+
+
+                            </tr>
+
+                            <tr style="background-color:#c1c1c1">
+
+
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+                                <th>ME</th>
+                                <th>KE</th>
+                                <th>Jumla</th>
+
+
+
+                            </tr>
+
+                            <tr>
+
+                                <th> 1 </th>
+                                <th> Mahudhurio ya OPD </th>
+                               <th>{{((opd_mahudhurio.male_under_one_month ) * 1 + (opd_mahudhurio_marudio.male_under_one_month)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.female_under_one_month ) * 1 + (opd_mahudhurio_marudio.female_under_one_month)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.total_under_one_month)*1 + (opd_mahudhurio_marudio.total_under_one_month)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.male_under_one_year)* 1+ (opd_mahudhurio_marudio.male_under_one_year)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.female_under_one_year)*1 + (opd_mahudhurio_marudio.female_under_one_year)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.total_under_one_year)*1 + (opd_mahudhurio_marudio.total_under_one_year)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.male_under_five_year)*1 + (opd_mahudhurio_marudio.male_under_five_year)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.female_under_five_year)*1+ (opd_mahudhurio_marudio.female_under_five_year)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.total_under_five_year)*1+ (opd_mahudhurio_marudio.total_under_five_year)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.male_above_five_under_sixty)*1 + (opd_mahudhurio_marudio.male_above_five_under_sixty)*1) | currency : '' :0}}</th>
+                <th>{{((opd_mahudhurio.female_above_five_under_sixty)*1 + (opd_mahudhurio_marudio.female_above_five_under_sixty)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.total_above_five_under_sixty)*1+ (opd_mahudhurio_marudio.total_above_five_under_sixty)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.male_above_sixty*1)+ (opd_mahudhurio_marudio.male_above_sixty)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.female_above_sixty*1)+ (opd_mahudhurio_marudio.female_above_sixty)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.total_above_sixty)*1+ (opd_mahudhurio_marudio.total_above_sixty)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.grand_total_male)*1+ (opd_mahudhurio_marudio.grand_total_male)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.grand_total_female)*1+ (opd_mahudhurio_marudio.grand_total_female)*1) | currency : '' :0}}</th>
+                            <th>{{((opd_mahudhurio.grand_total)*1+ (opd_mahudhurio_marudio.grand_total)*1) | currency : '' :0}}</th>
+
+
+                            </tr>                                   <tr>
+
+                            <th> 2 </th>
+                            <th> Wagonjwa walio hudhuria kwa mara ya kwanza katika kituo hiki mwaka huu* </th>
+                            <th>{{opd_mahudhurio.male_under_one_month | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.female_under_one_month }}</th>
+                            <th>{{opd_mahudhurio.total_under_one_month | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.male_under_one_year | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.female_under_one_year | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.total_under_one_year | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.male_under_five_year | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.female_under_five_year }}</th>
+                            <th>{{opd_mahudhurio.total_under_five_year | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.male_above_five_under_sixty | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.female_above_five_under_sixty | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.total_above_five_under_sixty | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.male_above_sixty | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.female_above_sixty | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.total_above_sixty | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.grand_total_male | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.grand_total_female | currency : '' :0}}</th>
+                            <th>{{opd_mahudhurio.grand_total | currency : '' :0}}</th>
+
+                        </tr>
+                            <tr>
+
+                                <th> 3 </th>
+                                <th> Mahudhurio ya marudio </th>
+                                <th>{{opd_mahudhurio_marudio.male_under_one_month | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_under_one_month }}</th>
+                                <th>{{opd_mahudhurio_marudio.total_under_one_month | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.male_under_one_year | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_under_one_year | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.total_under_one_year | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.male_under_five_year | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_under_five_year }}</th>
+                                <th>{{opd_mahudhurio_marudio.total_under_five_year | currency : '' :0}}</th>
+                               <th>{{opd_mahudhurio_marudio.male_above_five_under_sixty | currency : '' :0}}</th>
+                              <th>{{opd_mahudhurio_marudio.female_above_five_under_sixty | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.total_above_five_under_sixty | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.male_above_sixty | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.female_above_sixty | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.total_above_sixty | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.grand_total_male | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.grand_total_female | currency : '' :0}}</th>
+                                <th>{{opd_mahudhurio_marudio.grand_total | currency : '' :0}}</th>
+
+
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Visits By Category">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getMahudhurioByCategory(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container >
+					 <md-button class="md-primary md-raised" ng-click="print1()">
+                        Print
+                    </md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" >
+                    <div class="to-print1" style="padding:2px 2px 2px 2px">
+						<style type="text/css">
+						.not_applicable {
+								background-color:#c1c1c1;
+							}
+						tr.captions{
+								border: thin solid black;
+								background-color:#c1c1c1;
+						}
+						#sno{
+								vertical-align:middle;
+								text-align:right;
+							}
+						#data{
+							text-align:right;
+						}
+						#last_data{
+							border-right: none;
+							text-align:right;
+						}
+						#title{
+							text-align:center;
+						}
+						table{
+							border:thin solid black;
+						}
+						th{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						td{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						.totals{
+							background-color:rgb(238,238,238);
+						}
+						.separator{
+							background-color:rgb(224,224,224);
+						}
+						@media print{tr.captions{border: thin solid black !important;background-color:#c1c1c1 !important;}#sno{vertical-align:middle !important;}#data{text-align:right !important;}#last_data{border-right:none !important;text-align:right !important;}#title{text-align:center !important;}table{border:thin solid black !important;}th{border-right: thin solid black !important;border-bottom:thin solid black !important;}td{border-right: thin solid black !important;border-bottom: thin solid black !important;}.totals{background-color:rgb(238,238,238) !important;!important !important;}.separator{background-color:rgb(224,224,224) !important;}}
+					</style>
+					<table class="table-responsive" style="border:thin solid black; width:100%">
+						<caption style="width:100%; text-align:center">
+							<div  class="text-center"> <h5>  RIPOTI YA USAJILI  YA WAGONJWA KWA KUNDI LA UCHANGIAJI HUDUMA</h5></div>
+
+							<hr />
+							
+							<div  class="text-center"> 
+								<b class="col-md-4">KITUO: {{facility_address.facility_name }}&nbsp; &nbsp; </b>  <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}}&nbsp; &nbsp;  </b> <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+							</div> 
+							<hr />
+						</caption>
+						<tr class = "captions">
+							<th  rowspan="2"> Na </th>
+							<th  rowspan="2"  colspan="2">Maelezo</th>
+							<th  colspan="3">Umri chini ya mwezi 1</th>
+							<th  colspan="3">Umri mwezi 1 hadi umri chini ya mwaka 1</th>
+							<th  colspan="3">Umri
+								mwaka 1
+								hadi umri
+								chini ya
+								miaka 5</th>
+
+							<th  colspan="3">Miaka 5
+								hadi
+								miaka
+								chini ya 60</th>
+
+							<th  colspan="3">Umri
+								miaka 60
+								na
+								kuendelea</th>
+
+							<th  colspan="3">Jumla
+								Kuu</th>
+						</tr>
+
+						<tr class = "captions">
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+						</tr>
+
+						<tr style="" ng-repeat="attendance in category_attendances[0] track by $index">
+
+							<td id = "data" colspan="">{{$index+1}}.</td>
+							<td colspan="2">{{attendance.category}}</td>
+							<td id = "data">{{attendance.male_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_month  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.female_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_year--attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_five_year  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_five_year--attendance.female_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_five_under_sixty--attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.male_under_one_year--attendance.male_under_five_year--attendance.male_above_five_under_sixty--attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.female_under_one_month--attendance.female_under_one_year--attendance.female_under_five_year--attendance.female_above_five_under_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.grand_total | currency:'':0 }}</td>
+						</tr>
+						<tr>
+							<td colspan="20" style="text-align:right; font-weight:bold">TOTAL:&nbsp;</td>
+							<td id = "data" class ="totals" style="text-align:right; font-weight:bold">{{category_attendances[1][0].grand_total | currency:'':0}}</td>
+						</tr>
+					</table>
+                    </div>
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Visits By Area">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getMahudhurioByArea(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container >
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" >
+                    <div class="to-print" style="padding:2px 2px 2px 2px">
+						<style type="text/css">
+						.not_applicable {
+								background-color:#c1c1c1;
+							}
+						tr.captions{
+								border: thin solid black;
+								background-color:#c1c1c1;
+						}
+						#sno{
+								vertical-align:middle;
+								text-align:right;
+							}
+						#data{
+							text-align:right;
+						}
+						#last_data{
+							border-right: none;
+							text-align:right;
+						}
+						#title{
+							text-align:center;
+						}
+						table{
+							border:thin solid black;
+						}
+						th{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						td{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						.totals{
+							background-color:rgb(238,238,238);
+						}
+						.separator{
+							background-color:rgb(224,224,224);
+						}
+						@media print{tr.captions{border: thin solid black !important;background-color:#c1c1c1 !important;}#sno{vertical-align:middle !important;}#data{text-align:right !important;}#last_data{border-right:none !important;text-align:right !important;}#title{text-align:center !important;}table{border:thin solid black !important;}th{border-right: thin solid black !important;border-bottom:thin solid black !important;}td{border-right: thin solid black !important;border-bottom: thin solid black !important;}.totals{background-color:rgb(238,238,238) !important;!important !important;}.separator{background-color:rgb(224,224,224) !important;}}
+					</style>
+					<table class="table-responsive" style="border:thin solid black; width:100%">
+						<caption style="width:100%; text-align:center">
+							<div  class="text-center"> <h5>  RIPOTI YA USAJILI  YA WAGONJWA KWA MAENEO YA MAKAZI</h5></div>
+
+							<hr />
+
+							<div  class="text-center">
+								<b class="col-md-4">KITUO: {{facility_address.facility_name }}&nbsp; &nbsp; </b>  <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}}&nbsp; &nbsp;  </b> <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+							</div>
+							<hr />
+						</caption>
+						<tr class = "captions">
+							<th  rowspan="2"> Na </th>
+							<th  rowspan="2"  colspan="2">Maelezo</th>
+							<th  colspan="3">Umri chini ya mwezi 1</th>
+							<th  colspan="3">Umri mwezi 1 hadi umri chini ya mwaka 1</th>
+							<th  colspan="3">Umri
+								mwaka 1
+								hadi umri
+								chini ya
+								miaka 5</th>
+
+							<th  colspan="3">Miaka 5
+								hadi
+								miaka
+								chini ya 60</th>
+
+							<th  colspan="3">Umri
+								miaka 60
+								na
+								kuendelea</th>
+
+							<th  colspan="3">Jumla
+								Kuu</th>
+						</tr>
+
+						<tr class = "captions">
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+						</tr>
+
+						<tr style="" ng-repeat="attendance in area_attendances[0] track by $index">
+
+							<td id = "data" colspan="">{{$index+1}}.</td>
+							<td colspan="2">{{attendance.residence_name}}</td>
+							<td id = "data">{{attendance.male_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_month  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.female_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_year--attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_five_year  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_five_year--attendance.female_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_five_under_sixty--attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.male_under_one_year--attendance.male_under_five_year--attendance.male_above_five_under_sixty--attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.female_under_one_month--attendance.female_under_one_year--attendance.female_under_five_year--attendance.female_above_five_under_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.grand_total | currency:'':0 }}</td>
+						</tr>
+						<tr>
+							<td colspan="20" style="text-align:right; font-weight:bold">TOTAL:&nbsp;</td>
+							<td id = "data" class ="totals" style="text-align:right; font-weight:bold">{{area_attendances[1][0].grand_total | currency:'':0}}</td>
+						</tr>
+					</table>
+                    </div>
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="CHF Visited By Area">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getMahudhurioChfByArea(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container >
+					 <md-button class="md-primary md-raised" ng-click="PrintContentChf()">
+                        Print
+                    </md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" >
+                    <div id="PrintContentChfid"   style="padding:2px 2px 2px 2px">
+						<style type="text/css">
+						.not_applicable {
+								background-color:#c1c1c1;
+							}
+						tr.captions{
+								border: thin solid black;
+								background-color:#c1c1c1;
+						}
+						#sno{
+								vertical-align:middle;
+								text-align:right;
+							}
+						#data{
+							text-align:right;
+						}
+						#last_data{
+							border-right: none;
+							text-align:right;
+						}
+						#title{
+							text-align:center;
+						}
+						table{
+							border:thin solid black;
+						}
+						th{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						td{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						.totals{
+							background-color:rgb(238,238,238);
+						}
+						.separator{
+							background-color:rgb(224,224,224);
+						}
+						@media print{tr.captions{border: thin solid black !important;background-color:#c1c1c1 !important;}#sno{vertical-align:middle !important;}#data{text-align:right !important;}#last_data{border-right:none !important;text-align:right !important;}#title{text-align:center !important;}table{border:thin solid black !important;}th{border-right: thin solid black !important;border-bottom:thin solid black !important;}td{border-right: thin solid black !important;border-bottom: thin solid black !important;}.totals{background-color:rgb(238,238,238) !important;!important !important;}.separator{background-color:rgb(224,224,224) !important;}}
+					</style>
+					<table class="table-responsive" style="border:thin solid black; width:100%">
+						<caption style="width:100%; text-align:center">
+							<div  class="text-center"> <h5>  RIPOTI YA USAJILI  YA WAGONJWA WA CHF KWA MAENEO YA MAKAZI</h5></div>
+
+							<hr />
+
+							<div  class="text-center">
+								<b class="col-md-4">KITUO: {{facility_address.facility_name }}&nbsp; &nbsp; </b>  <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}}&nbsp; &nbsp;  </b> <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+							</div>
+							<hr />
+						</caption>
+						<tr class = "captions">
+							<th  rowspan="2"> Na </th>
+							<th  rowspan="2"  colspan="2">Maelezo</th>
+							<th  colspan="3">Umri chini ya mwezi 1</th>
+							<th  colspan="3">Umri mwezi 1 hadi umri chini ya mwaka 1</th>
+							<th  colspan="3">Umri
+								mwaka 1
+								hadi umri
+								chini ya
+								miaka 5</th>
+
+							<th  colspan="3">Miaka 5
+								hadi
+								miaka
+								chini ya 60</th>
+
+							<th  colspan="3">Umri
+								miaka 60
+								na
+								kuendelea</th>
+
+							<th  colspan="3">Jumla
+								Kuu</th>
+						</tr>
+
+						<tr class = "captions">
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+						</tr>
+
+						<tr style="" ng-repeat="attendance in chf_area_attendances[0] track by $index">
+
+							<td id = "data" colspan="">{{$index+1}}.</td>
+							<td colspan="2">{{attendance.residence_name}}</td>
+							<td id = "data">{{attendance.male_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_month  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.female_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_year--attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_five_year  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_five_year--attendance.female_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_five_under_sixty--attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.male_under_one_year--attendance.male_under_five_year--attendance.male_above_five_under_sixty--attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.female_under_one_month--attendance.female_under_one_year--attendance.female_under_five_year--attendance.female_above_five_under_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.grand_total | currency:'':0 }}</td>
+						</tr>
+						<tr>
+							<td colspan="20" style="text-align:right; font-weight:bold">TOTAL:&nbsp;</td>
+							<td id = "data" class ="totals" style="text-align:right; font-weight:bold">{{chf_area_attendances[1][0].grand_total | currency:'':0}}</td>
+						</tr>
+					</table>
+                    </div>
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title=" Visited By Nationality">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getMahudhurioByNationality(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container >
+					 <md-button class="md-primary md-raised" ng-click="PrintContentnation()">
+                        Print
+                    </md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" >
+                    <div id="PrintContentnationId"   style="padding:2px 2px 2px 2px">
+						<style type="text/css">
+						.not_applicable {
+								background-color:#c1c1c1;
+							}
+						tr.captions{
+								border: thin solid black;
+								background-color:#c1c1c1;
+						}
+						#sno{
+								vertical-align:middle;
+								text-align:right;
+							}
+						#data{
+							text-align:right;
+						}
+						#last_data{
+							border-right: none;
+							text-align:right;
+						}
+						#title{
+							text-align:center;
+						}
+						table{
+							border:thin solid black;
+						}
+						th{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						td{
+							border-right: thin solid black;
+							border-bottom: thin solid black;
+						}
+						.totals{
+							background-color:rgb(238,238,238);
+						}
+						.separator{
+							background-color:rgb(224,224,224);
+						}
+						@media print{tr.captions{border: thin solid black !important;background-color:#c1c1c1 !important;}#sno{vertical-align:middle !important;}#data{text-align:right !important;}#last_data{border-right:none !important;text-align:right !important;}#title{text-align:center !important;}table{border:thin solid black !important;}th{border-right: thin solid black !important;border-bottom:thin solid black !important;}td{border-right: thin solid black !important;border-bottom: thin solid black !important;}.totals{background-color:rgb(238,238,238) !important;!important !important;}.separator{background-color:rgb(224,224,224) !important;}}
+					</style>
+					<table class="table-responsive" style="border:thin solid black; width:100%">
+						<caption style="width:100%; text-align:center">
+							<div  class="text-center"> <h5>  RIPOTI YA USAJILI  YA WAGONJWA  KWA NCHI  </h5></div>
+
+							<hr />
+
+							<div  class="text-center">
+								<b class="col-md-4">KITUO: {{facility_address.facility_name }}&nbsp; &nbsp; </b>  <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}}&nbsp; &nbsp;  </b> <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+							</div>
+							<hr />
+						</caption>
+						<tr class = "captions">
+							<th  rowspan="2"> Na </th>
+							<th  rowspan="2"  colspan="2">Maelezo</th>
+							<th  colspan="3">Umri chini ya mwezi 1</th>
+							<th  colspan="3">Umri mwezi 1 hadi umri chini ya mwaka 1</th>
+							<th  colspan="3">Umri
+								mwaka 1
+								hadi umri
+								chini ya
+								miaka 5</th>
+
+							<th  colspan="3">Miaka 5
+								hadi
+								miaka
+								chini ya 60</th>
+
+							<th  colspan="3">Umri
+								miaka 60
+								na
+								kuendelea</th>
+
+							<th  colspan="3">Jumla
+								Kuu</th>
+						</tr>
+
+						<tr class = "captions">
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+							<th >ME</th>
+							<th >KE</th>
+							<th >Jumla</th>
+						</tr>
+
+						<tr style="" ng-repeat="attendance in nationality_attendances[0] track by $index">
+
+							<td id = "data" colspan="">{{$index+1}}.</td>
+							<td colspan="2">{{attendance.category}}</td>
+							<td id = "data">{{attendance.male_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_month  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.female_under_one_month | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_year--attendance.female_under_one_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_under_five_year  | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_five_year--attendance.female_under_five_year | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_five_under_sixty--attendance.female_above_five_under_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data">{{attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_above_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.male_under_one_month--attendance.male_under_one_year--attendance.male_under_five_year--attendance.male_above_five_under_sixty--attendance.male_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.female_under_one_month--attendance.female_under_one_year--attendance.female_under_five_year--attendance.female_above_five_under_sixty--attendance.female_above_sixty | currency:'':0 }}</td>
+							<td id = "data" class ="totals">{{attendance.grand_total | currency:'':0 }}</td>
+						</tr>
+						<tr>
+							<td colspan="20" style="text-align:right; font-weight:bold">TOTAL:&nbsp;</td>
+							<td id = "data" class ="totals" style="text-align:right; font-weight:bold">{{nationality_attendances[1][0].grand_total | currency:'':0}}</td>
+						</tr>
+					</table>
+                    </div>
+                </div>
+
+            </vertical-tab-pane>
+ <vertical-tab-pane title="Performance Report">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getStaffPerfomance(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="getStaffPerfomance(pef)">
+
+                    <div flex="85" ng-if="results.number_registered >=0">
+
+                        <table class="table table-bordered table-striped" ng-if="results.number_registered >=0">
+                            <thead>
+                            <tr>
+                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                    <span>No.</span>
+                                </th>
+
+                                <th sortable="placed" class="sortable">
+                                    <span>PATIENTS REGISTERED</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr grid-item  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    1
+                                </td>
+                                <td >{{results.number_registered}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+
+
+
+        </vertical-tabs>
+        <!--vertical tabs end-->
+    </md-content>
+</md-tab>
+
+
+
+        <md-tab label="EDIT PATIENT">
+        <md-content class="md-padding">
+        
+        <md-content class="md-padding">
+        <form  name="edit_searchForm5">
+        <div layout-gt-sm="row">
+        <md-autocomplete flex required flex
+          md-search-text="searchText5"
+          md-input-name="edit_patients"
+          md-no-cache="true"
+                         md-clear-button="true"
+          md-items="item in getPatientToEdit(searchText5)"
+          md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+          md-selected-item-change="selectedPatientToEdit(item,$event)"
+          md-floating-label="Search Patient "
+          md-min-length="4" md-autofocus>
+        <md-item-template>
+        <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} </span>
+        </md-item-template>
+        </md-autocomplete>
+        </div>
+        </form>
+        </md-content>
+        </md-content>
+        </md-tab>
+        </md-tabs>
+        </md-content>
+	</div>

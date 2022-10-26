@@ -1,0 +1,1403 @@
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+<div class="wrapper wrapper-content animated fadeInRight"  >
+<!--<div class="wrapper wrapper-content animated fadeInRight" ng-controller='PharmacyController'>-->
+    <div class="row">
+        <div class="col-md-12 form-box">
+
+            <div class="">
+                <form >
+                    <div class="input-group">
+                        <input type="text"  class="form-control input-lg" typeahead-on-select="" ng-model="search" placeholder="SEARCH..."  >
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-lg btn-success" >
+                                <i class="fa fa-search" aria-hidden="false"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <p></p>
+            <p></p>
+            <form >
+                <fieldset>
+                    <div class="form-top">
+                        <ul class="form-top-left">
+
+
+
+                          PHARMACY
+                            <p></p>
+
+
+
+
+
+
+
+                            <ul class="nav nav-tabs">
+
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"> <span    data-toggle="modal" data-target="#exampleModal5" data-whatever="@fat" data-toggle="tooltip" title=" Registration of STORE REQUESTS STATUS">ADD STORE</span>
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"> <span    data-toggle="modal" data-target="#exampleModal6" data-whatever="@fat" data-toggle="tooltip" title=" Registration of STORE REQUESTS STATUS">STORE PER USER CONFIGURATION</span>
+                            </a></li>
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"><span    data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" data-toggle="tooltip" title=" Registration of VENDORS">CREATE VENDORS</span>
+                            </a></li>
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"> <span   data-toggle="modal" data-target="#exampleModal1" data-whatever="@fat" data-toggle="tooltip" title=" Registration of INVOICES">CREATE INVOICES</span>
+                            </a></li>
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"> <span   data-toggle="modal" data-target="#exampleModal2" data-whatever="@fat" data-toggle="tooltip" title=" Registration of Transaction Type">TRANSACTION TYPES</span>
+                            </a></li>
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"><span   data-toggle="modal" data-target="#exampleModal3" data-whatever="@fat" data-toggle="tooltip" title=" Registration of STORE Type">STORE TYPES</span>
+                            </a></li>
+                            <li ng-class="{active: isSet(10)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)"><span   data-toggle="modal" data-target="#exampleModal4" data-whatever="@fat" data-toggle="tooltip" title=" Registration of STORE REQUESTS STATUS">STORE REQUESTS STATUS</span>
+                            </a></li>
+
+
+
+                        </ul>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+
+                        <h3 class="text-center">
+                            <ul class="nav nav-tabs">
+                                <li ng-class="{active: isSet(1)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)">Stores List</a></li>
+                                <li ng-class="{active: isSet(2)}" ng-click="get_lab_order()"><a href ng-click="setTab(2)">Vendor List</a></li>
+                                <li ng-class="{active: isSet(3)}" ng-click="get_lab_order()"><a href ng-click="setTab(3)">Invoices List</a></li>
+
+                            </ul>
+                        </h3>
+
+
+
+
+ <!--vendors list start-->
+                        <div ng-show="isSet(2)">
+
+
+                            <div >
+                            <b class="col-lg-12 btn btn-success">VENDORS LIST</b>
+                            <table class="table table-bordered table-striped"  >
+
+
+                                <thead>
+
+                                <tr>
+                                    <td>
+
+                                        No
+
+                                    </td>
+
+                                    <td>
+
+                                        Vendor Code
+
+
+
+                                    </td>
+                                    <td>
+
+                                        Vendor Name
+
+
+
+                                    </td>
+                                    <td>
+
+                                        Vendor Address
+
+
+
+                                    </td>
+                                    <td>
+
+                                        Vendor Phone Number
+
+
+
+                                    </td>
+                                    <td>
+
+                                        Contact Person  Number
+
+
+
+                                    </td>
+
+                                    <td>
+
+                                        Edit
+
+                                    </td> <td  ng-if="!e">
+
+                                    X
+
+                                </td>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr ng-repeat="vendor in vendors | filter:search track by $index">
+                                    <td>{{ $index+1 }}</td>
+
+                                    <td><b ng-if="!e">{{ vendor.vendor_code }}</b>
+                                        <h3 ng-if="e">
+
+                                            <div class="form-group">
+                                                <input type="text" disabled class="form-control" placeholder=" Vendor Code" ng-model="vendor.vendor_code">
+                                            </div>
+
+
+                                        </h3>
+                                    </td>
+                                    <td><b ng-if="!e">{{ vendor.vendor_name }}</b>
+                                        <h3 ng-if="e">
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder=" Vendor Name" ng-model="vendor.vendor_name">
+                                            </div>
+
+
+                                        </h3>
+                                    </td>
+                                    <td><b ng-if="!e">{{ vendor.vendor_address }}</b>
+                                        <h3 ng-if="e">
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder=" Vendor address" ng-model="vendor.vendor_address">
+                                            </div>
+
+
+                                        </h3>
+                                    </td>
+                                    <td><b ng-if="!e">{{ vendor.vendor_phone_number }}</b>
+                                        <h3 ng-if="e">
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder=" Vendor phone number" ng-model="vendor.vendor_phone_number">
+                                            </div>
+
+
+                                        </h3>
+                                    </td>
+                                    <td><b ng-if="!e">{{ vendor.vendor_contact_person }}</b>
+                                        <h3 ng-if="e">
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder=" vendor contact person" ng-model="vendor.vendor_contact_person">
+                                            </div>
+
+
+                                        </h3>
+                                    </td>
+
+
+                                    <td ng-if="e">
+                                        <h3 >
+
+                                            <div class="form-group">
+
+
+                                                <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="vendor_update(vendor)">Update</button>
+
+                                            </div>
+                                        </h3>
+                                        <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                    </td><td  ng-if="!e">
+                                    <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="vendor_delete(vendor.id)">Delete</button>
+                                </td>
+                                    <!--<td>{{ region.tastiness }}</td>-->
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        </div>
+
+ <!--vendors list ends-->
+                        <div ng-show="isSet(1)">
+
+
+                            <div >
+                                <b class="col-lg-12 btn btn-success">STORE LIST</b>
+                                <table class="table table-bordered table-striped"   >
+
+
+                                    <thead>
+
+                                    <tr>
+                                        <td>
+
+                                            No
+
+                                        </td>
+
+                                        <td>
+
+                                            Store Name
+
+
+
+                                        </td>
+                                        <td>
+
+                                            Store Type
+
+
+
+                                        </td>
+
+                                        <td>
+
+                                            Edit
+
+                                        </td> <td  ng-if="!e">
+
+                                        X
+
+                                    </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="store in stores | filter:search track by $index">
+                                        <td>{{ $index+1 }}</td>
+
+                                        <td><b ng-if="!e">{{ store.store_name }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text"  class="form-control" placeholder=" Store Name" ng-model="store.store_name">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+                                        <td><b ng-if="!e">{{ store.store_type_name }}</b>
+                                            <h3 ng-if="e">
+
+                                                {{ store.store_type_name}}
+
+
+                                            </h3>
+                                        </td>
+
+
+
+                                        <td ng-if="e">
+                                            <h3 >
+
+                                                <div class="form-group">
+
+
+                                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="store_update(store)">Update</button>
+
+                                                </div>
+                                            </h3>
+                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                        </td><td  ng-if="!e">
+                                        <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="store_delete(store.id)">Delete</button>
+                                    </td>
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+ <!--invoices list starts-->
+
+
+                        <div ng-show="isSet(3)">
+
+                            <!--<a onclick="PrintContent();" title="Print" class="no-print btn btn-success pull-right"><b class="glyphicon glyphicon-print "></b>  </a>-->
+
+                            <div id='divtoprint'>
+<b class="col-lg-12 btn btn-success">INVOICE LIST</b>
+                            <table class="table table-bordered table-striped"   >
+
+
+                                <thead>
+
+                                <tr>
+                                    <td>
+
+                                        No
+
+                                    </td>
+
+                                    <td>
+
+                                      Invoice Number
+
+
+
+                                    </td>
+                                    <td>
+
+                                        Vendor Code
+
+
+
+                                    </td>
+                                    <td>
+
+                                        Vendor Name
+
+
+
+                                    </td>
+
+                                    <td>
+
+                                        Edit
+
+                                    </td> <td  ng-if="!e">
+
+                                    X
+
+                                </td>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr ng-repeat="invoice in invoices | filter:search track by $index">
+                                    <td>{{ $index+1 }}</td>
+
+                                    <td><b ng-if="!e">{{ invoice.invoice_number }}</b>
+                                        <h3 ng-if="e" class="no-print">
+
+                                            <div class="form-group">
+                                                <input type="text"  class="form-control" placeholder=" invoice Number" ng-model="invoice.invoice_number">
+                                            </div>
+
+
+                                        </h3>
+                                    </td>
+                                    <td><b ng-if="!e">{{ invoice.vendor_code }}</b>
+                                        <h3 ng-if="e" class="no-print">
+
+                                            {{ invoice.vendor_code}}
+
+
+                                        </h3>
+                                    </td>
+                                    <td><b ng-if="!e">{{ invoice.vendor_name }}</b>
+                                        <h3 ng-if="e" class="no-print">
+
+                                            {{ invoice.vendor_name }}
+
+                                        </h3>
+                                    </td>
+
+
+
+                                    <td ng-if="e">
+                                        <h3 class="no-print" >
+
+                                            <div class="form-group">
+
+
+                                                <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="invoice_update(invoice)">Update</button>
+
+                                            </div>
+                                        </h3>
+                                        <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="btn btn-info no-print" ng-model="e">Edit
+                                    </td><td  ng-if="!e" >
+                                    <button class="alert-danger no-print" data-toggle="tooltip" title="Click to Delete from List" ng-click="invoice_delete(invoice.id)">Delete</button>
+                                </td>
+                                    <!--<td>{{ region.tastiness }}</td>-->
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+
+                        <!--invoices ends-->
+
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> VENDORS </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>VENDORS</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+
+                                            <div class="row col-md-12">
+                                                <div class="form-group col-md-8 col-sm-4">
+                                                    <label> Vendor Name</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Vendor name" ng-model="vendor.vendor_name">
+                                                    <p></p>
+
+
+                                                </div>
+                                                <div class="form-group col-md-8 col-sm-4">
+                                                    <label> Vendor Address</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Vendor Address" ng-model="vendor.vendor_address">
+                                                    <p></p>
+
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                            <div class="row col-md-12">
+
+                                                <div class="form-group col-md-8 col-sm-4">
+                                                    <label> Vendor phone number</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Vendor phone number" ng-model="vendor.vendor_phone_number">
+                                                    <p></p>
+
+
+                                                </div>
+                                                <div class="form-group col-md-8 col-sm-4">
+                                                    <label> Vendor Contact Person</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Vendor Contact Person" ng-model="vendor.vendor_contact_person">
+                                                    <p></p>
+
+
+                                                </div>
+                                                <div class="form-group col-md-8 col-sm-4">
+
+                                                    <button class="btn btn-success" ng-click="vendor_registration(vendor)" >Register</button>
+
+
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+
+
+                                            <table class="table table-bordered table-striped" >
+
+                                            </table>
+</div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2"> TRANSACTION TYPES </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>TRANSACTION TYPES</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+
+
+                                            <div class="row col-md-12">
+
+                                                <div class="form-group col-md-6 col-sm-4">
+                                                    <label> Transaction Type name</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Transaction Type name" ng-model="transtype.transaction_type">
+                                                    <p></p>
+
+
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-4">
+                                                    <label> Adjustment Type</label>
+                                                    <select ng-model="transtype.adjustment" class="form-control">
+                                                        <option selected disabled value>----options----</option>
+                                                        <option ng-value="'plus'">Positive Adjustment</option>
+                                                        <option ng-value="'minus'">Negative Adjustment</option>
+                                                    </select>
+                                                    <p></p>
+
+
+                                                </div>
+
+                                                <div class="form-group col-md-8 col-sm-4">
+
+                                                    <button class="btn btn-success" ng-click="pharmacy_transaction_type_registration(transtype)" >Register</button>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        <table class="table table-bordered table-striped"   >
+
+
+                                            <thead>
+
+                                            <tr>
+                                                <td>
+
+                                                    No
+
+                                                </td>
+
+                                                <td>
+
+                                                   Transaction Type
+
+
+
+                                                </td>
+
+                                                <td>
+
+                                                    Edit
+
+                                                </td> <td  ng-if="!e">
+
+                                                X
+
+                                            </td>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="transtype in transtypes | filter:search track by $index">
+                                                <td>{{ $index+1 }}</td>
+
+                                                <td><b ng-if="!e">{{ transtype.transaction_type }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder=" transaction_type" ng-model="transtype.transaction_type">
+                                                        </div>
+
+
+                                                    </h3>
+                                                </td>
+
+
+                                                <td ng-if="e">
+                                                    <h3 >
+
+                                                        <div class="form-group">
+
+
+                                                            <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="pharmacy_transaction_type_update(transtype)">Update</button>
+
+                                                        </div>
+                                                    </h3>
+                                                    <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                </td><td  ng-if="!e">
+                                                <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="pharmacy_transaction_type_delete(transtype.id)">Delete</button>
+                                            </td>
+                                                <!--<td>{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+</div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel3"> STORE TYPES </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>STORE TYPES</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+
+
+                                            <div class="row col-md-12">
+
+                                                <div class="form-group col-md-8 col-sm-4">
+                                                    <label> Store Type name</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Store Type name" ng-model="storetype.store_type_name">
+                                                    <p></p>
+
+
+                                                </div>
+
+                                                <div class="form-group col-md-8 col-sm-4">
+
+                                                    <button class="btn btn-success" ng-click="store_type_registration(storetype)" >Register</button>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        <table class="table table-bordered table-striped"   >
+
+
+                                            <thead>
+
+                                            <tr>
+                                                <td>
+
+                                                    No
+
+                                                </td>
+
+                                                <td>
+
+                                                   Store Type
+
+
+
+                                                </td>
+
+                                                <td>
+
+                                                    Edit
+
+                                                </td> <td  ng-if="!e">
+
+                                                X
+
+                                            </td>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="storetype in storetypes | filter:search track by $index">
+                                                <td>{{ $index+1 }}</td>
+
+                                                <td><b ng-if="!e">{{ storetype.store_type_name }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder=" Store type Name" ng-model="storetype.store_type_name">
+                                                        </div>
+
+
+                                                    </h3>
+                                                </td>
+
+
+                                                <td ng-if="e">
+                                                    <h3 >
+
+                                                        <div class="form-group">
+
+
+                                                            <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="store_type_update(storetype)">Update</button>
+
+                                                        </div>
+                                                    </h3>
+                                                    <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                </td><td  ng-if="!e">
+                                                <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="store_type_delete(storetype.id)">Delete</button>
+                                            </td>
+                                                <!--<td>{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+</div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel4"> STORE REQUESTS STATUS </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>STORE REQUESTS STATUS</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+
+
+                                            <div class="row col-md-12">
+
+                                                <div class="form-group col-md-8 col-sm-4">
+                                                    <label> Status name</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  Status name" ng-model="requeststatus.store_request_status">
+                                                    <p></p>
+
+
+                                                </div>
+
+                                                <div class="form-group col-md-8 col-sm-4">
+
+                                                    <button class="btn btn-success" ng-click="store_request_status_registration(requeststatus)" >Register</button>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        <table class="table table-bordered table-striped"   >
+
+
+                                            <thead>
+
+                                            <tr>
+                                                <td>
+
+                                                    No
+
+                                                </td>
+
+                                                <td>
+
+                                                   STATUS
+
+
+
+                                                </td>
+
+                                                <td>
+
+                                                    Edit
+
+                                                </td> <td  ng-if="!e">
+
+                                                X
+
+                                            </td>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="requeststatus in requeststatuses | filter:search track by $index">
+                                                <td>{{ $index+1 }}</td>
+
+                                                <td><b ng-if="!e">{{ requeststatus.store_request_status }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder=" Store type Name" ng-model=" requeststatus.store_request_status">
+                                                        </div>
+
+
+                                                    </h3>
+                                                </td>
+
+
+                                                <td ng-if="e">
+                                                    <h3 >
+
+                                                        <div class="form-group">
+
+
+                                                            <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="store_request_status_update(requeststatus)">Update</button>
+
+                                                        </div>
+                                                    </h3>
+                                                    <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                </td><td  ng-if="!e">
+                                                <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="store_request_status_delete(requeststatus.id)">Delete</button>
+                                            </td>
+                                                <!--<td>{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+</div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel6"> STORE PER USER CONFIGURATION</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form >
+                    <div class="input-group">
+                        <input type="text"  class="form-control input-lg" typeahead-on-select="" ng-model="selectedUser"  uib-typeahead ="user as user.name +''+user.mobile_number+' '+user.email for user in SearchUser($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search User to assign Store to Access"  >
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-lg btn-success" >
+                                <i class="fa fa-search" aria-hidden="false"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </form>
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>STORE PER USER CONFIGURATION</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+                                        <table class="table table-bordered table-striped"   >
+
+
+                                            <thead>
+
+                                            <tr>
+                                                <td>
+
+                                                    No
+
+                                                </td>
+
+                                                <td>
+
+                                                    Store Name
+
+
+
+                                                </td>
+                                                <td>
+
+                                                    Store Type
+
+
+
+                                                </td>
+
+                                                <td>
+
+                                                    Check/Tick
+
+                                                </td>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="store_user in stores | filter:search track by $index">
+                                                <td>{{ $index+1 }}</td>
+
+                                                <td><b  >{{ store_user.store_name }}</b>
+
+                                                </td>
+                                                <td><b  >{{ store_user.store_type_name }}</b>
+
+                                                </td>
+
+
+
+
+                                                <td>
+                                                    <input type="checkbox"  ng-click="populateInArray(store_user)"  ng-model="store_user.value1"  >
+                                                </td>
+
+                                                <!--<td>{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            <tr>
+                                                <th colspan="4">
+                                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to save" ng-click="store_user_configure()">Save</button>
+
+                                                </th>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+
+                                        <table class=" table table-bordered">
+                                            <tr ng-if="User_store_populate.length >0">
+                                                <th>User name</th>
+                                                <th>store  name</th>
+                                            </tr>
+                                            <tr ng-repeat="User in User_store_populate">
+                                                <td >{{User.user_name}}</td>
+                                                <td >{{User.store_name}}</td>
+                                                <td ><a   ng-click="removeItem($index)">X</a></td>
+                                            </tr>
+                                        </table>
+
+</div>
+
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel5"> STORES REGISTRATION </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>STORES REGISTRATION</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+
+
+                                            <div class="row col-md-12">
+
+                                                <div class="form-group col-md-6 col-sm-4">
+                                                    <label> Store name</label>
+                                                    <input type="text" class="form-control" placeholder="Enter  store name" ng-model="store.store_name">
+                                                    <p></p>
+
+
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-4">
+
+                                                    <label> Store Type</label>
+                                                    <select ng-model="store.store_type_id" class="form form-control">
+                                                        <option ng-value="store_type.id" ng-repeat="store_type in storetypes">{{store_type.store_type_name}}</option>
+                                                    </select>
+
+
+                                                </div>
+
+                                                <div class="form-group col-md-8 col-sm-4">
+
+                                                    <button class="btn btn-success" ng-click="store_registration(store)" >Register</button>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        <table class="table table-bordered table-striped"   >
+
+
+
+                                        </table>
+</div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<!--model two-->
+
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">INVOICE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>INVOICE</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+
+                                        <div class="row col-md-12">
+
+                                            <div class="form-group col-md-8 col-sm-4">
+                                                <label> Invoice number</label>
+                                                <input type="text" class="form-control" placeholder="Enter  Invoice number" ng-model="invoice.invoice_number">
+                                                <p></p>
+
+                                            </div>
+                                            <div class="form-group col-md-8 col-sm-4">
+                                                <label> Vendor Name</label>
+                                                <select ng-model="invoice.vendor_id"  class="form form-control">
+                                                    <option ng-repeat="vendor in vendors" ng-value="vendor.id">{{vendor.vendor_name}}</option>
+                                                </select>
+
+
+                                            </div>
+                                            <div class="form-group col-md-8 col-sm-4">
+
+                                                <button class="btn btn-success" ng-click="invoice_registration(invoice)" >Register</button>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+
+
+
+
+                                        <table class="table table-bordered table-striped" ing-if="" >
+
+
+                                            </table>
+
+                                        </div>
+
+
+
+
+
+                                        <!--EXEMPTION TYPE ENDING-->
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <!--<button type="button" class="btn btn-primary">Send message</button>-->
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+
+
+    function PrintContent()
+    {
+//location.reload();
+        var DocumentContainer = document.getElementById('divtoprint');
+        var WindowObject = window.open("", "PrintWindow",
+                "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.title = "PRINTED: GoT-HOMIS";
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+
+        setTimeout(function(){
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        },2000);
+
+
+
+    }
+</script>

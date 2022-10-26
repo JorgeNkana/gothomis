@@ -1,0 +1,58 @@
+<md-dialog class="fullscreen-dialog">
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row"  layout-align="space-between center">
+    <h2 class="md-display-1">Patient Name: {{applicant.first_name+" "+applicant.middle_name+" "+applicant.last_name}}  Age: {{applicant.age}}</h2>
+
+   
+
+    </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+
+
+
+                  <md-content class="md-padding">            
+
+ <v-accordion class="vAccordion--default">
+                                <v-pane>
+                                    <v-pane-header>
+                                        PATIENT CONSULTATION FILE
+                                    </v-pane-header>
+
+                            <v-pane-content>
+                            <iframe src="/nhif_files/patient_file.pdf" width="100%" height="1000px"></iframe>
+                                        
+                         </v-pane-content>
+             </v-pane>
+               <v-pane>
+                                    <v-pane-header>
+                                        PATIENT CLAIM FILE
+                                    </v-pane-header>
+
+                            <v-pane-content>
+                            <iframe src="/nhif_files/claim_file.pdf" width="100%" height="1000px"></iframe>
+                                        
+                         </v-pane-content>
+             <v-pane>
+             </v-accordion>
+            
+                    </md-content>
+          
+            
+       
+    
+               
+
+
+        </div>
+    </md-dialog-content>
+
+</md-dialog>

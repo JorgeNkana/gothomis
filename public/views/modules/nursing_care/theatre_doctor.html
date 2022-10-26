@@ -1,0 +1,453 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+			
+			<md-tab label="Theatre Requests" ng-click="getTheatreRequests()">
+     <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for patient to write report" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+		
+		
+		<div layout="row">
+                        <md-chips>
+                            <md-chip ng-repeat="pt in theatreQues | filter:item_price.selectedItem" ng-click="checkPatientStatus(pt)" style="cursor: pointer">
+                                {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}
+								({{pt.medical_record_number}})-{{pt.item_name}}
+                            </md-chip>
+                        </md-chips>
+                    </div>		        
+    </md-content>
+</md-tab>
+                <md-tab label="Findings Report" ng-click="">
+                    <md-content class="md-padding">
+                        <md-input-container class="md-block">
+                            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for patient to write report" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedPatient">
+                        </md-input-container>
+
+                        <h2 ng-if="theatreQues.length==0" align="center">NO LIST FROM THEATRE  .</h2>
+
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="theatreQues.length > 0">
+                            <thead>
+                            <tr>
+                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                    <span>No.</span>
+                                </th>
+                                <th class="st-sort-disable th-dropdown">
+                                    PATIENTS FOR ANAETHESIA
+                                </th>
+                                <th sortable="placed" class="sortable">
+                                    <span>WARD</span>
+                                </th>
+                                <th sortable="placed" class="sortable">
+                                    <span>BED</span>
+                                </th>
+
+                                <th sortable='total.value' class="sortable">
+                                    <span>DOCTOR REQUESTED</span>
+                                </th>
+                                <th sortable='total.value' class="sortable">
+                                    <span>ACTION</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--<tr grid-item ng-repeat="getListFromPostAnaesthetic in getListFromTheatres track by $index"  >-->
+                            <tr grid-item ng-repeat="getListFromPostAnaesthetic in theatreQues | filter:item_price.selectedItem  track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    {{$index+1}}
+                                </td>
+                                <td >{{getListFromPostAnaesthetic.first_name}} {{getListFromPostAnaesthetic.middle_name}}{{getListFromPostAnaesthetic.last_name}}({{getListFromPostAnaesthetic.medical_record_number}}) ,</td>
+                                <td >{{getListFromPostAnaesthetic.ward_name}}</td>
+                                <td >{{getListFromPostAnaesthetic.bed_name}}</td>
+                                <td>{{getListFromPostAnaesthetic.doctor_name}}({{getListFromPostAnaesthetic.doctor_number}})</td>
+                                <td><md-button class="md-raised md-primary" ng-click="doctorTheatreReport(getListFromPostAnaesthetic)">OPTIONS</md-button></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </md-content>
+                </md-tab>
+
+
+                <md-tab label="Theatre Setting & Reports">
+
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs >
+                            <vertical-tab-pane title="Procedures Performed">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Choose End Date</label>
+                                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="TheatrePrintOut(pef)">Search</md-button>
+                                    </md-input-container>
+                                    <md-input-container  ng-if="results.length>0">
+                                        <md-button class="md-raised md-primary" ng-click="TheatrePrintOutPrint(pef)">Print</md-button>
+                                    </md-input-container>
+                                    <md-input-container style="color: red" ng-if="results.length==0">No record found  </md-input-container>
+                                </div>
+
+                                <div layout="row" id="TheatrePrintOutId" >
+
+                                    <div flex="85" ng-if="results.length>0">
+                                        <md-input-container >
+                                            <label>Filtering</label>
+                                            <input ng-model="search"  />
+                                        </md-input-container>
+                                        <table class="table table-bordered table-striped" ng-if="results.length > 0" border="1">
+                                            <thead>
+                                            <tr>
+                                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                                    <span>No.</span>
+                                                </th>
+                                                <th class="st-sort-disable th-dropdown">
+                                                    PATIENT NAME
+                                                </th>
+
+                                                <th sortable="placed" class="sortable">
+                                                    <span>PROCEDURE</span>
+                                                </th>
+                                                <th sortable="placed" class="sortable">
+                                                    <span>TYPE</span>
+                                                </th>
+
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>DOCTOR NAME</span>
+                                                </th><th sortable='total.value' class="sortable">
+                                                    <span>Date</span>
+                                                </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr grid-item ng-repeat="getListFromPostAnaesthetic in results |filter:search track by $index"  >
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index+1}}
+                                                </td>
+                                                <td >{{getListFromPostAnaesthetic.patient_name}} </td>
+
+                                                <td >{{getListFromPostAnaesthetic.item_name}}</td>
+                                                <td >{{getListFromPostAnaesthetic.descriptions}}</td>
+                                                <td>{{getListFromPostAnaesthetic.doctor_name}}({{getListFromPostAnaesthetic.doctor_number}})</td>
+                                                <td >{{getListFromPostAnaesthetic.updated_at}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </vertical-tab-pane>
+                            <vertical-tab-pane title="Procedures Performed Summary">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Choose End Date</label>
+                                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="TheatrePrintOutByCategory(pef)">Search</md-button>
+                                    </md-input-container>
+                                    <md-input-container  ng-if="resultsum.length>0" >
+                                        <md-button class="md-raised md-primary" ng-click="TheatrePrintOutByCategoryPrint(pef)">Print</md-button>
+                                    </md-input-container>
+                                    <md-input-container  ng-if="resultsum.length==0" style="color: red">No record found  </md-input-container>
+                                </div>
+
+                                <div layout="row" id="TheatrePrintOutByCategoryId">
+
+                                    <div flex="85" ng-if="resultsum.length>0">
+                                        <md-input-container >
+                                            <label>Filtering</label>
+                                            <input ng-model="search"  />
+                                        </md-input-container>
+                                        <table class="table table-bordered table-striped" ng-if="resultsum.length > 0" border="1">
+                                            <thead>
+                                            <tr>
+                                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                                    <span>No.</span>
+                                                </th>
+                                                <th class="st-sort-disable th-dropdown">
+                                                    PROCEDURE TYPE
+                                                </th>
+
+
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>GENDER</span>
+
+                                            <th sortable='total.value' class="sortable">
+                                                <span>Quantity</span></th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr grid-item ng-repeat="getListFromPostAnaesthetic in resultsum |filter:search track by $index"  >
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index+1}}
+                                                </td>
+                                                 <td >{{getListFromPostAnaesthetic.procedure_type}}</td>
+                                                <td >{{getListFromPostAnaesthetic.gender}}</td>
+                                                <td >{{getListFromPostAnaesthetic.quantity}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </vertical-tab-pane>
+                            <vertical-tab-pane title="Services Configuration">
+                                <div layout="row">
+
+                                    <form  name="searchForm">
+                                        <md-autocomplete flex required flex
+                                                         md-search-text="searchText"
+                                                         md-input-name="searchedItems"
+                                                         md-no-cache="true"
+                                                         md-clear-button="true"
+                                                         md-items="item in procedureSearch(searchText)"
+                                                         md-item-text="item.item_name"
+                                                         md-selected-item-change="selectedItemSearch(item)"
+                                                         md-floating-label="Search Items "
+                                                         md-min-length="5" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.item_name}} </span>
+                                            </md-item-template>
+                                        </md-autocomplete>
+
+                                    </form>
+
+
+                                    <md-input-container>
+                                        <label>Category</label>
+                                        <md-select ng-model="procedure.category"  required>
+                                            <md-option value="">Procedure Category</md-option>
+                                            <md-option value="1">Major</md-option>
+                                            <md-option value="2">Minor</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Location</label>
+                                        <md-select ng-model="procedure.location" ng-click="getFacilities()" required>
+                                            <md-option value="">Location</md-option>
+                                            <md-option value="1">Theatre Only</md-option>
+                                            <md-option value="2">Any Where</md-option>
+                                        </md-select>
+                                    </md-input-container>
+
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="assignProcedures(procedure)">Save</md-button>
+                                    </md-input-container>
+                                </div>
+
+
+
+                            </vertical-tab-pane>
+
+
+                            <vertical-tab-pane title="Configured Services Lists">
+                                <div layout="row">
+
+                                    <md-input-container>
+                                        <label>Category</label>
+                                        <md-select ng-model="procedure.category"  required>
+                                            <md-option value="0" selected>All Procedure Category</md-option>
+                                            <md-option value="1">Major</md-option>
+                                            <md-option value="2">Minor</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Location</label>
+                                        <md-select ng-model="procedure.location" ng-click="getFacilities()" required>
+                                            <md-option value="0" selected>All Location</md-option>
+                                            <md-option value="1">Theatre Only</md-option>
+                                            <md-option value="2">Not in Theatre</md-option>
+                                        </md-select>
+                                    </md-input-container>
+
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="showProcedures(procedure)">Search</md-button>
+                                    </md-input-container>
+                                </div>
+
+                                <div layout="row">
+
+                                    <div flex="85" ng-if="procedureLists.length>0">
+
+                                        <table class="table table-bordered table-striped" ng-if="procedureLists.length > 0">
+                                            <thead>
+                                            <tr>
+                                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                                    <span>No.</span>
+                                                </th>
+                                                <th class="st-sort-disable th-dropdown">
+                                                    PROCEDURE NAME
+                                                </th>
+                                                <th sortable="placed" class="sortable">
+                                                    <span>PROCEDURE TYPE</span>
+                                                </th>
+                                                <th sortable="placed" class="sortable">
+                                                    <span>WHERE CAN BE DONE</span>
+                                                </th>
+
+                                                <th sortable="placed" class="sortable">
+                                                    <span>ACTION</span>
+                                                </th>
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr grid-item ng-repeat="procedureList in procedureLists track by $index"  >
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index+1}}
+                                                </td>
+                                                <td>{{procedureList.item_name}}</td>
+                                                <td>
+                                                    <span ng-if="procedureList.service_type ==1">Major</span>
+                                                    <span ng-if="procedureList.service_type ==2">Minor</span>
+                                                    <span ng-if="procedureList.service_type ==3">Specialized</span>
+                                                </td>
+                                                <td>
+                                                    <span ng-if="procedureList.procedure_category ==1">Theatre</span>
+                                                    <span ng-if="procedureList.procedure_category ==2">Not in Theatre</span>
+                                                </td>
+                                                <td>
+                                                    <md-button class="md-raised md-primary" ng-click="changeSettings(procedureList)">Change</md-button>
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </vertical-tab-pane>
+
+
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+                <md-tab label="Procedures History Preview">
+
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <md-input-container class="md-block col-md-6 col-md-4">
+                            <label>Search Patient here</label>
+
+                            <input type="text" id="isi1" class="md-block " typeahead-on-select="loadVisitDates(patient.patient_id)" ng-model="patient"   uib-typeahead ="item as item.first_name +''+ item.middle_name+''+ item.last_name+''+ item.medical_record_number  for item in TheatrePatientSearch($viewValue)  | filter:$viewValue">
+
+                        </md-input-container>
+                        <hr ng-if="patient.patient_id && patient.patient_id>0">
+                        &nbsp;&nbsp;&nbsp; <md-button class="md-raised md-primary"  ng-if="patient.patient_id" ng-repeat="visit in visits" ng-click="TheatrePrintOutDetailsSpecific(visit.visit_date_id)">
+                            {{visit.created_at}}</md-button> &nbsp;&nbsp;&nbsp;
+                        <hr ng-if="patient.patient_id && patient.patient_id>0">
+                                <div  >
+                                <div ng-if=" !patient.patient_id" >
+                                    <md-input-container  >
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container   >
+                                        <label>Choose End Date</label>
+                                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container  >
+                                        <md-button class="md-raised md-primary" ng-click="TheatrePrintOutDetails(pef)">Search</md-button>
+                                    </md-input-container>
+                                </div>
+                                    <md-input-container  ng-if="histories.length>0" class="pull-right">
+                                        <md-button class="md-raised md-primary" ng-click="TheatrePrintOutDetailsPrint()">Print</md-button>
+                                    </md-input-container>
+                                    <md-input-container  ng-if="histories.length==0" style="color: red">No record found  </md-input-container>
+                                </div>
+
+                                <div    id="TheatrePrintOutDetailsId">
+
+                                    <div flex="85" ng-if="histories.length>0">
+                                        <md-input-container >
+                                            <label>Filtering</label>
+                                            <input ng-model="search"  />
+                                        </md-input-container>
+                                        <table class="table table-bordered table-striped" ng-if="histories.length > 0" border="1">
+                                            <thead>
+                                            <tr>
+                                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                                    <span>No.</span>
+                                                </th>
+                                                <th class="st-sort-disable th-dropdown">
+                                                    PATIENT NAME
+                                                </th>
+
+                                                <th sortable="placed" class="sortable">
+                                                    <span>PROCEDURE</span>
+                                                </th>
+                                                <th sortable="placed" class="sortable">
+                                                    <span>HISTORY TYPE</span>
+                                                </th>
+                                                <th sortable="placed" class="sortable">
+                                                    <span>DESCRIPTION</span>
+                                                </th>
+
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>DOCTOR NAME</span>
+                                                </th><th sortable='total.value' class="sortable">
+                                                <span>Date</span>
+                                            </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr grid-item ng-repeat="getListFromPostAnaesthetic in histories |filter:search track by $index"  >
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index+1}}
+                                                </td>
+                                                <td >{{getListFromPostAnaesthetic.patient_name}} </td>
+
+                                                <td >{{getListFromPostAnaesthetic.item_name}}</td>
+
+                                                <td  >
+                                                    <b ng-if="getListFromPostAnaesthetic.descriptions !='Elective' && getListFromPostAnaesthetic.descriptions !='Emergency'">{{getListFromPostAnaesthetic.history_type}}</b>
+                                                    <b ng-if="getListFromPostAnaesthetic.descriptions=='Elective' || getListFromPostAnaesthetic.descriptions=='Emergency'">OPERATION CASE</b>
+                                                    </td>
+                                                <td >{{getListFromPostAnaesthetic.descriptions}}</td>
+                                                <td>{{getListFromPostAnaesthetic.doctor_name}}({{getListFromPostAnaesthetic.doctor_number}})</td>
+                                                <td >{{getListFromPostAnaesthetic.updated_at}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+
+
+
+
+
+</md-tabs>
+</md-content>
+</div>
+</form>

@@ -1,0 +1,1095 @@
+<md-tabs md-dynamic-height md-border-bottom>
+ <md-tab label="Referral">
+     <vertical-tabs>
+                            <vertical-tab-pane title="Outgoing Form">
+
+                            
+            <form  name="searchForm1">
+                <div layout-gt-sm="row">
+                    <md-autocomplete flex  flex
+                                     md-search-text="searchText1"
+                                     md-input-name="reattendance_patients"
+                                     md-no-cache="true"
+                                     md-clear-button="true"
+                                     md-items="item in getPatientToEncounter(searchText1)"
+                                     md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number+' '+item.mobile_number"
+                                     md-selected-item-change="getReferrals(item)"
+                                     md-floating-label="Search  Patient using MRN "
+                                     md-min-length="3" md-autofocus>
+                        <md-item-template>
+                            <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}</span>
+                        </md-item-template>
+                    </md-autocomplete>
+                </div>
+            </form>
+<div layout="row">
+
+
+
+
+                    <md-input-container >
+
+                        <input ng-model="pef.start_date" placeholder="Choose Start Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <input ng-model="pef.end_date" placeholder="Choose End Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="getReferrals(pef)">Search</md-button>
+
+                    </md-input-container>
+                    <hr>
+                </div>
+                     
+<div class="row">
+                                            <div class="col-xs-12" ><br>
+                                                <div class="col-xs-6">
+                                                    <input type="text" ng-model="search">
+                                                    <table>
+                                                        <tr ng-repeat="referal in referrals | filter:search track by $index">
+                                                            <th>{{$index+1}}</th>
+                                                            <th class="btn btn-success" ng-click="getReferralDetails(referal)">{{referal.name}} ({{referal.reg}}) ||
+                                                              
+                                                             <b class="badge badge"></b> {{referal.referral_code}}
+
+                                                            </th>
+                                                        </tr>
+                                                    </table> 
+                                                </div>
+                                                <div class="col-xs-6" ng-if="referrals.length>0 &&refdata.id && referral_code=='OUTGOING'" >
+                                                    <!--reserved for printings-->
+ <a ng-click="PrintContent1();" title="Print"   class="no-print pull-right "><b class="glyphicon glyphicon-print "></b>  </a>
+    
+
+<div id="refId">
+  
+   <table border="1">
+
+<tr style="text-allign:center">
+  <th colspan="4">MINISTRY OF HEALTH COMMUNITY DEVELOPMENT,GENDER,ELDERLY AND CHILDREN</th>
+</tr>
+
+<tr style="text-allign:center">
+  <th colspan="4">{{cardTitle.facility_name}} {{cardTitle.description}} &nbsp; 
+    <P></P>
+    REFERRAL FORM  To {{refdata.facility_name}}  {{refdata.facility_type}}
+    <p></p>
+ HospitalNo: &nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_code}}<p></p>
+       Address:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_address}} <p></p>
+        City:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].council_name}} <p></p>
+        Phone#:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].mobile_number}} <p></p>
+        Email#:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_email}} <p></p>
+  </th>
+   
+</tr>
+<tr>
+  <th >
+    Name: &nbsp;{{refdata.name}} <p>  </p>
+    Age: &nbsp; {{refdata.age}}<p>  </p>
+    Date: &nbsp; {{refdata.referral_date}}<p>  </p>
+    Time: &nbsp; {{refdata.referral_time}}<p>  </p>
+  </th>
+   <th >
+    Reg: &nbsp;{{refdata.reg}} <p>  </p>
+    
+   <p>  </p>
+  </th>
+   <th colspan="2">
+    Gender: &nbsp;{{refdata.gender}} <p>  </p>
+    District: &nbsp;{{loginUserFacilityDetails[0].council_name}} <p>  </p>
+   <p>  </p>
+  </th>
+</tr>
+
+<tr>
+  <th>Diagnosis</th>
+  <th colspan="3">{{refdata.diagnosis}}</th>
+</tr>
+
+<tr>
+  <th>Temperature: &nbsp;{{refdata.temperature}}</th>
+  <th>Heart Rate: &nbsp;{{refdata.heart_rate}}</th>
+  <th>Respiratory Rate: &nbsp;{{refdata.respiratory_rate}}</th>
+  <th>Blood Pressure: &nbsp;{{refdata.bp}}</th>
+   
+</tr>
+
+<tr>
+  <th>Mental Status(Circle): &nbsp;{{refdata.mental_status}}</th>
+  <th colspan="3">Alert: &nbsp;{{refdata.alert}}</th>
+  
+</tr>
+
+<tr>
+  <th colspan="4">Patient History: &nbsp;{{refdata.history}}</th>
+</tr>
+<tr>
+  <th colspan="4">Chronic Education: &nbsp;{{refdata.chronic_ediction}}</th>
+</tr>
+
+<tr>
+  <th colspan="4">Pertinent Examination Findings: &nbsp;{{refdata.pertinent}}</th>
+</tr>
+
+<tr>
+  <th colspan="2">Lab Results: &nbsp;{{refdata.lab_result}}</th>
+  <th colspan="2">Radiology Results: &nbsp;{{refdata.radiology_result}}</th>
+</tr>
+<tr>
+  <th colspan="4">Treatment rendered prior to trnasfer :&nbsp;{{refdata.treatment}}</th>
+</tr>
+<tr>
+  <th colspan="4">Medical Reason for trnasfer :&nbsp;{{refdata.summary}}</th>
+</tr>
+<tr>
+  <th colspan="2">Doctor Name: &nbsp;{{loginUserFacilityDetails[0].name}}</th>
+  <th colspan="2">Phone Number: &nbsp;{{loginUserFacilityDetails[0].mobile_number}}</th>
+</tr>
+<tr>
+  <th colspan="4">To facilitate transfer of care, call: &nbsp;{{refdata.contact_person}}</th>
+</tr>
+ </table>
+</div>
+</div>
+                                                   
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        </vertical-tab-pane>
+
+                            <vertical-tab-pane title="Incoming Referral summary">
+  <md-input-container >
+
+                        <input ng-model="pef.start_date" placeholder="Choose Start Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <input ng-model="pef.end_date" placeholder="Choose End Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="getReferrals(pef)">Search</md-button>
+
+                    </md-input-container>
+                     <md-input-container ng-if="incomings.length>0">
+                        <md-button class="md-raised md-primary" title="Print"  ng-click="PrintContent1()">Print</md-button>
+
+                    </md-input-container>
+                    <b ng-if="referrals.length==0" style="color: red"> No data found</b>
+ <div >
+ 
+<md-radio-group layout="row" title="What Report view you want to See" ng-model="data.incoming" class="no-print pull-right ">
+                    <md-radio-button value="summary" class="md-primary">Summary </md-radio-button>
+                    <md-radio-button value="list" class="md-primary">List </md-radio-button>
+                    <md-radio-button value="all" class="md-primary">Both </md-radio-button>
+                </md-radio-group>
+
+ </div>
+                    <p></p>
+                    <hr>
+
+                    <div id="refId">
+                   
+  <table border="1" ng-if="data.incoming == 'summary' || data.incoming=='all'">
+                      <tr style="text-align: center;">
+                        <th colspan="8">INCOMING REFERRAL SUMMARY</th>
+                      </tr>
+                      <tr>
+                        <th>s/n</th>
+                        <th>ReferredFrom</th>
+                        <th>Number</th>
+                      </tr>
+                      <tr ng-repeat="referal in referralsin track by $index">
+                        <td >{{$index+1}}</td>
+                        <td >{{referal.facility_name}} {{referal.facility_type}}  </td>
+                        <td >{{referal.total}}</td>
+                          </tr>
+                          <tr>
+                         <th ></th>
+                        <th >Total</th>
+                        <th  >{{totalIn}}</th>
+                      </tr>
+                    </table>
+
+                    <table border="1" ng-if="data.incoming == 'list' || data.incoming=='all'">
+                      <tr style="text-align: center;">
+                        <th colspan="8">INCOMING REFERRAL LIST</th>
+                      </tr>
+                      <tr>
+                        <th>s/n</th>
+                        <th>Patient</th>
+                        <th>ReferredFrom</th>
+                        <th>Gender</th> 
+                        <th>Age</th> 
+                        <th>Referraldate</th>
+                      </tr>
+                      
+                      <tr ng-repeat="referal in incomings track by $index">
+                        <td >{{$index+1}}</td>
+                        <td >{{referal.name}}  {{referal.reg}}</td>
+                        <td >{{referal.facility_name}} {{referal.facility_type}} </td>
+                        <td >{{referal.gender}}  </td> 
+                        <td >{{referal.age}}  </td> 
+                        
+                        <td >{{referal.referral_date}}  </td>
+
+                      </tr>
+                    </table>
+                  </div>
+                
+                            </vertical-tab-pane>
+
+<vertical-tab-pane title="Outgoing summary">
+ 
+                    <md-input-container >
+
+                        <input ng-model="pef.start_date" placeholder="Choose Start Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <input ng-model="pef.end_date" placeholder="Choose End Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="getReferrals(pef)">Search</md-button>
+
+                    </md-input-container>
+                     <md-input-container ng-if="referrals.length>0">
+                        <md-button class="md-raised md-primary" title="Print"  ng-click="PrintContent1()">Print</md-button>
+
+                    </md-input-container>
+                    <b ng-if="referrals.length==0" style="color: red"> No data found</b>
+ <div >
+ 
+<md-radio-group layout="row" title="What Report view you want to See" ng-model="data.incoming" class="no-print pull-right ">
+                    <md-radio-button value="summary" class="md-primary">Summary </md-radio-button>
+                    <md-radio-button value="list" class="md-primary">List </md-radio-button>
+                    <md-radio-button value="all" class="md-primary">Both </md-radio-button>
+                </md-radio-group>
+
+ </div>
+                    <p></p>
+                    <hr>
+
+                    <div id="refId">
+                   
+  <table border="1" ng-if="data.incoming == 'summary' || data.incoming=='all'">
+                      <tr style="text-align: center;">
+                        <th colspan="8">OUTGOING REFERRAL SUMMARY</th>
+                      </tr>
+                      <tr>
+                        <th>s/n</th>
+                        <th>ReferredTo</th>
+                        <th>Number</th>
+                      </tr>
+                      <tr ng-repeat="referal in referralsout track by $index">
+                        <td >{{$index+1}}</td>
+                        <td >{{referal.facility_name}}  {{referal.facility_type}}</td>
+                        <td >{{referal.total}}</td>
+
+                          </tr>
+                           <tr>
+                        <th ></th>
+                        <th >Total</th>
+                        <th >{{totalOut}}</th>
+                      </tr>
+                    </table>
+
+                    <table border="1" ng-if="data.incoming == 'list' || data.incoming=='all'">
+                      <tr style="text-align: center;">
+                        <th colspan="8">OUTGOING REFERRAL LIST</th>
+                      </tr>
+                      <tr>
+                        <th>s/n</th>
+                        <th>Patient</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>ReferredTo</th>
+                        <th>Diagnosis</th>
+                        <th>Reason</th>
+                        <th>Referraldate</th>
+                      </tr>
+                      <tr ng-repeat="referal in referrals track by $index">
+                        <td >{{$index+1}}</td>
+                        <td >{{referal.name}}  {{referal.reg}}</td>
+                        <td >{{referal.gender}}  </td>
+                        <td >{{referal.age}}  </td>
+                        <td >{{referal.facility_name}}  {{referal.facility_type}}</td>
+                        <td >{{referal.diagnosis}}  </td>
+                        <td >{{referal.summary}}  </td>
+                        <td >{{referal.referral_date}}  </td>
+
+                      </tr>
+                    </table>
+                  </div>
+                            </vertical-tab-pane>
+                          </vertical-tabs>
+                     
+        </md-tab>
+
+
+
+        <md-tab label="Patient History">
+            <form  name="searchForm1">
+                <div layout-gt-sm="row">
+                    <md-autocomplete flex  flex
+                                     md-search-text="searchText1"
+                                     md-input-name="reattendance_patients"
+                                     md-no-cache="true"
+                                     md-clear-button="true"
+                                     md-items="item in getPatientToEncounter(searchText1)"
+                                     md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number+' '+item.mobile_number"
+                                     md-selected-item-change="getVisits(item)"
+                                     md-floating-label="Search  Patient using MRN "
+                                     md-min-length="3" md-autofocus>
+                        <md-item-template>
+                            <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}</span>
+                        </md-item-template>
+                    </md-autocomplete>
+                </div>
+            </form>
+<strong ng-if="patientsVisits && patientsVisits.length<1">No data Found....</strong>
+
+            <md-content  ng-if="selectedPatient && patientsVisits.length>0">
+                <div layout="row">
+                    <div flex="20">
+                        <md-list style="color:white;font-weight:700">
+                            <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getPatientReport(vt)" class="md-1-line" ng-repeat="vt in patientsVisits">
+                                {{vt.created_at}}
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex="80">
+                        <md-card>
+                            <md-card-content>
+                                <p>{{selectedPatient.first_name}}
+                                    {{selectedPatient.middle_name}}
+                                    {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+                                    {{"MRN: "+selectedPatient.medical_record_number}}                                                               {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                                    {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                                    {{"Age: "+selectedPatient.dob}}</p>
+                                <v-accordion class="vAccordion--default">
+                                    <v-pane>
+                                        <v-pane-header>
+                                            OPD History
+                                        </v-pane-header>
+
+                                        <v-pane-content>
+
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                                <thead>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+                                                <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                                <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-if="vitals.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Vital signs</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="vt in vitals" ng-if="vitals.length>0">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.vital_name}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{vt.vital_sign_value}} &nbsp; {{vt.si_unit}}
+                                                    </td>
+                                                    <td>Staff names: {{vt.name}} | {{vt.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevHistory.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Complaints</strong></td>
+
+                                                </tr>
+                                                <tr ng-if="!ph.admission_id" ng-repeat="ph in prevHistory">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{ph.status}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{ph.description+' since '+ph.duration+' '+ph.duration_unit}}
+                                                        <br>
+                                                    </td>
+                                                    <td>Staff names: {{ph.name}} | {{ph.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="!ot.admission_id" ng-repeat="ot in otherComplaints">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"><span>Other Complaints</span></td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{ot.other_complaints}}
+                                                    </td>
+                                                    <td>Staff names: {{ot.name}} | {{ot.prof_name}}</td>
+                                                </tr>
+
+                                                <tr ng-if="!h.admission_id" ng-repeat="h in hpi">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"><span>History of Presenting Illness</span></td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{h.hpi}}
+                                                    </td>
+                                                    <td>Staff names: {{h.name}} | {{h.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevRos.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Review of systems</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="ros in prevRos" ng-if="!ros.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{ros.status}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{ros.name}}
+                                                    </td>
+                                                    <td>Staff names: {{ros.user_name}} | {{ros.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="!summary.admission_id" ng-repeat="summary in prevRosSummary">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"><span>RoS summary</span></td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{summary.review_summary}}
+                                                    </td>
+                                                    <td>Staff names: {{summary.name}} | {{summary.prof_name}}</td>
+                                                </tr>
+
+                                                <tr ng-if="allergies[0].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Allergies</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="allergy in allergies[0]" ng-if="!allergies[0].admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.status}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{allergy.descriptions}}</td>
+                                                    <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="allergies[1].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Past medical history</strong></td>
+                                                </tr>
+                                                <tr ng-if="!allergy.admission_id" ng-repeat="allergy in allergies[1]">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.surgeries}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.admissions}}</td>
+                                                    <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="!allergy.admission_id" ng-repeat="allergy in allergies[1]">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.transfusion}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.immunisation}}</td>
+                                                    <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevFamily.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Family and Social History</strong></td>
+                                                </tr>
+                                                <tr ng-if="prevFamily.length>0">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">Family and social
+                                                        history</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{prevFamily[0].chronic_illness}}.{{prevFamily[0].substance_abuse}}. <br>                                                                    {{prevFamily[0].adoption}}.{{prevFamily[0].others}}
+                                                    </td>
+                                                    <td>Staff names: {{prevFamily[0].name}} | {{prevFamily[0].prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevGen.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>General examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="!gn.admission_id" ng-repeat="gn in prevGen">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">General examination</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{gn.gen_examination}}
+                                                    </td>
+                                                    <td>Staff names: {{gn.name}} | {{gn.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevLocal.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Local examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="!lc.admission_id" ng-repeat="lc in prevLocal">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">Local examination</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{lc.local_examination}}
+                                                    </td>
+                                                    <td>Staff names: {{lc.name}} | {{lc.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevSystemic.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Systemic examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="!sys.admission_id" ng-repeat="sys in prevSystemic">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sys.system}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{sys.category +' - '+ sys.observation}}
+                                                    </td>
+                                                    <td>Staff names: {{sys.name}} | {{sys.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevOtherSystemic.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Other systemic examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="!sys.admission_id" ng-repeat="sys in prevOtherSystemic">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sys.system}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{sys.other_systems_summary}}
+                                                    </td>
+                                                    <td>Staff names: {{sys.name}} | {{sys.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevSummary[0].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Systemic examination summary</strong></td>
+                                                </tr>
+                                                <tr ng-if="!prevSummary[0].admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">Systemic examination summary</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{prevSummary[0].summary_examination}}
+                                                    </td>
+                                                    <td>Staff names: {{prevSummary[0].name}} | {{prevSummary[0].prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevDiagnosis.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Diagnosis</strong></td>
+                                                </tr>
+                                                <tr ng-repeat=" diag in prevDiagnosis" ng-if="!diag.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{diag.status}}
+                                                    </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{diag.description}}
+                                                    </td>
+                                                    <td>Staff names: {{diag.name}} | {{diag.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="labInvestigationsz.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Investigations</strong></td>
+                                                </tr>
+                                                <tr ng-repeat=" lb in labInvestigationsz" ng-if="!lb.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{lb.item_name}} </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{lb.description+' '+lb.unit}}
+                                                    </td>
+                                                    <td>Staff names: {{lb.name}} | {{lb.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-repeat=" rd in radiologyResults" ng-if="!rd.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{rd.item_name}} </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{rd.description}}
+                                                    </td>
+                                                    <td>Staff names: {{rd.name}} | {{rd.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevMedicines[0].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Medications</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="med in prevMedicines[0]" ng-if="!med.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{med.item_name}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{med.dose}},
+                                                        {{med.frequency}},{{'for '+ med.duration}}</td>
+                                                    <td>Staff names: {{med.name}} | {{med.prof_name}}</td>
+
+                                                </tr>
+                                                <tr ng-if="prevMedicines[1].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Conservative management</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="med in prevMedicines[1]" ng-if="!med.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;" ng-if="med.conservatives !=null">
+                                                    </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{med.conservatives}}</td>
+                                                    <td ng-if="med.conservatives !=null">Staff names: {{med.name}} | {{med.prof_name}}</td>
+
+                                                </tr>
+                                                <tr ng-if="pastProcedures.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Procedures</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="pro in pastProcedures" ng-if="!pro.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{pro.item_category}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{pro.item_name}}</td>
+                                                    <td>Staff names: {{pro.name}} | {{pro.prof_name}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </v-pane-content>
+                                    </v-pane>
+                                    <v-pane>
+                                        <v-pane-header>
+                                            IPD History
+                                        </v-pane-header>
+                                        <v-pane-content>
+
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                                <thead>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+                                                <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                                <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-if="vitals.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Vital signs</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="vt in vitals" ng-if="vitals.length>0">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.vital_name}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{vt.vital_sign_value}} &nbsp; {{vt.si_unit}}
+                                                    </td>
+                                                    <td>Staff names: {{vt.name}} | {{vt.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevHistory.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Complaints</strong></td>
+
+                                                </tr>
+                                                <tr ng-if="ph.admission_id" ng-repeat="ph in prevHistory">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{ph.status}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{ph.description+' since '+ph.duration+' '+ph.duration_unit}}
+                                                        <br>
+                                                    </td>
+                                                    <td>Staff names: {{ph.name}} | {{ph.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="ot.admission_id" ng-repeat="ot in otherComplaints">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"><span>Other Complaints</span></td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{ot.other_complaints}}
+                                                    </td>
+                                                    <td>Staff names: {{ot.name}} | {{ot.prof_name}}</td>
+                                                </tr>
+
+                                                <tr ng-if="h.admission_id" ng-repeat="h in hpi">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"><span>History of Presenting Illness</span></td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{h.hpi}}
+                                                    </td>
+                                                    <td>Staff names: {{h.name}} | {{h.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevRos.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Review of systems</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="ros in prevRos" ng-if="ros.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{ros.status}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{ros.name}}
+                                                    </td>
+                                                    <td>Staff names: {{ros.user_name}} | {{ros.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="summary.admission_id" ng-repeat="summary in prevRosSummary">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"><span>RoS summary</span></td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{summary.review_summary}}
+                                                    </td>
+                                                    <td>Staff names: {{summary.name}} | {{summary.prof_name}}</td>
+                                                </tr>
+
+                                                <tr ng-if="allergies[0].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Allergies</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="allergy in allergies[0]" ng-if="allergy.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.status}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{allergy.descriptions}}</td>
+                                                    <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="allergies[1].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Past medical history</strong></td>
+                                                </tr>
+                                                <tr ng-if="allergy.admission_id" ng-repeat="allergy in allergies[1]">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.surgeries}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.admissions}}</td>
+                                                    <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="allergy.admission_id" ng-repeat="allergy in allergies[1]">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.transfusion}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{allergy.immunisation}}</td>
+                                                    <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevFamily.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Family and Social History</strong></td>
+                                                </tr>
+                                                <tr ng-if="prevFamily.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">Family and social
+                                                        history</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{prevFamily[0].chronic_illness}}.{{prevFamily[0].substance_abuse}}. <br>                                                                    {{prevFamily[0].adoption}}.{{prevFamily[0].others}}
+                                                    </td>
+                                                    <td>Staff names: {{prevFamily[0].name}} | {{prevFamily[0].prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevGen.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>General examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="gn.admission_id" ng-repeat="gn in prevGen">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">General examination</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{gn.gen_examination}}
+                                                    </td>
+                                                    <td>Staff names: {{gn.name}} | {{gn.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevLocal.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Local examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="lc.admission_id" ng-repeat="lc in prevLocal">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">Local examination</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{lc.local_examination}}
+                                                    </td>
+                                                    <td>Staff names: {{lc.name}} | {{lc.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevSystemic.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Systemic examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="sys.admission_id" ng-repeat="sys in prevSystemic">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sys.system}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{sys.category +' - '+ sys.observation}}
+                                                    </td>
+                                                    <td>Staff names: {{sys.name}} | {{sys.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevOtherSystemic.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Other systemic examination</strong></td>
+                                                </tr>
+                                                <tr ng-if="sys.admission_id" ng-repeat="sys in prevOtherSystemic">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sys.system}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{sys.other_systems_summary}}
+                                                    </td>
+                                                    <td>Staff names: {{sys.name}} | {{sys.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevSummary[0].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Systemic examination summary</strong></td>
+                                                </tr>
+                                                <tr ng-if="prevSummary[0].admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">Systemic examination summary</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{prevSummary[0].summary_examination}}
+                                                    </td>
+                                                    <td>Staff names: {{prevSummary[0].name}} | {{prevSummary[0].prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevDiagnosis.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Diagnosis</strong></td>
+                                                </tr>
+                                                <tr ng-repeat=" diag in prevDiagnosis" ng-if="diag.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{diag.status}}
+                                                    </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{diag.description}}
+                                                    </td>
+                                                    <td>Staff names: {{diag.name}} | {{diag.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="labInvestigationsz.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Investigations</strong></td>
+                                                </tr>
+                                                <tr ng-repeat=" lb in labInvestigationsz" ng-if="lb.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{lb.item_name}} </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{lb.description+' '+lb.unit}}
+                                                    </td>
+                                                    <td>Staff names: {{lb.name}} | {{lb.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-repeat=" rd in radiologyResults" ng-if="rd.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{rd.item_name}} </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{rd.description}}
+                                                    </td>
+                                                    <td>Staff names: {{rd.name}} | {{rd.prof_name}}</td>
+                                                </tr>
+                                                <tr ng-if="prevMedicines[0].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Medications</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="med in prevMedicines[0]" ng-if="med.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{med.item_name}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{med.dose}},
+                                                        {{med.frequency}},{{'for '+ med.duration}}</td>
+                                                    <td>Staff names: {{med.name}} | {{med.prof_name}}</td>
+
+                                                </tr>
+                                                <tr ng-if="prevMedicines[1].length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong> vative management</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="med in prevMedicines[1]" ng-if="med.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;" ng-if="med.conservatives !=null">
+                                                    </td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;" ng-if="med.conservatives !=null">{{med.conservatives}}</td>
+                                                    <td ng-if="med.conservatives !=null">Staff names: {{med.name}} | {{med.prof_name}}</td>
+
+                                                </tr>
+                                                <tr ng-if="pastProcedures.length>0">
+                                                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                        <strong>Procedures</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="pro in pastProcedures" ng-if="pro.admission_id">
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{pro.item_category}}</td>
+                                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                        {{pro.item_name}}</td>
+                                                    <td>Staff names: {{pro.name}} | {{pro.prof_name}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </v-pane-content>
+                                    </v-pane>
+                                </v-accordion>
+                            </md-card-content>
+                        </md-card>
+
+                    </div>
+                </div>
+            </md-content>
+
+        </md-tab>
+
+        <md-tab label="Diagnosis">
+            <md-content>
+                <center> <h5 class="text-center">DIAGNOSIS LIST</h5></center>
+                <hr>
+                <div layout="row">
+
+
+
+
+                    <md-input-container >
+
+                        <input ng-model="pef.start_date" placeholder="Choose Start Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <input ng-model="pef.end_date" placeholder="Choose End Date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="DiagnosisLIstDATA(pef)">Search</md-button>
+
+                    </md-input-container>
+                    <md-input-container ng-if="diagnoses.length>0">
+                        <md-button class="md-raised md-primary" ng-click="printDiagnosis(pef)">PRINT</md-button>
+
+                    </md-input-container>
+
+                    <md-input-container >
+                        <input type="text" class="pull-right" ng-model="selectedConfirmed" typeahead-on-select="DiagnosisLIstDATA1(selectedConfirmed)"
+                               placeholder="Type ICD code or diagnosis to  Search"
+                               uib-typeahead="conf as conf.description+' '+conf.code for conf in showDiagnosis($viewValue) | filter:$viewValue | limitTo:30">
+
+                    </md-input-container>
+
+                </div>
+                <hr>
+                <md-input-container >
+                    <input ng-model="search"  placeholder="Quick Filtering.." />
+                </md-input-container>
+                <div id="diagnosis_id" >
+
+
+                    <table class="table-responsive"  style="border:thin solid black; width:100%">
+                        <caption>DIAGNOSIS LIST</caption>
+                        <tr  style="background-color:#c1c1c1">
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">SN</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Diagnosis</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">DiagnosisStatus</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Medical Record Number</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">StaffName/DR/Practitioner</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Designation</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">visitDate</th>
+
+
+                        </tr>
+
+                        <tbody>
+                        <tr ng-repeat="tracer in diagnoses |filter:search track by $index" >
+
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{$index +1}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{tracer.description}}({{tracer.code}})</td>
+
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{tracer.status}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{tracer.medical_record_number}}</td>
+
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{tracer.name}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{tracer.proffesion}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{tracer.created_at}}</td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </md-content>
+        </md-tab>
+
+        <md-tab label="Tracing">
+            <md-content>
+                <center> <h5 class="text-center">PATIENTS TRACKING PANEL</h5></center>
+                <hr>
+                <div layout="row">
+                    <div flex="50">
+                        <md-input-container >
+                            <input ng-model="search"  placeholder="Quick Filtering.." />
+                        </md-input-container>
+                    </div> <div flex="50">
+
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="Patient_tracer(pef)">Search</md-button>
+
+                    </md-input-container>
+
+                </div>
+                </div>
+                <div layout="row">
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"  >
+                        <thead style="background-color:beige">
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">SN</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Medical Record Number</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Patient Names</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Date Attended</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Action</th>
+
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="tracer in tracer_lists |filter:search track by $index" title="Tracing... {{tracer.patient_names}}">
+
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{$index +1}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{tracer.medical_record_number}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{tracer.patient_names}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{tracer.created_at}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;" ><md-button class="md-primary md-raised" ng-click="View_patient_flow(tracer)">Trace</md-button></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </md-content>
+        </md-tab>
+    <md-tab label="NHIF Serviced Clients">
+
+        <div layout="row">
+            <div flex="50">
+                <md-input-container >
+                    <input ng-model="search"  placeholder="Quick Filtering.." />
+                </md-input-container>
+            </div> <div flex="50">
+
+            <md-input-container >
+                <label>Choose Start Date</label>
+                <input ng-model="pef.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container >
+                <label>Choose End Date</label>
+                <input ng-model="pef.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="Patient_nhif_tracer(pef)">Search</md-button>
+
+            </md-input-container>
+
+        </div>
+        </div>
+        <div layout="row">
+            <!--<button export-to-csv>Download</button>-->
+
+
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                <thead style="background-color:beige">
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">SN</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Medical Record Number</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Patient Names</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Action</th>
+
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="nhif_tracer in nhif_tracer_lists |filter:search track by $index" title="Tracing... {{nhif_tracer.patient_names}}">
+
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{$index +1}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{nhif_tracer.medical_record_number}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{nhif_tracer.patient_names}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;" ><button class="" ng-click="Patient_nhif_service_tracer(nhif_tracer,pef)">View services</button></td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </md-tab>
+
+    <md-tab label="Demographic Details">
+        <p></p>
+        <div layout="row">
+            <div flex="50">
+                <md-input-container >
+                    <input ng-model="search"  placeholder="Quick Filtering.." />
+                </md-input-container>
+            </div> <div flex="50">
+
+            <md-input-container >
+                <label>Choose Start Date</label>
+                <input ng-model="pef.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container >
+                <label>Choose End Date</label>
+                <input ng-model="pef.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="demographicDetails(pef)">load data</md-button>
+
+            </md-input-container>
+
+        </div>
+        </div>
+
+        <hr>
+        <div style="overflow-x:scroll" >
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" >
+                <thead style="background-color:beige">
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">SN</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">FirstName</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MiddleName</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">LastName</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Gender</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">D.O.B</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Residence</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Mobile #</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">NextOfKIn</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">NextOfKInContact</th>
+                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">RelationShip</th>
+
+
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="demogr in demographs |filter:search track by $index" >
+
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{$index +1}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{demogr.first_name}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{demogr.middle_name}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{demogr.last_name}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{demogr.gender}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{demogr.dob}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{demogr.residence_name}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{demogr.mobile_number}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{demogr.next_of_kin_name}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{demogr.nex_mobile_number}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{demogr.relationship}}</td>
+
+
+                </tr>
+
+                </tbody>
+
+        </table>
+
+        </div>
+
+
+    </md-tabs>

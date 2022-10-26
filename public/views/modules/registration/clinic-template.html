@@ -1,0 +1,33 @@
+<md-dialog flex="100" ng-controller="patientController">
+    <form autocomplete="off">
+        <md-toolbar class="md-dialog-header">
+            <div class="md-toolbar-tools">
+                <h5 style="text-align: right;">
+                    <ng-md-icon icon="account_circle" size="40"
+                                style="fill: white"></ng-md-icon>
+                    <h3> {{patientData[0].first_name}} {{patientData[0].last_name}}
+                        ({{patientData[0].medical_record_number}})</h3>
+                    <span flex></span>
+                    <md-button class="pull-right" class="md-icon-button" ng-click="cancel()">
+                        <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+                    </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <md-content class="md-padding">
+                <div  class="row">
+                    <md-button style="padding: 0px 48px; margin-left: 20px" class="md-raised"  ng-click="enterEncounter(patientData[0],residences,encounter,patientData[0].id,1)">
+                        <span style="align-content: center"> OPD</span>
+                    </md-button>
+                    <div ng-repeat="item in departments" class="col-sm-3">
+                        <md-button style="padding: 0px 49px;"  class="md-raised" ng-click="enterEncounter(patientData[0],residences,encounter,patientData[0].id,item.id)">
+
+                            <span style="align-content: center"> {{item.department_name }}</span></md-button>
+                    </div>
+                </div>
+            </md-content>
+            </md-content>
+        </md-dialog-content>
+    </form>
+</md-dialog>

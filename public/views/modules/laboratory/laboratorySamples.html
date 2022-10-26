@@ -1,0 +1,341 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span></span>SAMPLE TESTING DASHBOARD</h4>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row hidden-print">
+                        <ul class="nav nav-tabs nav-justified" >
+
+                        <li ng-class="{active: isSet(1) }">
+                                <a href ng-click="setTabSamplesProcessor(1)">Sample Testing</a></li>
+                        <li ng-class="{active: isSet(2) }">
+						<a href ng-click="setTabResultsAprrove(2)">Approve Results</a></li>
+                        <li ng-class="{active: isSet(3) }">
+                        <a href ng-click="setTabRejectSample(3)"><span >Rejected Sample</span></a></li>
+                        <li ng-class="{active: isSet(4) }">
+						<a href ng-click="setTabResultsAprrove(4)">Approved Results</a></li>
+                        <li ng-class="{active: isSet(5) }">
+						<a href ng-click="setTab(5)">Reports</a></li>
+                        </ul>
+          <br>
+          <br>
+                            </div>
+                        <div class="row">
+
+                            <div ng-show="isSet(4)">
+
+                                <div class="col-md-12">
+
+                                    <div class="">
+                                        <form  >
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-lg">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <br>
+
+
+
+                                    <div class="col-sm-4"  ng-repeat="approvedResult in  approvedResults">
+                                                            <span >  <span class="mdl-chip mdl-chip--contact mdl-chip--deletable">
+        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">A</span>
+    <span class="mdl-chip__text"  >{{approvedResult.first_name}} {{approvedResult.middle_name}} {{approvedResult.last_name}} ({{approvedResult.sample_no}})</span></span>
+                                                          </span>
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                        </div>
+
+
+                            <div ng-show="isSet(3)">
+
+                                <div class="col-md-12">
+
+                                    <form  >
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Search  for Rejected Sample" class="form-control input-lg">
+                                            <div class="input-group-btn">
+                                                <button ng-click="getLabTestRequests()" class="btn btn-lg btn-success" type="submit">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <br><br>
+
+                                    <div class="col-md-12">
+                                                            <span ng-repeat="cancelledSample in cancelledSamples" ng-click="reCollectTestRequests(cancelledSample)">  <span class="mdl-chip mdl-chip--contact mdl-chip--deletable">
+        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">A</span>
+    <span class="mdl-chip__text"  ><a href="" > {{cancelledSample.first_name}} {{cancelledSample.middle_name}} {{cancelledSample.last_name}} ({{cancelledSample.sample_no}})</a></span></span>
+                                                          </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div ng-show="isSet(5)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">ADMITTED PATIENTS</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">DISCHARGED</div><br>
+
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div ng-show="isSet(1)">
+
+                                <div class="col-md-12">
+                                        <form  >
+                                            <div class="input-group">
+                                                <input type="text" placeholder="Search Sample for Testing" ng-model="sample_number" class="form-control input-lg" >
+                                                <div class="input-group-btn">
+                                                    <button ng-click="getSamplesToTestUsingSampleNo(sample_number)" class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    <br><br>
+                                    <div class="panel-body" ng-if="labDepartmentCollectedSamples.length == 0">
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><span class="fa fa-warning fa-pause fa-3x" style="color: red"></span><b> No any pending sample to test posted right now </b> </li>
+
+                                        </ul>
+                                    </div>
+
+                                    <div class="panel panel-primary">
+                                        <uib-accordion>
+                                            <div uib-accordion-group  ng-repeat="labDepartmentCollectedSample in labDepartmentCollectedSamples | filter:sample_number" class="panel-primary" ng-click="getLabCollectedSample(labDepartmentCollectedSample.sub_department_id)" heading="{{labDepartmentCollectedSample.sub_department_name}}">
+
+
+
+                                                <div class="row">
+                                                    <div class="row">
+
+
+                                                        <div class="col-md-12">
+                                                                    <div ng-if="dataLoading">
+                                                                        <span  class="fa fa-refresh fa-spin fa-4x " title="If the time is too long check your connection" ng-click="generateSampleNumber(getTestRequest.last_name,getTestRequest.sub_department_name,getTestRequest.request_id)"> </span>
+                                                                        Loading Test Information From {{labDepartmentCollectedSample.sub_department_name}}
+                                                                    </div>
+
+                                                            <div class="col-sm-4"  ng-repeat="getLabCollectedSample in getLabCollectedSamples" ng-click="getSamplesToTest(getLabCollectedSample.order_id)">
+                                                            <span >  <span class="mdl-chip mdl-chip--contact mdl-chip--deletable">
+        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">A</span>
+    <span class="mdl-chip__text"  >{{getLabCollectedSample.first_name}} {{getLabCollectedSample.middle_name}} {{getLabCollectedSample.last_name}} ({{getLabCollectedSample.sample_no}})</span></span>
+                                                          </span>
+
+                                                            </div>
+
+
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div ng-show="isSet(2)">
+
+                                <div class="col-md-12">
+
+                                    <form  >
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Search Patient for Results Approve" class="form-control input-lg">
+                                            <div class="input-group-btn">
+                                                <button ng-click="getLabTestRequests()" class="btn btn-lg btn-success" type="submit">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <br><br>
+
+                                    <div class="panel-body" ng-if="verifyLabResults.length == 0">
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><span class="fa fa-warning fa-pause fa-3x" style="color: red"></span><b> No lab results to Approve right now </b> </li>
+
+                                        </ul>
+                                    </div>
+
+                                    <div class="panel panel-primary">
+                                        <uib-accordion>
+                                            <div uib-accordion-group  ng-repeat="verifyLabResult in verifyLabResults" class="panel-primary" ng-click="validateLabResultsPerOrder(verifyLabResult.sub_department_id)" heading="{{verifyLabResult.sub_department_name}}">
+
+
+
+                                                <div class="row">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                                    <div ng-if="dataLoading">
+                                                                        <span  class="fa fa-refresh fa-spin fa-4x " title="If the time is too long check your connection" > </span>
+                                                                        Loading Test Information From {{verifyLabResult.sub_department_name}}
+                                                                    </div>
+
+
+                                                            <div class="col-sm-4"  ng-repeat="validateLabResult in validateLabResults" ng-click="validateLabResultsPerRequest(validateLabResult.order_id)">
+                                                            <span >  <span class="mdl-chip mdl-chip--contact mdl-chip--deletable">
+        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">A</span>
+    <span class="mdl-chip__text"  >{{validateLabResult.first_name}} {{validateLabResult.middle_name}} {{validateLabResult.last_name}} ({{validateLabResult.sample_no}})</span></span>
+                                                          </span>
+
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                                                              </div>
+
+
+
+
+
+
+
+                                                    </div>
+
+
+
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+										
+										
+										
+                                    </div>
+
+
+
+
+
+                                </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

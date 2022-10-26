@@ -1,0 +1,168 @@
+<div>
+    <div style="padding-right: 50px;">
+        <md-content>
+            <md-card>
+                <md-toolbar class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size: 124%" align="center" flex md-truncate>Casualty Registration</h2>
+                    </div>
+                </md-toolbar>
+                <br>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="CASUALTY RECEPTION">
+
+                        <md-content class="md-padding">
+                            <div role="form">
+                                <div>
+                                    <div layout-gt-sm="row">
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                            <label>First name</label>
+                                            <input type="text" ng-model="patient.first_name">
+                                        </md-input-container>
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                            <label>Middle Name</label>
+                                            <input type="text" ng-model="patient.middle_name">
+                                        </md-input-container>
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                            <label>Last Name</label>
+                                            <input type="text" ng-model="patient.last_name">
+                                        </md-input-container>
+                                    </div>
+                                    <div layout="row">
+                                        <md-input-container flex="40">
+                                            <label>Gender</label>
+                                            <md-select ng-model="patient.gender">
+                                                <md-option value="">Please select gender</md-option>
+                                                <md-option value="Male">Male</md-option>
+                                                <md-option value="Female">Female</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container flex="20">
+                                            <label>Date of birth</label>
+                                            <md-datepicker md-max-date="today"	  md-hide-icons="calendar" ng-model="patient.dob" md-open-on-focus
+                                                           ng-Blur="calculateAge(patient,'date')"></md-datepicker>
+                                        </md-input-container>
+                                        <md-input-container flex="40">
+                                            <label>Age</label>
+                                            <input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge(patient,'age')">
+                                        </md-input-container>
+                                        <md-input-container flex="40">
+                                            <label>Unit</label>
+                                            <md-select ng-model="patient.age_unit" ng-Change="calculateAge(patient,'unit')">
+                                                <md-option value="Years" selected="selected">Year(s)</md-option>
+                                                <md-option value="Months">Month(s)</md-option>
+                                                <md-option value="Days">Day(s)</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+                                    <div layout-gt-sm="row">
+                                        <md-autocomplete flex  flex
+                                                         md-search-text="search"
+                                                         md-input-name="patient"
+                                                         md-no-cache="false"
+                                                         md-items="item in getResidence(search)"
+                                                         md-item-text="item.residence_name+' '+item.council_name"
+                                                         md-selected-item-change="selectedResidence(item)"
+                                                         md-floating-label="Search Residence"
+                                                         md-min-length="3" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                            </md-item-template>
+                                        </md-autocomplete>
+                                    </div>
+                                    <md-button style="width: 15%;" class="md-raised md-primary" ng-click="patient_quick_registration(patient,residence)">Quick
+                                        Register
+                                    </md-button>
+                                </div>
+                                <!-- page two -->
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="UPDATING INFORMATION">
+                        <md-content class="md-padding">
+                            <md-content class="md-padding">
+                                <form  name="searchForm">
+                                    <div layout-gt-sm="row">
+                                        <md-autocomplete  flex
+                                                          md-search-text="searchText"
+                                                          md-input-name="patients"
+                                                          md-no-cache="true" md-clear-button="true"
+                                                          md-items="item in getPatients(searchText)"
+                                                          md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                          md-selected-item-change="selectedPatient(item,$event)"
+                                                          md-floating-label="Search Patient "
+                                                          md-min-length="4" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}</span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No  matching found for name "{{searchText}}".
+                                            </md-not-found>
+                                        </md-autocomplete>
+                                    </div>
+                                </form>
+                            </md-content>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="EMERGENCY REPORTS">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2"></h1>
+                            <div layout-gt-sm="row">
+                                <md-input-container flex="30" >
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="rec.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container  flex="30">
+                                    <label>Choose End Date</label>
+                                    <input ng-model="rec.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-click="reportRecord(rec)">Search</md-button>
+                                </md-input-container>
+                            </div>
+                            <table ng-if="reportData.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color: beige">
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">FIRST NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">MIDDLE NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">LAST NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">MEDICAL RECORD NUMBER</th>
+                                    <th class="mdl-data-table__cell--non-numeric">AGE</th>
+                                    <th class="mdl-data-table__cell--non-numeric">DATE ATTENDED</th>
+                                    <th class="mdl-data-table__cell--non-numeric">EMERGENCY TYPE</th>
+                                    <th class="mdl-data-table__cell--non-numeric">EMERGENCY NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">MOBILE PHONE</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="emergencies in reportData">
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.first_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.middle_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.last_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.medical_record_number}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.age}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.date_attended}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.emergency_type}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.emergency_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.mobile_number}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+        </md-content>
+    </div>
+    <div class="md-padding actionButtons" layout="column">
+        <md-fab-speed-dial style="position: fixed; right: 10px; bottom: 100px;" md-open="scope.isOpen" md-direction="up"
+                           class="md-fling md-fab-bottom-right md-hover-full speed-dial">
+            <md-fab-trigger>
+                <md-button aria-label="Menu" class="md-fab md-warn" ng-click="showPrompt($event)" >
+                    <md-tooltip md-direction="down">Emergency Setup</md-tooltip>
+                    <md-icon class="menu-icon" md-svg-src="/svg/emergencyDepartment.svg"></md-icon>
+                </md-button>
+            </md-fab-trigger>
+        </md-fab-speed-dial>
+    </div>
+</div>

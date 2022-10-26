@@ -1,0 +1,48 @@
+<md-dialog >
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row"  layout-align="space-between center">
+    <h1 class="md-display-1">WELCOME TO GoT-HoMIS SETUP</h1>
+
+       
+</div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+                    <md-content class="md-padding">
+                        <div style="min-height:100px;">
+                                                       <div layout="row">
+                               
+                               <p>You are about to make database migration that will results into new system installation</p>
+							    <div ng-if="dataLoading">
+        <img src="/img/wait.gif" width="80px" height="80px"> </img>
+        Proccessing migration in FACILITY SERVER...
+        </div>
+
+                            </div>
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+                                <md-button ng-click="cancel()">
+                                    Cancel
+                                </md-button>
+                                <md-button class="md-raised md-primary"
+               ng-click="migrateDb()">
+                                    Migrate
+                                </md-button>
+                            </section>
+
+                        </div>
+
+
+                    </md-content>
+               
+        </div>
+    </md-dialog-content>
+
+</md-dialog>

@@ -1,0 +1,90 @@
+<md-dialog flex="90">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p>
+                    {{patientData.first_name| uppercase}}
+                    {{patientData.middle_name| uppercase}} {{patientData.last_name| uppercase}} ({{patientData.mrn}})
+
+                </p>
+                
+                
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                  <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="BILLING">
+                        <md-content class="md-padding">
+                             <div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Payment Category</label>
+                              <md-select ng-model="encounter.payment_category"
+                                               ng-change="getPricedItems(encounter.payment_category)">
+                                        <md-option value=""></md-option>
+                                        <md-option ng-repeat="patientCat in patientCategory"
+                                                   value="{{patientCat.patient_category}}">
+                                            {{patientCat.patient_category}}
+                                        </md-option>
+                                    </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Services</label>
+                            <input type="text" autocomplete="off" ng-model="encounter.payment_services"
+                                   uib-typeahead =" patientCat as patientCat.item_name +' '+ patientCat.price for  patientCat in services | filter:$viewValue">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex="50">
+                            <label>Type of Emergency</label>
+                            <md-select placeholder="Type of Emergency" ng-model="encounter.emergency_name" md-on-open="loadEmergency()" style="min-width: 200px;">
+                                <md-option ng-value="user" ng-repeat="user in emergency_list">{{user.emergency_name}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex="50">
+                            <label>Send Patient to</label>
+                            <md-select placeholder="Send Patient To" ng-model="encounter.department" md-on-open="getDepartment()" style="min-width: 200px;">
+                                <md-option ng-value="user" ng-repeat="user in state">{{user.department_name}}</md-option>
+                                <md-option ng-value="user" ng-repeat="user in departments">{{user.department_name}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+<div layout-gt-sm="row">
+                         
+                    <md-input-container flex="50">
+									<label>Is it a Referral?</label>
+									<md-select ng-model="encounter.is_referral">
+										<md-option value="0" selected>No</md-option>
+										<md-option value="1">Yes</md-option>
+									</md-select>
+								</md-input-container>
+								<md-input-container flex="50" ng-if="encounter.is_referral==1">
+									 <input type="text"   placeholder="Search hospital"
+                                        ng-model="encounter.selectedFacility"
+                                                                       uib-typeahead="facility as facility.facility_name for facility in showFacility($viewValue) |filter:$viewValue  ">
+</md-input-container>
+</div>
+  <md-input-container flex="50" >
+                    <md-button class="md-primary md-raised" ng-click="enterEncounter(patientData,encounter)">
+                        ENTER ENCOUNTER
+                    </md-button>
+                </md-input-container>
+                </div>
+                        </md-content>
+                    </md-tab>
+                     
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+
+            <md-button ng-click="cancel()" class="md-primary">
+                close
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

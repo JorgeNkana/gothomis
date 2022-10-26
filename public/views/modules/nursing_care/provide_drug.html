@@ -1,0 +1,65 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> PATIENT NAME: {{itemsPrescribed.patient_name}}
+			&nbsp; &nbsp; &nbsp; &nbsp; WARD:{{itemsPrescribed.ward_name}} &nbsp; &nbsp; BED :{{itemsPrescribed.bed_name}}
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+            
+  
+
+  <md-content layout-padding>
+      <h2 align="centre">DRUG NAME: {{itemsPrescribed.item_name}}</h2>
+
+                
+
+
+                                     <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                              <label>Date Dose Given</label>
+                                     <md-datepicker ng-model="treatment.date_dosage" md-open-on-focus md-hide-icons="calendar"></md-datepicker>
+                                   </md-input-container>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label for="TimeDosage">Time Dose Given</label>
+                                    <input id="mobile_number" type="text" ng-model="treatment.timedosage">
+                                </md-input-container>
+
+
+                                  <md-input-container class="md-block" flex-gt-sm>
+                                    <label for="Remarks">Remarks</label>
+                                    <input id="mobile_number" type="text" ng-model="treatment.remarks">
+                                </md-input-container>
+                            
+                            </div>
+                        
+                                  
+                                    
+                        
+  </md-content>
+
+</div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary"   ng-click="addTreatment(treatment,itemsPrescribed)"  class="md-primary">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

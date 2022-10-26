@@ -1,0 +1,144 @@
+<md-dialog  ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+     
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>
+{{facility_address.facility_name}} {{facility_address.description}}<br/>{{facility_address.address}}
+															</h8></div>
+                                                            <div  class="text-center"><h8> <i> INPUT  FORM</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{SelectedPatient.fullname}} </b>
+                                                            <b class="col-md-4">REG : {{SelectedPatient.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4">DIAGNOSIS:........................... </b>
+                                                            <b class="col-md-4">WARD:{{SelectedPatient.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{SelectedPatient.bed_name}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                        <tr style="background-color:#c1c1c1">
+                                                            <th> DATE</th><th> TIME</th><th> TYPE/IV</th><th>AMOUNT/Mils </th><th> ORAL/FLUIDS  </th> 
+															<th> AMOUNT/Mils</th>
+															<th> NURSE</th>
+															</tr>
+     <tr ng-repeat="Input in Inputs">
+                                                            <td> {{Input.date_recorded}}</td><td> {{Input.time_recorded}}</td><td> {{Input.type_iv}}</td><td>{{Input.amount_iv}} </td><td> {{Input.type_oral}}  </td> <td> {{Input.amount_oral}}</td><td> {{Input.nurse_name}}</td>
+
+															</tr>
+
+
+                                                    </table>
+													  <div layout="row">
+
+                                    <div flex="40">
+
+                                          <md-input-container flex-gt-sm>
+                                              <label>Date</label>
+                                     <md-datepicker ng-model="input_output.date_input" md-open-on-focus   md-hide-icons="calendar"></md-datepicker>
+                                </md-input-container>
+                                   </div>
+                                    <div flex="40">       
+                                          <md-input-container flex-gt>
+                                    <label>Time</label>
+                                   <input type="text" ng-model="input_output.time_input">
+                                </md-input-container>
+                              
+                                    </div>
+
+                                     <div flex="40">       
+                                          								
+								 <md-autocomplete flex required flex
+                                               md-search-text="searchTextP"
+                                               md-input-name="ivFluid"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in searchItem(searchTextP)"
+                                               md-item-text="item.item_name+' '+item.Dose_formulation"
+                                               md-selected-item-change="getSelectedIv(item,$event)"
+                                               md-floating-label="Type/IV"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchTextP">{{item.item_name}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+								
+								
+                              
+                                    </div>
+
+                                     <div flex="40">       
+                                          <md-input-container flex-gt>
+                                    <label>Amount in mils</label>
+                             <input type="number" min='0' 
+							 ng-model="input_output.amount_iv">
+                                </md-input-container>
+                              
+                                    </div>
+
+
+                                     <div flex="40">       
+                                         								
+								<md-autocomplete flex required flex
+                                               md-search-text="searchText"
+                                               md-input-name="oralFluid"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in searchItem(searchText)"
+                                               md-item-text="item.item_name"
+                                               md-selected-item-change="getSelectedOral(item,$event)"
+                                               md-floating-label="ORAL FLUID/DIET"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.item_name}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+								
+                              
+                                    </div>
+
+
+
+                                     <div flex="40">       
+                                          <md-input-container flex-gt>
+                                    <label>AMOUNT(mils)</label>
+                                    <input type="number"  ng-model="input_output.amount_oral" >
+                                </md-input-container>
+                              
+                                    </div>
+
+
+
+                                     
+                                </div>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+			<md-button  class="md-raised md-primary"    ng-click="saveObservationChart(input_output,SelectedPatient)" class="md-primary">
+                Save
+            </md-button>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+    </form>
+</md-dialog>

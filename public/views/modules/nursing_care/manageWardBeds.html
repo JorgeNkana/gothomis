@@ -1,0 +1,152 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3>WARD NAME: {{ward_name}}
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NUMBER OF BEDS:{{beds_number.beds_number}}
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+      
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                        <div layout="row">
+
+                                    <div flex="50">
+
+
+
+
+<div  ng-cloak>
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button
+        class="md-icon-button"
+        aria-label="Settings"
+        ng-click="ctrl.showToolbarMenu($event, ctrl.settings)">
+        <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+      </md-button>
+      <h3> BEDS LIST</h3>
+      <span flex></span>
+      <md-button
+        class="md-icon-button"
+        aria-label="Favorite"
+        ng-click="ctrl.showToolbarMenu($event, ctrl.favorite)">
+        <md-icon md-svg-icon="/svg/favorite.svg"></md-icon>
+      </md-button>
+      <md-button
+        class="md-icon-button"
+        aria-label="More"
+        ng-click="ctrl.showToolbarMenu($event, ctrl.more)">
+        <md-icon md-svg-icon="/svg/more_vert.svg"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-content layout-padding>
+   
+                                       <md-chips>
+                                                    <md-chip ng-repeat="bed in beds" ng-click="getBedDetails(bed.bed_id,bed.ward_id,bed.bed_available)"   style="cursor:pointer;">
+                                                        <strong> {{bed.bed_available}}</strong>
+
+                                                    </md-chip>
+                                                </md-chips>  
+   
+
+  </md-content>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                    <div flex="50">
+                                     
+
+<div  ng-cloak>
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button
+        class="md-icon-button"
+        aria-label="Settings"
+        ng-click="ctrl.showToolbarMenu($event, ctrl.settings)">
+        <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+      </md-button>
+         <h3 align="center">ADD BEDS  </h3>
+      
+      <span flex></span>
+      <md-button
+        class="md-icon-button"
+        aria-label="Favorite"
+        ng-click="ctrl.showToolbarMenu($event, ctrl.favorite)">
+        <md-icon md-svg-icon="/svg/favorite.svg"></md-icon>
+      </md-button>
+        </div>
+  </md-toolbar>
+
+  <md-content layout-padding>
+   
+                                    
+                            <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Bed name</label>
+                                    <input type="text" ng-model="wards.bed_number">
+                                </md-input-container>
+
+                                 <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Bed Type</label>
+                                    <input type="text"ng-model="wards.bed_type" uib-typeahead ="bed_type as bed_type.bed_type for bed_type in showSearchBedTypes($viewValue) | filter:$viewValue">
+                                </md-input-container>
+                                  
+                            </div>
+   
+  </md-content>
+
+</div>
+
+                              
+                                    </div>
+                                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary"   ng-click="addBed(wards,ward_id)"  class="md-primary">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

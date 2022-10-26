@@ -1,0 +1,99 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-md-12 form-box">
+      <form  role="form" class="registration-form" action="javascript:void(0);">
+        <fieldset>
+          <div class="form-top">
+            <div class="form-top-left">
+              <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span> REGISTER STATE/MENU</h3>
+  
+            </div>
+          </div>
+          <div class="form-bottom">
+            <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>STATE NAME*</label>
+                <input type="text" ng-model="modules.module" class="form-control" placeholder="STATE NAME" id="roles">
+              </div>
+              
+			  <div class="form-group col-md-4 col-sm-4">
+                <label>MENU TITLE*</label>
+                <input type="text" ng-model="modules.title" class="form-control" placeholder="MENU TITLE" id="roles">
+              </div>
+			  
+            </div>       
+
+           <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>GLYPHICONS *</label>
+      	  
+ 
+<input type="text" ng-model="modules.glyphicons" uib-typeahead=" icon as icon.icon_name for icon in icons | filter:$viewValue | limitTo:8" class="form-control" placeholder="GLYPHICONS ICONS">
+
+				              </div>
+              
+            </div>      
+			
+           
+ <button type="submit" class="btn btn-success" ng-click="saveModules(modules)">SAVE</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>

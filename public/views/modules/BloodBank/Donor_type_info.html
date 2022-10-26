@@ -1,0 +1,297 @@
+<md-dialog   class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <b> NAME: {{SelectedClient.first_name}} {{SelectedClient.middle_name}} {{SelectedClient.last_name}} MRN: {{SelectedClient.medical_record_number}} GENDER:{{SelectedClient.gender}}<p></p>
+            </b>
+            <i class="pull-right">
+                <div class="md-toolbar-tools"   ng-if="info==''">TAARIFA JUU YA MCHANGIA DAWA<span flex></span></div>
+                <div class="md-toolbar-tools"  ng-if="info=='dodosa'">DODOSO LA MCHANGIA DAMU<span flex></span></div>
+                <div class="md-toolbar-tools"  ng-if="info=='vipimo'">MAJIBU YA VIPIMO NA TATHMINI<span flex></span></div>
+                <div class="md-toolbar-tools"  ng-if="info=='damu'">MATUKIO YA UTOAJI WA DAMU<span flex></span></div>
+            </i>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+<md-input-container class="pull-right ">
+    <label >Choose options</label>
+    <md-select ng-model="info" class="pull-right ">
+        <md-option value="" selected>Taarifa ya Mchangia Damu</md-option>
+        <md-option value="dodosa" >Dodoso kwa mchangia damu</md-option>
+        <md-option value="vipimo"  >Majibu ya Vipimo na tathmini</md-option>
+        <md-option value="damu"  >Utoaji wa damu</md-option>
+
+    </md-select>
+</md-input-container>
+
+
+
+        <div  class="col-md-12" ng-if="info==''">
+            <div class="col-md-4">
+                <md-input-container  >
+                    <label>Namba ya Mchangiaji</label>
+                    <input type="text" ng-model="others.donor_no" required class="md-block"
+                           autocomplete="off" required>
+                </md-input-container>
+            </div>
+            <div class="col-md-4">
+            <md-input-container   >
+                <label>Postal Address</label>
+                <input type="text" ng-model="others.post_address"  class="md-block" 
+                       autocomplete="off"    >
+            </md-input-container>
+</div>
+            <div class="col-md-4">
+            <md-input-container  class="col-md-8">
+                <label>Physical Address</label>
+                <input type="text" ng-model="others.phy_address"  class="md-block" 
+                       autocomplete="off">
+            </md-input-container>
+                </div>
+            <div class="col-md-4">
+            <md-input-container  >
+                <label>Fax</label>
+                <input type="text" ng-model="others.fax"  class="md-block" 
+                       autocomplete="off">
+            </md-input-container>
+                </div>
+            <div class="col-md-4">
+            <md-input-container class="md-block col-md-8">
+                <label>Hali ya Mchangiaji</label>
+                <md-select ng-model="others.donor_condition" required>
+                    <md-option value="Mara ya Kwanza">Mara ya Kwanza</md-option>
+                    <md-option value="Marudio">Marudio</md-option>
+                    <md-option value="Mara kwa Mara">Mara kwa Mara</md-option>
+                    <md-option value="Klabu ya Wachangiaji">Klabu ya Wachangiaji</md-option>
+                    <md-option value="Chama Cha Wachangiaji">Chama Cha Wachangiaji</md-option>
+                </md-select>
+            </md-input-container>
+                </div>
+            <div class="col-md-4">
+            <md-input-container    >
+                <label>Aina ya Mchangiaji</label>
+                <md-select ng-model="others.donor_type" required>
+
+                    <md-option value="vnr">Voluntary Non Remuneration Blood Donor</md-option>
+                    <md-option value="fr">Family Replacement</md-option>
+                    <md-option value="vnrf">Voluntary Non Remuneration Blood Donor from Family Member</md-option>
+                </md-select>
+            </md-input-container>
+</div>
+            <div class="col-md-4">
+            <md-input-container  >
+                <label>Upatikanaji wa Taarifa</label>
+                <md-select ng-model="others.info_availability">
+
+                    <md-option value="Media">Media</md-option>
+                    <md-option value="SMS">SMS</md-option>
+                    <md-option value="Phone Call">Phone Call</md-option>
+                    <md-option value="Conference">Conference</md-option>
+                    <md-option value="Social Media">Social Media</md-option>
+                </md-select>
+            </md-input-container>
+                </div>
+
+            <div class="col-md-4">
+                <md-input-container  >
+                    <label>Mara ya mwisho kuchangia</label>
+                    <md-datepicker md-hide-icons="calendar" ng-model="others.last_donation_date"  class="md-block"
+                           autocomplete="off"></md-datepicker>
+                </md-input-container>
+            </div>
+            <div class="col-md-4">
+                <md-input-container  class="md-block ">
+                    <label>Wapi</label>
+                    <input type="text" ng-model="others.last_donation_place"  class="md-block"
+                           autocomplete="off">
+                </md-input-container>
+            </div>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="col-md-8">
+                <md-button class="md-raised md-primary" ng-click="Donor_type_info(others,SelectedClient.patient_id)">  Register</md-button>
+                <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+            </section>
+
+        </div>
+
+
+        <div  class="col-md-12" ng-if="info=='dodosa'">
+
+            <div class="col-md-3">
+                <md-input-container  class="md-block">
+                    <label>Upatikanaji wa Taarifa</label>
+                    <md-select ng-model="dodoso.info_availability">
+
+                        <md-option value="YES">YES</md-option>
+                        <md-option value="NO">NO</md-option>
+
+                    </md-select>
+                </md-input-container>
+            </div>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="col-md-6">
+                <md-button class="md-raised md-primary" ng-click="Donor_dodoso(dodoso,SelectedClient.patient_id)">  Register</md-button>
+                <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+            </section>
+        </div>
+        <div  class="col-md-12" ng-if="info=='vipimo'">
+
+            <div class="col-md-4">
+                <md-input-container  class="md-block">
+                    <label>Enter HB Result</label>
+                    <input type="text" ng-model="vipimo.hb">
+
+                </md-input-container>
+            </div>
+
+  <div class="col-md-4">
+                <md-input-container  class="md-block">
+                    <label>Enter Body Weight Result</label>
+                    <input type="text" ng-model="vipimo.weight">
+
+                </md-input-container>
+            </div>
+
+            <div class="col-md-4">
+                <md-input-container  class="md-block">
+                    <label>Enter Pulse Rate Result(PR)</label>
+                    <input type="text" ng-model="vipimo.pr">
+
+                </md-input-container>
+            </div>
+  <div class="col-md-4">
+                <md-input-container  class="md-block">
+                    <label>Tathmini ya mwisho ya mchangiaji</label>
+                    <md-select  ng-model="vipimo.evaluation">
+                        <md-option value=""> </md-option>
+                        <md-option value="Mchangiaji amekubali">Mchangiaji amekubali</md-option>
+                        <md-option value="Kuhahirisha kwa mda">Kuhahirisha kwa mda</md-option>
+                        <md-option value="Kuhahirisha kwa kudumu">Kuhahirisha kwa kudumu</md-option>
+                    </md-select >
+
+                </md-input-container>
+            </div>
+            <div class="col-md-4" ng-if="vipimo.evaluation !='Mchangiaji amekubali'">
+                <md-input-container  class="md-block">
+                    <label>Sababu ya kuhahirisha</label>
+                    <md-select  ng-model="vipimo.postpone_reason">
+                        <md-option value="Tiba">Tiba</md-option>
+                        <md-option value="Kiasi kidogo Cha Damu">Kiasi kidogo Cha Damu</md-option>
+                        <md-option value="Umri">Umri</md-option>
+                        <md-option value="Shinikizo la damu">Shinikizo la damu</md-option>
+                        <md-option value="Uzito">Uzito</md-option>
+                        <md-option value="Kijamii">Kijamii</md-option>
+                    </md-select >
+
+                </md-input-container>
+            </div>
+            <div class="col-md-4">
+                <md-input-container  class="md-block">
+                    <label>Mitara</label>
+                    <md-select  ng-model="vipimo.polygamy">
+                        <md-option value="YES">YES</md-option>
+                        <md-option value="NO">NO</md-option>
+
+                    </md-select >
+
+                </md-input-container>
+            </div>
+            <div class="col-md-4" ng-if="vipimo.polygamy=='YES'">
+                <md-input-container  class="md-block">
+                    <label>Idadi Ya Wake</label>
+                    <input  type="text" ng-model="vipimo.wives">
+
+
+                </md-input-container>
+            </div>
+
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="col-md-3">
+                <md-button class="md-raised md-primary" ng-click="Donor_vipimo(vipimo,SelectedClient.patient_id)">  Register</md-button>
+                <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+            </section>
+        </div>
+
+        <div  class="col-md-12" ng-if="info=='damu'">
+
+            <div class="col-md-4">
+                <md-input-container  class="md-block">
+                    <label>Mda wa kuingiza Sindano</label>
+                    <input ng-model="damu.syring_injected_time">
+
+
+                </md-input-container>
+            </div>
+            <div class="col-md-6">
+            <md-input-container  class="md-block">
+                    <label>Mda wa kuchomoa Sindano</label>
+                    <input ng-model="damu.syring_removed_time">
+
+
+                </md-input-container>
+            </div>
+            <div class="col-md-6">
+                <md-input-container  class="md-block">
+                    <label>Utoboaji wa Mshipa wa Vena Haukufanikiwa</label>
+                    <md-select ng-model="damu.vein_success">
+
+                        <md-option value="YES">YES</md-option>
+                        <md-option value="NO">NO</md-option>
+
+                    </md-select>
+                </md-input-container>
+            </div>
+        <div class="col-md-6">
+                <md-input-container  class="md-block">
+                    <label>Kiasi Kidogo cha Damu</label>
+                    <md-select ng-model="damu.little_blood">
+
+                        <md-option value="YES">YES</md-option>
+                        <md-option value="NO">NO</md-option>
+
+                    </md-select>
+                </md-input-container>
+            </div>
+        <div class="col-md-6">
+                <md-input-container  class="md-block">
+                    <label>Utoaji wa Damu Umefanikiwa</label>
+                    <md-select ng-model="damu.donation_success">
+
+                        <md-option value="YES">YES</md-option>
+                        <md-option value="NO">NO</md-option>
+
+                    </md-select>
+                </md-input-container>
+            </div>
+
+        <div class="col-md-6">
+                <md-input-container  class="md-block">
+                    <label>Tukio baya kwa mtoaji</label>
+                    <md-select ng-model="damu.bad_event">
+
+                        <md-option value="Mkusanyiko wa damu">Mkusanyiko wa damu</md-option>
+                        <md-option value="Kupoteza fahamu">Mkusanyiko wa damu</md-option>
+
+
+                    </md-select>
+                </md-input-container>
+
+            </div>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="col-md-3">
+                <md-button class="md-raised md-primary" ng-click="Donor_damu(damu,SelectedClient.patient_id)">  Register</md-button>
+                <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+            </section>
+
+</div>
+
+
+</md-dialog-content>
+    </md-dialog>

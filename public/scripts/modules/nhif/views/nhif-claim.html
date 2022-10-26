@@ -1,0 +1,425 @@
+<style>
+  .md-datepicker-input-container{
+  width:100%;
+  }
+</style>
+        <form autocomplete="off">
+          <div ng-cloak>
+            <md-content>
+              <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Pending Claims">
+                  <md-content class="md-padding">
+                    <md-card>
+                     <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getClaims(pef)">Get Claim</md-button>
+                    </md-input-container>
+                </div>
+              </md-card>
+                  <div layout="row">
+                    
+     
+               <table class="table table-bordered table-striped" ng-if="NhifClaims.length >0">
+              <thead>
+              <tr>
+              <th><span>S/No.</span></th>  
+              <th><span>DATE ATTENDED</span></th>               
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NUMBER</span></th>           
+              <th><span> MEMBERSHIP NAME</span></th>
+               <th><span> FILE NUMBER</span></th>
+               <th><span> CARD NUMBER</span></th>  
+              </tr>           
+              </thead>
+                        <tbody>
+               <tr ng-repeat="NhifClaim in NhifClaims  track by $index"> 
+               <td>{{$index +1}}</td>
+               <td>{{NhifClaim.attended_date}}</td>
+               <td>{{NhifClaim.authorization_number}}</td>
+               <td>{{NhifClaim.membership_number}}</td>
+               <td>{{NhifClaim.first_name+' '+NhifClaim.middle_name+' '+NhifClaim.last_name}}</td>
+               <td>{{NhifClaim.medical_record_number}}</td>
+               <td><a ng-click="openClaimForm(NhifClaim)" style="cursor: pointer;" >{{NhifClaim.card_no}}</a></td>         
+               </tr>
+               </tbody>
+               </table> 
+               </div>            
+        </md-content>
+        </md-tab>
+        <md-tab label="Verified Claims">
+                  <md-content class="md-padding">
+                    <md-card>
+                     <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getVerifiedClaims(pef)">Get Claim</md-button>
+                    </md-input-container>
+                      <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="sendBulkClaim()">Send Bulk</md-button>
+                    </md-input-container>
+                </div>
+              </md-card>
+                  <div layout="row">
+                    
+     
+               <table class="table table-bordered table-striped" ng-if="verified_claims.length >0">
+              <thead>
+              <tr>
+              <th><span>S/No.</span></th>  
+              <th><span>DATE ATTENDED</span></th>               
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NUMBER</span></th>           
+              <th><span> MEMBERSHIP NAME</span></th>
+               <th><span> FILE NUMBER</span></th>
+               <th><span> CHECK BY</span></th>    
+               <th><span> TIME CHECKED</span></th>            
+               <th><span> CARD NUMBER</span></th>  
+              </tr>           
+              </thead>
+                        <tbody>
+               <tr ng-repeat="NhifClaim in verified_claims  track by $index"> 
+               <td>{{$index +1}}</td>
+               <td>{{NhifClaim.attended_date}}</td>
+               <td>{{NhifClaim.authorization_number}}</td>
+               <td>{{NhifClaim.membership_number}}</td>
+               <td>{{NhifClaim.first_name+' '+NhifClaim.middle_name+' '+NhifClaim.last_name}}</td>
+               <td>{{NhifClaim.medical_record_number}}</td>
+               <td>{{NhifClaim.verified_by}}</td> 
+               <td>{{NhifClaim.time_verified}}</td> 
+
+                             
+               <td><a ng-click="openClaimForm(NhifClaim)" style="cursor: pointer;" >{{NhifClaim.card_no}}</a></td>         
+               </tr>
+               </tbody>
+               </table> 
+               </div>            
+        </md-content>
+        </md-tab>
+
+
+        <md-tab label="Pre Approval Service">
+                <md-content class="md-padding">
+                  <md-card>
+                        <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                  <label>Card Number</label>
+                                  <input type="text" ng-model="preapproval.card_no" required>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                  <label>Refference Number</label>
+                                  <input type="text" ng-model="preapproval.refference_no" required>
+                                </md-input-container>
+                                <md-autocomplete flex  flex
+                                md-search-text="nhif_service"
+                                md-input-name="nhif_service"
+                                md-no-cache="true"
+                                md-items="item in getNhifServicesWithPermit(nhif_service)"
+                                md-item-text="item.item_name+' '+item.item_code"
+                                md-selected-item-change="selectedNhifServiceRestricted(item)"
+                                md-floating-label="Search NHIF service requiring permit by  name"
+                                md-min-length="4" md-autofocus>
+                                <md-item-template>
+                                  <span md-highlight-text="nhif_service">{{item.item_name}}({{item.item_code}}) </span>
+                                </md-item-template>
+                              </md-autocomplete>
+                                 <md-input-container >
+               <md-button class="md-raised md-primary" ng-click="preApproval(preapproval)">Pre Approval</md-button>
+                  </md-input-container>
+              </div>
+            </md-card>
+                <div layout="row">
+                  
+   
+             <table class="table table-bordered table-striped" ng-if="NhifClaims.length >0">
+            <thead>
+            <tr>
+            <th><span>S/No.</span></th>  
+            <th><span>DATE ATTENDED</span></th>               
+            <th><span> AUTHORIZATION NUMBER</span></th>
+            <th><span> MEMBERSHIP NUMBER</span></th>           
+            <th><span> MEMBERSHIP NAME</span></th>
+             <th><span> FILE NUMBER</span></th>
+             <th><span> CARD NUMBER</span></th>  
+            </tr>           
+            </thead>
+                      <tbody>
+             <tr ng-repeat="NhifClaim in NhifClaims  track by $index"> 
+             <td>{{$index +1}}</td>
+             <td>{{NhifClaim.attended_date}}</td>
+             <td>{{NhifClaim.authorization_number}}</td>
+             <td>{{NhifClaim.membership_number}}</td>
+             <td>{{NhifClaim.first_name+' '+NhifClaim.middle_name+' '+NhifClaim.last_name}}</td>
+             <td>{{NhifClaim.medical_record_number}}</td>
+             <td><a ng-click="openClaimForm(NhifClaim)" style="cursor: pointer;" >{{NhifClaim.card_no}}</a></td>         
+             </tr>
+             </tbody>
+             </table> 
+             </div>            
+      </md-content>
+      </md-tab>
+
+         <md-tab label="Patient Files">
+                  <md-content class="md-padding">
+                    <md-card>
+                     <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getPatientsFiles(pef)">Get Patients</md-button>
+                    </md-input-container>
+                </div>
+              </md-card>
+                  <div layout="row">
+    <table class="table table-bordered table-striped"">
+              <thead>
+              <tr>
+              <th><span>S/No.</span></th>  
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NUMBER</span></th>              
+               <th><span> MEMBERSHIP NAME</span></th>
+               <th><span> FILE NUMBER</span></th>
+               <th><span> CARD NUMBER</span></th>  
+              </tr>           
+              </thead>
+                        <tbody>
+               <tr ng-repeat="SubmittedNhifClaim in filesPatients  track by $index"> 
+               <td>{{$index +1}}</td>
+               <td>{{SubmittedNhifClaim.authorization_number}}</td>
+               <td>{{SubmittedNhifClaim.membership_number}}</td>
+                
+               <td>{{SubmittedNhifClaim.first_name+' '+SubmittedNhifClaim.middle_name+' '+SubmittedNhifClaim.last_name}}</td>
+               <td>{{SubmittedNhifClaim.medical_record_number}}</td>
+               <td><a ng-click="openFiles(SubmittedNhifClaim)" style="cursor: pointer;" >{{SubmittedNhifClaim.card_no}}</a></td>         
+               </tr>
+               </tbody>
+               </table> 
+               </div>            
+        </md-content>
+                   
+
+     </md-tab>
+    
+    <md-tab label="Submitted Claims">
+                  <md-content class="md-padding">
+                    <md-card>
+                     <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getSubmittedNhifClaims(pef)">Get Claim</md-button>
+                    </md-input-container>
+                </div>
+              </md-card>
+                  <div layout="row">
+    <table class="table table-bordered table-striped" ng-if="SubmittedNhifClaims[0].card_no.length >0">
+              <thead>
+              <tr>
+              <th><span>S/No.</span></th>  
+              <th><span>SUBMITED BY</span></th>               
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NUMBER</span></th>              
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NAME</span></th>
+               <th><span> FILE NUMBER</span></th>
+               <th><span> CARD NUMBER</span></th>  
+              </tr>           
+              </thead>
+                        <tbody>
+               <tr ng-repeat="SubmittedNhifClaim in SubmittedNhifClaims  track by $index"> 
+               <td>{{$index +1}}</td>
+               <td>{{SubmittedNhifClaim.submited_by}}</td>
+               <td>{{SubmittedNhifClaim.authorization_number}}</td>
+               <td>{{SubmittedNhifClaim.membership_number}}</td>
+               <td>{{SubmittedNhifClaim.authorization_number}}</td>
+               <td>{{SubmittedNhifClaim.first_name+' '+SubmittedNhifClaim.middle_name+' '+SubmittedNhifClaim.last_name}}</td>
+               <td>{{SubmittedNhifClaim.medical_record_number}}</td>
+               <td><a ng-click="openClaimForm(SubmittedNhifClaim)" style="cursor: pointer;" >{{SubmittedNhifClaim.card_no}}</a></td>         
+               </tr>
+               </tbody>
+               </table> 
+               </div>            
+        </md-content>
+                   
+
+     </md-tab>
+    
+    
+        <md-tab label="Claims  Reports">
+        <md-content class="md-padding">  
+        <vertical-tabs >     
+
+<vertical-tab-pane title="Claims Reconciliation">       
+   
+					<div layout="row">
+                     <md-input-container flex>
+                        <label>Month of Claim</label>
+                        <input ng-model="pef.claim_month" type="number"/>
+                    </md-input-container>
+					 <md-input-container flex>
+                        <label>Year of Claim</label>
+                        <input ng-model="pef.claim_year" type="number"/>
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getClaimsReconciliation(pef)">Show Reconciliation List</md-button>
+				 <md-button class="md-raised md-warn" ng-click="createClaimsReconciliation(pef)">Reconcile with NHIF</md-button>
+                    </md-input-container>
+                </div> 
+				
+				 <div layout="row">
+    <table class="table table-bordered table-striped" ng-if="claimsReconciliations[0].submission_id.length >0">
+              <thead>
+              <tr>
+              <th><span>S/No.</span></th>  
+              <th><span>DATE SUBMITED</span></th>               
+              <th><span>FACILITY CODE</span></th>
+              <th><span>CLAIM YEAR</span></th>              
+              <th><span>CLAIM MONTH</span></th>
+			  <th><span> FOLIO NUMBER</span></th>
+             
+              
+                
+              </tr>           
+              </thead>
+                        <tbody>
+               <tr ng-repeat="SubmittedNhifClaim in claimsReconciliations  track by $index"> 
+               <td>{{$index +1}}</td>
+               <td>{{SubmittedNhifClaim.date_submited}}</td>
+               <td>{{SubmittedNhifClaim.facility_code}}</td>
+               <td>{{SubmittedNhifClaim.claim_year}}</td>
+               <td>{{SubmittedNhifClaim.claim_month}}</td>
+               <td>{{SubmittedNhifClaim.folio_number}}</td>
+               
+                </tr>
+               </tbody>
+               </table> 
+               </div>  
+                            </vertical-tab-pane> 		
+              
+			   <vertical-tab-pane title="Claim By Folio Number">       
+   
+					<div layout="row">
+                    <md-input-container flex>
+                        <label>Folio Number</label>
+                        <input ng-model="pef.folio_number"  type="number"/>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Month of Claim</label>
+                        <input ng-model="pef.month_of_visit" type="number"/>
+                    </md-input-container>
+					 <md-input-container flex>
+                        <label>Year of Claim</label>
+                        <input ng-model="pef.year_of_visit" type="number"/>
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getClaimsByFolioNumber(pef)">Get Claim</md-button>
+                    </md-input-container>
+                </div> 
+				
+				 <div layout="row">
+    <table class="table table-bordered table-striped" ng-if="NhifClaimsByFolioNumber[0].card_no.length >0">
+              <thead>
+              <tr>
+              <th><span>S/No.</span></th>  
+              <th><span>DATE ATTENDED</span></th>               
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NUMBER</span></th>              
+              <th><span> AUTHORIZATION NUMBER</span></th>
+              <th><span> MEMBERSHIP NAME</span></th>
+               <th><span> FILE NUMBER</span></th>
+               <th><span> CARD NUMBER</span></th>  
+              </tr>           
+              </thead>
+                        <tbody>
+               <tr ng-repeat="SubmittedNhifClaim in NhifClaimsByFolioNumber  track by $index"> 
+               <td>{{$index +1}}</td>
+               <td>{{SubmittedNhifClaim.attended_date}}</td>
+               <td>{{SubmittedNhifClaim.authorization_number}}</td>
+               <td>{{SubmittedNhifClaim.membership_number}}</td>
+               <td>{{SubmittedNhifClaim.authorization_number}}</td>
+               <td>{{SubmittedNhifClaim.first_name+' '+SubmittedNhifClaim.middle_name+' '+SubmittedNhifClaim.last_name}}</td>
+               <td>{{SubmittedNhifClaim.medical_record_number}}</td>
+               <td><a ng-click="openClaimForm(SubmittedNhifClaim)" style="cursor: pointer;" >{{SubmittedNhifClaim.card_no}}</a></td>         
+               </tr>
+               </tbody>
+               </table> 
+               </div>  
+                            </vertical-tab-pane> 
+              
+        <vertical-tab-pane title="Amount Claimed">
+       <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getAmountsClaimed(pef)">Get Claim</md-button>
+                    </md-input-container>
+                </div>
+
+                
+    </vertical-tab-pane>
+      <vertical-tab-pane title="Amount Not Yet Claimed">       
+    <div layout="row">
+                    <md-input-container flex>
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                 <md-button class="md-raised md-primary" ng-click="getSubmittedNhifClaims(pef)">Get Claim</md-button>
+                    </md-input-container>
+                </div> 
+					
+                            </vertical-tab-pane>  
+              
+              
+                 </vertical-tabs >
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        </md-content>
+        </md-tab>
+   
+        </md-tabs>
+        </md-content>

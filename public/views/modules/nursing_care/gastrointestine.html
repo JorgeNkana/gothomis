@@ -1,0 +1,117 @@
+<div ng-controller="nursingCareController"  class="wrapper wrapper-content animated fadeInRight">
+          <div class="row">
+		  
+
+          <div class="col-md-12 form-box">
+		  
+		  
+          <form  role="form" class="registration-form" action=    "javascript:void(0);">
+          <fieldset>
+
+          <div class="form-bottom">
+          <div class="row">
+		  
+		    <fieldset>
+        <div class="form-top">
+            <div class="form-top-left">
+              <h3><span><i class="fa fa-check-square-o fa-2x
+" aria-hidden="true"></i></span>GASTRO INTESTINE SYSTEM
+ 
+			  <span class="pull-right">{{admissions.fullname}} ({{admissions.medical_record_number}})</span>
+
+</h3>
+
+            </div>
+          </div>
+          <div class="form-bottom">
+            <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Inspection</label>
+                <input type="text" ng-model="patient.inspection" class="form-control" placeholder="Inspection">
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Palpation</label>
+                <input type="text" ng-model="patient.palpation" class="form-control" placeholder="Palpation">
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Percussion</label>
+                <input type="text" ng-model="patient.percussion" class="form-control" placeholder="Percussion">
+              </div>
+            </div>
+
+            <div class="row">
+            
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Auscultation</label>
+                <input class="form-control" type="text" ng-model="patient.auscultation" id="dob">
+              </div>
+			  
+			   <div class="form-group col-md-4 col-sm-4"><BR>
+				<button id="quick" type="submit" class="btn btn-success" ng-click="saveCardivascularSystem(patient,admissions)">SAVE GASTRO INTESTINE SYSTEM </button>
+              </div>
+			  
+              			 
+			  
+			  
+			  
+            </div>
+
+
+
+
+
+           
+          </div>
+        </fieldset>
+		    
+                               
+                  
+      </form>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+           
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+       
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+</script>

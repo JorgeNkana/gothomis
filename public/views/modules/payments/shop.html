@@ -1,0 +1,1158 @@
+<head>
+	 <style>
+		tr.paid td{
+			font-weight:bold;
+			font-size:18px;
+			background-color:#efeae8;
+		}
+		
+		tr.waiting td{
+			font-size:18px;
+			font-color:#fdffaa;
+			background-color:#fcd202;
+		}
+		
+		tr.waiting_cntr td{
+			font-size:18px;
+			background-color:#c9c1bd;
+		}
+	</style>
+</head>
+<md-tabs md-dynamic-height md-border-bottom>
+
+    <md-tab label="Sales">
+
+<md-input-container class="md-block">
+    <input data-toggle="tooltip" title="Click here to search patients" type="text" placeholder="Click here to search patients"
+           uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+           typeahead-on-select="getPatientReport(selectedPatient)"
+           autocomplete="off">
+</md-input-container>
+       <button title="Patient Category is {{selectedPatient.sub_category_name}}" style='  font-size:12px;font-family:"Lucida Calligraphy"'  class="badge badge-info">{{selectedPatient.sub_category_name}}</button>
+        &nbsp;&nbsp;
+
+
+        <b  ng-repeat="item in prevMedicines[0] track by $index" style='  font-size:10px;font-family:"Lucida Calligraphy"'>
+            <button ng-if="item.out_of_stock=='OS'" > <b style="color: red" class="glyphicon glyphicon-remove">{{$index+1}}</b>:&nbsp; {{item.item_name}} {{item.dose}}, {{item.frequency}},{{'for '+ item.duration}} <b style="color: red">({{ item.out_of_stock on {{item.start_date}}}})</b></button> &nbsp;&nbsp;
+            <button ng-if="item.out_of_stock !='OS'"  >{{$index+1}}:&nbsp;{{item.item_name}} {{item.dose}}, {{item.frequency}},{{'for '+ item.duration}}<b style="color: green">(Dispensed on {{item.start_date}})</b>  </button> &nbsp;
+
+
+        </b>
+        <hr ng-if="selectedPatient">
+
+<md-content class="md-padding">
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="60">
+            <input type="text" id="item" placeholder="Search Items" ng-model="selectedItem"
+                   uib-typeahead="item as item.item_name+' '+item.price for item in searchItems($viewValue,selectedPatient) | filter:$viewValue | limitTo:5" autocomplete="off"
+				   typeahead-on-select="loadBatch(selectedItem.item_id)"
+				   >
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="30">
+            <label>Batch Number</label>
+
+                                                <input type="text"  class="md-block" typeahead-on-select="loadBatchBalance(item_issue.selectedBatch.batch_no,item_issue.selectedBatch.store_id,item_issue.selectedBatch.item_id)" ng-model="item_issue.selectedBatch" placeholder="Search Item Batch Number " uib-typeahead ="batch as batch.batch_no    for batch in batches  | filter:$viewValue"
+
+														 typeahead-min-length="0">
+                                                <b ng-if="batches.length>0 && !batchesbalances[0].quantity_received" style="color:green;" >Choose Batch Number</b>
+                                                <b ng-if="batches.length<1" style="color: maroon;" >NO Balance with This Item</b>
+
+												<b style="color:navy" role="info"ng-if="item_issue.selectedBatch && selectedItem.item_id"> <b >BALANCE:  &nbsp;</b>
+                                                    <b ng-if="selectedItem.item_id && item_receive.selectedInvoice && item_receive.selectedInvoice.length >=4 && !item_receive.selectedInvoice.id"></b>
+                                                    {{batchesbalances[0].quantity_received}}
+                                                </b>
+        </md-input-container>
+		<md-input-container class="md-block" flex-gt-sm="10">
+            <input type="number" id="qty" ng-model="quantity" placeholder="Quantity" min="0">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="10" ng-if="batchesbalances[0].quantity_received >= quantity">
+            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="addItem(selectedPatient,selectedItem,quantity,item_issue.selectedBatch)">Add</button>
+        </md-input-container>
+		<b ng-if="batchesbalances[0].quantity_received < quantity" style="color: maroon;" >No Enough Balance With This Batch</b>
+
+    </div>
+    <div layout="row" layout-sm="column" layout-xs="column">
+        <md-card flex-gt-sm="80" ng-if="itemData.length>0">
+            <md-card-content>
+				<table class="mdl-data-table mdl-js-data-table" width="100%" >
+                    <thead>
+					<tr>
+                        <th style="text-align:center" colspan="7"><h5 style="font-weight:bold">{{"Names : "+selectedPatient.first_name+' '+selectedPatient.middle_name+' '+selectedPatient.last_name}}&nbsp;&nbsp;
+					{{"Mrn : "+selectedPatient.medical_record_number}}&nbsp;&nbsp; {{"DoB : "+selectedPatient.dob}}&nbsp;&nbsp; {{"Gender : "+selectedPatient.gender}}
+						</h5></th>
+					</tr>
+                    </thead>
+					<thead>
+					<tr>
+                        <th class="text-left"><strong>ITEM NAME</strong></th>
+                        <th class="text-center"><strong>UNIT PRICEe</strong></th>
+                        <th class="text-center"><strong>QUANTITY</strong></th>
+                        <th class="text-right"><strong>SUBTOTAL</strong></th>
+                        <th class="text-right" colspan="3"><strong></strong></th>
+					</tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in itemData">
+                        <td>{{item.item_name}}</td>
+                        <td class="text-center">{{item.price}}</td>
+                        <td class="text-center">{{item.quantity}}</td>
+                        <td class="text-right">{{item.sub_total | currency : 'Tshs ' : 2}}</td>
+                        <td colspan="3"><span ng-click="removeItem(item)" style="cursor: pointer">Remove</span></td>
+                    </tr>
+                    <tr>
+                        <td class="emptyrow"></td>
+                        <td class="emptyrow text-center"><strong>GRAND TOTAL</strong></td>
+                        <td class="emptyrow text-right"><span style="font-weight:bold">{{toto | currency : 'Tshs ' : 2}}</span></td>
+                        <td class="emptyrow text-right"></td>
+                        <td class="emptyrow" style="color: red" colspan="3"></td>
+                    </tr>
+					<tr>
+						<td colspan="7"></td>
+					</tr>
+					<tr>
+						<td class="emptyrow"> <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="deposit_summary(itemData,toto)">DEDUCT FROM DEPOSIT</button></td>
+						<td style="text-align:right"><input type="radio" ng-click="paymentMethod='cash'" ng-model="paymentMethod" value="cash"  style="width:20px;height:20px;" /></td>
+						<td  style="font-weight:bold; text-align:left"  ng-click="paymentMethod='cash'">Cash</td>
+						<td  >&nbsp;</td>
+						<td style="text-align:right"><input type="radio" ng-click="paymentMethod='gepg'" ng-model="paymentMethod" value="gepg"  style="width:20px;height:20px;" /></td>
+						<td  style="font-weight:bold; text-align:left" ng-click="paymentMethod='gepg'">GePG</td>
+						<td>&nbsp;</td>
+					</tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="processSales(paymentMethod)" ng-if="itemData.length>0">Process Sale</button>
+            </md-card-content>
+        </md-card>
+    </div>
+     <!--transaction checker starts-->
+    <div flex-gt-sm="50">
+        <!--<md-input-container >
+            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="reconcile()">RECONCILE GePG PAYMENTS</button>
+        </md-input-container>-->
+		<md-input-container>
+			&nbsp;
+        </md-input-container>
+		<md-input-container>
+            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="cashDeposit()">ON-HAND CASH DEPOSIT</button>
+        </md-input-container>
+        <md-input-container>
+            <md-checkbox ng-model="data.cb" aria-label="Check balance">
+                <span style="font-weight:bold; font-size:16px">CHECK BALANCE</span>
+            </md-checkbox>
+        </md-input-container>
+        <div ng-if=" data.cb ==true">
+            <md-input-container>
+                <label>Choose Start Date</label>
+                <input ng-model="cs.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Choose End Date</label>
+                <input ng-model="cs.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="cashiersBalance(cs)">Search</md-button>
+            </md-input-container>
+        </div>
+        <md-content ng-if="data.cb ==true ">
+            Dear <strong>{{transactions[0].user_name}}</strong> you have a total of {{transactions[0].sub_total |
+            currency :
+            ' Tshs. ' :2}} (Cash on hand)
+            from {{transactions[0].transactions}} transactions and {{transactionsGePG[0].sub_total |
+            currency :
+            ' Tshs. ' :2}} (GePG transactions) from {{transactionsGePG[0].transactions}} transactions. Thank you!
+            <vertical-tabs>
+                <vertical-tab-pane title="Cash transactions">
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"
+                           ng-if="detailedData.length>0">
+                        <thead>
+                        <th class="mdl-data-table__cell--non-numeric">Sale ID</th>
+                        <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                        <th class="mdl-data-table__cell--non-numeric">Patient Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Staff Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Item name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Items Purchased</th>
+                        <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                        <th class="mdl-data-table__cell--non-numeric">Total Discount</th>
+                        <th class="mdl-data-table__cell--non-numeric">Transaction Date</th>
+                        </thead>
+                        <tbody ng-repeat="d in detailedData " ng-switch on="isSelData(d)" ng-click="selData(d,$index)">
+                        <tr ng-class="{sel:selIdx==$index}">
+                            <td class="mdl-data-table__cell--non-numeric">{{d.receipt_number}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.medical_record_number}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.first_name+' '+d.middle_name+' '+d.last_name}}
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.user_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.item_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.total_items}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.sub_total}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.total_discount}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.created_at}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </vertical-tab-pane>
+                <vertical-tab-pane title="GePG transactions">
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"
+                           ng-if="detailedDataGePG.length>0">
+                        <thead>
+                        <th class="mdl-data-table__cell--non-numeric">Sale ID</th>
+                        <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                        <th class="mdl-data-table__cell--non-numeric">Patient Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Staff Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Item name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Items Purchased</th>
+                        <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                        <th class="mdl-data-table__cell--non-numeric">Total Discount</th>
+                        <th class="mdl-data-table__cell--non-numeric">Transaction Date</th>
+                        </thead>
+                        <tbody ng-repeat="d in detailedDataGePG " ng-switch on="isSelData(d)" ng-click="selData(d,$index)">
+                        <tr ng-class="{sel:selIdx==$index}">
+                            <td class="mdl-data-table__cell--non-numeric">{{d.gepg_receipt}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.medical_record_number}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.first_name+' '+d.middle_name+' '+d.last_name}}
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.user_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.item_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.total_items}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.sub_total}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.total_discount}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{d.created_at}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </vertical-tab-pane>
+            </vertical-tabs>
+        </md-content>
+    </div>
+	<div flex="100">
+		 <div class="row " style="padding-left:4px;padding-right:4px" >
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<th colspan="3" style="background-color:#f0f5f5; font-weight:bold;">GEPG BILLS</th>
+					<th colspan="1" style="vertical-align:middle"><button class="btn btn-primary" ng-click="checkGePG()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button></th>
+					<th style="background-color:#c9c1bd; font-weight:bold;">WAITING CNTRL NUMBER</th>
+					<th style="background-color:#fcd202; font-weight:bold;">WAITING PAYMENT</th>
+					<th style="background-color:#efeae8; font-weight:bold;">PAID</th>
+				</thead>
+				<thead>
+					<th colspan="7" class="input">
+						<input type="text"   ng-model="search" placeholder="Quick Search....." class=" form form-control"/>
+					</th>
+				</thead>
+				<thead>
+					<th style="text-align:left;background-color:#ccddee"></th>
+					<th style="text-align:left;background-color:#ccddee">Name</th>
+					<th style="text-align:left;background-color:#ccddee">Control#</th>
+					<th style="text-align:left;background-color:#ccddee">Tshs</th>
+					<th style="text-align:left;background-color:#ccddee">Cancel</th>
+					<th style="text-align:left;background-color:#ccddee">Receipt</th>
+					<th style="text-align:left;background-color:#ccddee">Remove</th>
+				</thead>
+				<tbody >
+					<tr ng-repeat="bill in pendingGePGConfirmations | filter:search track by $index"
+                        ng-class="{ paid: bill.Paid.toString() == '1', waiting: bill.Paid.toString() == '0' && bill.PayCntrNum != null, waiting_cntr: bill.Paid.toString() == '0' && bill.PayCntrNum == null}">
+                        <td style="text-align:right">{{$index+1}}.</td>
+                        <td style="text-align:left">{{bill.Name}}</td>
+                        <td ng-click="billInfo(bill)"><strong>{{bill.PayCntrNum.replace(regex,' ')}}</strong></td>
+						<td><strong>{{bill.BillAmount | currency : '':2}}</strong></td>
+                        <td ng-click="cancelBill(bill,$index);" style="text-align:center; vertical-align:middle">
+                            <ng-md-icon icon="close" size="30" ng-if="bill.Paid.toString() == '0'"></ng-md-icon>
+                        </td>
+                        <td ng-click="GePGReceipt(bill);" style="text-align:center; vertical-align:middle">
+                            <ng-md-icon icon="print" size="30" ng-if="bill.Paid.toString() == '1'"></ng-md-icon>
+                        </td>
+                        <td ng-click="Processed(bill,$index)" style="text-align:center; vertical-align:middle">
+                            <ng-md-icon icon="check" size="30" ng-if="bill.Paid.toString() == '1'"></ng-md-icon>
+                        </td>
+                    </tr>
+					<thead>
+					<tr>
+						<th colspan="7" style="text-align:left;background-color:#ccddee"></th>
+					</tr>
+				</thead>
+
+				</tbody>
+			</table>
+		 </div>
+	 </div>
+    <!--transaction checker ends-->
+</md-content>
+        </md-tab>
+
+    <md-tab label="Finance">
+        <vertical-tabs>
+            <vertical-tab-pane title="Employee Report">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container>
+                            <label>Choose Start Date</label>
+                            <input ng-model="emp.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Choose End Date</label>
+                            <input ng-model="emp.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getCashiers(emp)">Search</md-button>
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="printCashiersReport()" ng-if="cashiers.length>0">Print</md-button>
+                        </md-input-container>
+                    </div>
+                    <!-- new mark up -->
+
+                    <div id="employeedivtoprint">
+                        <table   border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="cashiers.length>0" width="100%" >
+                            <tr >
+                                <td align='center'>
+                                    <div>
+                                        <div layout="row" layout-align="space-between center">
+                                            <div flex>
+                                                <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                            </div>
+                                            <div flex>
+                                                <center>
+                                                    <h3 class="md-title">{{cardTitle.facility_name}}
+                                                        {{cardTitle.description}}</h3>
+                                                </center>
+                                                <center>
+                                                    <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                                </center>
+                                                <center>
+                                                    <h3>Employees Finance Report(Cash)</h3>
+                                                </center>
+                                            </div>
+                                            <div flex>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div flex="100" layout="row" layout-padding>
+                                        <div flex="50">
+                                            <dt>Start</dt>
+                                            <dd>{{emp.start}}</dd>
+                                        </div>
+                                        <div flex="50">
+                                            <dt>End</dt>
+                                            <dd>{{emp.end}}</dd>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+
+                                    <div flex="100" layout="row" layout-align="space-between center">
+
+                                        <h4> Grand Total : {{csGrandTotal | currency: 'Tshs. ' :2}}</h4>
+
+
+                                        <div>
+                                            <h4>Generated On {{employee_report_generated_on}}</h4>
+                                            <h4>Generated by {{currentUser.name}}</h4>
+
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-bordered"
+                                           width="100%" ng-if="cashiers.length>0">
+                                        <thead>
+                                        <th class="mdl-data-table__cell--non-numeric">Staff's Name</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Transactions</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="cs in cashiers">
+                                            <td class="mdl-data-table__cell--non-numeric">{{cs.user_name}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{cs.transactions}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{cs.sub_total | currency: 'Tshs. ' :2}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                </md-content>
+            </vertical-tab-pane>
+            <vertical-tab-pane title=" Cash Details">
+                <md-content>
+                    <div layout="row">
+                        <div flex="10">
+                        </div>
+                        <div flex="20">
+                            <md-input-container>
+                                <label>Choose Start Date</label>
+                                <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                            </md-input-container>
+                        </div>
+                        <div flex="20">
+                            <md-input-container>
+                                <label>Choose End Date</label>
+                                <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                            </md-input-container>
+                        </div>
+                        <div flex="30">
+                            <md-input-container class="md-block">
+                                <md-button class="md-raised md-primary"  ng-click="getPaidInsurance(dept)" >Search</md-button>
+                            </md-input-container>
+                        </div>
+                        <div flex="5">
+
+                        </div>
+                        <div flex="15">
+                            <md-button  class="md-raised md-primary" ng-click="printInsuPaidReport()">print</md-button>
+                        </div>
+                    </div>
+                    <div id="insupaidtoprint" ng-if="paidCategoriesReports.length>0">
+                        <div layout="row">
+                            <div flex="30"></div>
+                            <div flex="40">
+                                <center>
+                                    <h3 class="md-title">{{cardTitle.facility_name}}
+                                        <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                        {{cardTitle.description}}</h3>
+                                </center>
+                                <center>
+                                    <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                </center>
+                            </div>
+                            <div flex="20">
+
+                            </div>
+                            <div flex="5"></div>
+                        </div>
+                        <div layout="row">
+                            <div flex="30"> <h5> Grand Total : {{insuPaidGrandTotal | currency: 'Tshs. ' :2}}</h5></div>
+                            <div flex="40"></div>
+                            <div flex="20">
+                                <div>
+                                    <h5>Generated On {{insu_report_generated_on}}, by {{currentUser.name}}</h5>
+                                </div>
+                            </div>
+                            <div flex="5"></div>
+                        </div>
+                        <div layout="row">
+                            <div ng-if="paidCategoriesReports==0"><strong>No data to display between the chosen date range</strong></div>
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+
+                                <thead ng-if="paidCategoriesReports.length>0">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Patient names</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item</th>
+                                <th class="mdl-data-table__cell--non-numeric">Unit Price</th>
+                                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                                <th class="mdl-data-table__cell--non-numeric">Date</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="dc in paidCategoriesReports | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.medical_record_number}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.first_name+' '+dc.middle_name+' '+dc.last_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.price | currency: ' ' :2}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.quantity}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.quantity*dc.price | currency: ' ' :2}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.updated_at}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </md-content>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Detailled Insurance Bill (NHIF)">
+                <md-content>
+                    <div layout="row">
+                        <div flex="10">
+                        </div>
+                        <div flex="20">
+                            <md-input-container>
+                                <label>Choose Start Date</label>
+                                <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                            </md-input-container>
+                        </div>
+                        <div flex="20">
+                            <md-input-container>
+                                <label>Choose End Date</label>
+                                <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                            </md-input-container>
+                        </div>
+                        <div flex="30">
+                            <md-input-container class="md-block">
+
+                                 <md-select ng-model="dept.category" ng-click="getInsurance(dept)">
+                                     <md-option value="" selected disabled>Select category to search</md-option>
+                                     <md-option  ng-value='{{cat.id}}' ng-repeat="cat in patientCategories" ng-if="cat.sub_category_name=='NHIF'">{{cat.sub_category_name}}</md-option>
+                                 </md-select>
+
+                            </md-input-container>
+                        </div>
+                        <div flex="5">
+
+                        </div>
+                        <div flex="15">
+                           <md-button class="md-raised md-primary"  ng-click="getInsurance(dept)" >Search</md-button>
+					   </div>
+						<div flex="15">
+                            <md-button  class="md-raised md-primary" ng-click="printInsuReport()">print</md-button>
+                        </div>
+                    </div>
+                    <div id="insutoprint" ng-if="categoriesReports.length>0">
+                        <div layout="row">
+                            <div flex="30"></div>
+                            <div flex="40">
+                                <center>
+                                    <h3 class="md-title">{{cardTitle.facility_name}}
+                                        <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                        {{cardTitle.description}}</h3>
+                                </center>
+                                <center>
+                                    <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                </center>
+                            </div>
+                            <div flex="20">
+
+                            </div>
+                            <div flex="5"></div>
+                        </div>
+                        <div layout="row">
+                            <div flex="30"> <h5> Grand Total : {{insuGrandTotal | currency: 'Tshs. ' :2}}</h5></div>
+                            <div flex="40"></div>
+                            <div flex="20">
+                                <div>
+                                    <h5>Generated On {{insu_report_generated_on}}, by {{currentUser.name}}</h5>
+                                </div>
+                            </div>
+                            <div flex="5"></div>
+                        </div>
+                        <div layout="row">
+                            <div ng-if="categoriesReports==0"><strong>No data to display between the chosen date range</strong></div>
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+
+                                <thead ng-if="categoriesReports.length>0">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Patient names</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item</th>
+                                <th class="mdl-data-table__cell--non-numeric">Unit Price</th>
+                                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                                <th class="mdl-data-table__cell--non-numeric">Date</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="dc in categoriesReports | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.medical_record_number}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.first_name+' '+dc.middle_name+' '+dc.last_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.price | currency: ' ' :2}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.quantity}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.quantity*dc.price | currency: ' ' :2}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dc.updated_at}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </md-content>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Transactions & Receipts">
+                <md-content class="md-padding">
+
+                    <div layout="row">
+                        <md-input-container>
+                            <label>Choose Start Date</label>
+                            <input ng-model="det.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Choose End Date</label>
+                            <input ng-model="det.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getDate(det)">Search</md-button>
+                        </md-input-container>
+                    </div>
+
+                    <div   >
+
+                                <div id="divtoprint">
+                                    <style>
+                                        dt {
+                                            float: left;
+                                            margin-right: 4%;
+                                            max-width: 40%;
+                                            font-weight: 500;
+                                        }
+
+                                        dd {
+                                            margin-left: 20%;
+                                            margin-bottom: .5em;
+                                            font-weight: 600;
+                                        }
+
+                                        dd::after {
+                                            content: " ";
+                                            display: block;
+                                            clear: left;
+                                        }
+                                    </style>
+
+                                    <style media="print">
+                                        #printbutton, #quicksearcher {
+                                            display: none;
+                                        }
+
+                                        .dontprint {
+                                            display: none;
+                                        }
+
+                                    </style>
+                                    <md-button class="md-raised md-primary pull-right" id="printbutton" ng-click="printReport()"
+                                               ng-if="detailedData.length>0">
+                                        Print
+                                    </md-button>
+
+                                    <table width="800px" border=0 class="table table-responsive" ng-if="detailedData.length>0">
+                                        <tr>
+                                            <td align='center'>
+                                                <div>
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div flex>
+                                                            <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                                        </div>
+                                                        <div flex>
+                                                            <center>
+                                                                <h3 class="md-title">{{cardTitle.facility_name}}
+                                                                    {{cardTitle.description}}</h3>
+                                                            </center>
+                                                            <center>
+                                                                <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                                            </center>
+                                                            <center>
+                                                                <h3>Detailed Finance Report(Cash)</h3>
+                                                            </center>
+                                                        </div>
+                                                        <div flex>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div flex="100" layout="row" layout-padding>
+                                                    <div flex="50">
+                                                        <dt>Start</dt>
+                                                        <dd>{{det.start}}</dd>
+                                                    </div>
+                                                    <div flex="50">
+                                                        <dt>End</dt>
+                                                        <dd>{{det.end}}</dd>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <!-- the actual content -->
+                                                <div flex="100" layout="row" layout-align="space-between center">
+
+                                                    <h4> Grand Total : {{detailedTotal | currency: 'Tshs. ' :2}}</h4>
+
+
+                                                    <div>
+                                                        <h4>Generated On {{report_generated_on}}</h4>
+                                                        <h4> By: {{currentUser.name}}</h4>
+
+                                                    </div>
+                                                </div>
+
+                                                <table class="table table-bordered"
+                                                       ng-if="detailedData.length>0">
+                                                    <thead>
+                                                    <th class="mdl-data-table__cell--non-numeric">Sale ID</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Patient Name</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Staff Name</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Discount</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Date</th>
+                                                    <th class="mdl-data-table__cell--non-numeric dontprint"><span
+                                                            class="glyphicon glyphicon-flash "
+                                                            aria-hidden="true"></span></th>
+                                                    </thead>
+                                                    <tbody ng-repeat="d in detailedData |filter:search " ng-switch on="isSelData(d)"
+                                                           ng-click="selData(d,$index)">
+                                                    <md-input-container id="quicksearcher"><label>Quick search</label><input
+                                                            type='text' ng-model='search'/>
+                                                    </md-input-container>
+                                                    <tr ng-class="{sel:selIdx==$index}">
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.receipt_number}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.medical_record_number}}
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.first_name+' '+d.middle_name+' '+d.last_name}}
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.user_name}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.total_items}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.sub_total | currency:
+                                                            'Tshs. ' :2}}
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.total_discount | currency:
+                                                            'Tshs. ' :2}}
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{d.created_at}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric dontprint">
+                                                            <a class="mdl-button mdl-js-button mdl-button--raised "
+                                                               data-toggle="collapse"
+                                                               aria-expanded="false" aria-hidden="true"
+                                                               ng-click="getDetailedData(d,det)">More..</a>
+                                                            <a class="mdl-button mdl-js-button mdl-button--raised"
+                                                               ng-click="getReceiptCopy(d,1)">Print</a>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr ng-switch-when="true">
+                                                        <td colspan="10" class="mdl-data-table__cell--non-numeric">
+                                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                                                                <tr style="color: black;">
+                                                                    <th class="mdl-data-table__cell--non-numeric">Sale ID</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric">Price</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric">Amount Paid</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric">Discount</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric">Remarks</th>
+                                                                    <th class="mdl-data-table__cell--non-numeric"></th>
+                                                                </tr>
+                                                                <tr ng-repeat="dc in getDetailedReports[0]">
+                                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                                        {{dc.receipt_number}}
+                                                                    </td>
+                                                                    <td class="mdl-data-table__cell--non-numeric">{{dc.item_name}}
+                                                                    </td>
+                                                                    <td class="mdl-data-table__cell--non-numeric">{{dc.price}}</td>
+                                                                    <td class="mdl-data-table__cell--non-numeric">{{dc.quantity}}
+                                                                    </td>
+                                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                                        {{dc.quantity*dc.price-dc.discount | currency: 'Tshs. ' :2}}
+                                                                    </td>
+                                                                    <td class="mdl-data-table__cell--non-numeric">{{dc.discount |
+                                                                        currency:
+                                                                        'Tshs. ' :2}}
+                                                                    </td>
+                                                                    <td class="mdl-data-table__cell--non-numeric">{{dc.comments}}
+                                                                    </td>
+                                                                    <td class="mdl-data-table__cell--non-numeric"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                </div>
+
+                    </div>
+
+                </md-content>
+            </vertical-tab-pane>
+
+        </vertical-tabs>
+    </md-tab>
+    <md-tab label="Stock">
+        <md-content class='md-padding'>
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+            <md-input-container class="md-block">
+                <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+            </md-input-container>
+
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  >
+                            <fieldset>
+
+                                <div class="form-bottom">
+
+                                    <div ng-if="load==0 && !items[0].id"> <i class="fa fa-refresh fa-spin fa-4x fa-fw" title="{{loading}}" ></i>{{loading}}</div>
+                                    <!--<i class="fa fa-refresh fa-spin fa-3x fa-fw" title="Loading..."></i>-->
+
+                                    <!--<i class="fa fa-cog fa-spin fa-3x fa-fw" title="Loading..."></i>-->
+
+
+                                    <md-input-container >
+                                        <input type="text" class="no-print md-block  pull-right"   typeahead-on-select="pharmacy_report(report.id)" ng-model="report" placeholder="Search report Options " uib-typeahead ="report as report.balance  for report in reports  | filter:$viewValue"
+                                               typeahead-show-hint="true" typeahead-min-length="0">
+
+
+                                    </md-input-container>
+                                    <div class="pull-right" ng-if="report.id ==3">
+                                        <input type="datetime" ng-model="data.start_date" datetime-picker   date-format="yyyy-MM-dd HH:mm:ss" placeholder="Start Date">
+                                        <input type="datetime"  ng-model="data.end_date" datetime-picker   date-format="yyyy-MM-dd HH:mm:ss" placeholder="End Date">
+
+                                        <md-button   ng-click="pharmacy_report(report.id,data)" class="md-raised md-raised-search ">Search</md-button>
+                                    </div>
+
+                                    <p></p>
+
+                                    <div   >
+
+                                        <b id='divtoprint1'>
+
+
+                                            <p></p>
+
+                                            <a onclick="PrintContent1();" ng-if="report.id ==3" title="Print" class="no-print   pull-right"><b class=" -print "></b>  </a>
+
+                                            <hr ng-if="report.id ==3 && items">
+                                            <h3 ng-if="report.id ==3 && items" class="text-center  form-control" style="border-radius: 50px;color:green "> {{report.balance}}</h3>
+
+
+
+                                            <table     ng-if="report.id ==3" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                                                <thead>
+
+                                                <tr class="table-header"style="background-color: beige" >
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        No
+
+                                                    </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        Item Code
+
+
+
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        Item Name
+
+
+
+                                                    </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        Quantity
+
+
+
+                                                    </td>
+
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        issued to
+
+
+
+                                                    </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+
+                                                        Issued by
+
+
+                                                    </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+
+                                                        Issued date
+
+
+                                                    </td>
+
+
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                <tr ng-repeat="item in items   | filter:search track by $index">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">  {{item.item_code}}  </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">  {{item.item_name}}  </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">  {{item.quantity}}  </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">  {{item.medical_record_number}}  </td>
+
+
+                                                    <td class="mdl-data-table__cell--non-numeric">  {{item.dispensed_by}}  </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">  {{item.date}}  </td>
+                                                </tr>
+
+                                                </tbody>
+
+                                            </table>
+
+
+                                            <a onclick="PrintContent();" ng-if="report.id !=3 && items"  title="Print" class="no-print   pull-right"><b class=" -print "></b>  </a>
+
+
+                                            <!--<md-button class="no-print" ng-click="exportToExcel('#tableToExport')" ng-if="report.id !=3 && items">-->
+                                            <!--<span class=" -share"></span>-->
+                                            <!--Export to Excel-->
+                                            <!--</md-button>-->
+                                            <div id='divtoprint' ng-if="report.id !=3 && items">
+                                                <hr ng-if="report.id !=3 && items">
+                                                <h3 ng-if="report.id !=3 && items" class="text-center  form-control" style="border-radius: 50px;color:green "> {{report.balance}}</h3>
+
+
+                                                <div id="tableToExport">
+                                                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                                        <thead style="background-color: beige">
+                                                        <tr class="table-header">
+
+                                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                                No
+
+                                                            </td>
+
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-click="sort('item_code')">
+
+                                                                Item Code
+
+
+                                                            </td>
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-click="sort('item_name')">
+
+                                                                Item Name
+
+
+
+                                                            </td>
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-click="sort('batch_no')">
+
+                                                                Batch No
+
+
+
+                                                            </td>
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-click="sort('quantity_received')">
+
+                                                                Quantity
+
+
+
+                                                            </td>
+
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-click="sort('store_name')">
+
+                                                                Store Name
+
+
+
+                                                            </td>
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-if="report.id !=1" ng-click="sort('store_type')">
+
+                                                                Store Type
+
+
+
+                                                            </td>
+
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-if="report.id !=1" ng-click="sort('created_at')">
+
+                                                                Received Date
+
+
+
+                                                            </td>
+
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-if="report.id !=1" ng-click="sort('transaction_type')">
+
+                                                                Remark
+
+
+
+                                                            </td>
+
+
+                                                        </tr>
+                                                        </tbody>
+
+                                                        <tbody>
+                                                        <tr ng-repeat="item in items   | filter:search track by $index ">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">  {{item.item_code}}  </td>
+                                                            <td class="mdl-data-table__cell--non-numeric">  {{item.item_name}}  </td>
+                                                            <td class="mdl-data-table__cell--non-numeric">  {{item.batch_no}}  </td>
+                                                            <td class="mdl-data-table__cell--non-numeric">  {{item.quantity_received}}  </td>
+
+                                                            <td class="mdl-data-table__cell--non-numeric">  {{item.store_name}}  </td>
+                                                            <td ng-if="report.id !=1">  {{item.store_type_name}}  </td>
+
+                                                            <td  class="mdl-data-table__cell--non-numeric"   class="mdl-data-table__cell--non-numeric"  ng-if="report.id !=1">  {{item.created_at}}  </td>
+
+                                                            <td  class="mdl-data-table__cell--non-numeric"  ng-if="report.id !=1">  {{item.transaction_type}}  </td>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+                                                <div>
+
+                                                    <!--<canvas id="bar" class="chart chart-bar" ng-if="report.id ==1"-->
+                                                    <!--chart-data="data" chart-labels="labels">-->
+                                                    <!--</canvas>-->
+
+
+
+                                                </div>
+
+
+                                            </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+        </md-content>
+    </md-tab>
+    <md-tab label="REQUISITIONS">
+
+
+        <md-content class='md-padding'>
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+            <vertical-tabs>
+                <vertical-tab-pane title="MAKE REQUISITIONS">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <form  >
+                                    <fieldset>
+
+                                        <div class=" ">
+
+                                            <md-input-container class="md-block col-md-3 col-sm-4">
+                                                <label> Item Name</label>
+
+                                                <input type="text" id="itm3"  class="md-block" typeahead-on-select="" ng-model="order.selectedItem"   uib-typeahead ="item as item.item_name  for item in showSearchItem($viewValue)  | filter:$viewValue"
+                                                       typeahead-show-hint="true" typeahead-min-length="0">
+
+                                            </md-input-container>
+                                            <md-input-container class="md-block col-md-3 col-sm-4">
+                                                <label> Quantity Requesting</label>
+                                                <input type="number" id="itm4" class="md-block" min="0"   ng-model="order.quantity">
+                                                <b ng-if="order.quantity<0" style="color:maroon" role="remove"> Issuing Quantity Can not Be Negative value</b>
+
+                                            </md-input-container>
+                                            <md-input-container class="md-block col-md-3 col-sm-4">
+                                                <label> Request To</label>
+                                                <input type="text"  class="md-block" typeahead-on-select="" ng-model="order.selectedStoreRequestReceiver"   uib-typeahead ="store as store.store_name  for store in Sub_Main_stores  | filter:$viewValue"
+                                                       typeahead-show-hint="true" typeahead-min-length="0">
+
+
+
+                                            </md-input-container>
+
+
+                                            <md-input-container class="md-block col-md-3 col-sm-4">
+                                                <label> Request From</label>
+                                                <input type="text"  class="md-block" typeahead-on-select="" ng-model="order.selectedStoreRequestSender" placeholder="Search Store " uib-typeahead ="store as store.store_name  for store in dispensing_stores  | filter:$viewValue"
+                                                       typeahead-show-hint="true" typeahead-min-length="0">
+                                                <b  style="color:maroon" role="info"  ng-if="order.selectedStoreRequesting.store_id && order.selectedStoreRequesting.id == order.selectedStoreRequested.id"> Oops!!! You can not Issue item within a same store.... </b>
+
+                                            </md-input-container>
+
+
+
+
+                                            <div class="md-block col-md-3 col-sm-4">
+                                                <md-button class="md-raised md-primary" ng-click="dispensing_item_list_requisition(order)"  ng-if="order.quantity"  >ADD TO LIST</md-button>
+                                            </div>
+
+                                            <div>
+
+                                                <table ng-if="dispensing_array_requisitions.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                                    <tr style="background-color: beige">
+                                                        <th class="mdl-data-table__cell--non-numeric" >#</th>
+                                                        <th class="mdl-data-table__cell--non-numeric" >Name</th>
+                                                        <th class="mdl-data-table__cell--non-numeric" >Form</th>
+                                                        <th class="mdl-data-table__cell--non-numeric" >To</th>
+                                                        <th class="mdl-data-table__cell--non-numeric" >Quantity</th>
+
+                                                        <th class="mdl-data-table__cell--non-numeric" > </th>
+
+                                                    </tr>
+                                                    <tr ng-repeat="array in dispensing_array_requisitions track by $index">
+                                                        <td class="mdl-data-table__cell--non-numeric">{{$index + 1}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{array.item_name}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{array.from}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{array.store_name}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{array.quantity}}</td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric"><a   ng-click="removeItemArray_requisition($index)" style="color:maroon" title="Remove from list">Remove</a></td>
+
+
+                                                    </tr>
+
+                                                </table>
+
+                                            </div>
+
+                                            <md-button ng-if="dispensing_array_requisitions.length>0" class="md-raised md-primary" ng-click="dispensing_item_ordering()" >Save</md-button>
+
+                                        </div>
+
+
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </vertical-tab-pane>
+
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+            </vertical-tabs>
+        </md-content>
+
+        </md-content>
+    </md-tab>
+    <!--<md-tab label="Whole Sale">-->
+
+        <!--Whole Sale-->
+    <!--</md-tab>-->
+    </md-tabs>

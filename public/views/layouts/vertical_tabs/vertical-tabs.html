@@ -1,0 +1,18 @@
+<style>
+    .selectedvertical {
+        border-left: 8px solid black;
+    }
+</style>
+
+<div layout="row" flex="100" style="min-height:150px;">
+    <md-list flex="20" style="color:white;font-weight:700">
+        <md-list-item  style="padding:0;background-color:teal;margin:2px;" ng-click="select(pane)" ng-class="pane.selected ? 'selectedvertical ' : 'notselected'"
+            ng-repeat="pane in panes">
+            {{pane.title}}
+        </md-list-item>
+    </md-list>
+    <md-card flex="8s">
+        <md-card-content style="padding:1em;" class="tab-content" ng-transclude>
+        </md-card-content>
+    </md-card>
+</div>

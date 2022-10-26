@@ -1,0 +1,1303 @@
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel3"> SAMPLE STATUS REGISTRATION </h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>Sample Status</h3>
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="form-group col-md-8 col-sm-4">
+<label> Sample Status Name</label>
+<input type="text" data-toggle="tooltip" title="Enter  Sample Status" class="form-control" placeholder="Enter  Sample Status Name" ng-model="sample.sample_name">
+<p></p>
+<button class="btn btn-success" ng-click="sample_status_registration(sample)" >Register</button>
+</div>
+</div>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+<table class="table table-bordered table-striped" ing-if="sample_status" >
+<button class="btn btn-success" ng-click="getsample_status()" >View Sample Status</button>
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td>
+No#
+</td>
+<td>
+Sample Status
+</td>
+<td>
+Edit
+</td> <td  ng-if="!e">
+X
+</td>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="samplestatus in sample_status | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+<td><b ng-if="!e">{{ samplestatus.status}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Edit Sample Status" ng-model="samplestatus.sample_status">
+</div>
+</h3>
+</td>
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="sample_status_update(samplestatus)">Update</button>
+</div>
+</h3>
+</td>
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td><td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="sample_status_delete(samplestatus.id)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--<button type="button" class="btn btn-primary">Send message</button>-->
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel6"> LABORATORY SUB-DEPARTMENT REGISTRATION </h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>LABORATORY SUB-DEPARTMENT</h3>
+
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="form-group col-md-8 col-sm-4">
+<label> Sub Department Name</label>
+<input type="text" data-toggle="tooltip" title="Enter Sub Department Name" class="form-control" placeholder="Enter Sub Department Name" ng-model="sub.sub_department">
+</div>
+
+<div class="form-group col-md-8 col-sm-4">
+<label> Select Main Department Name</label>
+<select ng-model="sub.id" class="form-control" data-toggle="tooltip" title="Select Equipment Status">
+<option ng-value="sub.id" ng-repeat="sub in department">{{sub.department_name}}</option>
+</select>
+<p></p>
+<button class="btn btn-success" ng-click="sub_department_registration(sub)" >Register</button>
+</div>
+
+</div>
+
+</div>
+
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+
+<!--department list-->
+
+<table class="table table-bordered table-striped" ing-if="sample_status" >
+<button class="btn btn-success" ng-click="getsub_department()" >View Laboratory Sub Department:</button>
+<thead>
+<tr>
+<td>No#</td>
+<td>Sub Department</td>
+<td>Main Department</td>
+<td>Edit</td> 
+<td  ng-if="!e">X</td>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="deptmnt in subdepartment | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+<td><b ng-if="!e">{{deptmnt.sub_department_name}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Edit Sub Department Name" ng-model="deptmnt.sub_department_name">
+</div>
+</h3>
+</td>
+<td><b ng-if="!e">{{deptmnt.department_name}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<select ng-model="deptmnt.deptmnts" class="form-control" data-toggle="tooltip" title="Select Equipment Status">
+<option ng-value="deptmnts.id" ng-repeat="deptmnts in department">{{deptmnts.department_name}}</option>
+</select>
+</div>
+</h3>
+</td>
+
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="sub_department_update(deptmnt)">Update</button>
+</div>
+</h3>
+</td>
+
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td><td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="sub_department_delete(deptmnt)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel2"> Equipment Status Registration</h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> Equipment Status</h3>
+
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="form-group col-md-8 col-sm-4">
+<label> Equipment Status</label>
+<input type="text" data-toggle="tooltip" class="form-control" placeholder="Enter  Equipment Status" ng-model="equipmentnstatus.status_name">
+
+<p></p>
+<button class="btn btn-success" ng-click="equipment_status_registration(equipmentnstatus)" >Register</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+
+<!--department list-->
+
+<table class="table table-bordered table-striped">
+<button class="btn btn-success" ng-click="getequipement_status()" >View Equipment Status:</button>
+
+<div class="form-group">
+<div class="input-group">
+
+
+</div>
+</div>
+<thead>
+<tr>
+<td>
+
+No#
+
+</td>
+
+<td>
+
+Equipment Status
+
+
+
+</td>
+
+<td>
+
+Edit
+
+</td> <td  ng-if="!e">
+
+X
+
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="equipstatus in equip_status | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+
+<td><b ng-if="!e">{{ equipstatus.status_name}}</b>
+<h3 ng-if="e">
+
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Equipment Status" ng-model="equipstatus.status_name">
+</div>
+
+
+</h3>
+</td>
+
+<td ng-if="e">
+<h3 >
+
+<div class="form-group">
+
+
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="equipement_status_update(equipstatus)">Update</button>
+
+</div>
+</h3>
+<!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+</td>
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td><td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="equipement_status_delete(equipstatus)">Delete</button>
+</td>
+<!--<td>{{ region.tastiness }}</td>-->
+</tr>
+</tbody>
+
+</table>
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--<button type="button" class="btn btn-primary">Send message</button>-->
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel5"> laboratory Equipment Registration</h3>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> Equipment Registration</h3>
+
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-addon"><i class="glyphicon">
+Equipment Name</i></div>
+<input type="text" data-toggle="tooltip" title="Enter Council Type" class="form-control" placeholder="Enter Equipment Name" ng-model="equip.equipment_name">
+</div>
+</div>
+
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-addon"><i class="glyphicon ">
+Equipment Reagents</i></div>
+<input type="text" data-toggle="tooltip" title="Enter Council Type" class="form-control" placeholder="Enter Equipment Reagents" ng-model="equip.reagents">
+</div>
+</div>
+
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-addon"><i class="glyphicon ">
+Minimum Limit</i></div>
+<input type="text" data-toggle="tooltip" title="Enter Council Type" class="form-control" placeholder="Enter Minimum Limit" ng-model="equip.minimum_limit">
+</div>
+</div>
+
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-addon"><i class="glyphicon ">
+Maximum Limit</i></div>
+<input type="text" data-toggle="tooltip" title="Enter Council Type" class="form-control" placeholder="Enter Maximum Limit" ng-model="equip.maximum_limit">
+</div>
+</div>
+
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-addon"><i class="glyphicon ">
+SI-Unit</i></div>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="equip.item_units" uib-typeahead="item_units as item_units.unit for item_units in showItemtest($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</div>
+
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-addon"><i class="glyphicon ">
+Select Equipment Status</i></div>
+<select ng-model="equip.id" class="form-control" data-toggle="tooltip" title="Select Equipment Status">
+<option ng-value="equip.id" ng-repeat="equip in equip_status">{{equip.status_name}}</option>
+</select>
+</div>
+</div>
+
+<button class="btn btn-success" ng-click="equipment_registration(equip)" >Register</button>
+
+</div>
+</div>
+
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--<button type="button" class="btn btn-primary">Send message</button>-->
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exampleModal7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel7"> LABORATORY TEST REGISTRATION </h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>REGISTER LABORATORY TEST</h3>
+
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4">
+<label> Search Laboratory Test</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item" ng-model="labtest.item" uib-typeahead="item as item.item_name for item in showItem($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Test Range</label>
+<input type="text"  class="form-control reg" ng-model="labtest.range" placeholder="Enter Item Test Range">
+</div>
+</div>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Unit</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="labtest.item_units" uib-typeahead="item_units as item_units.unit for item_units in showItemtest($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Test Indicator</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Test Indicator" ng-model="labtest.item_indicator" uib-typeahead="item_indicator as item_indicator.indicator for item_indicator in showTestindicator($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</div>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Sample to collect</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Sample to collect" ng-model="labtest.sample" uib-typeahead="sample as sample.sample_to_collect for sample in showSample($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Sub Department</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Sub Department" ng-model="labtest.sub_department" uib-typeahead="sub_department as sub_department.sub_department_name for sub_department in showSubdep($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</div>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Equipment Used</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Equipment" ng-model="labtest.equipment" uib-typeahead="equipment as equipment.equipment_name for equipment in showequipment($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</div>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4" >
+<button class="btn btn-success" ng-click="lab_test_registration(labtest)" >Register</button>
+</div>
+</div>
+
+</fieldset>
+</form>
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+
+
+<div class="form-top">
+<div class="form-top-left">
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" data-whatever="@mdo">Sample Status</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo">Equipment Status</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal5" data-whatever="@mdo">Equipment Registration</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal6" data-whatever="@mdo">Department Registration</button>
+
+</div>
+</div>
+<p><h2 align="center"><b>LABORATORY SETTING DASHBOARD</b></h2></p>
+<div class="form-top">
+<div class="form-top-left">
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal7" data-whatever="@mdo">Register Laboratory Tests</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal8" data-whatever="@mdo">Register Test Unit</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal9" data-whatever="@mdo">Register Test Sample</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModa20" data-whatever="@mdo">Register Test Indicator</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModa21" data-whatever="@mdo">Register Test Panel</button>
+
+</div>
+</div>
+
+<br>
+<br>
+
+<form role="form" ng-controller="laboratorySettingController">
+<fieldset>
+
+<h3>
+<ul class="nav nav-tabs nav-justified">
+<li ng-class="{active: isSet(1)}" ng-click="get_lab_test()"><a href ng-click="setTab(1)">LABORATORY TEST LIST</a></li>
+<li ng-class="{active: isSet(11)}" ng-click="getequipement()"><a href ng-click="setTab(11)">EQUIPMENT REGISTERED</a></li>
+<li ng-class="{active: isSet(11)}" ng-click="gettest_panel()"><a href ng-click="setTab(12)">TEST PANELS</a></li>
+
+</ul>
+</h3>
+
+
+<div class="row">
+<div ng-show="isSet(1)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<table class="table table-bordered table-striped" style="width:100%" >
+<b><h3>LIST OF LABORATORY TEST THAT CAN BE PERFORMED BASED ON EQUIPMENT STATUS</h3></b>&nbsp;
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+ID
+</td>
+<td class="text-navy">
+ITEM ID
+</td>
+<td class="text-navy">
+NORMAL RANGE
+</td>
+<td class="text-navy">
+TEST UNIT
+</td>
+<td class="text-navy">
+TEST INDICATOR
+</td>
+<td class="text-navy">
+TEST SAMPLE
+</td>
+<td class="text-navy">
+TEST SUB DEPARTMENT
+</td>
+<td class="text-navy">
+TEST EQUIPMENT
+</td>
+<td class="text-navy">
+EQUIPMENT STATUS
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="labtest in lab_test | filter:search track by $index">
+<td> {{labtest.test_id}}</td>
+<td>{{labtest.item_name}} </td>
+<td>{{labtest.item_test_range}}</td>
+<td>{{labtest.unit}}</td>
+<td>{{labtest.indicator}}</td>
+<td>{{labtest.sample_to_collect}}</td>
+<td>{{labtest.sub_department_name}}</td>
+<td>{{labtest.equipment_name}}</td>
+<td>{{labtest.status_name}}</td>
+</tr>
+</tbody>
+
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div ng-show="isSet(12)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+
+<table class="table table-bordered table-striped">
+<b>LIST OF LABORATORY TEST PANEL</b>
+
+<thead>
+<tr>
+<td class="text-navy">ID#</td>
+<td class="text-navy">PANEL NAME</td>
+<td class="text-navy">ITEM TEST RANGE</td>
+<td class="text-navy">ITEM UNIT</td>
+<td class="text-navy">TEST INDICATOR</td>
+<td class="text-navy">Edit</td> 
+<td  ng-if="!e">X</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="gettestpan in gettestpanel | filter:search track by $index">
+
+<td><b ng-if="!e">{{gettestpan.test_panel_id}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" disabled placeholder="You cannot edit ID" ng-model="gettestpan.test_panel_id">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{gettestpan.panel_name}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Panel Name" ng-model="gettestpan.panel_name">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{gettestpan.Item_test_range}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Item Test Range" ng-model="gettestpan.Item_test_range">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{gettestpan.unit}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="gettestpan.item_units" uib-typeahead="item_units as item_units.unit for item_units in showItemtest($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{gettestpan.indicator}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Test Indicator" ng-model="gettestpan.item_indicator" uib-typeahead="item_indicator as item_indicator.indicator for item_indicator in showTestindicator($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</h3>
+</td>
+
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="test_panel_update(gettestpan)">Update</button>
+</div>
+</h3>
+<!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+</td>
+
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td>
+<td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="test_panel_delete(gettestpan)">Delete</button>
+</td>
+<!--<td>{{ region.tastiness }}</td>-->
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div ng-show="isSet(2)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<table class="table table-bordered table-striped" style="width:100%" >
+<b>Sample Collected</b>&nbsp;
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+ORDER ID
+</td>
+<td class="text-navy">
+PATIENT ID
+</td>
+<td class="text-navy">
+PATIETN NAME
+</td>
+<td class="text-navy">
+BELONGS TO DEPARTMENT
+</td>
+<td class="text-navy">
+SAMPLE COLLECTED
+</td>
+<td class="text-navy">
+SAMPLE NO
+</td>
+
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="ordercollected in lab_order_collected | filter:search track by $index">
+<td> {{ordercollected.tbl_lab_order_id}}</td>
+<td>{{ordercollected.medical_record_number}} </td>
+<td>{{ordercollected.first_name}}&nbsp;{{ordercollected.middle_name}}&nbsp;{{ordercollected.last_name}}</td>
+<td>{{ordercollected.sub_department_name}}</td>
+<td>{{ordercollected.item_name}}</td>
+<td>
+{{ordercollected.sample_no}}
+</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+<div ng-show="isSet(11)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+<div class="col-md-12">
+
+
+<table class="table table-bordered table-striped">
+<b>LABORATORY EQUIPMENT:{{facility_types.length}}</b>
+
+<thead>
+<tr>
+<td class="text-navy">No#</td>
+<td class="text-navy">Equipment Name</td>
+<td class="text-navy">Equipment Reagents</td>
+<td class="text-navy">Minimum Limit</td>
+<td class="text-navy">Maximum Limit</td>
+<td class="text-navy">Units</td>
+<td class="text-navy">Equipment Status</td>
+<td class="text-navy">Facility</td>
+<td class="text-navy">Edit</td> 
+<td  ng-if="!e">X</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="equipment in equipment | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+
+<td><b ng-if="!e">{{equipment.equipment_name}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Equipment Status" ng-model="equipment.equipment_name">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{equipment.reagents}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Equipment Status" ng-model="equipment.reagents">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{equipment.minimum_limit}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Equipment Status" ng-model="equipment.minimum_limit">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{equipment.maximum_limit}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Enter Equipment Status" ng-model="equipment.maximum_limit">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{equipment.unit}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="equipment.item_unit" uib-typeahead="item_units as item_units.unit for item_units in showItemtest($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{equipment.status_name}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Equipment Status" ng-model="equipment.eqstatus" uib-typeahead="eqstatus as eqstatus.status_name for eqstatus in showEqstatus($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{equipment.facility_name}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Facility" ng-model="equipment.facilitys" uib-typeahead="facilitys as facilitys.facility_name for facilitys in showFacility($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</h3>
+</td>
+
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="equipement_update(equipment)">Update</button>
+</div>
+</h3>
+<!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+</td>
+
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td>
+<td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="equipement_delete(equipment)">Delete</button>
+</td>
+<!--<td>{{ region.tastiness }}</td>-->
+</tr>
+</tbody>
+
+</table>
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</fieldset>
+
+</table>
+</form>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel3">LABORATORY TEST UNIT REGISTRATION </h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>TEST UNIT</h3>
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="form-group col-md-8 col-sm-4">
+<label>TEST UNIT</label>
+<input type="text" data-toggle="tooltip" title="Enter Test Unit" class="form-control" placeholder="Enter Test Unit" ng-model="testunit">
+<p></p>
+<button class="btn btn-success" ng-click="test_unit_registration(testunit)" >Register</button>
+</div>
+</div>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+<table class="table table-bordered table-striped">
+<button class="btn btn-success" ng-click="gettest_unit()" >View Test Unit</button>
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td>
+No#
+</td>
+<td>
+Test Unit
+</td>
+<td>
+Edit
+</td> 
+<td  ng-if="!e">
+X
+</td>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="gettestuni in gettestunit | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+<td><b ng-if="!e">{{ gettestuni.unit}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Edit Test Unit" ng-model="gettestuni.unit">
+</div>
+</h3>
+</td>
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="test_unit_update(gettestuni)">Update</button>
+</div>
+</h3>
+</td>
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td><td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="test_unit_delete(gettestuni)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--<button type="button" class="btn btn-primary">Send message</button>-->
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel3"> LABORATORY TEST SAMPLE REGISTRATION </h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>TEST SAMPLE</h3>
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="form-group col-md-8 col-sm-4">
+<label>TEST SAMPLE</label>
+<input type="text" data-toggle="tooltip" title="Enter Test Sample" class="form-control" placeholder="Enter Test Sample" ng-model="testsample">
+<p></p>
+<button class="btn btn-success" ng-click="test_sample_registration(testsample)" >Register</button>
+</div>
+</div>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+<table class="table table-bordered table-striped" ing-if="sample_status" >
+<button class="btn btn-success" ng-click="get_test_sample()" >View Test Sample</button>
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td>
+No#
+</td>
+<td>
+Test Sample
+</td>
+<td>
+Edit
+</td> <td  ng-if="!e">
+X
+</td>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="gettestsampl in gettestsample | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+<td><b ng-if="!e">{{ gettestsampl.sample_to_collect}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Edit Sample Status" ng-model="gettestsampl.sample_to_collect">
+</div>
+</h3>
+</td>
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="testsample_update(gettestsampl)">Update</button>
+</div>
+</h3>
+</td>
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td><td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="testsample_delete(gettestsampl)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exampleModa20" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel3"> TEST INDICATOR REGISTRATION </h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>TEST INDICATOR</h3>
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="form-group col-md-8 col-sm-4">
+<label>TEST INDICATOR</label>
+<input type="text" data-toggle="tooltip" title="Enter Test Unit" class="form-control" placeholder="Enter Test Unit" ng-model="testindicator.indicator">
+<p></p>
+
+<label>TEST INDICATOR COLOR</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="testindicator.color" uib-typeahead="color as color.color for color in showColor($viewValue) | filter:$viewValue | limitTo:3">
+<p></p>
+<button class="btn btn-success" ng-click="test_indicator_registration(testindicator)" >Register</button>
+
+</div>
+</div>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+<table class="table table-bordered table-striped" ing-if="sample_status" >
+<button class="btn btn-success" ng-click="getlab_test_indicator()" >View Test Indicator</button>
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td>
+No#
+</td>
+<td>
+Test Indicator
+</td>
+<td>
+Color
+</td>
+<td>
+Color Code
+</td>
+<td>
+Edit
+</td> <td  ng-if="!e">
+X
+</td>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="gettestindi in gettestindicator | filter:search track by $index">
+<td>{{ $index+1 }}</td>
+<td><b ng-if="!e">{{gettestindi.indicator}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Edit Indicator" ng-model="gettestindi.indicator">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{gettestindi.color}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="gettestindi.color" uib-typeahead="color as color.color for color in showColor($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</h3>
+</td>
+
+<td><b ng-if="!e">{{gettestindi.color_code}}</b>
+<h3 ng-if="e">
+<div class="form-group">
+<input type="text" class="form-control" disabled placeholder="Edit Color Code" ng-model="gettestindi.color_code">
+</div>
+</h3>
+</td>
+<td ng-if="e">
+<h3 >
+<div class="form-group">
+<button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="test_indicator_update(gettestindi)">Update</button>
+</div>
+</h3>
+</td>
+<td>
+<input type="checkbox" class="btn btn-info" ng-model="e">Edit
+</td>
+<td  ng-if="!e">
+<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="test_indicator_delete(gettestindi)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exampleModa21" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="exampleModalLabel3"> TEST PANEL REGISTRATION</h3>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span>TEST PANEL</h3>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Panel Name</label>
+<input type="text"  class="form-control reg" ng-model="testindi.itmpname" placeholder="Enter Item Panel Name">
+</div>
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Test Range</label>
+<input type="text"  class="form-control reg" ng-model="testindi.itmtstrng" placeholder="Enter Item Test Range">
+</div>
+</div>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Unit</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Item Unit" ng-model="testindi.item_unit" uib-typeahead="item_units as item_units.unit for item_units in showItemtest($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+<div class="form-group col-md-6 col-sm-4">
+<label>Item Test Indicator</label>
+<input data-toggle="tooltip" class="form-control input-lg" type="text" placeholder="Search Test Indicator" ng-model="testindi.item_indicator" uib-typeahead="item_indicator as item_indicator.indicator for item_indicator in showTestindicator($viewValue) | filter:$viewValue | limitTo:3">
+</div>
+</div>
+<div class="row">
+<div class="form-group col-md-6 col-sm-4" >
+<button class="btn btn-success" ng-click="test_panel_registration(testindi)" >Register</button>
+</div>
+</div>
+
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>

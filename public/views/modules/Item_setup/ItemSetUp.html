@@ -1,0 +1,1400 @@
+<md-tabs md-dynamic-height md-border-bottom >
+
+    <md-tab label="ITEM PRICE">
+
+        <vertical-tabs>
+            <vertical-tab-pane title="ITEM PRICED LIST"  >
+                <div class="md-block col-md-12">
+                    <md-input-container class="md-block col-md-8">
+                        <input type="text"  class="md-block " typeahead-on-select="load_item_priced_list_search(item_id)" ng-model="item_id"   placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_ist_search($viewValue) | limitTo:8 | filter:$viewValue" autocomplete="off">
+                    </md-input-container>
+                    <div class="col-md-4">
+                        <md-button ng-click="item_price_list()" class="md-primary md-raised md-block">View All </md-button>
+                    </div>
+                </div>
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="" action="">
+                                <fieldset>
+                                    <md-input-container class="form-bottom">
+                                        <b ng-if="item_prices.length<1">No price set for {{item_id.item_name}}</b>
+
+                                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="item_prices.length>0"  >
+
+                                            <thead style="background-color: beige">
+
+                                            <tr>
+                                                <td class="mdl-data-table__cell--non-numeric">
+
+                                                    No
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" ng-ok="('item_name')">
+
+                                                    Item Name
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-ok="('price')">
+
+                                                    Price
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-ok="('sub_category_name')">
+
+                                                    Category
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-ok="('startingFinancialYear')">
+
+                                                    Starting Financial Year
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-ok="('endingFinancialYear')">
+
+                                                    Ending Financial Year
+
+
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric">
+
+                                                    Edit
+
+                                                </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                                X
+
+                                            </td>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr dir-paginate="item_price in item_prices|itemsPerPage:50|orderBy:sortKey:reverse  | filter:search track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                                <td class="mdl-data-table__cell--non-numeric"><b  >{{ item_price.item_name }}</b>
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item_price.price }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" class="md-block"   ng-model="item_price.price" autocomplete="off">
+                                                        </md-input-container>
+
+
+                                                    </h3>
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item_price.sub_category_name }}</b>
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item_price.startingFinancialYear }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" datetime-picker date-format="yyyy-MM-dd" class="md-block" placeholder="starting Financial Year" ng-model="item_price.startingFinancialYear">
+                                                        </md-input-container>
+
+
+                                                    </h3>
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item_price.endingFinancialYear }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" datetime-picker date-format="yyyy-MM-dd" class="md-block" placeholder="ending Financial Year" ng-model="item_price.endingFinancialYear">
+                                                        </md-input-container>
+
+
+                                                    </h3>
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                                    <h3 >
+
+                                                        <div class="md-block">
+
+
+                                                            <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="item_price_update(item_price)">Update</md-button>
+
+                                                        </div>
+                                                    </h3>
+                                                    <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <md-checkbox class="" ng-model="e">Edit</md-checkbox>
+                                                </td><td  ng-if="!e">
+                                                <md-button class="md-raised md-warn" data-toggle="tooltip" title="Click to Delete from List" ng-click="item_price_delete(item_price.item_name,item_price.id)">Delete</md-button>
+                                            </td>
+                                                <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+
+                                        <dir-pagination-controls ng-if="item_prices.length>0"
+                                                                 max-size="50"
+                                                                 direction-links="true"
+                                                                 boundary-links="true" >
+                                        </dir-pagination-controls>
+
+                        </div>
+
+                        </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="ITEM & CATEGORIES PRICE"  >
+                <div class="md-block col-md-12">
+
+
+                        <md-select ng-model="item.dept_id" class="md-block col-md-4">
+                            <md-option selected="" value="">all departments</md-option>
+                            <md-option ng-value="department.id" ng-repeat="department in departments">{{department.department_name}}</md-option>
+                        </md-select>
+                        <md-select ng-model="item.sub_category_id" class="md-block col-md-4">
+<md-option selected="" value="">all categories</md-option>
+                            <md-option ng-value="category.id" ng-repeat="category in payment_sub_categories">{{category.sub_category_name}}</md-option>
+                        </md-select>
+                    <md-button ng-click="load_item_price_per_categories(item)" class="md-primary md-raised md-block">search </md-button>
+                    <md-button ng-click="print_loaded_item_price_per_categories()" ng-if="item_prices_cats.length>0" class="md-primary md-raised md-block">Print </md-button>
+
+                    <md-input-container class="">
+                        <input type="text"  class="md-block col-md-4"  ng-model="search"   placeholder="filter searched item... " uib-typeahead ="item as item.item_name  for item in item_ist_search($viewValue) | limitTo:8 | filter:$viewValue" autocomplete="off">
+                    </md-input-container>
+                </div>
+                <div  id="print_p_c_id">
+                    <table class="table-striped"  style="border:thin solid black; width:100%;align-content: center;text-align: center"  >
+                        <tr style="background-color:#c1c1c1">
+
+                            <th style="border-right: thin dotted black;border-bottom: thin dotted black;border-radius:2%">#</th>
+                            <th style="border-right: thin dotted black;border-bottom: thin dotted black;border-radius:2%">Item</th>
+                            <th style="border-right: thin dotted black;border-bottom: thin dotted black;border-radius:2%">Dept</th>
+                            <th style="border-right: thin dotted black;border-bottom: thin dotted black;border-radius:2%">Category</th>
+                            <th style="border-right: thin dotted black;border-bottom: thin dotted black;border-radius:2%">Price</th>
+
+
+                        </tr>
+                        <tr ng-repeat="iteme in item_prices_cats |filter:search track by $index" style="background-color:white">
+
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{iteme.item_name}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{iteme.department_name}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{iteme.sub_category_name}}</td>
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{iteme.price}}</td>
+
+                        </tr>
+                    </table>
+
+                </div>
+
+
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="CREATE ITEM PRICE"  >
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <!--Test-->
+                    <script type="text/ng-template" id="customTemplate.html">
+                        <a>
+
+                            <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                        </a>
+                    </script>
+                    <div class="row">
+
+                        <div class="col-md-12 form-box">
+                            <form  name="myForm" class=" " action="">
+                                <fieldset
+                                <div class="form-bottom">
+                                    <div class="row">
+                                        <div layout-gt-sm="row">
+                                            <md-autocomplete flex  flex
+                                                             md-search-text="searchText"
+                                                             md-input-name="patients"
+                                                             md-no-cache="true"
+                                                             md-items="item in getAllItems(searchText)"
+                                                             md-item-text="item.item_name"
+                                                             md-selected-item-change="selectedItem(item)"
+                                                             md-floating-label="Search Item"
+                                                             md-min-length="4" md-autofocus>
+                                                <md-item-template>
+                                                    <span md-highlight-text="searchText">{{item.item_name}}</span>
+                                                </md-item-template>
+                                            </md-autocomplete>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!--   <md-input-container class="md-block col-md-8 col-sm-4">
+
+                                               <input type="text"  class="md-block " typeahead-on-select="" ng-model="item_price.selectedItem" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_ist_search($viewValue) | limitTo:8 | filter:$viewValue" typeahead-template-url="customTemplate.html"
+                                                      class="md-block" typeahead-show-hint="true" typeahead-min-length="0" required>
+
+                                           </md-input-container>-->
+
+
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-repeat="category in payment_sub_categories" ng-if="category.main_category != 'Exemption'" >
+                                            <label>Enter {{category.sub_category_name}}  price</label>
+
+                                            <input type="text"   id="{{category.sub_category_name.replace(regex, '_')}}" class="md-block"   title="Enter item price for {{category.sub_category_name}} clients" onkeyup="money(this, event)"/>
+                                            <md-input-container class="hidden">
+											<input type="text"   id="status_{{category.sub_category_name.replace(regex, '_')}}" class="hidden" value="active" />
+
+                                        </md-input-container>
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="text" datetime-picker date-format="yyyy-MM-dd" class="md-block" placeholder="Enter  Starting Financial Year" ng-model="item_price.startingFinancialYear" required>
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input   class="md-block" datetime-picker date-format="yyyy-MM-dd" placeholder="Enter  Ending Financial Year" ng-model="item_price.endingFinancialYear" required>
+
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="md-block col-md-6 col-sm-4">
+
+                                            <md-button class="md-raised md-primary" ng-submit="" ng-disabled="myForm.$invalid" ng-click="item_price_registration(item_price,item)" >Register</md-button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+                </div>
+
+            </vertical-tab-pane>
+
+			 <vertical-tab-pane title="GFS MAPPING">
+				<div class="wrapper wrapper-content animated fadeInRight">
+					<!--Test-->
+					<script type="text/ng-template" id="customTemplate.html">
+						<a>
+
+							<span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+						</a>
+					</script>
+					<div class="row">
+
+						<div class="col-md-12 form-box">
+							<form  name="myForm" class=" " action="javascript:void(0);">
+								<fieldset>
+
+									<div class="form-bottom">
+										<div class="row">
+											<div class="form-group col-md-4">
+												<label> Item Name</label>
+
+												<input type="text"  class="form-control reg" typeahead-on-select="" ng-model="gfs.item" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_ist_search($viewValue) | limitTo:8 | filter:$viewValue" typeahead-template-url="customTemplate.html"
+													   class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
+											</div>
+											<div class="form-group col-md-5">
+												<label> Gfs Description</label>
+
+												<input type="text"  class="form-control reg" typeahead-on-select="" ng-model="gfs.gfs" placeholder="Search GFS Description " uib-typeahead ="item as item.description + ' - ' + item.code  for item in gfs_list_search($viewValue) | limitTo:8 | filter:$viewValue" typeahead-template-url="customTemplate.html"
+													   class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
+
+											</div>
+
+											<div class="form-group col-md-3" style = "vertical-align:bottom">
+												<button class="btn btn-success" ng-submit="" ng-disabled="myForm.$invalid" ng-click="gfs_registration(gfs)" >Register</button>
+												<button  class="btn btn-warning"  title="Click to reload list" ng-click="gfs_mapping_list()">Reload List</button>
+											</div>
+
+										</div>
+
+
+										</div>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-box">
+								<fieldset>
+									<div class="form-bottom">
+										<table class="table table-bordered table-striped">
+											<thead>
+											<tr>
+												<td>No</td>
+												<td ng-click="sort('item_name')">Item Name</td>
+												<td>Description</td>
+												<td>GFS Code</td>
+												<td>X</td>
+											</tr>
+											</thead>
+
+											<tbody>
+											<tr dir-paginate="mapping in gfs_mappings|itemsPerPage:20|orderBy:sortKey:reverse  | filter:search track by $index">
+												<td>{{ $index+1 }}</td>
+
+												<td>{{ mapping.item_name }}</td>
+												<td>{{ mapping.description }}</td>
+												<td>{{ mapping.code }}</td>
+												<td><button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="delete_gfs_mapping(mapping.id)">Delete</button></td>
+											</tr>
+											</tbody>
+										</table>
+
+										<dir-pagination-controls
+												max-size="5"
+												direction-links="true"
+												boundary-links="true" >
+										</dir-pagination-controls>
+
+									</div>
+									
+								</fieldset>
+						</div>
+					</div>
+				</div>
+			 </vertical-tab-pane>
+        </vertical-tabs>
+
+
+
+
+    </md-tab>
+
+
+<md-tab label="REGISTRATION">
+
+
+
+    <vertical-tabs>
+        <vertical-tab-pane title=" ITEMS LIST"  >
+
+            <div class="md-block col-md-12">
+                <md-input-container class="md-block col-md-8">
+                    <input type="text"  class="md-block " typeahead-on-select="load_item_list_search(item_id)" ng-model="item_id"   placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_ist_search($viewValue) | limitTo:8 | filter:$viewValue" >
+                </md-input-container>
+                <div class="col-md-4">
+                    <md-button ng-click="item_list()" class="md-primary md-raised md-block">View All </md-button>
+                </div>
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+                <dir-pagination-controls ng-if="items.length>0"
+                                         max-size="50"
+                                         direction-links="true"
+                                         boundary-links="true" >
+                </dir-pagination-controls>
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="items"  >
+
+
+                    <thead style="background-color: beige">
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+
+                            No
+
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" ng-ok="('item_name')">
+
+                            Item Name
+
+
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-ok="('department_name')">
+
+                            Department
+
+
+
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+
+                            Edit
+
+                        </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                        X
+
+                    </td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr dir-paginate="item in items|itemsPerPage:50|orderBy:sortKey:reverse | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item.item_name }}</b>
+                            <h3 ng-if="e">
+
+                                <md-input-container class="md-block">
+                                    <input type="text" class="md-block" placeholder="Item Name" ng-model="item.item_name">
+                                </md-input-container>
+
+
+                            </h3>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item.department_name }}</b>
+                            <h3 ng-if="e">
+
+                                <div class="md-block">
+                                    <md-select ng-model="item.dept_id" class="md-block">
+                                        <md-option>{{item.department_name}}</md-option>
+                                        <md-option ng-value="department.id" ng-repeat="department in departments">{{department.department_name}}</md-option>
+                                    </md-select>
+                                </div>
+
+
+                            </h3>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                            <h3 >
+
+                                <div class="md-block">
+
+
+                                    <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="item_update(item)">Update</md-button>
+
+                                </div>
+                            </h3>
+                            <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <md-checkbox   class="" ng-model="e">Edit</md-checkbox>
+                        </td><td  ng-if="!e">
+                        <md-button class="md-warn md-raised" data-toggle="tooltip" title="Click to Delete from List" ng-click="item_delete(item.item_name,item.id)">Delete</md-button>
+                    </td>
+                        <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                    </tr>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
+        </vertical-tab-pane>
+        <vertical-tab-pane title="ITEMS WITH SUB DEPARTMENTS LIST"  >
+
+            <div class="md-block col-md-12">
+                <md-input-container class="md-block col-md-8">
+                    <input type="text"  class="md-block " typeahead-on-select="load_sub_dept_item_list_search(item_id)" ng-model="item_id"   placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_ist_search($viewValue) | limitTo:8 | filter:$viewValue" >
+                </md-input-container>
+                <div class="col-md-4">
+                    <md-button ng-click="Sub_depts_items_list()" class="md-primary md-raised md-block">View All </md-button>
+                </div>
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="items"  >
+
+
+                    <thead style="background-color: beige">
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+
+                            No
+
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" ng-ok="('item_name')">
+
+                            Item Name
+
+
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-ok="('sub_department_name')">
+
+                            Sub Department
+
+
+
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+
+                            Edit
+
+                        </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                        X
+
+                    </td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="item in item_sub_depts_lists | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item.item_name }}</b>
+                            <h3 ng-if="e">
+
+                                <md-input-container class="md-block">
+                                    <input type="text" class="md-block" placeholder="Item Name" ng-model="item.item_name">
+                                </md-input-container>
+
+
+                            </h3>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item.sub_department_name }}</b>
+                            <h3 ng-if="e">
+
+                                <div class="md-block">
+                                    <md-select ng-model="item.sub_dept_id" class="md-block">
+                                        <md-option>{{item.sub_department_name}}</md-option>
+                                        <md-option ng-value="department.id" ng-repeat="department in sub_depts">{{department.sub_department_name}}</md-option>
+                                    </md-select>
+                                </div>
+
+
+                            </h3>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                            <h3 >
+
+                                <div class="md-block">
+
+
+                                    <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="sub_item_update(item)">Update</md-button>
+
+                                </div>
+                            </h3>
+                            <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <md-checkbox   class="" ng-model="e">Edit</md-checkbox>
+                        </td><td  ng-if="!e">
+                        <md-button class="md-warn md-raised" data-toggle="tooltip" title="Click to Delete from List" ng-click="item_delete(item.item_name,item.id)">Delete</md-button>
+                    </td>
+                        <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                    </tr>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
+
+        </vertical-tab-pane>
+
+        <vertical-tab-pane title="ITEM REGISTRATION"  >
+  <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" action="">
+                            <fieldset>
+
+                                <div class="form-bottom">
+
+
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="text" required class="md-block" placeholder="Enter  Item Name" ng-model="item_type_map.item_name">
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md6 col-sm-4" >
+                                            <label> Department</label>
+                                            <md-select ng-model="item_type_map.dept_id" class="md-block"  required>
+
+                                                <md-option ng-value="department.id" ng-repeat="department in departments">{{department.department_name}}</md-option>
+                                            </md-select>
+
+
+                                        </md-input-container>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                            <label> Item Category</label>
+                                            <md-select ng-model="item_type_map.item_category"  class="md-block" required>
+                                                <md-option value={{item_category.item_category_name}} ng-repeat="item_category in item_categories" >{{item_category.item_category_name}}</md-option>
+                                            </md-select>
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Item Code(option)" ng-model="item_type_map.item_code">
+
+                                        </md-input-container>
+
+
+                                    </div>
+                                    <div class="row">
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4" ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Item sub category" ng-model="item_type_map.sub_item_category">
+
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4" ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Dose formulation" ng-model="item_type_map.Dose_formulation">
+
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row" ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="number" class="md-block" min="0" placeholder="Enter  Unit Of Measure (UOM)" ng-model="item_type_map.unit_of_measure">
+
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Dispensing Unit" ng-model="item_type_map.dispensing_unit">
+
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="number" class="md-block" placeholder="Enter  Strength example 500" ng-model="item_type_map.strength" required>
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="number" class="md-block" placeholder="Enter  Volume " ng-model="item_type_map.volume" required>
+
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="md-block col-md-6 col-sm-4">
+                                            <label>  </label>
+                                            <!--<md-button class="md-raised md-primary" ng-click="item_type_map_registration(item_type_map)" >Register</md-button>-->
+                                            <!--<p></p>-->
+                                            <md-button class="md-raised md-primary" ng-click="item_registration(item_type_map)" >Register</md-button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </vertical-tab-pane>
+       <!-- <vertical-tab-pane title="ITEM MAPPING"  >
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" action="">
+                            <fieldset>
+
+                                <div class="form-bottom">
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+
+                                            <input type="text"  class="md-block" typeahead-on-select="" ng-model="item_type_map.selectedItem" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_searching($viewValue) | limitTo:8 | filter:$viewValue">
+
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Item Code(option)" ng-model="item_type_map.item_code">
+
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                            <label> Item Category</label>
+                                            <md-select ng-model="item_type_map.item_category"  class="md-block">
+                                                <md-option value={{item_category.item_category_name}} ng-repeat="item_category in item_categories" >{{item_category.item_category_name}}</md-option>
+                                            </md-select>
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4" ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Item sub category" ng-model="item_type_map.sub_item_category">
+
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row" ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Dose formulation" ng-model="item_type_map.Dose_formulation">
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="number" class="md-block" min="0" placeholder="Enter  Unit Of Measure (UOM)" ng-model="item_type_map.unit_of_measure">
+
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Dispensing Unit" ng-model="item_type_map.dispensing_unit">
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="number" class="md-block" placeholder="Enter  Strength example 500" ng-model="item_type_map.strength" required>
+
+                                        </md-input-container>
+
+                                    </div>
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4"  ng-if="item_type_map.item_category=='Medication' || item_type_map.item_category=='Medical Supplies'">
+
+                                            <input type="number" class="md-block" placeholder="Enter  Volume " ng-model="item_type_map.volume" required>
+
+                                        </md-input-container>
+                                        <div class="md-block col-md-6 col-sm-4">
+                                            <label>  </label>
+                                            <md-button class="md-raised md-primary" ng-click="item_type_map_registration(item_type_map)" >Register</md-button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </vertical-tab-pane>-->
+
+        <vertical-tab-pane title="ITEM SUB DEPARTMENT REGISTRY"  >
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" action="">
+                            <fieldset>
+
+                                <div class="form-bottom">
+
+
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                                            <input type="text" id="item" class="md-block" typeahead-on-select="" ng-model="item.item_id" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_searching($viewValue) | limitTo:30 | filter:$viewValue">
+
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block col-md-4 col-sm-4">
+                                            <label for="">Choose Sub department</label>
+                                            <md-select ng-model="item.dept_id" id="sub">
+                                                <md-option value={{sub_dept.id}} ng-repeat="sub_dept in sub_depts">{{sub_dept.sub_department_name}}</md-option>
+                                            </md-select>
+                                        </md-input-container>
+
+                                        <md-button class="md-raised md-primary" ng-click="item_sub_department_registry(item)">Save</md-button>
+
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </vertical-tab-pane>
+
+    </vertical-tabs>
+
+    </md-tab>
+
+
+
+
+    <md-tab label="CHANGE ITEM CATEGORY">
+        <md-input-container class="md-block col-md-6 col-sm-4">
+
+
+            <input type="text"  class="md-block" typeahead-on-select="" id="item" ng-model="change.selectedItem" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_searching($viewValue) | limitTo:8 | filter:$viewValue">
+
+
+        </md-input-container>
+
+        <md-input-container class="md-block col-md-6 col-sm-4">
+ <label> Choose item Category</label>
+
+             <md-select ng-model="change.id_cat" >
+                 <md-option value={{change.item_category_name}} ng-repeat="change in item_categories" >{{ change.item_category_name }}</md-option>
+             </md-select>
+
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="change_category(change)">Save</md-button>
+
+
+    </md-tab>
+    <md-tab label="ITEM CATEGORY">
+        <md-content class='md-padding'>
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" action="">
+                            <fieldset>
+
+                                <div class=" ">
+
+
+                                    <div class="row col-md-12">
+
+                                        <md-input-container class="md-block col-md-8 col-sm-4">
+
+                                            <input type="text" class="md-block" placeholder="Enter  Item category  name" ng-model="category.item_category_name">
+
+</md-input-container>
+                                            <md-button class="md-raised md-primary" ng-click="item_category_registration(category)" >Register</md-button>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   >
+
+
+                                        <thead style="background-color: beige">
+
+                                        <tr>
+                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                No
+
+                                            </td>
+
+                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                Item Category
+
+
+
+                                            </td>
+
+                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                Edit
+
+                                            </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                            X
+
+                                        </td>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr ng-repeat="item_category in item_categories | filter:search track by $index">
+                                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                            <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ item_category.item_category_name }}</b>
+                                                <h3 ng-if="e">
+
+                                                    <md-input-container class="md-block">
+                                                        <input type="text" class="md-block" placeholder=" item_category Name" ng-model="item_category.item_category_name">
+                                                    </md-input-container>
+
+
+                                                </h3>
+                                            </td>
+
+
+                                            <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                                <h3 >
+
+                                                    <div class="md-block">
+
+
+                                                        <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="item_category_update(item_category)">Update</md-button>
+
+                                                    </div>
+                                                </h3>
+                                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <md-checkbox type="checkbox" class="" ng-model="e">Edit</md-checkbox>
+                                            </td><td  ng-if="!e">
+                                            <md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="item_category_delete(item_category.id)">Delete</md-button>
+                                        </td>
+                                            <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <!--starting tabs-00000000000000000000000000000000000000000000000000000000000000000000000000000000------->
+
+
+
+
+
+
+
+        </md-content>
+    </md-tab>
+    
+      <md-tab label="SERVICES CONFIG">
+        <md-content class='md-padding'>
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" action="">
+                            <fieldset>
+
+                                <div class=" ">
+
+
+                                    <div class="row">
+                                        <div class="md-block col-md-12">
+
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <input type="text"  class="md-block" id="itm"  typeahead-on-select="item_exemption(item_type_map,data)" ng-model="item_type_map.selectedItem" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_searching($viewValue) | limitTo:8 | filter:$viewValue" autocomplete="off">
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                            <md-radio-group layout="row" ng-model="data.conf"   >
+                                                <md-radio-button value="exempted" class="md-primary">Exemption</md-radio-button>
+                                                <md-radio-button value="onetime" class="md-primary">One Time</md-radio-button>
+                                                <md-radio-button value="insurance" class="md-primary">Insurance </md-radio-button>
+                                            </md-radio-group>
+
+                                        </md-input-container>
+</div>
+
+<div class="md-block col-md-12 col-sm-4" ng-if="data.conf=='insurance'">
+
+
+
+                                        <md-input-container class="md-block col-md-3 col-sm-4" ng-repeat="category in payment_sub_categories" ng-if=" category.pay_cat_id != 1"  >
+                                           <md-checkbox  ng-click="payment_sub_categories_insurance(category,$index)"    title="Enter item Status for {{category.sub_category_name}} clients">{{category.sub_category_name}}</md-checkbox>
+
+                                           </md-input-container>
+
+    <div class="md-block col-md-12">
+	
+                                        <table ng-if="item_exemptions.length>0 && data.conf=='insurance'" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                <th class="mdl-data-table__cell--non-numeric">ITEM</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Remove </th>
+                                            </tr>
+                                            <tr ng-repeat="item_exemption in item_exemptions track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index + 1}}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{item_exemption.item_name }}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <i ng-click="removeItemArray($index) "> Remove</i>
+                                                </td>
+                                            </tr>
+                                        </table>
+        <md-button class="md-raised md-primary    " ng-click="item_insurance_non_beneficiary(data)" title="Setting Item which Is Not Paid By Respective Insurance" >NOT BENEFICIARY</md-button>
+        <md-button class="md-raised md-primary     " ng-click="item_insurance_beneficiary(data)" title="Setting Item which will be Paid By Respective Insurance">BENEFICIARY</md-button>
+    </div>
+
+</div>
+
+
+ <table ng-if="item_exemptions.length>0 && data.conf=='exempted'" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                <th class="mdl-data-table__cell--non-numeric">ITEM</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Remove </th>
+                                            </tr>
+                                            <tr ng-repeat="item_exemption in item_exemptions track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index + 1}}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{item_exemption.item_name }}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <i ng-click="removeItemArray($index) "> Remove</i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+<th  colspan="1"></th>
+                                                <th class="mdl-data-table__cell--non-numeric"> <div class="md-block col-md-8 col-sm-4" ng-if="item_exemptions.length>0" title="Setting Item which has no exemption">
+
+                                                    <md-button class="md-raised md-primary" ng-click="item_exemption_set(data)" >NO EXEMPTION</md-button>
+
+                                                </div></th><th class="mdl-data-table__cell--non-numeric"> <div class="md-block col-md-8 col-sm-4" ng-if="item_exemptions.length>0" title="Setting Item which has  exemption">
+
+
+                                                    <md-button class="md-raised md-primary" ng-click="item_exemption_reset(data)" >SET EXEMPTION</md-button>
+
+                                                </div></th>
+
+                                            </tr>
+                                        </table>
+
+
+                                        <table ng-if="item_exemptions.length>0 && data.conf=='onetime'" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                <th class="mdl-data-table__cell--non-numeric">ITEM</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Remove </th>
+                                            </tr>
+                                            <tr ng-repeat="item_exemption in item_exemptions track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index + 1}}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{item_exemption.item_name }}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <i ng-click="removeItemArray($index) "> Remove</i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th  colspan="1"></th>
+                                                <th class="mdl-data-table__cell--non-numeric"> <div class="md-block col-md-8 col-sm-4" ng-if="item_exemptions.length>0" title="Setting Item which Will not Be Billed Once Consultation Has Paid">
+
+                                                    <md-button class="md-raised md-primary" ng-click="item_exemption_set(data)" >ONETIME PAYMENT</md-button>
+
+                                                </div></th><th class="mdl-data-table__cell--non-numeric"> <div class="md-block col-md-8 col-sm-4" ng-if="item_exemptions.length>0" title="Setting Item which Will   Be Billed every time Once Ordered ">
+
+
+                                                <md-button class="md-raised md-primary" ng-click="item_exemption_reset(data)" >NORMAL PAYMENT </md-button>
+
+                                            </div></th>
+
+                                            </tr>
+                                        </table>
+								
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+        </md-content>
+    </md-tab>
+
+    <md-tab ng-click="getsub_department_list()" label="SUB DEPARTMENTS" >
+        <div layout="row">
+            <div flex="50">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">Register Sub-Department</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <script type="text/ng-template" id="customTemplate.html">
+                    <a>
+                        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                    </a>
+                </script>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Department name</label>
+                        <input type="text"  ng-model="department.department_name"
+                               uib-typeahead ="registered as registered.department_name
+          for registered in departments |  filter:$viewValue"
+                               typeahead-template-url="customTemplate.html"
+                               typeahead-show-hint="true" typeahead-min-length="0" autocomplete="off">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Sub-department Name</label>
+                        <input type="text" ng-model="department.name" autocomplete="off">
+                    </md-input-container>
+                </div>
+                <br><br>
+                <md-button style="width: 15%;" class="md-raised md-primary" ng-click="departmentRegistration(department)">
+                    save
+                </md-button>
+                </md-content>
+            </div>
+            <div flex="50">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp pull-right">
+                    <thead>
+                    <tr>
+                        <th><h5 align="left">s/n</h5></th>
+                        <th><h5 align="left">Sub Department Name</h5></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="department in sub_depts  track by $index">
+                        <td class="">
+                            {{$index+1}}
+                        </td>
+                        <td class="">
+                            {{department.sub_department_name}}
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </md-tab>
+    <md-tab label="RECEPTION SERVICES">
+        <md-content class='md-padding'>
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" action="">
+                            <fieldset>
+
+                                <div class=" ">
+
+
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-8 col-sm-4">
+
+                                            <input type="text" id="item" autocomplete="off" class="md-block"  typeahead-on-select="item_registrar(item_type_map)" ng-model="item_type_map.selectedItem" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in item_searching($viewValue) | limitTo:8 | filter:$viewValue">
+
+                                            <p></p>
+
+
+                                        </md-input-container>
+
+                                        <table ng-if="item_registrars.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                <th class="mdl-data-table__cell--non-numeric">ITEM</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Remove </th>
+                                            </tr>
+                                            <tr ng-repeat="item_exemption in item_registrars track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index + 1}}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{item_exemption.item_name }}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <i ng-click="removeRegistrarItemArray($index) "> Remove</i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+<th  colspan="1"></th>
+                                                <th class="mdl-data-table__cell--non-numeric"> <div class="md-block col-md-8 col-sm-4" ng-if="item_registrars.length>0" >
+
+                                                    <md-button class="md-raised md-primary" ng-click="item_registrar_set()" >Save</md-button>
+
+                                                </div></th>
+
+                                            </tr>
+                                        </table>
+
+
+
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+        </md-content>
+    </md-tab>
+    <md-tab label="DIAGNOSIS REGISTRY">
+        <md-content class='md-padding'>
+
+             <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="" action="">
+                                <fieldset>
+
+                                    <div class="form-bottom">
+
+
+                                        <div class="row">
+                                            <md-input-container class="md-block col-md-8 col-sm-4">
+
+                                                <input type="text" id='description'class="md-block" placeholder="Enter Diagonsis" ng-model="item.description" autocomplete="off">
+
+                                            </md-input-container>
+
+                                            <md-input-container class="md-block col-md-8 col-sm-4">
+
+                                                <input type="text" id='code' class="md-block" placeholder="Enter Code" ng-model="item.code">
+
+                                            </md-input-container>
+
+                                            <md-button class='md-raised md-primary' ng-click="diagnosis_registry(item)">Save</md-buttom>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+        </md-content>
+    </md-tab>
+</md-tabs>
+
+<script>
+		$(document).ready(function () {
+			$('input.number').keyup(function(event) {
+				// skip for arrow keys
+				if(event.which >= 37 && event.which <= 40) 
+					return;
+					
+			  // format number
+			  $(this).val(function(index, value) {
+				value += '';
+				var dec = '';
+				
+				var parts = value.split('.');
+				dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+				return parts[0]
+				.replace(/\D/g, '')
+				.replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+			  });
+			});		
+			
+		});
+		
+		function money(field,event){
+			if(event.which >= 37 && event.which <= 40) 
+					return;
+					
+			  // format number
+			  $(field).val(function(index, value) {
+				value += '';
+				var dec = '';
+				
+				var parts = value.split('.');
+				dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+				return parts[0]
+				.replace(/\D/g, '')
+				.replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+			  });
+		}	
+</script>

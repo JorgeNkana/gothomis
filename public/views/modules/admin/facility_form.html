@@ -1,0 +1,69 @@
+<md-dialog >
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1" width="100%">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA WAZEE NA WATOTO</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8> FACILITY REGITRATION FORM </h8></div>
+                                                            <div  class="text-center"><h8> <i>
+															{{facility.length}} 
+															FACILITIES TO SAVE TO FACILITY SERVER</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4"></b>
+                                                            <b class="col-md-4"></b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4"> </b>
+                                                            <b class="col-md-4"></b>
+                                                            <b class="col-md-4"> </b>
+                                                            <b class="col-md-4"></b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                         <tr style="background-color:#c1c1c1">
+                                                         <th>S/No.</th>
+														 <th>FACILITY NAME</th>
+														 
+														 <th>FACILITY CODE</th> <th>ADDRESS</th> <th>MOBILE NUMBER</th> <th>EMAIL</th>  </tr>
+                                           <tr ng-repeat="facility in facility  track by $index" ng-if="$index < 30"> 
+														<td>{{$index+1}}</td>
+														
+														<td>{{facility.facility_name}}</td>
+														<td>{{facility.facility_code}}</td><td>
+														{{facility.address}}
+														</td><td>{{facility.mobile_number}}</td> 
+														<td>{{facility.email}}</td> 
+
+														</tr>
+
+
+                                                    </table>
+
+                                                    
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+
+             <md-button  class="md-raised md-primary"    ng-click="saveFacilityFromCentral(facility)" class="md-primary">
+                Accept
+            </md-button>
+           
+        </md-dialog-actions>
+  </md-dialog>

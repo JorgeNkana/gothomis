@@ -1,0 +1,159 @@
+<style>
+table {
+    width:80%;
+	align:center;
+}
+table, th, th {
+    border: 0px solid black;
+    border-collapse: collapse;
+}
+th, th {
+    padding: 5px;
+    text-align: center;
+}
+table.names tr:nth-child(even) {
+    background-color: #eee;
+}
+table.names tr:nth-child(odd) {
+   background-color:#fff;
+}
+table.names th {
+    background-color: black;
+    color: white
+}
+</style>
+
+<div class="container">
+  
+<div class="wrapper wrapper-content animated fadeInRight">
+
+<br>
+  <div class="row">
+    <div class="col-md-12 form-box">
+      <form ng-controller="patientController" role="form" class="registration-form" action="javascript:void(0);">
+        <fieldset>
+          <div class="form-top">
+            <div class="form-top-left">
+              <h3><span><i class="fa fa-user-md" aria-hidden="true"></i></span>Registration Report</h3>
+
+            </div>
+          </div>
+		  <br>
+          <div class="container">
+		  <div class="row">
+		  <div class="col-sm-4" align="center">
+		  <input type="date" ng-model="dateone" class="form-control" placeholder="Select Start Date" id="Fname">
+		  
+</div>
+		  <div class="col-sm-4" align="center">
+          <input type="date" ng-model="datetwo" class="form-control" placeholder="Select End Date" id="lname">
+		  </div>
+		  <div class="col-sm-4" align="center">
+          <button type="submit" class="btn btn-success" ng-click="registration_report(dateone,datetwo)">Submit</button>
+
+		  </div>
+		  
+		  </div>
+           <br>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th rowspan="2" style="vertical-align:middle">CATEGORIES</th>
+        <th colspan="3">AGE: 0 - 11 MONTH</th>
+        <th colspan="3">AGE: 1 - 5 YEAR</th>
+        <th colspan="3">AGE: 5 - 59 YEAR</th>
+        <th colspan="3">AGE: 60 - ABOVE</th>
+		<th colspan="3">GRAND TOTAL</th>
+      </tr>
+      <tr>
+        <th>F</th><th>M</th><th>TOTAL</th>
+        <th>F</th><th>M</th><th>TOTAL</th>
+        <th>F</th><th>M</th><th>TOTAL</th>
+        <th>F</th><th>M</th><th>TOTAL</th>
+        <th>F</th><th>M</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>NEW REGISTRATION</th><th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+      </tr>
+      <tr>
+        <th>RE-ATTENDANCE</th><th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+        <th>5</th><th>5</th><th>10</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        </fieldset>
+        
+      </form>
+
+</div>
+</div>
+  <br>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventhefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

@@ -1,0 +1,418 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Clinic Setup" ng-click="setTabEquipments(1)">
+
+                    <md-content class="md-padding">
+
+                        <!-- <h3 class="md-display-1">Search re-attended
+                            patients</h3> -->
+                        <!-- register patient  -->
+                           <div  role="form">
+                               <md-content class="md-padding" style="padding:2em;">
+                                <div layout="row">
+                                  
+                                <div class="col-md-3">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">CLINIC CAPACITY</div><br>
+                                        <div class="panel-body">
+                                            <div class="row">
+
+											<md-input-container class="md-block" flex-gt-sm>
+                                         <label>CLINIC CAPACITY PER DAY</label>
+                                         <input  type="text" ng-model="clinic_capacity">
+                                          </md-input-container>
+											                                             
+                                            </div>
+                                           <md-button class="md-raised md-primary" ng-click="addDevices(device)">SAVE</md-button>
+                                        </div>
+
+                                    </div>
+
+                                </div>    <div class="col-md-4">
+                                <div class="panel panel-primary">
+                                    <div class="form-top">FACILITY CTC NUMBER</div><br>
+                                    <div class="panel-body">
+                                        <div class="row">
+					<md-input-container  flex-gt-sm>
+                    <label>ID NUMBER</label>
+                    <input  type="text" ng-model="device.equip_name">
+                    </md-input-container>
+										                         </div>
+                                       <md-button class="md-raised md-primary" ng-click="addDevices(device)">SAVE</md-button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                                <div class="col-md-5">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">HEALTH FACILITY FILE NUMBER</div><br>
+                                        <div class="panel-body">
+                                            <div class="row">
+											<md-input-container  flex-gt-sm>
+                    <label>FACILITY FILE NUMBER</label>
+                    <input  type="text" ng-model="device.equip_name">
+                    </md-input-container>
+										                                   
+
+                                            </div>
+											<md-button class="md-raised md-primary" ng-click="addDevices(device)">SAVE</md-button>
+											
+                                           
+                                        </div>
+
+                                    </div>
+
+                                </div> 
+                                   
+                                </div>
+                            </md-content>
+
+
+
+
+
+
+
+
+</form>
+</div>
+<!-- end register patient -->
+</md-content>
+
+</md-tab>
+  <md-tab label="Codes">
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs >
+                            <vertical-tab-pane title="Visit Type">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>Visit Type Code</label>
+                                        <input ng-model="visit.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Visit Type</label>
+                                        <input ng-model="visit.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveVisitCode(visit)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+
+                              
+                            </vertical-tab-pane>
+							
+							 
+							 <vertical-tab-pane title="Signs,Symptoms and OI's">
+                               <div layout="row">
+                                    <md-input-container >
+                                        <label>Symptoms Code</label>
+                                        <input ng-model="symptom.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Symptoms and OI's</label>
+                                        <input ng-model="symptom.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveSymptomCode(symptom)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+
+
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="Functional Status">
+                               <div layout="row">
+                                    <md-input-container >
+                                        <label>Functional Status Code</label>
+                                        <input ng-model="symptom.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Functional Status Description</label>
+                                        <input ng-model="symptom.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveFunctionalStatusCode(symptom)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+
+                             
+                            </vertical-tab-pane>	
+							
+							<vertical-tab-pane title="Family Planning">
+                                  <div layout="row">
+                                    <md-input-container >
+                                        <label>Family Plan Code</label>
+                                        <input ng-model="family.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Family Plan Description</label>
+                                        <input ng-model="family.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveFamilyPlanCode(family)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="Nutritional Status">
+                                 <div layout="row">
+                                    <md-input-container >
+                                        <label>Nutrition Status Code</label>
+                                        <input ng-model="nutrition.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Nutrition Status Description</label>
+                                        <input ng-model="nutrition.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveNutritionStatusCode(nutrition)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+
+<vertical-tab-pane title="Nutritional Supplement">
+                                    <div layout="row">
+                                    <md-input-container >
+                                        <label>Nutrition Supplement Code</label>
+                                        <input ng-model="nutrition.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Nutrition Supplement Description</label>
+                                        <input ng-model="nutrition.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveSupplementStatusCode(nutrition)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="Reffered to">
+                               <div layout="row">
+                                    <md-input-container >
+                                        <label>Refferal Code</label>
+                                        <input ng-model="refferal.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Refferal Description</label>
+                                        <input ng-model="refferal.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveRefferalCode(refferal)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="Follow up Status">
+                              <div layout="row">
+                                    <md-input-container >
+                                        <label>Follow Up Status Code</label>
+                                        <input ng-model="followup.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Follow Up Status Description</label>
+                                        <input ng-model="followup.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveFollowupCode(followup)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+
+							
+
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+<md-tab label="ARV & TB">
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs >
+                            
+							<vertical-tab-pane title="TB Screening/Diagnosis">
+                                 <div layout="row">
+                                    <md-input-container >
+                                        <label>TB Screening Diagnosis Code</label>
+                                        <input ng-model="tb_screening.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>TB Screening Diagnosis Description</label>
+                                        <input ng-model="tb_screening.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveTbScreeningCode(tb_screening)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                            </vertical-tab-pane>
+							
+         <vertical-tab-pane title="ARV Reason">
+                                  <div layout="row">
+                                    <md-input-container >
+                                        <label>ARV Reason Code</label>
+                                        <input ng-model="arv_reason.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>ARV Reason Description</label>
+                                        <input ng-model="arv_reason.type">
+                                    </md-input-container>
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="saveARVReasonCode(arv_reason)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane> 
+ <vertical-tab-pane title="ARV Combination Regimens">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>ARV Combination Regimens Code</label>
+                                        <input ng-model="arv_combination.code"/>
+                                    </md-input-container>
+                                    <md-input-container >
+                                     <label>ARV Combination Regimens Description</label>
+                                        <input ng-model="arv_combination.type" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="arvCombinationRegimes(arv_combination)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="TB treatment">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>TB treatment Code</label>
+                                        <input ng-model="tb_treatment.code"  />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>TB treatment Description</label>
+                                        <input ng-model="tb_treatment.type" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="TBtreatment(tb_treatment)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="ARV status">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>ARV status Code</label>
+                                        <input ng-model="ARVstatus.code"  />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>ARV status Description</label>
+                                        <input ng-model="ARVstatus.type"  />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="SaveARVstatusCode(ARVstatus)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="ARV adherense">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>ARV adherense Code</label>
+                                        <input ng-model="ARVAdherense.code" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>ARV adherense Description</label>
+                                        <input ng-model="ARVAdherense.type" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="SaveARVAdherense(ARVAdherense)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="OI Treatment/Prophylaxis">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>OI Treatment/Prophylaxis Code</label>
+                                        <input ng-model="OITreatment.code">
+                                    </md-input-container>
+                                    <md-input-container >
+                                     <label>OI Treatment/Prophylaxis Description</label>
+                                        <input ng-model="OITreatment.type" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="SaveOITreatment(OITreatment)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+								
+
+
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+<md-tab label="Discussion Topics">
+   <md-content class="md-padding">
+  
+         <!--vertical tabs start-->
+                        <vertical-tabs >
+                            
+							
+ 				<vertical-tab-pane title="Register Topic">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>TOPIC NAME</label>
+                                        <input ng-model="pef.start"  />
+                                    </md-input-container>
+                                    
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="getReportBasedOnThisDate(pef)">SAVE</md-button>
+                                    </md-input-container>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="View Topic">
+                                <div layout="row">
+                                   <h1>TOPIC LISTS</h1>
+                                </div>
+                             
+                            </vertical-tab-pane>
+							
+													
+
+
+                        </vertical-tabs>       
+
+
+    </md-content>
+</md-tab>
+
+
+
+
+
+</md-tabs>
+</md-content>
+</div>

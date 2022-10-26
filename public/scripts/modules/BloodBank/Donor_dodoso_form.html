@@ -1,0 +1,38 @@
+<md-dialog   class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <b> NAME: {{SelectedClient.first_name}} {{SelectedClient.middle_name}} {{SelectedClient.last_name}} MRN: {{SelectedClient.medical_record_number}} GENDER:{{SelectedClient.gender}}<p></p>
+
+            </b>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div  class="col-md-12">
+
+            <div class="col-md-4">
+                <md-input-container  >
+                    <label>Upatikanaji wa Taarifa</label>
+                    <md-select ng-model="dodoso.info_availability">
+
+                        <md-option value="YES">YES</md-option>
+                        <md-option value="NO">NO</md-option>
+
+                    </md-select>
+                </md-input-container>
+            </div>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="col-md-8">
+                <md-button class="md-raised md-primary" ng-click="Donor_dodoso(dodoso)">  Register</md-button>
+                <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+            </section>
+        </div>
+
+
+    </md-dialog-content>
+</md-dialog>

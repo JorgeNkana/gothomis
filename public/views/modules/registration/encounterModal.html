@@ -1,0 +1,254 @@
+<md-dialog ng-controller="patientController" class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row" layout-align="space-between center">
+                <h2 class="md-display-1">{{patientData[0].first_name| uppercase}}&nbsp;{{patientData[0].middle_name|
+                    uppercase}}&nbsp;{{patientData[0].last_name| uppercase}}</h2>
+                <h3 class="md-title">{{patientData[0].medical_record_number}}</h3>
+                <span class="md-subhead">&nbsp;&nbsp;&nbsp;&nbsp;{{getLastVisit}}</span>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Billing">
+                    <md-content class="md-padding">
+                        <div style="min-height:400px;">
+                            <div layout="row">
+                                <md-input-container flex="50">
+                                    <label>Payment Category</label>
+                                    <md-select ng-model="encounter.payment_category"
+                                               ng-change="getPricedItems(encounter.payment_category)">
+
+                                        <md-option value=""></md-option>
+                                        <md-option ng-repeat="patientCat in patientCategory"
+                                                   value="{{patientCat.patient_category}}">
+                                            {{patientCat.patient_category}}
+                                        </md-option>
+                                    </md-select>
+
+                                </md-input-container>
+
+                                <md-input-container flex="50">
+                                    <label>Services</label>
+                                    <input autocomplete="off" required name="clientName"
+                                           ng-model="encounter.payment_services"
+                                           uib-typeahead=" patientCat as patientCat.item_name +' '+ patientCat.price for  patientCat in services | filter:$viewValue">
+                                    <div ng-messages="projectForm.payment_services.$error">
+                                        <div ng-message="required">This is required.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
+                                <md-input-container flex="30">
+                                    <label>Is the Patient Already Admitted?</label>
+                                    <md-select ng-model="encounter.is_admitted">
+                                        <md-option value="0">No</md-option>
+                                        <md-option value="1">Yes</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="30">
+                                    <label>Is it a Referral?</label>
+                                    <md-select ng-model="encounter.is_referral">
+                                        <md-option value="0" selected>No</md-option>
+                                        <md-option value="1">Yes</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="40">
+                                    <md-autocomplete flex flex
+                                                     md-search-text="facility"
+                                                     md-input-name="facility"
+                                                     md-no-cache="true"
+                                                     md-items="item in getReferringFacilities(facility)"
+                                                     md-item-text="item.facility_name"
+                                                     md-selected-item-change="selectedFacility(item)"
+                                                     md-floating-label="Search Referring Facility"
+                                                     md-min-length="3" md-autofocus>
+                                        <md-item-template>
+                                            <span md-highlight-text="searchText">{{item.facility_name}}</span>
+                                        </md-item-template>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+                                <md-button ng-click="cancel()">
+                                    Cancel
+                                </md-button>
+                                <md-button class="md-raised md-primary"
+                                           ng-click="showGridBottomSheet(patientData,residences,encounter,patient)">
+                                    Save
+                                </md-button>
+                            </section>
+
+                        </div>
+
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="Exemption">
+
+                    <div class="md-toolbar-tools">
+
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                            <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                        </md-button>
+                    </div>
+                    </md-toolbar>
+                    <md-dialog-content>
+                        <md-dialog-actions layout="row" ng-if="ok ==1">
+                            <span flex></span>
+                            <!--<a href="javascript:window.print()" class="no-print btn btn-success pull-right">Print Card</a>-->
+                            <md-button class="md-primary md-raised pull-right" ng-click="PrintContentR()">
+                                PRINT CARD
+                            </md-button>
+                        </md-dialog-actions>
+                        <div ng-if="ok ==1">
+                            <div id="divtoprintCArd" style="width:100%;height:700px;">
+                                <table width="800px" border=0 class="table table-responsive">
+                                    <tr>
+                                        <td align='center'>{{cardTitle.facility_name}} {{cardTitle.description}} <br>
+                                            <img alt="Logo" src="/img/arm.png" height="80" width="80">
+                                            <br>{{cardTitle.address}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>
+                                            <table align='center'>
+                                                <tr>
+                                                    <td colspan='3' style="text-align:center"><b><h4>
+                                                        {{facility_address.facility_name}}<br/>{{facility_address.address}}
+                                                    </h4></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b> Name:</b>{{quick_registration.first_name+ ' '+
+                                                        (quick_registration.middle_name != undefined ?
+                                                        quick_registration.middle_name : '')+'
+                                                        '+(quick_registration.last_name != undefined ?
+                                                        quick_registration.last_name : '')}}
+                                                    </td>
+                                                    <td width="20%"></td>
+                                                    <td><b> MRN : </b>{{quick_registration.medical_record_number}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b> Address: </b>
+                                                        {{quick_registration.residence_name}},{{quick_registration.council_name}}
+                                                    </td>
+                                                    <td width="20%"></td>
+                                                    <td><b> Gender : </b>{{quick_registration.gender}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b> Date of Birth: </b>{{quick_registration.dob}}</td>
+                                                    <td width="20%"></td>
+                                                    <td><b> Occupation : </b>{{patients_address.occupation_name}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b> Nationality: </b>{{patients_address.nationality}}</td>
+                                                    <td width="20%"></td>
+                                                    <td><b> Date : {{quick_registration.created_at}}</b>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!-- new card ends -->
+
+                        </div>
+
+
+                        <div ng-if="ok !=1">
+
+
+                            <md-input-container class="md-block col-md-6 col-sm-4">
+                                <label>Choose exemption type</label>
+                                <md-select ng-model="exempt.exemption_type_id">
+                                    <md-option ng-value={{exemption_type}}
+                                               ng-repeat="exemption_type in exemption_types">
+                                        {{exemption_type.exemption_name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+
+
+                            <md-input-container class="md-block col-md-6 col-sm-4">
+                                <label>Exemption Reason/Refference</label>
+                                <textarea rows="2" cols="2" ng-model="exempt.exemption_reason" md-maxlength="255"
+                                          rows="5" md-select-on-focus></textarea>
+                            </md-input-container>
+
+
+                            <md-input-container class="md-block  col-md-6 col-sm-4">
+                                <label>Choose Service</label>
+                                <input type="text" ng-model="exempt.service" class="md-block  "
+                                       uib-typeahead=" exemption_service as exemption_service.item_name   for  exemption_service in exemption_services | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       typeahead-show-hint="true" typeahead-min-length="0">
+
+                            </md-input-container>
+                            <md-input-container class="form-group col-md-6 col-sm-4">
+                                <label> Choose Clinic To Send This Client</label>
+
+
+                                <md-select type="text" ng-model="exempt.referral_id">
+
+                                    <md-option ng-value="1">OUT PATIENT DEPT(OPD)</md-option>
+                                    <md-option ng-value="{{department.id}}"
+                                               ng-repeat="department in departments">
+                                        {{department.department_name}}
+                                    </md-option>
+
+
+                                </md-select>
+
+                            </md-input-container>
+                            <md-input-container class="md-block col-md-6 col-sm-4">
+                                <label>Upload</label>
+                                <input type="file" id="file1" name="file" multiple class="md-input"
+                                       ng-files="getTheFiles($files)" title="Upload any Document to Support"/>
+
+                            </md-input-container>
+
+                            <div class="md-block col-md-6 col-sm-4">
+
+                                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                    <md-button class="md-raised md-primary"
+                                               ng-click="exemption_registration(exempt,patientData[0])">Register
+                                    </md-button>
+                                    <p></p>
+                                </section>
+                            </div>
+
+
+                        </div>
+
+
+                    </md-dialog-content>
+
+
+                    <script type="text/ng-template" id="customTemplate.html">
+                        <a>
+
+                            <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                        </a>
+
+
+                    </script>
+                </md-tab>
+
+            </md-tabs>
+
+
+        </div>
+    </md-dialog-content>
+
+</md-dialog>

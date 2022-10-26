@@ -1,0 +1,1647 @@
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <p style="text-align: right;" ng-if="selectedPatient.first_name.length >0"><span><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;{{selectedPatient.first_name}}
+                {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+                {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp;
+                {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                {{"Age: "+selectedPatient.age}}</p>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Previous visits">
+                  <md-content class="md-padding" style="padding:2em;">
+                      <div layout="row">
+                          <div flex="20">
+                              <md-list style="color:white;font-weight:700">
+                                  <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getPatientReport(vt)" class="md-1-line" ng-repeat="vt in patientsVisits">
+                                      {{vt.created_at}}
+                                  </md-list-item>
+                              </md-list>
+                          </div>
+                          <div flex="80">
+                              <md-card>
+                                  <md-card-content>
+                                      <table class="full-width">
+                                          <thead>
+                                          <th class="mdl-data-table__cell--non-numeric"></th>
+                                          <th class="mdl-data-table__cell--non-numeric full-width">{{selectedPatient.first_name}}
+                                              {{selectedPatient.middle_name}}
+                                              {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+                                              {{"MRN: "+selectedPatient.medical_record_number}}                                                               {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                                              {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                                              {{"Age: "+selectedPatient.age}}</th>
+                                          </thead>
+                                          <tbody>
+                                          <tr ng-if="vitals.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Vital signs</strong></td>
+                                          </tr>
+                                          <tr ng-repeat="vt in vitals" ng-if="vitals.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">{{vt.vital_name}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{vt.vital_sign_value}} &nbsp; {{vt.si_unit}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevHistory.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Complaints</strong></td>
+                                          </tr>
+                                          <tr ng-if="prevHistory.length>0" ng-repeat="ph in prevHistory">
+                                              <td class="mdl-data-table__cell--non-numeric">{{ph.status}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{ph.description+' since '+ph.duration+' '+ph.duration_unit}}
+                                                  <br>
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="otherComplaints.length>0" ng-repeat="ot in otherComplaints">
+                                              <td class="mdl-data-table__cell--non-numeric"><span>Other Complaints</span></td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{ot.other_complaints}}
+                                              </td>
+                                          </tr>
+
+                                          <tr ng-if="hpi.length>0" ng-repeat="h in hpi">
+                                              <td class="mdl-data-table__cell--non-numeric"><span>History of Presenting Illness</span></td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{h.hpi}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevRos.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Review of systems</strong></td>
+                                          </tr>
+                                          <tr ng-repeat="ros in prevRos" ng-if="prevRos.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">{{ros.status}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{ros.name}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevRosSummary.length>0" ng-repeat="summary in prevRosSummary">
+                                              <td class="mdl-data-table__cell--non-numeric"><span>RoS summary</span></td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{summary.review_summary}}
+                                              </td>
+                                          </tr>
+
+                                          <tr ng-if="allergies.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Allergies</strong></td>
+                                          </tr>
+                                          <tr ng-repeat="allergy in allergies" ng-if="allergies.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">{{allergy.status}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{allergy.descriptions}}</td>
+                                          </tr>
+                                          <tr ng-if="prevFamily.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Family and Social History</strong></td>
+                                          </tr>
+                                          <tr ng-if="prevFamily.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">Family and social
+                                                  history</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{prevFamily[0].chronic_illness}}.{{prevFamily[0].substance_abuse}}. <br>                                                                    {{prevFamily[0].adoption}}.{{prevFamily[0].others}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevGen.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>General examination</strong></td>
+                                          </tr>
+                                          <tr ng-if="prevGen.length>0" ng-repeat="gn in prevGen">
+                                              <td class="mdl-data-table__cell--non-numeric">General examination</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{gn.gen_examination}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevLocal.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Local examination</strong></td>
+                                          </tr>
+                                          <tr ng-if="prevLocal.length>0" ng-repeat="lc in prevLocal">
+                                              <td class="mdl-data-table__cell--non-numeric">Local examination</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{lc.local_examination}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevSystemic.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Systemic examination</strong></td>
+                                          </tr>
+                                          <tr ng-if="prevSystemic.length>0" ng-repeat="sys in prevSystemic">
+                                              <td class="mdl-data-table__cell--non-numeric">{{sys.system}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{sys.category +' - '+ sys.observation}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevSummary.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Systemic examination summary</strong></td>
+                                          </tr>
+                                          <tr ng-if="prevSummary.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">Systemic examination summary</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{prevSummary[0].summary_examination}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevDiagnosis.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Diagnosis</strong></td>
+                                          </tr>
+                                          <tr ng-repeat=" diag in prevDiagnosis" ng-if="prevDiagnosis.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric"> {{diag.status}}
+                                              </td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{diag.description}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="labInvestigationsz.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Investigations</strong></td>
+                                          </tr>
+                                          <tr ng-repeat=" lb in labInvestigationsz" ng-if="labInvestigationsz.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{lb.item_name}} </td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{lb.description+' '+lb.unit}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-repeat=" rd in radiologyResults" ng-if="radiologyResults.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  <div class="card">
+                                                      <div class="card-image">
+                                                          <!--<a><img class="img-responsive" src="/uploads/{{img.attached_image}}" width="100px;" height="100px"></a>-->
+                                                      </div>
+                                                      <!-- card image -->
+                                                      <div class="card-content">{{img.description}}</div>
+                                                      <!-- card content -->
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="prevMedicines.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Medications</strong></td>
+                                          </tr>
+                                          <tr ng-repeat="med in prevMedicines" ng-if="prevMedicines.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{med.item_name}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">{{med.dose}},
+                                                  {{med.frequency}},{{'for '+ med.duration}}</td>
+
+                                          </tr>
+                                          <tr ng-if="pastProcedures.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Procedures</strong></td>
+                                          </tr>
+                                          <tr ng-repeat="pro in pastProcedures" ng-if="pastProcedures.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">{{pro.item_category}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{pro.item_name}}</td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </md-card-content>
+                              </md-card>
+
+                          </div>
+                      </div>
+                  </md-content>
+                </md-tab>
+			<md-tab label="vital signs" ng-click="getTodaysVitals(selectedPatient)">
+                    <md-content class="md-padding">
+                        <div layout="row">
+                            <div flex="20">
+                                <md-list style="color:white;font-weight:700">
+                                    <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getPatientVitals(vt)" class="md-1-line" ng-repeat="vt in vitalTime">
+                                        {{vt.created_at}}
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+							<div flex="80">
+							<table  ng-if="vitalData.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+							<thead>
+							<th class="mdl-data-table__cell--non-numeric">Name</th>
+							<th class="mdl-data-table__cell--non-numeric">Value</th>
+							<th class="mdl-data-table__cell--non-numeric">Time taken</th>
+							<th class="mdl-data-table__cell--non-numeric">Staff's names</th>
+							</thead>
+							<tbody>
+							<tr ng-repeat="vt in vitalData">
+                                        <td class="mdl-data-table__cell--non-numeric">{{vt.vital_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            {{vt.vital_sign_value}} &nbsp;&nbsp;&nbsp; {{vt.si_unit}}</td>
+										<td class="mdl-data-table__cell--non-numeric">{{vt.created_at}}</td>
+										<td class="mdl-data-table__cell--non-numeric">{{vt.submited_by}}</td>
+                            </tr>
+							</tbody>
+							</table>
+							</div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            <md-tab label="Clerk Sheet">
+                <md-content class="md-padding">
+                    <!--vertical tabs start-->
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Complaints">
+                            <div layout="row">
+                                <div flex="55">
+                                    <md-input-container class="md-block">
+                                        <input type="text" ng-model="selectedcomplaint" id="complaint"
+                                               placeholder="Search Chief Complaints" autocomplete="off"
+                                               uib-typeahead="complaint as complaint.name for complaint in complaints($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="15">
+                                    <md-select ng-model="qty" id="dxn" autocomplete="off" placeholder="Duration" class="md-no-underline">
+                                        <md-option value="1">1</md-option>
+                                        <md-option value="2">2</md-option>
+                                        <md-option value="3">3</md-option>
+                                        <md-option value="4">4</md-option>
+                                        <md-option value="5">5</md-option>
+                                        <md-option value="6">6</md-option>
+                                        <md-option value="7">7</md-option>
+                                        <md-option value="8">8</md-option>
+                                        <md-option value="9">9</md-option>
+                                        <md-option value="10">10</md-option>
+                                        <md-option value="11">11</md-option>
+                                        <md-option value="12">12</md-option>
+                                    </md-select>
+                                </div>
+                                <div flex="15">
+                                    <md-select ng-model="unit" autocomplete="off" id="unit" placeholder="Duration Unit" class="md-no-underline">
+                                        <md-option value="Hours">Hours</md-option>
+                                        <md-option value="Days">Day(s)</md-option>
+                                        <md-option value="Weeks">Weeks</md-option>
+                                        <md-option value="Months">Months</md-option>
+                                        <md-option value="Years">Years</md-option>
+                                    </md-select>
+                                </div>
+                                <div flex="5"><md-button class="md-raised md-primary" ng-click="addComplaint(selectedcomplaint,qty,unit,selectedPatient)">Add</md-button>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div flex="50">
+                                    <md-input-container class="md-block">
+                                        <label>Other complaints</label>
+                                        <textarea ng-model="other_complaints" autocomplete="off" id="other_complaints" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+                                <div flex="20">
+                                    <div ng-repeat="c in complaintz">
+                                        {{c.description +' for '+c.duration+' '+c.duration_unit}}&nbsp;&nbsp;&nbsp;
+                                        <span ng-click="removeFromSelection(c,complaintz)" class="glyphicon glyphicon-minus-sign"></span>
+                                    </div>
+                                    <md-button class="md-raised md-primary" ng-click="saveComplaints(complaintz,other_complaints,selectedPatient)">Save</md-button>
+                                </div>
+                                <div flex="5">
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="History of presenting illness">
+                            <div layout="row">
+                                <div flex="50">
+                                    <md-input-container class="md-block">
+                                        <label>History of presenting illness</label>
+                                        <textarea ng-model="hpi" md-maxlength="500" id="hpi" autocomplete="off" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                    <md-button class="md-raised md-primary pull-right" ng-click="saveHpi(hpi,selectedPatient)">Save</md-button>
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Review of other systems">
+                            <div layout="row">
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search ENT" autocomplete="off"  id="ent" ng-model="selectedENT" typeahead-on-select="reviewENT($item,selectedPatient)"
+                                               uib-typeahead="ent as ent.name for ent in showEnt($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search cardiovascular" autocomplete="off" id="cardio" ng-model="selectedCardio" typeahead-on-select="reviewOfSystems($item,selectedPatient)"
+                                               uib-typeahead="cardio as cardio.name for cardio in showCardio($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search respiratory system" autocomplete="off" id="respiratory" ng-model="selectedRespiratory"
+                                               typeahead-on-select="reviewOfSystems2($item,selectedPatient)"
+                                               uib-typeahead="resp as resp.name for resp in showRespiratory($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search gastrointestinal system" autocomplete="off" id="gastrointestinal" ng-model="selectedGastro"
+                                               typeahead-on-select="reviewOfSystems3($item,selectedPatient)"
+                                               uib-typeahead="gastro as gastro.name for gastro in showGastro($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search musculoskeletal system" autocomplete="off" id="musculoskeletal" ng-model="selectedMusculo"
+                                               typeahead-on-select="reviewOfSystems4($item,selectedPatient)"
+                                               uib-typeahead="musculo as musculo.name for musculo in showMusculo($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search genitourinary system" autocomplete="off" id="genitourinary" ng-model="selectedGenito"
+                                               typeahead-on-select="reviewOfSystems5($item,selectedPatient)"
+                                               uib-typeahead="genito as genito.name for genito in showGenito($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search central nervous system" autocomplete="off" id="cns" ng-model="selectedCNS" typeahead-on-select="reviewOfSystems6($item,selectedPatient)"
+                                               uib-typeahead="cns as cns.name for cns in showCNS($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="25">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search endocrine system" autocomplete="off" id="endocrine" ng-model="selectedEndo"
+                                               typeahead-on-select="reviewOfSystems7($item,selectedPatient)"
+                                               uib-typeahead="endo as endo.name for endo in showEndo($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div flex="50">
+                                    <md-input-container class="md-block">
+                                        <label>RoS summary</label>
+                                        <textarea ng-model="review_summary" id="review_summary" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+                                <div flex="45">
+                                    <div ng-repeat="resp in rosTemp">{{resp.name}}
+                                        -> {{resp.status}}&nbsp;&nbsp;
+                                        <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(resp,rosTemp)"></span></div>
+                                </div>
+                                <div flex="5">
+                                    <md-button class="md-raised md-primary pull-right" ng-click="saveRoS(rosTemp,review_summary)">Save</md-button>
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Past medical and surgical history">
+                            <div layout="row">
+                                <div flex="30">
+                                    <md-input-container class="md-block">
+                                        <label>Write past surgical history here...</label>
+                                        <textarea ng-model="other_past_medicals.surgeries" autocomplete="off" id="surgeries" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+                                <div flex="5"></div>
+                                <div flex="30">
+                                    <md-input-container class="md-block">
+                                        <label>Write past admissions history here...</label>
+                                        <textarea ng-model="other_past_medicals.admissions" autocomplete="off" id="admissions" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+                                <div flex="5"></div>
+                                <div flex="30">
+                                    <md-input-container class="md-block">
+                                        <label>Write blood transfusion history here...</label>
+                                        <textarea ng-model="other_past_medicals.transfusion" id="transfusion" autocomplete="off" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div flex="30">
+                                    <md-input-container class="md-block">
+                                        <label>Write immunisation/supplement here...</label>
+                                        <textarea ng-model="other_past_medicals.immunisation" id="immunisation" autocomplete="off" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+                                <div flex="5"></div>
+                                <div flex="30">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search allergies" id="selectedAllergy" autocomplete="off" ng-model="selectedAllergy" typeahead-on-select="pastMedicals($item,selectedPatient)" uib-typeahead="allergy as allergy.name for allergy in showAllergy($viewValue) |filter:$viewValue |limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="5"></div>
+                                <div flex="30">
+                                    <div ng-repeat="resp in pastTemp">{{resp.name}} - > {{resp.status}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(resp,pastTemp)"></span></div>
+                                    <md-button class="md-raised md-primary" ng-click="savePastMedical(pastTemp,other_past_medicals)">save</md-button>
+                                </div>
+
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="General examination">
+                            <div layout="row">
+                                <div flex="50">
+                                    <md-input-container class="md-block">
+                                        <label>General examination</label>
+                                        <textarea ng-model="gen_examination" id="gen_examination" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                    <md-button class="md-raised md-primary pull-right" ng-click="saveGenExams(selectedPatient,gen_examination)">Save</md-button>
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Local examination">
+                            <div flex="50">
+                                <md-input-container class="md-block">
+                                    <label>Local examination</label>
+                                    <textarea ng-model="local_examination" id="local_examination" md-maxlength="500" rows="5" md-select-on-focus></textarea>
+                                </md-input-container>
+                                <md-button class="md-raised md-primary pull-right" ng-click="saveLocalExams(selectedPatient,local_examination)">Save</md-button>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Systemic examination">
+                            <md-tabs>
+                                <md-tab label="Musculoskeletal">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="musc_inspect" placeholder="Inspection" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')"
+                                                                   ng-model="selectedInspection"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5">
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="musc_palpate" placeholder="Palpation" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')"
+                                                                   ng-model="selectedPalpation"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="musc_percu" placeholder="Percussion" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')"
+                                                                   ng-model="selectedPercussion"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="musc_ausc" placeholder="Auscultation" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')"
+                                                                   ng-model="selectedAuscultation"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalMusculoskeletal">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalMusculoskeletal)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalMusculoskeletal)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+                                <md-tab label="Respiratory">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="resp_inspect" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')"
+                                                                   placeholder="Inspection"
+                                                                   ng-model="selectedInspection1"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="resp_palpate" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')"
+                                                                   placeholder="Palpation"
+                                                                   ng-model="selectedPalpation1"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="resp_percus" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')"
+                                                                   placeholder="Percussion"
+                                                                   ng-model="selectedPercussion1"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="resp_aus" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')"
+                                                                   placeholder="Auscultation"
+                                                                   ng-model="selectedAuscultation1"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalRespiratory">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalRespiratory)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalRespiratory)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+                                <md-tab label="Cardiovascular">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cardio_inspect" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')"
+                                                                   placeholder="Inspection"
+                                                                   ng-model="selectedInspection2"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cardio_palpate" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')"
+                                                                   placeholder="Palpation"
+                                                                   ng-model="selectedPalpation2"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cardio_percus" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')"
+                                                                   placeholder="Percussion"
+                                                                   ng-model="selectedPercussion2"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cardio_aus" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')"
+                                                                   placeholder="Auscultation"
+                                                                   ng-model="selectedAuscultation2"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalCardiovascular">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalCardiovascular)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalCardiovascular)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+                                <md-tab label="Gastrointestinal">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="gastro_inspect" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')"
+                                                                   placeholder="Inspection"
+                                                                   ng-model="selectedInspection3"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="gastro_palpate" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')"
+                                                                   placeholder="Palpation"
+                                                                   ng-model="selectedPalpation3"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="gastro_percus" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')"
+                                                                   placeholder="Percussion"
+                                                                   ng-model="selectedPercussion3"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="gastro_aus" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')"
+                                                                   placeholder="Auscultation"
+                                                                   ng-model="selectedAuscultation3"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalGastrointestinal">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalGastrointestinal)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalGastrointestinal)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+                                <md-tab label="Genitourinary">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="genito_inspect" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')"
+                                                                   placeholder="Inspection"
+                                                                   ng-model="selectedInspection4"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="genito_palpate" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')"
+                                                                   placeholder="Palpation"
+                                                                   ng-model="selectedPalpation4"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="genito_percus" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')"
+                                                                   placeholder="Percussion"
+                                                                   ng-model="selectedPercussion4"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="genito_aus" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')"
+                                                                   placeholder="Auscultation"
+                                                                   ng-model="selectedAuscultation4"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalGenitourinary">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalGenitourinary)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalGenitourinary)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+                                <md-tab label="CNS">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cns_inspect" typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')"
+                                                                   placeholder="Inspection"
+                                                                   ng-model="selectedInspection5"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cns_palpate" typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')"
+                                                                   placeholder="Palpation"
+                                                                   ng-model="selectedPalpation5"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cns_percus" typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')"
+                                                                   placeholder="Percussion"
+                                                                   ng-model="selectedPercussion5"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="cns_aus" typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')"
+                                                                   placeholder="Auscultation"
+                                                                   ng-model="selectedAuscultation5"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalCNS">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalCNS)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalCNS)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+                                <md-tab label="Endocrine">
+                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="endo_inspect" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')"
+                                                                   placeholder="Inspection"
+                                                                   ng-model="selectedInspection6"
+                                                                   uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="endo_palpate" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')"
+                                                                   placeholder="Palpation"
+                                                                   ng-model="selectedPalpation6"
+                                                                   uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="endo_percus" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')"
+                                                                   placeholder="Percussion"
+                                                                   ng-model="selectedPercussion6"
+                                                                   uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" id="endo_aus" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')"
+                                                                   placeholder="Auscultation"
+                                                                   ng-model="selectedAuscultation6"
+                                                                   uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        </md-input-container> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>System</td>
+                                                        <td>Category</td>
+                                                        <td>Observation</td>
+                                                        <td>Actions</td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in physicalEndocrine">
+                                                        <td>{{item.system}}</td>
+                                                        <td>{{item.category}}</td>
+                                                        <td>{{item.observation}}</td>
+
+                                                        <td>
+                                                            <a
+                                                                    href=""
+                                                                    ng-click="removeFromSelection(item,physicalEndocrine)">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <md-button ng-click="savePhysicalExamination(physicalEndocrine)" class="md-raised md-primary pull-right">Save</md-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-tab>
+								<md-tab label="summary">
+                                        <md-input-container class="md-block">
+                                            <label>Systemic examinations summary</label>
+                                            <textarea ng-model="summary_examination" id="summary_examination" md-maxlength="500" rows="5" md-select-on-focus></textarea>
+                                        </md-input-container>
+                                        <md-button class="md-raised md-primary pull-right" ng-click="saveSummaryExams(selectedPatient,summary_examination)">Save</md-button>
+                                    </md-tab>
+                            </md-tabs>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+                    <!--vertical tabs end-->
+                </md-content>
+            </md-tab>
+            <md-tab label="Diagnosis">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <div flex="40">
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="selectedProvisional" typeahead-on-select="addProv($item,selectedPatient,'Provisional')"
+                                       placeholder="Provisional diagnosis"
+                                       uib-typeahead="prov as prov.description+' '+prov.code for prov in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+                            </md-input-container>
+                        </div>
+                        <div flex="10"></div>
+                        <div flex="40">
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="selectedDifferential" typeahead-on-select="addDiff($item,selectedPatient,'Differential')"
+                                       placeholder="Differential diagnosis"
+                                       uib-typeahead="diff as diff.description+' '+diff.code for diff in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+                            </md-input-container>
+                        </div>
+                        <div flex="20" ng-if="diagnosisTemp.length>0">
+                            <md-list>
+                                <md-list-item  class="md-2-line" ng-repeat="prov in diagnosisTemp">
+                                    {{prov.description}}-->{{prov.status}}  <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(prov,diagnosisTemp)"></span>
+                                </md-list-item>
+                            </md-list>
+                            <md-button class="md-raised md-primary pull-right" ng-click="saveDiagnosis(diagnosisTemp)">Save</md-button>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="investigation" ng-click="getSubDepts()">
+                <div layout="row">
+                    <div flex="20">
+                        <md-list style="color:white;font-weight:700">
+                            <md-list-item style="padding:0;background-color:teal;margin:2px;" ng-click="getTests(sub.id,selectedPatient)" class="md-1-line" ng-repeat="sub in subDepartments" style="cursor: pointer;">
+                                {{sub.sub_department_name}}
+                            </md-list-item>
+                        </md-list>
+
+                    </div>
+                    <div flex="80">
+                        <md-card>
+                            <md-card-content>
+                                <md-input-container class="md-block">
+                                    <input type="text" ng-model="search" placeholder="Search here...">
+                                </md-input-container>
+                                <md-grid-list md-cols="3" md-gutter="1em" md-row-height="4:1">
+                                    <md-grid-tile   layout="row" layout-align="start start" style="border:#c0c0c0 solid 2px;" ng-repeat="panel in panels | filter:search">
+                                        <md-checkbox ng-model="checked" ng-change="orders(test,checked,selectedPatient)" aria-label="Checkbox">
+                                            {{ panel.item_name+' - '+panel.price+' Tshs'}}
+                                        </md-checkbox>
+                                    </md-grid-tile>
+                                </md-grid-list>
+                                <di>
+                                    <div></div>
+                                </di>
+                                <md-grid-list md-cols="3" md-gutter="1em" md-row-height="4:1">
+                                    <md-grid-tile  layout="row" layout-align="start start" style="border:#c0c0c0 solid 2px;" ng-repeat="test in singleTests | filter:search">
+                                        <md-checkbox ng-model="checked" ng-change="orders(test,checked,selectedPatient)" aria-label="Checkbox">
+                                            {{ test.item_name+' - '+test.price+' Tshs'}}
+                                        </md-checkbox>
+                                    </md-grid-tile>
+                                </md-grid-list>
+                                <md-grid-list md-cols="3" md-gutter="1em" md-row-height="4:1">
+                                    <md-grid-tile  layout="row" layout-align="start start" style="border:#c0c0c0 solid 2px;" ng-repeat="test in labTests | filter:search">
+                                        <md-checkbox ng-model="checked" ng-change="orders(test,checked,selectedPatient)" aria-label="Checkbox">
+                                            {{ test.item_name+' - '+test.price+' Tshs'}}
+                                        </md-checkbox>
+                                    </md-grid-tile>
+                                </md-grid-list>
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                </div>
+                <div layout="row" ng-if="investigationOrders.length>0 || unavailableOrders.length>0">
+                    <div flex="20">
+                        <md-list>
+                            <h3 style="color:white;padding:3px;background-color:teal;margin:2px;">Selected orders</h3>
+                            <md-list-item ng-repeat="lab in investigationOrders">
+                                {{lab.item_name+' - '+lab.price+' Tshs'}} &nbsp;
+                                <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(lab,investigationOrders)"></span>
+                            </md-list-item>
+                            <md-list-item ng-repeat="lab in unavailableOrders">
+                                {{lab.item_name+' - '+lab.price+' Tshs'}} &nbsp;
+                                <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(lab,unavailableOrders)"></span>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex="40">
+                        <md-input-container class="md-block">
+                            <label>Write clinical summary here...</label>
+                            <textarea ng-model="inv.clinical_note" id="clinical_note" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                        </md-input-container>
+                    </div>
+                    <div flex="5"></div>
+                    <div flex="10">
+                        <md-select ng-model="inv.priority" id="priority" placeholder="Priority" class="md-no-underline">
+                            <md-option value="Routine">Routine</md-option>
+                            <md-option value="Urgent">Urgent</md-option>
+                        </md-select>
+                    </div>
+                    <div flex="20">
+                        <md-button class="md-raised md-primary " ng-click="saveInvestigation(inv,investigationOrders)">Save</md-button>
+                    </div>
+                </div>
+            </md-tab>
+            <md-tab label="investigation results">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <div flex="55">
+                            <v-accordion class="vAccordion--default">
+                                <v-pane>
+                                    <v-pane-header>
+                                        Lab results
+                                    </v-pane-header>
+
+                                    <v-pane-content>
+                                        <div layout="row">
+                                            <div flex="20">
+                                                <md-list style="color:white;font-weight:700">
+                                                    <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getLabResults(lab)" class="md-1-line" ng-repeat="lab in labInvestigations">
+                                                        {{lab.date_attended}}
+                                                    </md-list-item>
+                                                </md-list>
+                                            </div>
+                                            <div flex="80">
+                                                <table class="full-width">
+                                                    <thead ng-if="labResults.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">Investigation</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">Description</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">Attachment</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">Remarks</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">Verifier</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">Date</td>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="rs in labResults">
+                                                        <td class="mdl-data-table__cell--non-numeric">{{rs.item_name}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{rs.description}}</td>
+                                                        <td class="mdl-data-table__cell--non-numeric" ng-if="!rs.attached_image"> </td>
+                                                        <td class="mdl-data-table__cell--non-numeric" ng-if="rs.attached_image"><md-button ng-click="getAttachedDocument(rs)">attachment</md-button></td>
+                                                        <td class="mdl-data-table__cell--non-numeric"  ng-if="!rs.remarks"> </td>
+                                                        <td class="mdl-data-table__cell--non-numeric" >{{rs.remarks}} </td>
+                                                        <td class="mdl-data-table__cell--non-numeric" >{{rs.name}} </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">{{rs.created_at}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </v-pane-content>
+                                </v-pane>
+
+                                <v-pane>
+                                    <v-pane-header>
+                                        Imaging results
+                                    </v-pane-header>
+
+                                    <v-pane-content>
+                                        <div layout="row">
+                                            <div flex="20">
+                                                <md-list style="color:white;font-weight:700">
+                                                    <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-repeat="rad in radiology" ng-click="getRadResults(rad)" class="md-1-line">
+                                                        {{rad.date_attended}}
+                                                    </md-list-item>
+                                                </md-list>
+                                            </div>
+                                            <div flex="85" style="padding-top:3em;" layout="column">
+                                                <div style="margin-bottom:2em;" flex-gt-sm="70"  ng-repeat="img in radResults">
+                                                    <p align="center">{{img.item_name}}</p>
+                                                    <zoom ng-if="img.attached_image" image-width="200" image-src="/uploads/{{img.attached_image}}"></zoom>
+                                                    <br>
+                                                    <p align="center">{{img.description}}</p>
+                                                    <br>
+                                                    <p align="center">{{img.remarks}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </v-pane-content>
+                                </v-pane>
+                            </v-accordion>
+                        </div>
+                        <div flex="5"></div>
+                        <div flex="35">
+                            <div class="panel panel-default">
+                                <div class="panel-heading ">Confirmed Diagnosis</div>
+                                <div class="panel-body">
+                                    <md-input-container class="md-block">
+                                        <input type="text" ng-model="selectedConfirmed" typeahead-on-select="addConf($item,selectedPatient,'Confirmed')"
+                                               placeholder="Type ICD code or diagnosis to  Search"
+                                               uib-typeahead="conf as conf.description+' '+conf.code for conf in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+                                    </md-input-container>
+                                    <div class="row" ng-repeat="conf in diagnosisTemp"><br> {{conf.description}}&nbsp;&nbsp;&nbsp;
+                                        <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(conf,diagnosisTemp)"></span>
+                                    </div>
+                                    <br>
+                                    <md-button class="md-raised md-primary pull-right" ng-click="saveDiagnosis(diagnosisTemp, selectedPatient)">Save</md-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Treatments" ng-click="allergyChecker(selectedPatient)">
+                <md-content class="md-padding">
+                    <!--vertical tabs start-->
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Medication">
+                            <div layout="row">
+                                <div flex="35">
+                                    <md-input-container class="md-block">
+                                        <input type="text"
+                                               id="item_search"
+                                               placeholder="Search Drug by Name"
+                                               ng-model="selectedItem" autocomplete="off"
+                                               typeahead-on-select="checkDosage($item,selectedPatient.patient_id)"
+                                               uib-typeahead="item as item.item_name+', '+item.dose_formulation for item in searchItems($viewValue,selectedPatient) | filter:$viewValue | limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="15">
+                                    <md-input-container class="md-block">
+                                        <input type="text"
+                                               id="dose"
+                                               ng-model="dosage.dose"
+                                               min="0" autocomplete="off"
+                                               placeholder="Dose">
+                                    </md-input-container>
+                                </div>
+                                <div flex="5"></div>
+                                <div flex="20">
+                                    <md-select id="frequency" ng-model="dosage.frequency" placeholder="Frequency" class="md-block">
+                                        <md-option selected disabled >Frequency</md-option>
+                                        <md-option value="24 hourly" >Once a Day</md-option>
+                                        <md-option value="12 hourly" >Twice a Day</md-option>
+                                        <md-option value="8 hourly" >Thrice a Day</md-option>
+                                        <md-option value="6 hourly" >Four times a day</md-option>
+                                        <md-option value="1 hourly" >Every Hour</md-option>
+                                        <md-option value="2 hourly" >Every 2 Hours</md-option>
+                                        <md-option value="3 hourly" >Every 3 Hours</md-option>
+                                        <md-option value="4 hourly" >Every 4 Hours</md-option>
+                                    </md-select>
+                                </div>
+                                <div flex="5"></div>
+                                <div flex="20">
+                                    <md-select id="duration" ng-model="dosage.duration" placeholder="Duration" class="md-block">
+                                        <md-option  value="1 days" > One   Day</md-option >
+                                        <md-option  value="2 days" > Two   Days</md-option >
+                                        <md-option  value="3 days" > Three Days</md-option >
+                                        <md-option  value="4 days" > Four  Days</md-option >
+                                        <md-option  value="5 days" > Five  Days</md-option >
+                                        <md-option  value="6 days" > Six   Days</md-option >
+                                        <md-option  value="7 days" > Seven Days</md-option >
+                                        <md-option  value="8 days" > Eight   Days</md-option >
+                                        <md-option  value="9 days" > Nine   Days</md-option >
+                                        <md-option  value="10 days" > Ten Days</md-option >
+                                        <md-option  value="11 days" > Eleven  Days</md-option >
+                                        <md-option  value="12 days" > Twelve  Days</md-option >
+                                        <md-option  value="13 days" > Thirteen   Days</md-option >
+                                        <md-option  value="14 days" > Fourteen Days</md-option >
+                                        <md-option  value="15 days" > Fifteen Days</md-option >
+                                        <md-option  value="16 days" > Sixteen  Day</md-option >
+                                        <md-option  value="17 days" > Seventeen  Days</md-option >
+                                        <md-option  value="18 days" > Eighteen Days</md-option >
+                                        <md-option  value="19 days" > Nineteen  Days</md-option >
+                                        <md-option  value="20 days" > Twenty Days</md-option >
+                                        <md-option  value="21 days" > Twenty one   Days</md-option >
+                                        <md-option  value="22 days" > Twenty two Days</md-option >
+                                        <md-option  value="23 days" > Twenty three   Days</md-option >
+                                        <md-option  value="24 days" > Twenty four   Days</md-option >
+                                        <md-option  value="25 days" > Twenty five Days</md-option >
+                                        <md-option  value="26 days" > Twenty six  Days</md-option >
+                                        <md-option  value="27 days" > Twenty seven  Days</md-option >
+                                        <md-option  value="28 days" > Twenty eight   Days</md-option >
+                                        <md-option  value="29 days" > Twenty nine Days</md-option >
+                                        <md-option  value="30 days" > Thirty Days</md-option >
+                                    </md-select></div>
+                            </div >
+                            <div layout="row">
+                                <div flex="40">
+                                    <md-input-container class="md-block">
+                                        <input type="text"
+                                               id="instruction" autocomplete="off"
+                                               ng-model="instructions"
+                                               placeholder="Additional Instructions here">
+                                    </md-input-container>
+                                </div>
+                                <div flex="10">
+                                    <md-button class="md-raised md-primary"
+                                               ng-click="addMedicine(dosage,selectedPatient,selectedItem,instructions)">Add To List</md-button>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div flex="80" >
+                                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="medicines.length >0">
+                                        <tbody>
+                                        <tr ng-repeat="med in medicines">
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.item_name+','+med.dose_formulation}}
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.dose}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.frequency}}
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.duration}}
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                                                    <span
+                                                                                            ng-click="removeFromSelection(med,medicines)"
+                                                                                            style="cursor: pointer;">Remove</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="medicinesOs.length >0">
+                                        <tbody>
+                                        <tr ng-repeat="med in medicinesOs">
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.item_name}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.dose}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.frequency}}
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.duration}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <span
+                                                        ng-click="removeFromSelection(med,medicinesOs)"
+                                                        style="cursor: pointer;">Remove</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <md-button class="md-raised md-primary pull-right" ng-click="saveMedicine(medicines)">Save</md-button>
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Medical supplies">
+                            <div layout="row">
+                                <div flex="50">
+                                    <md-input-container class="md-block">
+                                        <input type="text" id="supplies" placeholder="Search medical supplies here"
+                                               ng-model="selectedSupplies" autocomplete="off"
+                                               typeahead-on-select=""
+                                               uib-typeahead="item as item.item_name for item in searchMediSupplies($viewValue,selectedPatient) | filter:$viewValue | limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="10">
+                                    <md-input-container class="md-block">
+                                        <input type="number" id="supply_qty" min="1" placeholder="Quantity" ng-model="supply_qty"
+                                        >
+                                    </md-input-container>
+                                </div>
+                                <div flex="10"> <md-button class="md-raised md-primary" ng-click="addSupplies(selectedPatient,supply_qty,selectedSupplies)">Add to list</md-button></div>
+                            </div>
+                            <div layout="row">
+                                <div flex="50">
+                                    <table class="full-width" ng-if="supplies.length>0">
+                                        <thead>
+                                        <tr>
+                                            <th>Medical
+                                                supplies</th>
+                                            <th>Quantity</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in supplies">
+                                            <td>{{item.item_name}}</td>
+                                            <td>{{item.quantity}}</td>
+                                            <td><span ng-click="removeFromSelection(item,supplies)"
+                                                      style="cursor: pointer;">Remove</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <md-button  class="md-raised md-primary" ng-click="saveSupplies()">save</md-button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="full-width" ng-if="suppliesOS.length>0">
+                                        <thead>
+                                        <tr>
+                                            <th>Medical
+                                                supplies</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in suppliesOS">
+                                            <td>{{item.item_name}}</td>
+                                            <td><span ng-click="removeFromSelection(item,suppliesOS)"
+                                                      style="cursor: pointer;">Remove</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <md-button
+                                                        class="md-raised md-primary"
+                                                        ng-click="saveSupplies()">save</md-button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Procedures">
+                            <div layout="row">
+                                <div flex="50">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search Procedure by Name"
+                                               ng-model="selectedProcedures" autocomplete="off" id="procedures"
+                                               typeahead-on-select="addProcedure($item,selectedPatient)"
+                                               uib-typeahead="item as item.item_name for item in searchProcedures($viewValue,selectedPatient) | filter:$viewValue | limitTo:5">
+                                    </md-input-container>
+                                </div>
+                                <div flex="50" ng-if="procedures.length>0">
+                                    <table class="full-width" >
+                                        <thead>
+                                        <tr>
+                                            <th>Procedure</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="pro in procedures">
+                                            <td>{{pro.item_name}}</td>
+                                            <td>
+                                                                                        <span
+                                                                                                ng-click="removeFromSelection(pro,procedures)"
+                                                                                                style="cursor: pointer;">Remove</span>
+                                            </td>
+                                        </tr>&nbsp;
+                                        </tbody>
+                                    </table>
+                                    <md-button ng-click="saveProcedures(procedures)" class="md-raised md-primary pull-right">Save</md-button>
+                                </div>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Prescribed medications">
+                            <div layout="row">
+                                <md-button class="md-raised md-primary" ng-click="prevMedics(selectedPatient)">Preview</md-button>
+                                <table class="full-width"  ng-if="prevMedicines.length>0">
+                                    <thead>
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Dose</th>
+                                        <th>Frequency</th>
+                                        <th>Duration</th>
+                                        <th>Qty</th>
+                                        <th>Start
+                                            Date</th>
+                                        <th>Dosage
+                                            Status</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="med in prevMedicines">
+                                        <td>{{med.item_name}}</td>
+                                        <td>{{med.dose}}</td>
+                                        <td>{{med.frequency}}
+                                        </td>
+                                        <td>{{med.duration}}
+                                        </td>
+                                        <td>{{med.quantity}}</td>
+                                        <td>{{med.start_date}}</td>
+                                        <td>
+                                            <span ng-if="med.duration>med.days">Ongoing dosage </span>
+                                            <span ng-if="med.days>=med.duration">Dosage completed </span>
+                                        </td>
+                                        <td>{{med.out_of_stock}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <md-list ng-if="prevMedicines==0">
+                                    <md-list-item >No medicine
+                                        prescribed
+                                        for this
+                                        Patient</md-list-item>
+                                </md-list>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Previous procedures">
+                            <div layout="row">
+                                <md-button class="md-raised md-primary pull-right" ng-click="prevProcedure(selectedPatient)">Preview</md-button>
+
+                                <table class="full-width" ng-if="prevProcedures.length>0">
+                                    <thead>
+                                    <tr>
+                                        <th>Procedure</th>
+                                        <th>Procedure
+                                            Type
+                                        </th>
+                                        <th>Date
+                                            Ordered</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="pro in prevProcedures">
+                                        <td>{{pro.item_name}}</td>
+                                        <td>{{pro.item_category}}</td>
+                                        <td>{{pro.created_at}}</td>
+                                    </tr>&nbsp;
+                                    </tbody>
+                                </table>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Rejected prescriptions">
+                            <md-button class="md-raised md-primary" ng-click="getRejected(selectedPatient)">load prescriptions</md-button>
+
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                <thead>
+                                <th class="mdl-data-table__cell--non-numeric">Medicine</th>
+                                <th class="mdl-data-table__cell--non-numeric">Dose</th>
+                                <th class="mdl-data-table__cell--non-numeric">Frequency</th>
+                                <th class="mdl-data-table__cell--non-numeric">Duration</th>
+                                <th class="mdl-data-table__cell--non-numeric">Doctor's name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Reject reason</th>
+                                <th class="mdl-data-table__cell--non-numeric">Action</th>
+                                </thead>
+                                <tr ng-repeat="rj in rejectedMedicines">
+                                    <td class="mdl-data-table__cell--non-numeric">{{rj.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{rj.dose}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-input-container class="md-block">
+                                            <input type="text"  placeholder="{{rj.dose}}" ng-model="rj.dose">
+                                        </md-input-container>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{rj.frequency}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-select id="frequency3" ng-model="rj.frequency" placeholder="Frequency" class="md-block">
+                                            <md-option selected disabled >Frequency</md-option>
+                                            <md-option value="24 hourly" >Once a Day</md-option>
+                                            <md-option value="12 hourly" >Twice a Day</md-option>
+                                            <md-option value="8 hourly" >Thrice a Day</md-option>
+                                            <md-option value="6 hourly" >Four times a day</md-option>
+                                            <md-option value="1 hourly" >Every Hour</md-option>
+                                            <md-option value="2 hourly" >Every 2 Hours</md-option>
+                                            <md-option value="3 hourly" >Every 3 Hours</md-option>
+                                            <md-option value="4 hourly" >Every 4 Hours</md-option>
+                                        </md-select>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{rj.duration}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-select id="duration3" ng-model="rj.duration" placeholder="Duration" class="md-block">
+                                            <md-option  value="1 days" > One   Day</md-option >
+                                            <md-option  value="2 days" > Two   Days</md-option >
+                                            <md-option  value="3 days" > Three Days</md-option >
+                                            <md-option  value="4 days" > Four  Days</md-option >
+                                            <md-option  value="5 days" > Five  Days</md-option >
+                                            <md-option  value="6 days" > Six   Days</md-option >
+                                            <md-option  value="7 days" > Seven Days</md-option >
+                                            <md-option  value="8 days" > Eight   Days</md-option >
+                                            <md-option  value="9 days" > Nine   Days</md-option >
+                                            <md-option  value="10 days" > Ten Days</md-option >
+                                            <md-option  value="11 days" > Eleven  Days</md-option >
+                                            <md-option  value="12 days" > Twelve  Days</md-option >
+                                            <md-option  value="13 days" > Thirteen   Days</md-option >
+                                            <md-option  value="14 days" > Fourteen Days</md-option >
+                                            <md-option  value="15 days" > Fifteen Days</md-option >
+                                            <md-option  value="16 days" > Sixteen  Day</md-option >
+                                            <md-option  value="17 days" > Seventeen  Days</md-option >
+                                            <md-option  value="18 days" > Eighteen Days</md-option >
+                                            <md-option  value="19 days" > Nineteen  Days</md-option >
+                                            <md-option  value="20 days" > Twenty Days</md-option >
+                                            <md-option  value="21 days" > Twenty one   Days</md-option >
+                                            <md-option  value="22 days" > Twenty two Days</md-option >
+                                            <md-option  value="23 days" > Twenty three   Days</md-option >
+                                            <md-option  value="24 days" > Twenty four   Days</md-option >
+                                            <md-option  value="25 days" > Twenty five Days</md-option >
+                                            <md-option  value="26 days" > Twenty six  Days</md-option >
+                                            <md-option  value="27 days" > Twenty seven  Days</md-option >
+                                            <md-option  value="28 days" > Twenty eight   Days</md-option >
+                                            <md-option  value="29 days" > Twenty nine Days</md-option >
+                                            <md-option  value="30 days" > Thirty Days</md-option >
+                                        </md-select>
+                                        </md-input-container></td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{rj.name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m"><md-button class="md-raised md-primary" ng-click="updateMedicine(rj)">update</md-button></td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{rj.cancellation_reason}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric"><md-checkbox type="checkbox" class="" ng-model="m">Edit</md-checkbox></td>
+                                </tr>
+                            </table>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+                    <!--vertical tabs end-->
+                </md-content>
+            </md-tab>
+            <md-tab label="Disposition">
+                <md-content class="md-padding">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <select class="form-control hidden-print" ng-model="template" ng-options="t.name for t in templates">
+
+                            </select>
+                        </div>
+                        <br>
+                    </div>
+
+                    <div ng-include src="template.url" onload="myFunction()">
+
+                    </div>
+                    <div class="col-xs-12">
+                        <!--Admission start -->
+                        <script type="text/ng-template" id="admission.html"><br>
+                            <div class="col-xs-3" ng-repeat="ward in wards">
+                                <div class="list-group form-top" ng-click="patientAdmission(ward,selectedPatient)"
+                                     style="cursor: pointer;">
+                                    {{ward.ward_full_name}}
+                                </div>
+                            </div>
+                        </script>
+                        <!--Admission ends -->
+                        <!--Internal referral starts -->
+                        <script type="text/ng-template" id="internal.html">
+                            <div class="col-xs-3" ng-repeat="clinic in clinics"><br>
+                                <div class="list-group form-top" ng-click="internalTransfer(clinic,selectedPatient)"
+                                     style="cursor: pointer;">
+                                    {{clinic.department_name}}
+                                </div>
+                            </div>
+                        </script>
+                        <!--Internal referral ends -->
+                        <!--referral starts -->
+                        <script type="text/ng-template" id="referral.html">
+                            <div class="row">
+                                <div class="col-xs-12" ng-if="selectedPatient.first_name.length>0"><br>
+                                    <div class="col-xs-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <p>Hospital
+                                                    To
+                                                    Refer
+                                                    Patient</p>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <input type="text" class="form-control" placeholder="Search hospital to refer patient"
+                                                           ng-model="selectedFacility"
+                                                           uib-typeahead="facility as facility.facility_name for facility in showFacility($viewValue) |filter:$viewValue |limitTo:5 ">
+                                                </div>
+                                                <br> {{selectedFacility.facility_name}}
+                                                <br>
+                                                <div class="row">
+                                                    <textarea class="form-control" placeholder="Write referral Summary" ng-model="ref.summary"></textarea>
+                                                </div>
+
+                                                <br>
+                                                <button
+                                                        class="md-raised md-primary pull-right"
+                                                        ng-click="exReferral(selectedPatient,selectedFacility,ref)">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <!--reserved-->
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                        <!--referral ends -->
+                        <script type="text/ng-template" id="deceased.html">
+                            <div class="row"><br>
+                                <div class="col-xs-4">
+                                                            <textarea ng-model="corpse.immediate_cause" id="immediate_cause" placeholder="Immediate Cause of Death"
+                                                                      class="form-control"
+                                                                      required="Required"></textarea>
+                                </div>
+                                <div class="col-xs-4">
+                                                            <textarea ng-model="corpse.underlying_cause" id="underlying_cause" placeholder="Other underlying conditions"
+                                                                      class="form-control"
+                                                                      required="Required"></textarea>
+                                </div>
+                                <div class="col-xs-2"><button class="md-raised md-primary pull-right"
+                                                              ng-click="deceased(selectedPatient,corpse)">Send to Last office</button></div>
+                            </div>
+                        </script>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-dialog-content>
+
+</md-dialog>

@@ -1,0 +1,91 @@
+<md-dialog class="fullscreen-dialog" ng-controller="radiologyDepartmentController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Equipment and Service Registration</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="EQUIPMENT REGISTRATION">
+                    <md-content class="md-padding">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Register Equipment</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Equipment name</label>
+                                <input type="text" ng-model="equipment.name" autocomplete="off">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Sub-department Name</label>
+                                <input type="text" autocomplete="off" ng-model="equipment.sub_department_name"
+                                       uib-typeahead ="departments as departments.sub_department_name
+              for departments in departments | limitTo:8 | filter:$viewValue">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Description</label>
+                                <input type="text" ng-model="equipment.description">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Status</label>
+                                <input type="text" ng-model="equipment.status_name"
+                                       uib-typeahead ="equipment as equipment.status_name
+              for equipment in equipments | limitTo:8 | filter:$viewValue" autocomplete="off">
+                            </md-input-container>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary"  ng-click="equipmentRegistration(equipment)">
+                            Register
+                        </md-button>
+                    </md-content>
+                </md-tab>
+                <md-tab label="SERVICE CONFIGURATION">
+                    <md-content class="md-padding">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Item Configuration</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Service name</label>
+                                <input  type="text"ng-model="devicesdata.item_name"
+                                        uib-typeahead="item as item.item_name for item in showService($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                        autocomplete="off">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Sub-department Name</label>
+                                <input type="text" autocomplete="off"  ng-model="devicesdata.sub_department_name"
+                                       uib-typeahead ="departments as departments.sub_department_name
+          for departments in departments | limitTo:8">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Equipment Name</label>
+                                <input type="text"  ng-model="devicesdata.equipment_name"
+                                       uib-typeahead ="devicesdata as devicesdata.equipment_name
+          for devicesdata in devicesdata | limitTo:8" autocomplete="off">
+                            </md-input-container>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary" ng-click="serviceRegistration(devicesdata)">
+                            Register
+                        </md-button>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

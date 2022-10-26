@@ -1,0 +1,150 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1100px;
+    }
+
+</style>
+<div class="app-modal-window wrapper wrapper-content animated fadeInRight" ng-controller="ctcController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p><span class="fa fa-desktop"></span>{{ctcQues.first_name}} {{ctcQues.middle_name}} {{ctcQues.last_name}} ({{ctcQues.medical_record_number}})
+
+                                <span class="pull-right"> DOB: {{ctcQues.dob}} &nbsp;&nbsp; GENDER: {{ctcQues.gender}}  </span>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+
+                        <div class="row">
+                            <div class="form-group col-md-3 col-sm-3">
+                                <label for="form1">UNIQUE CTC ID NUMBER *</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form1" ng-model="patient.unique_id" class="form-control">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>PATIENT ADDRESS ( STREET/VILLAGE)*</label>
+                                <div class="md-form form-sm ">
+
+                                    <input type="text" ng-model="patient.address"  id="form2"  class="form-control"
+
+                                           uib-typeahead ="resdata as resdata.residence_name+', '+resdata.council_name+', '+resdata.region_name for resdata in showSearchResidences($viewValue) | filter:$viewValue">
+
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label for="form3">STREET/VILLAGE/CHAIRMAN *</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form3" ng-model="patient.street" class="form-control">
+
+                                </div>
+                            </div>
+                        </div>
+
+           <div class="row">
+                            <div class="form-group col-md-3 col-sm-3">
+                                <label for="form1">NAME OF TEN CELL LEADER*</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form1" ng-model="patient.ten_cell_leaders" class="form-control">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>NAME OF HEAD OF HOUSEHOLD*</label>
+                                <div class="md-form form-sm ">
+
+                                    <input type="text" id="form2" ng-model="patient.head_household" class="form-control" >
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label for="form3">CONTACT OF HOUSEHOLD HEAD*</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form3" ng-model="patient.contact_household" class="form-control">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">TRANSFER IN (tick those applicable)</div>
+                                        <div class="panel-body">
+
+
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-4">
+                                                    <label for="form1">WITH RECORDS (refferal and CTC 1 forms)</label>
+                                                    <div class="md-form form-sm">
+                                                        <input type="checkbox" ng-model="patient.withrecords" id="form1"  class="form-control">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-3 col-sm-3">
+                                                    <label>NO RECORDS AVAILABLE</label>
+                                                    <div class="md-form form-sm ">
+
+                                                        <input type="checkbox" id="form2" ng-model="patient.no_records" class="form-control" >
+<button class="btn btn-success" ng-click="saveCTCNewAttendance(patient,ctcQues)">SAVE</button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2 col-sm-2">
+                                                    <label for="form3">IN CARE</label>
+                                                    <div class="md-form form-sm">
+                                                        <input type="checkbox" id="form3" ng-model="patient.in_care" class="form-control">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-2 col-sm-2">
+                                                    <label for="form4">ON ART</label>
+                                                    <div class="md-form form-sm">
+                                                        <input type="checkbox" id="form4" ng-model="patient.on_art" class="form-control">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                </div>
+
+                                </div>
+
+
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+</div>

@@ -1,0 +1,118 @@
+<md-tabs md-dynamic-height md-border-bottom>
+  <md-tab label="Register User" md-on-select="resetUser()" md-selected="selectedIndex">
+    <md-content class="md-padding">
+      <form autocomplete="off">
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Name</label>
+            <input type="text" ng-model="user.name">
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>E-mail</label>
+            <input type="email" ng-model="user.email">
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Password</label>
+            <input type="password" ng-model="user.password">
+          </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Mobile number</label>
+            <input type="text" ng-model="user.mobile_number">
+          </md-input-container>
+          <md-input-container>
+            <label>Gender</label>
+            <md-select ng-model="user.gender">
+              <md-option value="">Please select gender</md-option>
+              <md-option value="Male">Male</md-option>
+              <md-option value="Female">Female</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Facility</label>
+            <md-select ng-model="user.facility_id" ng-click="getFacilities()">
+              <md-option value="">Please select facility</md-option>
+              <md-option ng-value="facility.id" ng-repeat="facility in facilities">{{facility.facility_name}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Professionals</label>
+            <md-select ng-model="user.proffesionals_id" ng-click="getProffesions()">
+              <md-option value="">Please Select Professional</md-option>
+              <md-option ng-value="professional.id" ng-repeat="professional in professionals">{{professional.prof_name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+          <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button class="md-raised md-primary" ng-click="create(user)">SAVE</md-button>
+          </section>
+        </div>
+      </form>
+    </md-content>
+  </md-tab>
+  <md-tab label="Users List" md-on-select="getUsers()" md-selected="selectedIndex">
+    <!--<pre>{{ user | json }}</pre>-->
+    <md-card>
+        <md-table-pagination md-limit="query.per_page"
+                             md-limit-options="limitOptions"
+                             md-page="query.page"
+                             md-total="{{user.total}}"
+                             md-page-select="options.pageSelect"
+                             md-boundary-links="options.boundaryLinks"
+                             md-on-paginate="getUsers">
+        </md-table-pagination>
+        <md-table-container>
+            <table md-table md-row-select="options.rowSelection"
+                            multiple="{{options.multiSelect}}"
+                            ng-model="selected"
+                            md-progress-linear ng-if="!promise">
+                <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                    <tr md-row>
+                        <th style="text-align: left;"><span style="padding-left: 20px;">Name</span></th>
+                        <th style="text-align: left;"><span>Activity Email</span></th>
+                        <th style="text-align: left;"><span>Gender</span></th>
+                        <th style="text-align: left;"><span>Profession</span></th>
+                        <th style="text-align: left;"><span>Actions</span></th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row md-select="user"
+                               md-on-select="logItem(user)"
+                               md-auto-select="options.autoSelect"
+                               ng-disabled="false"
+                               ng-repeat="user in user.data">
+                        <td md-cell>{{user.name }} </td>
+                        <td md-cell>{{user.email}}</td>
+                        <td md-cell>{{user.gender}}</td>
+                        <td md-cell>{{user.profession}}</td>
+                        <td md-cell layout="row" class="action-table-data">
+                            <a ng-click="delete($event, user.id)" aria-label="Delete" class="delete">
+                                <ng-md-icon icon="close"</ng-md-icon>
+                                <md-tooltip md-direction="top" md-visible="false" autohide="true">Delete User</md-tooltip>
+                            </a>
+
+                            <a ng-click="showUpdateDialog(user.id)">
+                            <ng-md-icon icon="mode_edit"</ng-md-icon>
+                            <md-tooltip md-direction="top"
+                                        md-visible="false"
+                                        autohide="true">Edit</md-tooltip>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+        <md-table-pagination md-limit="query.per_page"
+                             md-limit-options="limitOptions"
+                             md-page="query.page"
+                             md-total="{{user.total}}"
+                             md-page-select="options.pageSelect"
+                             md-boundary-links="options.boundaryLinks"
+                             md-on-paginate="getUsers">
+        </md-table-pagination>
+    </md-card>
+    <!--<pre> {{ user | json }} </pre>-->
+  </md-tab>
+</md-tabs>

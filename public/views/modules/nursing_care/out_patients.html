@@ -1,0 +1,849 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="nursingCareController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4>
+				<span ng-if="!selectedPatient.fullname">NURSING CARE DASHBOARD</span> 
+							
+			<span ng-if="selectedPatient.fullname">NAME:  {{selectedPatient.fullname}} MRN: {{selectedPatient.medical_record_number}} Admission DAY: {{selectedPatient.updated_at}}</span>  </h4>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row hidden-print">
+          <ul class="nav nav-tabs nav-justified" >
+          <li ng-class="{active: isSet(1) }"><a href ng-click="setTabAdmission(1)"><span >Admission</span></a></li>
+          <li ng-class="{active: isSet(2) }"><a href ng-click="setTabObservation(2)">Observation Chart</a></li>
+          <li ng-class="{active: isSet(3) }"><a href ng-click="setTab(3)">Nursing Care Plans</a></li>
+          <li ng-class="{active: isSet(4) }"><a href ng-click="setTab(4)">Treatments</a></li>
+          <li ng-class="{active: isSet(5) }"><a href ng-click="setTab(5)">Discharge</a></li>
+          </ul>
+          <br>
+          <br>
+                            </div>
+                        <div class="row">
+
+                            <div ng-show="isSet(4)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">PATIENT ADMITTED :</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--   NURSING PLANING CARE-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">PATIENT TREATMENT</div><br>
+
+
+
+
+
+                                        <uib-accordion>
+                                            <div uib-accordion-group class="panel-primary" heading="TYPE OF DRUGS AND DOSE">
+                                                <!--chief complaints and HPI starts-->
+                                                <div class="row">
+                                                    <div class="row">
+                                                        <div class="col-xs-4">
+                                                            <input type="text" ng-model="selectedcomplaint" class="form-control" placeholder="Search Chief Complaints" uib-typeahead="complaint as complaint.name for complaint in complaints($viewValue) |filter:$viewValue |limitTo:5">
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <select ng-model="durationqty" class="form-control"><option value="">Duration</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select ng-model="durationunit" class="form-control"><option value="">Duration Unit</option><option value="Hours">Hours</option><option value="Days">Day(s)</option><option value="Weeks">Weeks</option><option value="Months">Months</option><option value="Years">Years</option></select>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <button class="btn btn-primary pull-right" ng-click="addComplaint(selectedcomplaint,durationqty,durationunit)">Add</button>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-xs-6"><textarea  cols="30" class="form-control" placeholder="Write other Complaints"  rows="4"></textarea> </div>
+                                                        <div class="col-xs-6"><textarea cols="30" class="form-control" placeholder="History of Presenting Illness" rows="4"></textarea></div>
+                                                    </div>
+                                                    <div class="row"><br>
+                                                        <button class="btn btn-primary pull-right" ng-click="saveComplaints()">Save Complaints</button>
+                                                    </div>
+                                                </div>
+                                                <!--chief complaints and HPI ends-->
+                                                <!--review of systems starts-->
+                                                <div class="row">
+                                                    <h2 style="font-weight: 400">Review of Systems</h2>
+                                                    <div class="col-xs-12">
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Cardiovascular</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedCardio" uib-typeahead="cardio as cardio.name for cardio in showCardio($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Respiratory</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedRespiratory" uib-typeahead="resp as resp.name for resp in showRespiratory($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Gastrointestinal</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedGastro" uib-typeahead="gastro as gastro.name for gastro in showGastro($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Musculoskeletal</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedMusculo" uib-typeahead="musculo as musculo.name for musculo in showMusculo($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Genitourinary</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedGenito" uib-typeahead="genito as genito.name for genito in showGenito($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Central Nervous System</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedCNS" uib-typeahead="cns as cns.name for cns in showCNS($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Endocrine</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedEndo" uib-typeahead="endo as endo.name for endo in showEndo($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--review of systems ends-->
+                                            </div>
+                                            <div uib-accordion-group class="panel-primary" heading="TREATMENT REPORT">
+                                                <!--past medical history starts-->
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Allergy</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedAllergy" uib-typeahead="allergy as allergy.name for allergy in showAllergy($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Medication</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedMedicine" uib-typeahead="med as med.name for med in showMedication($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Illness</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedIllness" uib-typeahead="illness as illness.name for illness in showIllness($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Admission</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedAdmission" uib-typeahead="admisn as admisn.name for admisn in showAdmission($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Immunisation</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedImmune" uib-typeahead="immune as immune.name for immune in showImmune($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                </div>
+                                                <!--past medical history ends-->
+                                            </div>
+
+                                                                  </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+                        </div>
+
+
+                            <div ng-show="isSet(3)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">PATIENT ADMITTED :</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+<!--   NURSING PLANING CARE-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">NURSING CARE PLANS</div><br>
+
+
+
+
+
+                                        <uib-accordion>
+                                            <div uib-accordion-group class="panel-primary" heading="NURSING DIAGNOSIS">
+                                                <!--chief complaints and HPI starts-->
+                                                <div class="row">
+                                                    <div class="row">
+                                                        <div class="col-xs-4">
+                                                            <input type="text" ng-model="selectedcomplaint" class="form-control" placeholder="Search Chief Complaints" uib-typeahead="complaint as complaint.name for complaint in complaints($viewValue) |filter:$viewValue |limitTo:5">
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <select ng-model="durationqty" class="form-control"><option value="">Duration</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select ng-model="durationunit" class="form-control"><option value="">Duration Unit</option><option value="Hours">Hours</option><option value="Days">Day(s)</option><option value="Weeks">Weeks</option><option value="Months">Months</option><option value="Years">Years</option></select>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <button class="btn btn-primary pull-right" ng-click="addComplaint(selectedcomplaint,durationqty,durationunit)">Add</button>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-xs-6"><textarea  cols="30" class="form-control" placeholder="Write other Complaints"  rows="4"></textarea> </div>
+                                                        <div class="col-xs-6"><textarea cols="30" class="form-control" placeholder="History of Presenting Illness" rows="4"></textarea></div>
+                                                    </div>
+                                                    <div class="row"><br>
+                                                        <button class="btn btn-primary pull-right" ng-click="saveComplaints()">Save Complaints</button>
+                                                    </div>
+                                                </div>
+                                                <!--chief complaints and HPI ends-->
+                                                <!--review of systems starts-->
+                                                <div class="row">
+                                                    <h2 style="font-weight: 400">Review of Systems</h2>
+                                                    <div class="col-xs-12">
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Cardiovascular</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedCardio" uib-typeahead="cardio as cardio.name for cardio in showCardio($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Respiratory</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedRespiratory" uib-typeahead="resp as resp.name for resp in showRespiratory($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Gastrointestinal</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedGastro" uib-typeahead="gastro as gastro.name for gastro in showGastro($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Musculoskeletal</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedMusculo" uib-typeahead="musculo as musculo.name for musculo in showMusculo($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Genitourinary</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedGenito" uib-typeahead="genito as genito.name for genito in showGenito($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Central Nervous System</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedCNS" uib-typeahead="cns as cns.name for cns in showCNS($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Endocrine</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedEndo" uib-typeahead="endo as endo.name for endo in showEndo($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--review of systems ends-->
+                                            </div>
+                                            <div uib-accordion-group class="panel-primary" heading="PATIENT'S GOALS">
+                                                <!--past medical history starts-->
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Allergy</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedAllergy" uib-typeahead="allergy as allergy.name for allergy in showAllergy($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Medication</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedMedicine" uib-typeahead="med as med.name for med in showMedication($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Illness</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedIllness" uib-typeahead="illness as illness.name for illness in showIllness($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Admission</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedAdmission" uib-typeahead="admisn as admisn.name for admisn in showAdmission($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Immunisation</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedImmune" uib-typeahead="immune as immune.name for immune in showImmune($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                </div>
+                                                <!--past medical history ends-->
+                                            </div>
+                                            <div uib-accordion-group class="panel-primary" heading="IMPLEMENTATIONS" >
+                                                <!--birth history starts-->
+                                                <div class="row">
+                                                    <div class="col-xs-4">
+                                                        <h4 style="font-weight: 400">Antenatal</h4>
+                                                        <textarea class="form-control" placeholder="Enter Antenatal history here" ng-model="mtoto.antenatal_history"> </textarea>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h4 style="font-weight: 400">Natal</h4>
+                                                        <textarea class="form-control" placeholder="Enter Natal history here" ng-model="mtoto.natal_history"> </textarea>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h4 style="font-weight: 400">Postnatal</h4>
+                                                        <textarea class="form-control" placeholder="Enter Postnatal history here" ng-model="mtoto.postnatal_history"> </textarea>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h4 style="font-weight: 400">Nutrition </h4>
+                                                        <textarea class="form-control" placeholder="Enter Nutrition notes here" ng-model="mtoto.nutrition_history"> </textarea>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h4 style="font-weight: 400">Growth</h4>
+                                                        <textarea class="form-control" placeholder="Enter growth notes here" ng-model="mtoto.growth_history"> </textarea>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <h4 style="font-weight: 400">Development</h4>
+                                                        <textarea class="form-control" placeholder="Enter Development notes here" ng-model="mtoto.development_history"> </textarea>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <br> <button class="btn btn-primary pull-right" ng-click="birthHistory(mtoto)">save</button>
+                                                    </div>
+                                                </div>
+                                                <!--birth history ends-->
+                                            </div>
+                                            <div uib-accordion-group class="panel-primary" heading="EVALUATION">
+                                                <!--obs and gyn starts here-->
+                                                <div class="col-xs-6">
+                                                    <h2 >Gynaecology</h2>
+                                                    <div class="row">
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Menarche <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Menopause <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Menstrual cycles <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Changing Pads <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Recurrent Menstruation <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row"><br>
+                                                        <button class="btn btn-primary">Save</button>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <h2>Obstetrics History</h2>
+                                                    <div class="row">
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Contraceptives <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Pregnancy <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                LNMP <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Gravidity<input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Parity <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                Living Children <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                </div>
+                                                <!--obs and gyn ends here-->
+
+
+
+
+
+
+
+                                            </div>
+
+
+
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div ng-show="isSet(5)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">ADMITTED PATIENTS</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">DISCHARGED</div><br>
+
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div ng-show="isSet(1)">
+
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">PENDING ADMISSION</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+  <li ng-repeat="admin in admin" ng-click=
+  
+  "getAdmission(admin.patient_id,admin.ward_id,admin.admission_id)" 
+class="list-group-item form-top"><b>{{admin.fullname}}, {{admin.medical_record_number}},
+			 
+			 TIME: {{admin.admission_date}}</b>
+ </li>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">ADMITTED PATIENTS</div><br>
+
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                <li ng-repeat="admitted in admitted" ng-click=  
+  "getAdmission(admitted.patient_id,admitted.ward_id,admitted.admission_id)" 
+class="list-group-item form-top"><b>{{admitted.fullname}}, {{admitted.medical_record_number}},
+			 
+			 TIME: {{admitted.updated_at}}</b>
+ </li>				</ul>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div ng-show="isSet(2)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">PATIENT ADMITTED :</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                                     <li ng-repeat="admitted in admitted" ng-click=  
+  "getAdmPatient(admitted)" 
+class="list-group-item form-top"><b>{{admitted.fullname}}, {{admitted.medical_record_number}},
+			 
+			 TIME: {{admitted.updated_at}}</b>
+ </li>	
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">OBSERVATION CHAT AND FLUID BALANCE</div><br>
+
+
+
+
+
+                                                <uib-accordion>
+                                                    <div uib-accordion-group class="panel-primary" heading="VITAL SIGNS" ng-click="getVital()"  >
+                                                        <!--chief complaints and HPI starts-->
+                                                        <div class="row">
+                                                            <div class="row">
+															  <div class="col-xs-4">
+									
+           <select  ng-model="vitals.types" class="form-control"><option value="">VITAL TYPE</option>
+																															
+				<option ng-repeat="getVital in getVitals" ng-value="getVital.id">{{getVital.observation_key_word}}</option></select>
+                                                                </div>
+                                                                <div class="col-xs-2">
+                  <input type="text" ng-model="vitals.amount" class="form-control" >
+                                                                </div>
+                                                                                                                           
+                                                                <div class="col-xs-2">
+   <button class="btn btn-primary pull-right" ng-click="addVitals(vitals,selectedPatient)">SAVE</button>
+                                                                </div>
+                                                            
+															
+															
+															</div>                                                                                 
+                                                        </div>
+                                                      
+                                                    </div>
+													
+  <div uib-accordion-group class="panel-primary" heading="FLUID INTAKE"  
+  ng-click="getIntakeFluid()">
+                                               <div class="row">
+                                                  <div class="row">
+													<div class="col-xs-4">			
+       <select  ng-model="intravenous.types" class="form-control">
+		   <option value="">INTRAVENOUS </option>																			
+<option ng-repeat="getIntakeFluid in getIntakeFluids" ng-value="getIntakeFluid.item_id">{{getIntakeFluid.item_name}}</option></select>
+                                                                </div>
+                                                                <div class="col-xs-2">
+     <input type="text" ng-model="intravenous.amount" class="form-control" >
+                                                                </div>
+                                                                                                                           
+                                                                <div class="col-xs-2">
+   <button class="btn btn-primary pull-right" ng-click="addIntravenous(intravenous,selectedPatient)">SAVE</button>
+                                                                </div>
+                                                            
+															
+															
+															</div>                                                                                 
+                                                        </div><br><div class="row">
+                                                            <div class="row">
+ <div class="col-xs-4">									
+  <select  ng-model="oral.types" class="form-control">
+  <option value="">ORAL </option>													
+<option ng-repeat="getIntakeFluid in getIntakeFluids" ng-value="getIntakeFluid.item_id">{{getIntakeFluid.item_name}}</option></select>
+ </div>
+ <div class="col-xs-2">
+ <input type="text" ng-model="oral.amount" class="form-control" >
+ </div>                                                                                                
+<div class="col-xs-2">
+<button class="btn btn-primary pull-right" 
+ng-click="addIntakeFluid(oral,selectedPatient)">SAVE</button>
+                                                                </div>
+                                                            
+															
+															
+															</div>                                                                                 
+                                                        </div>
+                                                        <!--past medical history ends-->
+                                                    </div>
+                                                    <div uib-accordion-group class="panel-primary" heading="FLUID OUTPUT" >
+                                                        <!--birth history starts-->
+                                                        <div class="row">
+                                                            <div class="col-xs-4">
+                                                                <h4 style="font-weight: 400">Antenatal</h4>
+                                                                <textarea class="form-control" placeholder="Enter Antenatal history here" ng-model="mtoto.antenatal_history"> </textarea>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <h4 style="font-weight: 400">Natal</h4>
+                                                                <textarea class="form-control" placeholder="Enter Natal history here" ng-model="mtoto.natal_history"> </textarea>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <h4 style="font-weight: 400">Postnatal</h4>
+                                                                <textarea class="form-control" placeholder="Enter Postnatal history here" ng-model="mtoto.postnatal_history"> </textarea>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <h4 style="font-weight: 400">Nutrition </h4>
+                                                                <textarea class="form-control" placeholder="Enter Nutrition notes here" ng-model="mtoto.nutrition_history"> </textarea>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <h4 style="font-weight: 400">Growth</h4>
+                                                                <textarea class="form-control" placeholder="Enter growth notes here" ng-model="mtoto.growth_history"> </textarea>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <h4 style="font-weight: 400">Development</h4>
+                                                                <textarea class="form-control" placeholder="Enter Development notes here" ng-model="mtoto.development_history"> </textarea>
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <br> <button class="btn btn-primary pull-right" ng-click="birthHistory(mtoto)">save</button>
+                                                            </div>
+                                                        </div>
+                                                        <!--birth history ends-->
+                                                    </div>
+                                                    <div uib-accordion-group class="panel-primary" heading="DRUGS">
+                                                        <!--obs and gyn starts here-->
+                                                        <div class="col-xs-6">
+                                                            <h2 >Gynaecology</h2>
+                                                            <div class="row">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Menarche <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Menopause <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Menstrual cycles <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Changing Pads <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Recurrent Menstruation <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row"><br>
+                                                                <button class="btn btn-primary">Save</button>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <h2>Obstetrics History</h2>
+                                                            <div class="row">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Contraceptives <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Pregnancy <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        LNMP <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Gravidity<input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Parity <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                                        Living Children <input type="text" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <button class="btn btn-primary pull-right">Save</button>
+                                                            </div>
+                                                        </div>
+                                                        <!--obs and gyn ends here-->
+
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+
+
+
+                                       </div>
+
+
+
+
+
+
+                       
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

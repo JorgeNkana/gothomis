@@ -1,0 +1,261 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Prepared List" ng-click="getListAwaitingAnaethesia()">
+                   <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search Patient" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+        <h2 ng-if="waitingLists.length==0" align="center">NO LIST WAITING FOR OPERATION.</h2>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="waitingLists.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME WAITING FOR ANAETHESIA
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+                              <th sortable="placed" class="sortable">
+                                <span>BED</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admin in waitingLists track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admin.first_name}} {{admin.middle_name}}{{admin.last_name}}({{admin.medical_record_number}})-> [{{admin.item_name}}],</td>
+                              <td >{{admin.ward_name}}</td>
+                                <td >{{admin.bed_name}}</td>
+                              <td>{{admin.doctor_name}}({{admin.doctor_number}})</td>
+                             <td><md-button class="md-raised md-primary" ng-click="addAnaethesiaRecord(admin)">ACCEPT</md-button></td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+<md-tab label="PRE-ANAESTHETIC VISIT" ng-click="getAnaethesiaListApproved()">
+    <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search Patient" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+        <h2 ng-if="getAnaethesiaListApproveds.length==0" align="center">NO LIST WAITING FOR OPERATION.</h2>
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="getAnaethesiaListApproveds.length > 0">
+            <thead>
+            <tr>
+                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                    <span>No.</span>
+                </th>
+                <th class="st-sort-disable th-dropdown">
+                    PATIENTS FOR ANAETHESIA
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>WARD</span>
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>BED</span>
+                </th>
+
+                <th sortable='total.value' class="sortable">
+                    <span>DOCTOR REQUESTED</span>
+                </th>
+                <th sortable='total.value' class="sortable">
+                    <span>ACTION</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr grid-item ng-repeat="admin in getAnaethesiaListApproveds track by $index"  >
+                <td class="mdl-data-table__cell--non-numeric">
+                    {{$index+1}}
+                </td>
+                <td >{{admin.first_name}} {{admin.middle_name}}{{admin.last_name}}({{admin.medical_record_number}})-> [{{admin.item_name}}] ,</td>
+                <td >{{admin.ward_name}}</td>
+                <td >{{admin.bed_name}}</td>
+                <td>{{admin.doctor_name}}({{admin.doctor_number}})</td>
+                <td><md-button class="md-raised md-primary" ng-click="recordAnaethesiaRecord(admin)">RECORD</md-button></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="INTRA OPERATION" ng-click="getIntraOperations()">
+    <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search Patient" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+        <h2 ng-if="approvedOperations.length==0" align="center">NO LIST WAITING FOR OPERATION.</h2>
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="approvedOperations.length > 0">
+            <thead>
+            <tr>
+                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                    <span>No.</span>
+                </th>
+                <th class="st-sort-disable th-dropdown">
+                    PATIENTS FOR ANAETHESIA
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>WARD</span>
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>BED</span>
+                </th>
+
+                <th sortable='total.value' class="sortable">
+                    <span>DOCTOR REQUESTED</span>
+                </th>
+                <th sortable='total.value' class="sortable">
+                    <span>ACTION</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr grid-item ng-repeat="admin in approvedOperations track by $index"  >
+                <td class="mdl-data-table__cell--non-numeric">
+                    {{$index+1}}
+                </td>
+                <td >{{admin.first_name}} {{admin.middle_name}}{{admin.last_name}}({{admin.medical_record_number}})-> [{{admin.item_name}}] ,</td>
+                <td >{{admin.ward_name}}</td>
+                <td >{{admin.bed_name}}</td>
+                <td>{{admin.doctor_name}}({{admin.doctor_number}})</td>
+                <td><md-button class="md-raised md-primary" ng-click="recordIntraOperations(admin)">RECORD</md-button></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="RECOVERY" ng-click="getListFromRecovery()" >
+       <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search Patient" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+        <h2 ng-if="ListFromRecoveries.length==0" align="center">NO LIST FROM THEATRE UNDER RECOVERY .</h2>
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="ListFromRecoveries.length > 0">
+            <thead>
+            <tr>
+                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                    <span>No.</span>
+                </th>
+                <th class="st-sort-disable th-dropdown">
+                    PATIENTS FOR ANAETHESIA
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>WARD</span>
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>BED</span>
+                </th>
+
+                <th sortable='total.value' class="sortable">
+                    <span>DOCTOR REQUESTED</span>
+                </th>
+                <th sortable='total.value' class="sortable">
+                    <span>ACTION</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr grid-item ng-repeat="ListFromRecovery in ListFromRecoveries track by $index"  >
+                <td class="mdl-data-table__cell--non-numeric">
+                    {{$index+1}}
+                </td>
+                <td >{{ListFromRecovery.first_name}} {{ListFromRecovery.middle_name}}{{ListFromRecovery.last_name}}({{ListFromRecovery.medical_record_number}}) ,</td>
+                <td >{{ListFromRecovery.ward_name}}</td>
+                <td >{{ListFromRecovery.bed_name}}</td>
+                <td>{{ListFromRecovery.doctor_name}}({{ListFromRecovery.doctor_number}})</td>
+                <td><md-button class="md-raised md-primary" ng-click="recoveryFromOperations(ListFromRecovery)">OPTIONS</md-button></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="POST-ANAESTHETIC VISIT" ng-click="getListFromPostAnaesthetic()">
+     <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any post anaesthetic visit" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+        <h2 ng-if="getListFromPostAnaesthetics.length==0" align="center">NO LIST FROM THEATRE  .</h2>
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="getListFromPostAnaesthetics.length > 0">
+            <thead>
+            <tr>
+                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                    <span>No.</span>
+                </th>
+                <th class="st-sort-disable th-dropdown">
+                    PATIENTS FOR ANAETHESIA
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>WARD</span>
+                </th>
+                <th sortable="placed" class="sortable">
+                    <span>BED</span>
+                </th>
+
+                <th sortable='total.value' class="sortable">
+                    <span>DOCTOR REQUESTED</span>
+                </th>
+                <th sortable='total.value' class="sortable">
+                    <span>ACTION</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr grid-item ng-repeat="getListFromPostAnaesthetic in getListFromPostAnaesthetics track by $index"  >
+                <td class="mdl-data-table__cell--non-numeric">
+                    {{$index+1}}
+                </td>
+                <td >{{getListFromPostAnaesthetic.first_name}} {{getListFromPostAnaesthetic.middle_name}}{{getListFromPostAnaesthetic.last_name}}({{getListFromPostAnaesthetic.medical_record_number}}) ,</td>
+                <td >{{getListFromPostAnaesthetic.ward_name}}</td>
+                <td >{{getListFromPostAnaesthetic.bed_name}}</td>
+                <td>{{getListFromPostAnaesthetic.doctor_name}}({{getListFromPostAnaesthetic.doctor_number}})</td>
+                <td><md-button class="md-raised md-primary" ng-click="postAnaestheticOperations(getListFromPostAnaesthetic)">OPTIONS</md-button></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </md-content>
+</md-tab>
+
+</md-tabs>
+</md-content>
+</div>

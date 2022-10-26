@@ -1,0 +1,81 @@
+<md-dialog class="fullscreen-dialog">
+		<form  autocomplete="off" ng-cloak>     
+			<md-dialog-content>
+				<div class="md-dialog-content">
+
+					<md-content class="md-padding">
+	<!-- Contents start here...-->   
+	<!--
+	
+	 <v-accordion class="vAccordion--default">
+                                <v-pane>
+                                    <v-pane-header>
+                                        PATIENT CONSULTATION FILE
+                                    </v-pane-header>
+
+                            <v-pane-content>
+                            <iframe src="/nhif_files/patient_file.pdf" width="100%" height="1000px"></iframe>
+                                        
+                         </v-pane-content>
+             <v-pane>
+               <v-pane>
+                                    <v-pane-header>
+                                        PATIENT CLAIM FILE
+                                    </v-pane-header>
+
+                            <v-pane-content>
+                            <iframe src="/nhif_files/claim_file.pdf" width="100%" height="1000px"></iframe>
+                                        
+                         </v-pane-content>
+             <v-pane>
+             </v-accordion>
+			 -->
+			 <iframe src="/nhif_files/claim_file.pdf" width="100%" height="1000px"></iframe>
+	
+	</div>
+	
+		<md-dialog-actions layout="row">
+				<span flex></span>
+				<table border='0' cellpadding='0' width='500'>
+        <tbody><tr>
+            <td height='100' width='500'>
+                <canvas id='cnv' name='cnv' width='500' height='100'>Client Signature will display here...</canvas>
+            </td>
+        </tr>
+    </tbody></table>
+
+      <form action="#" name="FORM1">
+		<p>
+			<input type="HIDDEN" id="bioSigData" name="bioSigData">
+			<input type="HIDDEN" id="sigImgData"  name="sigImgData">
+			
+		</p>
+	</form>
+	 <button type="button" ng-click="saveSignature(patientData)" class="btn btn-info pull-right hidden-print">Save Signature</button>
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+	
+				 <button id="SignBtn" name="SignBtn" type="button" onclick="StartSign()" class="btn btn-info pull-right hidden-print">Client Signature</button>
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+	  <button type="button" ng-click="markAsVerified(patientData)" class="btn btn-info pull-right hidden-print">Mark as Verified</button>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				<button type="button" ng-click="PrintContent()" class="btn btn-info pull-right hidden-print">Print Form</button>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				<div ng-if="!patientData.submited_by" >
+	<button  type="button" ng-click="sendClaim()" class="btn btn-primary pull-left hidden-print">Send Claim to NHIF </button>
+	</div>
+				<md-button ng-click="cancel()">
+					Cancel
+				</md-button>
+			   
+			</md-dialog-actions>
+	
+						</md-content>
+					  
+
+							
+				</div>
+			</md-dialog-content>
+
+		
+		</form>
+	</md-dialog>

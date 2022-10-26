@@ -1,0 +1,54 @@
+<md-dialog>
+    <md-toolbar><span>{{"Name: " +patientBills[0].name}}&nbsp;&nbsp;&nbsp;{{ patientBills[0].patient_id ? ("Age: "+patientBills[0].age +", Gender: "+patientBills[0].gender) : ''}}</span></md-toolbar>
+    <md-dialog-content>
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+            <thead>
+				<th class="text-left">Item Name</th>
+				<th >Unit Price</th>
+				<th >Quantity</th>
+				<th >Discount</th>
+				<th >Sub Total</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in patientBills">
+                <td>{{item.item_name}}</td>
+                <td class="text-center">{{item.price}}</td>
+                <td class="text-center">{{item.quantity}}</td>
+                <td class="text-center">{{item.discount}}</td>
+                <td class="text-right">{{item.price*item.quantity - item.discount | currency : 'Tshs ' : 2}}</td>
+            </tr>
+            <tr>
+                <td class="emptyrow"></td>
+                <td class="emptyrow"></td>
+                <td class="emptyrow"></td>
+                <td class="emptyrow text-center"><strong>Grand Total</strong></td>
+                <td class="emptyrow text-right"><strong>{{toto() | currency : 'Tshs ' : 2}}</strong></td>
+            </tr>
+            <tr>
+                <td class="emptyrow" colspan="4"></td>
+                <td class="emptyrow text-right" >
+					<table style="display:block" width="100%">
+					<tr>
+						<td width="5%"><input type="radio" ng-click="paymentMethod='cash'" ng-model="paymentMethod" value="cash"  style="width:20px;height:20px;" /></td>
+						<td  width="5%" style="font-weight:bold"  ng-click="paymentMethod='cash';">Cash</td>
+						<td  width="20%">&nbsp;</td>
+						<td width="5%"><input type="radio" ng-click="paymentMethod='gepg'" ng-model="paymentMethod" value="gepg"  style="width:20px;height:20px;" /></td>
+						<td  width="5%" style="font-weight:bold" ng-click="paymentMethod='gepg'">GePG</td><td>&nbsp;</td></tr>
+						</table>
+				</td>
+            </tr>
+			<tr>
+                 <td class="emptyrow">
+					<button class="mdl-button mdl-js-button mdl-button--raised" ng-click="deposit_summary(patientBills,toto())">DEDUCT FROM DEPOSIT</button>
+				</td>
+                <td class="emptyrow"></td>
+                <td class="emptyrow"></td>
+                <td class="emptyrow"></td>
+                <td class="emptyrow text-right">
+                    <button class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="proccessBill(patientBills)">Process Bill</button>
+                    <button class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="cancelBillWindow()">Cancel</button>
+            </tr>
+            </tbody>
+        </table>
+    </md-dialog-content>
+</md-dialog>

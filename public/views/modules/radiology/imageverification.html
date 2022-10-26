@@ -1,0 +1,57 @@
+<md-dialog flex="90" ng-controller="radiologyController">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p> {{patientdata.first_name| uppercase}}
+                    {{patientdata.middle_name| uppercase}} {{patientdata.last_name| uppercase}} {{patientdata.medical_record_number}}
+                </p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+<div ng-repeat="patient_order in patient_orders">
+    <div class="card-action">
+        <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group  heading="Digital Image">
+                <div ng-if="patient_order.attached_image" class="card-image">
+                    <a><img class="img-responsive" ng-src="/uploads/{{patient_order.attached_image}}" class="zoom"></a>
+                </div>
+                <md-whiteframe ng-if="patient_order.attached_image==null" class="md-whiteframe-4dp" flex-sm="50" flex-gt-sm="50" flex-gt-md="50" layout layout-align="center center">
+                   <p style="padding-top: 15px">No image</p>
+                </md-whiteframe>
+            </div>
+            <div uib-accordion-group  heading="Patients Findings">
+                <div class="form-group">
+                          <textarea disabled rows="3" cols="5" class="form-control" ng-model="patient_order.description"
+                          ></textarea>
+                </div>
+            </div>
+            <div uib-accordion-group  heading=" Add  Findings">
+                <md-input-container class="md-block">
+                    <label>Add Another Findings here</label>
+                    <textarea ng-model="patient_order.remarks"  rows="3" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+        </uib-accordion>
+        <md-button style="width: 15%;" class="md-raised md-primary" ng-click="VerifyXray(patient_order.resulted,patient_order.remarks,patient_order.first_name,patient_order.mobile_number,patient_order.middle_name,patient_order.last_name)">
+            Verify
+        </md-button>
+        <md-button style="width: 15%;" class="md-raised md-warn" ng-click="DeleteXray(patient_order.resulted)">
+            Delete
+        </md-button>
+    </div>
+
+</div>
+        </md-dialog-content>
+
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()" class="md-primary">
+                close
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

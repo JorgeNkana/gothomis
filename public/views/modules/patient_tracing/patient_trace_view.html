@@ -1,0 +1,93 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog     class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            <i> NAME:&nbsp;&nbsp; {{SelectedClient.patient_names}}&nbsp;&nbsp;   MRN: &nbsp;&nbsp;{{SelectedClient.medical_record_number}}&nbsp;&nbsp; GENDER:&nbsp;&nbsp;{{SelectedClient.gender}}&nbsp;&nbsp;D.O.B:&nbsp;&nbsp;{{SelectedClient.dob}}&nbsp;&nbsp;Visit date:&nbsp;&nbsp;{{SelectedClient.date_attended}}<p></p>
+
+            </i>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content   >
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+
+                    <tbody>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Place</th>
+                        <th class="mdl-data-table__cell--non-numeric">Time Visited</th>
+                        <th class="mdl-data-table__cell--non-numeric">Seen by</th>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">OPD RECEPTION</td>
+                       <td class="mdl-data-table__cell--non-numeric">{{receptions[0][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[0][0].name}} &nbsp; {{receptions[0][0].mobile_number}}</td>
+                    </tr>
+                     <tr>
+                        <td class="mdl-data-table__cell--non-numeric">CONSULTATION PAYMENT</td>
+                       <td class="mdl-data-table__cell--non-numeric">{{receptions[1][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[1][0].name}} &nbsp; {{receptions[1][0].mobile_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">DOCTOR CONSULTATION</td>
+                       <td class="mdl-data-table__cell--non-numeric">{{receptions[2][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[2][0].name}} &nbsp; {{receptions[2][0].mobile_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">INVESTIGATION ORDERS</td>
+                       <td class="mdl-data-table__cell--non-numeric" >Lab: {{receptions[3][0].created_at}}&nbsp; Radiology: {{receptions[9][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> Lab:{{receptions[3][0].name}} &nbsp; {{receptions[3][0].mobile_number}} &nbsp;
+						   Radiology:{{receptions[9][0].name}} &nbsp; {{receptions[9][0].mobile_number}}
+		
+						</td>
+                     
+				 
+                    
+					</tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">INVESTIGATION RESULTS</td>
+                       <td class="mdl-data-table__cell--non-numeric">Lab: {{receptions[4][0].created_at}} Radiology: {{receptions[10][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> Lab:{{receptions[4][0].name}} &nbsp; {{receptions[4][0].mobile_number}} &nbsp; Radiology:  {{receptions[10][0].name}} &nbsp; {{receptions[10][0].mobile_number}}&nbsp;
+							  
+                       
+						</td>
+                    
+				
+                    
+					</tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">PRESCRIPTION ORDERS</td>
+                       <td class="mdl-data-table__cell--non-numeric">{{receptions[5][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[5][0].name}} &nbsp; {{receptions[5][0].mobile_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">PRESCRIPTION DISPENSED</td>
+                       <td class="mdl-data-table__cell--non-numeric">{{receptions[6][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[6][0].name}} &nbsp; {{receptions[6][0].mobile_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">ADMISSION</td>
+                       <td class="mdl-data-table__cell--non-numeric"><b ng-if="receptions[7][0].ward_name">ward:</b>{{receptions[7][0].ward_name}} &nbsp;<b ng-if="receptions[7][0].bed_name">Bed:</b>{{receptions[7][0].bed_name}} &nbsp;{{receptions[7][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[7][0].name}} &nbsp; {{receptions[7][0].mobile_number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">DISCHARGE</td>
+                       <td class="mdl-data-table__cell--non-numeric">{{receptions[8][0].created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{receptions[8][0].name}} &nbsp; {{receptions[8][0].mobile_number}}</td>
+                    </tr>
+
+
+ 
+                    </tbody>
+                </table>
+
+     </md-dialog-content>
+
+</md-dialog>

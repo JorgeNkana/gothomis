@@ -1,0 +1,51 @@
+<style>
+.md-dialog-content {
+      min-width::1200px;
+     }
+</style>
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row"  layout-align="space-between center">
+    <h2 class="md-display-1"><span>DUPLICATE DETECTED&nbsp; </span> </h2> 
+ <h3 class="md-title"> </h3>
+
+    <span class="md-subhead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>	
+</div>
+   <md-button class="md-icon-button" ng-click="cancel()">
+     
+      </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+             <md-content class="md-padding">
+                 <div style="min-height:50px;">
+				 
+    <md-list-item class="md-1-line"> 
+   <div class="md-list-item-text" layout="row" layout-align="start center">
+      <span flex="2"> <md-icon md-svg-src="svg/ic_close_24px.svg" style="color:#f00;" aria-label="X"></md-icon></span>
+       <span flex="100" > Do you want to proceed registering, {{patientDetails.first_name| uppercase}} {{patientDetails.middle_name | uppercase}} ?</span>
+    </div>
+  </md-list-item>			 
+</md-list>                                       
+                 
+               </div>
+			      
+			   
+                   </md-content> 
+					</div>
+					
+					
+    </md-dialog-content>
+	
+	 <md-dialog-actions layout="row">
+            <span flex></span>
+         <md-button   class="md-raised md-primary"   ng-click="proceedAnyWay(patientDetails)">
+                Proceed Any way
+            </md-button> <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,270 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+</style>
+<div style="padding-right: 5px; width:103%">
+    <md-content  class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label=" REGISTRATION">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/receptionist.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Register New Client</span>
+                                    <span class="md-subhead">Scan for Re-attendency</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <vertical-tabs>
+                                <vertical-tab-pane title="Register New Client">
+                                    <br>
+                                    <div role="form">
+                                        <div ng-if="firstFormShow==true && secondFormShow==false">
+                                            <div layout-gt-sm="row">
+                                                <md-input-container class="md-block" flex-gt-sm>
+                                                    <label>First name</label>
+                                                    <input type="text" ng-model="patient.first_name" required>
+                                                </md-input-container>
+                                                <md-input-container class="md-block" flex-gt-sm>
+                                                    <label>Middle Name</label>
+                                                    <input type="text" ng-model="patient.middle_name" required>
+                                                </md-input-container>
+                                                <md-input-container class="md-block" flex-gt-sm>
+                                                    <label>Last Name</label>
+                                                    <input type="text" ng-model="patient.last_name" required>
+                                                </md-input-container>
+                                            </div>
+                                            <div layout-gt-sm="row">
+                                                <md-input-container class="md-block" flex="40">
+                                                    <label>Gender</label>
+                                                    <md-select ng-model="patient.gender" ng-click="getFacilities()" required>
+                                                        <md-option value="">Please select gender</md-option>
+                                                        <md-option value="Male">Male</md-option>
+                                                        <md-option value="Female">Female</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <br />
+                                                <md-input-container flex="20">
+                                                    <label>Date of birth</label>
+                                                    <md-datepicker md-max-date="today"	  md-hide-icons="calendar" ng-model="patient.dob" md-open-on-focus
+                                                                   ng-Blur="calculateAge(patient,'date')"></md-datepicker>
+                                                </md-input-container>
+                                                <md-input-container flex="50">
+                                                    <label>Age</label>
+                                                    <input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge(patient,'age')">
+                                                </md-input-container>
+                                                <md-input-container flex="40">
+                                                    <label>Unit</label>
+                                                    <md-select ng-model="patient.age_unit" ng-Change="calculateAge(patient,'unit')">
+                                                        <md-option value="Years" selected="selected">Year(s)</md-option>
+                                                        <md-option value="Months">Month(s)</md-option>
+                                                        <md-option value="Days">Day(s)</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+                                            <div layout-gt-sm="row">
+                                                <md-input-container flex="30">
+                                                    <label for="mobile_number">Mobile Number</label>
+                                                    <input id="mobile_number" type="text" ng-model="patient.mobile_number">
+                                                </md-input-container>
+                                                <md-input-container flex="20">
+                                                    <label for="tribe">Tribe</label>
+                                                    <input type="text" ng-model="patient.tribe"
+                                                           uib-typeahead ="tribe as tribe.tribe_name for tribe in searchClientTribes($viewValue)">
+                                                </md-input-container>
+                                                <md-autocomplete flex  flex="50"
+                                                                 md-search-text="search1"
+                                                                 md-input-name="residences"
+                                                                 md-no-cache="true"
+                                                                 md-items="item in getResidence(search1)"
+                                                                 md-item-text="item.residence_name+' '+item.council_name"
+                                                                 md-selected-item-change="selectedResidence(item)"
+                                                                 md-floating-label="Search Residence"
+                                                                 md-min-length="3" md-autofocus>
+                                                    <md-item-template>
+                                                        <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                                    </md-item-template>
+                                                </md-autocomplete>
+                                            </div>
+                                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                                <md-button class="md-raised md-primary" ng-click="patient_quick_registration(patient,residence)">Quick Register</md-button>
+                                                <md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>
+                                                <div class="label">Raised</div>
+                                            </section>
+                                        </div>
+                                        <!-- page two -->
+                                        <div ng-if="firstFormShow==false && secondFormShow==true">
+                                            <div layout="row">
+                                                <md-input-container    flex="40">
+                                                    <label>Marital Status</label>
+                                                    <md-select ng-model="others.marital">
+                                                        <md-option value=""></md-option>
+                                                        <md-option ng-repeat="marital in maritals" value={{marital.id}}>{{marital.marital_status}}</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container   flex="40">
+                                                    <label>Occupation</label>
+                                                    <input type="text" ng-model="others.occupation" id="Occupation" uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue">
+                                                </md-input-container>
+                                            </div>
+                                            <div layout="row">
+                                                <md-input-container class="md-block" flex-gt-sm>
+                                                    <label>Country</label>
+                                                    <input type="text" ng-model="others.country" uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                                                </md-input-container>
+                                                <md-input-container class="md-block" flex-gt-sm>
+                                                    <label>Next of Kin Name *</label>
+                                                    <input type="text" ng-model="others.next_of_kin_name" id="Kin">
+                                                </md-input-container>
+                                                <md-autocomplete flex  flex
+                                                                 md-search-text="search2"
+                                                                 md-input-name="kin_residence"
+                                                                 md-no-cache="false"
+                                                                 md-items="item in getResidence(search2)"
+                                                                 md-item-text="item.residence_name+' '+item.council_name"
+                                                                 md-selected-item-change="selectedResidencekin(item)"
+                                                                 md-floating-label="Search Next Of Kin Residence"
+                                                                 md-min-length="3" md-autofocus>
+                                                    <md-item-template>
+                                                        <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                                    </md-item-template>
+                                                </md-autocomplete>
+                                            </div>
+                                            <div layout="row">
+                                                <md-input-container    flex="40">
+                                                    <label>Relationship</label>
+                                                    <md-select ng-model="others.relationship">
+                                                        <md-option ng-value=""></md-option>
+                                                        <md-option ng-repeat="relationship in relationships" ng-value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container class="md-block" flex-gt-sm>
+                                                    <label>Mobile Number:(<i>Optional</i>)</label>
+                                                    <input id="mobile_number" type="text" ng-model="others.mobile_number_next_kin">
+                                                </md-input-container>
+                                            </div>
+                                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                                <md-button class="md-raised" ng-click="showFirstForm(patient,others,residence)">Previous</md-button>
+                                                <md-button class="md-raised md-primary" ng-click="fullRegistration(patient,others,residence)">Submit</md-button>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </vertical-tab-pane>
+
+                            </vertical-tabs>
+                        </md-card>
+                    </md-content>
+                </md-tab>
+                <md-tab label="HOSPITAL REGISTRATION">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/receptionist.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Register New Patient</span>
+                                    <span class="md-subhead">Scanning and Searching for Reatendency</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <form  name="searchForm" md-autofocus autofocus>
+                                <div flex="100">
+                                    <md-autocomplete  flex
+                                                      md-search-text="searchText10"
+                                                      md-input-name="patients"
+                                                      md-no-cache="true" md-clear-button="true"
+                                                      md-items="item in searchLabPatients(searchText10)"
+                                                      md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                      md-selected-item-change="selectedResidence(item)"
+                                                      md-floating-label="Scan Card for Re-attendency"
+                                                      md-min-length="3" md-autofocus>
+                                        <md-item-template>
+                                            <span  ui-sref="patient_sample({a:item.order_id,b:item.medical_record_number})" md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} </span>
+                                        </md-item-template>
+
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+
+                        </md-card>
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="EMERGENCY REGISTRATION" ng-click="loadTesting()">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/testing.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Sample Testing</span>
+                                    <span class="md-subhead">Laboratory Results</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <form  name="searchForm">
+                                <div flex="100">
+                                    <md-autocomplete  flex
+                                                      md-search-text="searchText11"
+                                                      md-input-name="patients"
+                                                      md-no-cache="true" md-clear-button="true"
+                                                      md-items="item in searchInvestigationPatients(searchText11)"
+                                                      md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                      md-selected-item-change="selectedResidence(item)"
+                                                      md-floating-label="Search Patients for Investigation "
+                                                      md-min-length="3" md-autofocus>
+                                        <md-item-template>
+                                            <span  ui-sref="test_sample({a:item.patient_id,b:item.medical_record_number})" md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} </span>
+                                        </md-item-template>
+
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+                            <div ng-show="loadedTesting==false" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                            </div>
+                            <div ng-show="loadedTesting==true" layout="row">
+                                <md-chips>
+                                    <md-chip  ng-repeat="pt in investigation_results.data" ui-sref="test_sample({a:pt.patient_id,b:pt.medical_record_number})" style="cursor: pointer">
+                                        {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}</h5>
+                                    </md-chip>
+                                </md-chips>
+                            </div>
+
+                        </md-card>
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="REPORTS">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/chart.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Investigations Results</span>
+                                    <span class="md-subhead">Generating Reports</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <vertical-tabs>
+                                <vertical-tab-pane title="Investigation Reports">
+                                    <br>
+                                    
+                                </vertical-tab-pane>
+
+                            </vertical-tabs>
+                        </md-card>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+
+        </div>
+    </md-content>
+
+
+</div>

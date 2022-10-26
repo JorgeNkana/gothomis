@@ -1,0 +1,55 @@
+<!--<md-dialog  >-->
+<md-dialog  >
+    <md-toolbar>
+        <div class="md-toolbar-tools text-center">
+            EDIT PRICE {{"for  "+product.category}}
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div class="md-block col-md-12">
+            <md-input-container class="md-block col-md-6 col-sm-4">
+
+                <input type="text" disabled required class="md-block" placeholder="Enter  Product Name" ng-model="product.item_name" autocomplete="false">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+
+                <input type="text"  class="md-block" placeholder="Enter  Price" ng-model="product.item_price" autocomplete="false">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+
+                <input type="text" disabled class="md-block" placeholder="Enter  Item Code(option)" ng-model="product.item_code" autocomplete="false">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4" autocomplete="false"  >
+
+                <input type="text" disabled class="md-block"   required placeholder="Enter  Unit Of Measure (UoM)" ng-model="product.unit_of_measure" >
+
+            </md-input-container>
+
+            <md-input-container class="md-block col-md-6 col-sm-4">
+
+                <input type="text" disabled class="md-block" placeholder="Enter  Product Category(option)" ng-model="product.item_category">
+
+            </md-input-container>
+
+            <md-input-container class="md-block col-md-6 col-sm-4"  >
+
+                <input type="text" disabled class="md-block" placeholder="Enter  Item sub category" ng-model="product.item_sub_category">
+
+            </md-input-container>
+
+
+            <md-button ng-click="UpdatePrice(product)" class="   md-raised md-primary">SAVE Changes</md-button>
+        </div>
+
+
+
+    </md-dialog-content>
+</md-dialog>

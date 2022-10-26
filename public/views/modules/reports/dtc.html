@@ -1,0 +1,268 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >DTC HMIS SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>FOMU YA TAARIFA YA KITABU CHA 9: REJESTA YA DTC</h5></div>
+
+					<hr>
+
+					<b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					<b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<P></P>
+					<P></P>
+					<P></P>
+					<b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					<b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<hr>
+				</b></caption>
+				<tr style="background-color:#c1c1c1">
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2">No</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2" >Maelekezo</th>
+					<th  style="border-right: thin dotted black;border-bottom: thin dotted black;"colspan="3">Umri chini ya mwezi 1</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Umri mwezi 1 hadi umri chini ya mwaka 1</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="3">Umri mwaka 1 hadi miaka 5</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">JUMLA</th>
+
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">JUMLA</th>
+
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">JUMLA</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">JUMLA KUU</th>
+
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliotibiwa DTC</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].male_less_moth}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[0].female_less_moth}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].total_less_moth}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].male_moth_less_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[0].female_moth_less_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].total_moth_less_year}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].male_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[0].female_year_five_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].total_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[0].total}}</td>
+
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliotibiwa DTC walio na upungufu mkubwa wa maji na chumvichumvi mwilini</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].male_less_moth}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[1].female_less_moth}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].total_less_moth}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].male_moth_less_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[1].female_moth_less_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].total_moth_less_year}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].male_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[1].female_year_five_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].total_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[1].total}}</td>
+
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliotibiwa DTC walio na upungufu kiasi wa maji na chumvichuvi mwilini</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].male_less_moth}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[2].female_less_moth}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].total_less_moth}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].male_moth_less_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[2].female_moth_less_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].total_moth_less_year}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].male_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[2].female_year_five_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].total_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[2].total}}</td>
+
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa walio na damu katika kinyesi</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].male_less_moth}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[3].female_less_moth}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].total_less_moth}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].male_moth_less_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[3].female_moth_less_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].total_moth_less_year}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].male_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[3].female_year_five_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].total_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[3].total}}</td>
+
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliopewa rufaa</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].male_less_moth}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[4].female_less_moth}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].total_less_moth}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].male_moth_less_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[4].female_moth_less_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].total_moth_less_year}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].male_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[4].female_year_five_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].total_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[4].total}}</td>
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliopatiwa zinki</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].male_less_moth}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[5].female_less_moth}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].total_less_moth}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].male_moth_less_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[5].female_moth_less_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].total_moth_less_year}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].male_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[5].female_year_five_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].total_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[5].total}}</td>
+
+								</tr>
+				<tr >
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliopatiwa paketi za ORS</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].male_less_moth}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[6].female_less_moth}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].total_less_moth}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].male_moth_less_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[6].female_moth_less_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].total_moth_less_year}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].male_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[6].female_year_five_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].total_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[6].total}}</td>
+								</tr>
+				<tr >
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliolazwa</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].male_less_moth}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[7].female_less_moth}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].total_less_moth}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].male_moth_less_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[7].female_moth_less_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].total_moth_less_year}} </td>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].male_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[7].female_year_five_year}}</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].total_year_five_year}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[7].total}}</td>
+				</tr>
+				<tr >
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Idadi ya wagonjwa waliofia DTC</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].male_less_moth}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[8].female_less_moth}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].total_less_moth}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].male_moth_less_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[8].female_moth_less_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].total_moth_less_year}} </td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].male_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{dct[8].female_year_five_year}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].total_year_five_year}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dct[8].total}}</td>
+				</tr>
+
+			</table>
+			<p></p>
+			<div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+			<p></p>
+			<div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+			<p></p>
+			<div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+			<p></p>
+			<div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+		</div>
+        <div class="row no-print">
+		<table width="100%">
+			<tr><td>
+				<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('dtc')">
+					SEND TO DHIS
+				</button>
+			</td></tr>
+		</table>
+		</div>
+	</div>
+    </md-dialog-content>
+</md-dialog>

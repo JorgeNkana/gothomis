@@ -1,0 +1,387 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> PAYMENT TYPE </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <div class="">
+                                <form action="#!" method="get">
+                                    <div class="input-group">
+                                        <input type="text"  class="form-control input-lg"   ng-model="search" placeholder="Search..." >            <div class="input-group-btn">
+                                        <button class="btn btn-lg btn-success" type="">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <p></p>
+                            <p></p>
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> Payment Types</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+                                        <div class="row">
+                                            <div class="form-group col-md-8 col-sm-4">
+                                                <label> payment type Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter  payment type Name" ng-model="payment_type.payment_type_name">
+                                                <p></p>
+                                                <button class="btn btn-success" ng-click="payment_type_registration(payment_type)" >Register</button>
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--payment status-->
+
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1"> PAYMENT STATUS </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> Payment Status</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+                                        <div class="row">
+                                            <div class="form-group col-md-8 col-sm-4">
+                                                <label> payment Status Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter  payment Status" ng-model="pay_status.payment_status">
+                                                <p></p>
+                                                <button class="btn btn-success" ng-click="payment_status_registration(pay_status)" >Register</button>
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--payment status list-->
+
+                <table class="table table-bordered table-striped"   >
+
+
+                    <thead>
+                    <tr>
+                        <td>
+
+                            No
+
+                        </td>
+
+                        <td>
+
+                            Payment Status
+
+
+
+                        </td>
+
+                        <td>
+
+                            Edit
+
+                        </td> <td  ng-if="!e">
+
+                        X
+
+                    </td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="payment_status in payment_status | filter:search track by $index">
+                        <td>{{ $index+1 }}</td>
+
+                        <td><b ng-if="!e">{{ payment_status.payment_status }}</b>
+                            <h3 ng-if="e">
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="payment status" ng-model="payment_status.payment_status">
+                                </div>
+
+
+                            </h3>
+                        </td>
+
+                        <td ng-if="e">
+                            <h3 >
+
+                                <div class="form-group">
+
+
+                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="payment_status_update(payment_status)">Update</button>
+
+                                </div>
+                            </h3>
+                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                        </td>
+                        <td>
+                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                        </td><td  ng-if="!e">
+                        <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="payment_status_delete(payment_status.payment_status,payment_status.id)">Delete</button>
+                    </td>
+                        <!--<td>{{ region.tastiness }}</td>-->
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <!--payment status list-->
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--payment status-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <div class="">
+                <form action="#!" method="get">
+                    <div class="input-group">
+                        <input type="text"  class="form-control input-lg"   ng-model="search" placeholder="Search..." >            <div class="input-group-btn">
+                        <button class="btn btn-lg btn-success" type="">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    </div>
+
+
+                </form>
+                <p></p>
+                <p></p>
+            </div>
+
+            <form  role="form" class="registration-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> Payment Type List</h3>
+                            <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" data-toggle="tooltip" title=" Registration of PAYMENT TYPE">PAYMENT TYPE</button>
+                            <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo" data-toggle="tooltip" title=" Registration of Status">PAYMENT STATUS</button>
+
+                            <b class="pull-right badge badge-danger"> Total:{{payment_types.length}}</b>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <table class="table table-bordered table-striped"   >
+
+
+                            <thead>
+                            <tr>
+                                <td>
+
+                                    No
+
+                                </td>
+
+                                <td>
+
+                                    Payment Type
+
+
+
+                                </td>
+
+                                <td>
+
+                                    Edit
+
+                                </td> <td  ng-if="!e">
+
+                                X
+
+                            </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="payment_type in payment_types | filter:search track by $index">
+                                <td>{{ $index+1 }}</td>
+
+                                <td><b ng-if="!e">{{ payment_type.payment_type_name }}</b>
+                                    <h3 ng-if="e">
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="payment type" ng-model="payment_type.payment_type_name">
+                                        </div>
+
+
+                                    </h3>
+                                </td>
+
+                                <td ng-if="e">
+                                    <h3 >
+
+                                        <div class="form-group">
+
+
+                                            <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="payment_type_update(payment_type)">Update</button>
+
+                                        </div>
+                                    </h3>
+                                    <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                </td><td  ng-if="!e">
+                                <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="payment_type_delete(payment_type.payment_type_name,payment_type.id)">Delete</button>
+                            </td>
+                                <!--<td>{{ region.tastiness }}</td>-->
+                            </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+        </fieldset>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>

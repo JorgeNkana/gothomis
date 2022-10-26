@@ -1,0 +1,1258 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >EYE HMIS SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>FOMU YA TAARIFA YA MWEZI YA KITABU CHA 16: REJESTA YA WAGONJWA WA MACHO</h5></div>
+
+					<hr>
+
+					<hr>
+					<b>Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					&nbsp;&nbsp;&nbsp;<b>Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<P></P><P></P>
+					<b>Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					&nbsp;&nbsp;&nbsp;<b>Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<P></P><P></P><P></P><P></P>
+				</b></caption>
+                    <tr style="background-color:#c1c1c1">
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2"> Na </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2"  colspan="2">Maelezo</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Umri
+                            chini ya
+                            miaka 5</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Umri miaka 5
+                            hadi
+                            miaka 15</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2">Jumla</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Umri zaidi ya
+                            miaka 15</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2">Jumla</th>
+
+
+                    </tr>
+
+                    <tr style="background-color:#c1c1c1">
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 1.</td>
+                        <td  colspan="2" style="border-right: thin dotted dddblack;border-bottom: thin dotted black;"> Jumla ya Mahudhurio ya
+                            wagonjwa wa macho </td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[70].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 2.</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wagonjwa waliohudhuria na
+                            tatizo jipya la macho kwa
+                            mwaka huu (*) </td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[71].total_above_15year}}</td>
+                        </tr>
+                    <tr>
+
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 3.</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wagonjwa waliopewa rufaa
+                            kwa matatizo ya macho </td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[72].total_above_15year}}</td>
+
+                    </tr><tr>
+
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 4.</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;"> Mahudhurio ya Marudio kwa
+                            matatizo ya macho</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[73].total_above_15year}}</td>
+
+                    </tr>
+                    <tr style="background-color:#c1c1c1">
+                        <th> </th>
+                        <th  colspan="2">Visual Acuity Grading In The Better Eye (Presenting)</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 5 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Normal (6/6-6/18) (people)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[0].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 6 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Visual Impairment (<6/18-
+                            6/60) (people)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[1].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 7 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Severe Visual Impairment
+                            (<6/60-3/60) (people)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[2].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 8 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Blind (<3/60 or <10 Degrees
+                            of Central VF) (people)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[3].total_above_15year}}</td>
+
+                    </tr>
+                    <tr style="background-color:#c1c1c1">
+                        <th> </th>
+                        <th  colspan="2">Diagnoses za Macho</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 9 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Normal Eyes</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[4].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 10 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Conjunctivitis-Bacterial</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[5].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 11 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Conjunctivitis-Viral</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[6].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 12 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Conjunctivitis-Allergic</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[7].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 13 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Ophthalmia Neonatorum</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[8].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[8].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[8].total_less_5year}}</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 14 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Trachoma TF</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[9].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 15 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Trachoma TT</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[10].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[10].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[10].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[10].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[10].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[10].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 16 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Corneal Ulcer</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[11].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 17 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Corneal Scar</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[12].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 18 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Other Corneal Conditions</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[13].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 19 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uveitis</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[14].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 20 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Cataract Congenital</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[15].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 21 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Cataract Senile</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[16].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[16].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[16].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 22 </td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Cataract Traumatic</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[17].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 23</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Cataract Others</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[18].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 24</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Other Lens Abnormalities</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[19].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;">25</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Aphakia</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].total_above_15year}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 26</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Pseudophakia</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[20].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 27</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Eye Injury Perforating</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[21].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 28</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Eye Injury Blunt</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[22].total_above_15year}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 29</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Eye Injury Penetrating</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[23].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 30</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Eye Injury Others</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[24].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 31</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Foreign Bodies Intraocular</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[25].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 32</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Foreign Bodies Extraocular</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[26].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 33</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Vitamin A Deficiency-Bitot
+                            Spot</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[27].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 34</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Vitamin A Deficiency-
+                            Keratomalacia</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[28].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 35</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">VITAMIN A DEFICIENCY - Night
+                            Blindness</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[29].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 36</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Glaucoma Congenital</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[30].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[30].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[30].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[30].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[30].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[30].total_between_5_14year}}</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 37</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Glaucoma Other Types</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[31].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 38</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Diabetic Retinopathy</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[32].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[32].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[32].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 39</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Hypertensive Retinopathy</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[33].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[33].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[33].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 40</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Retinal Detachment</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[34].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 41</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Age Related Macular
+                            Degeneration</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[35].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[35].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[35].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 42</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Retinoblastoma</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[36].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[36].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[36].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[36].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[36].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[36].total_between_5_14year}}</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 43</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Other Retinal Conditions</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[37].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 44</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Optic Nerve Disorders</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[38].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 45</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Disorders Of Lacrimal System</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[39].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 46</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Lid Disorders Congenital</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[40].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 47</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Lid Disorders Acquired</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 48</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Conjunctival Masses</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[41].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 49</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Other Ocular Tumors</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[42].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 50</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Strabismus</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[43].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 51</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Cranial Nerve Palsy</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[44].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 52</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Other Congenital Ocular
+                            Disorders</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[45].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 53</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Other Acquired Ocular
+                            Disorders</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[46].total_above_15year}}</td>
+
+                    </tr>
+                    <tr style="background-color:#c1c1c1">
+                        <th>  </th>
+                        <th  colspan="2">Optometry diagnosis and services</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 54</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Total number refracted
+                            (People)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[47].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 55</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Emetropia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[48].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 56</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Hyperopia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[49].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 57</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Myopia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[50].total_above_15year}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 58</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Astigmatism (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[51].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 59</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Presbyopia (eyes)</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[52].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[52].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[52].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 60</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Amblyopia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[53].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 61</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of Spectacles
+                            prescribed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[54].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 62</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of Spectacles
+                            dispensed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[55].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 63</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of Low Vision
+                            devices dispensed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[56].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 64</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of Contact lenses
+                            dispensed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[57].total_above_15year}}</td>
+                    </tr>
+                    <tr style="background-color:#c1c1c1">
+                        <th>  </th>
+                        <th  colspan="2">Primary School Screening</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 65</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Total number refracted
+                            (People)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[58].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 66</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Emetropia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[59].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 67</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Hyperopia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[60].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 68</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Myopia (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[61].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 69</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Astigmatism (eyes)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[62].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 70</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Presbyopia (eyes)</td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[63].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[63].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[63].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 71</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of spectacles
+                            prescribed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[64].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 72</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of spectacles
+                            dispensed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[65].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 73</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Number of Low vision
+                            devices dispensed</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[66].total_above_15year}}</td>
+                    </tr>
+                    <tr style="background-color:#c1c1c1">
+                        <th>  </th>
+                        <th  colspan="2">Grades of Low Vision</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 74</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Low Vision Grade I (VA Be
+                            6/18 to 6/60)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[67].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 75</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Low Vision Grade II (VA Be
+                            6/60- 3/60)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[68].total_above_15year}}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;border-right: thin dotted black;border-bottom: thin dotted black;"> 76</td>
+                        <td colspan="2" style="border-right: thin dotted black;border-bottom: thin dotted black;">Blind (VA Be <3/60)</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].male_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].female_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].total_less_5year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].male_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].female_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].total_between_5_14year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].male_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].female_above_15year}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{eyeReports[69].total_above_15year}}</td>
+                    </tr>
+                </table>
+            </div>
+       <div class="row no-print">
+			<table width="100%">
+				<tr><td>
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('eye')">
+						SEND TO DHIS
+					</button>
+				</td></tr>
+			</table>
+			</div>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

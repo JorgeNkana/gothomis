@@ -1,0 +1,1303 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="adminController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span></span>DATABASE ADMINISTRATOR DASHBOARD</h4>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row hidden-print">
+                        <ul class="nav nav-tabs nav-justified" >
+                            <li ng-class="{active: isSet(1) }">
+                                <a href ng-click="setTabUserReg(1)"><span class="fa fa-plus-square fa-3x fa-fw"> </span>  Register User</a></li>
+                        <li ng-class="{active: isSet(2) }">
+						<a href ng-click="setTabPermUser(2)"><span class="fa fa-cog  fa-3x fa-fw"> </span>  Permission User</a></li>
+                            <li ng-class="{active: isSet(3) }">
+                                <a href ng-click="setTabPermRole(3)"><span class="fa fa-bed fa-2x"> </span> Permission Role</a></li>
+
+                            <li ng-class="{active: isSet(4) }">
+						<a href ng-click="setTabSystemMenu(4)"><span class="fa fa-edit fa-2x"> </span> Syst Menu & Activation</a></li>
+                          </ul>
+          <br>
+          <br>
+                            </div>
+                        <div class="row">
+
+                            <div ng-show="isSet(4)">
+
+                                <div class="col-md-7">
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+                                        <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span> REGISTER STATE/MENU</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>STATE NAME*</label>
+                                                                    <input type="text" ng-model="modules.module" class="form-control" placeholder="STATE NAME" id="roles">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>MENU TITLE*</label>
+                                                                    <input type="text" ng-model="modules.title" class="form-control" placeholder="MENU TITLE" id="roles">
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>GLYPHICONS *</label>
+
+
+                                                                    <input type="text" ng-model="modules.glyphicons" uib-typeahead=" icon as icon.icon_name for icon in icons | filter:$viewValue | limitTo:8" class="form-control" placeholder="GLYPHICONS ICONS">
+
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <button type="submit" class="btn btn-success" ng-click="saveModules(modules)">SAVE</button>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                                <div class="col-md-5">
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+                                        <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span> ACTIVATE SYSTEM DATABASE</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <div class="row">
+                                                                <div class="form-group  col-sm-12">
+                                                                    <label>NOTES: *</label>
+                                                                    <p>BY CLICKING THE BUTTON BELOW ,YOU ARE GOING TO ENABLE ITEMS SALES AND USER DETAILS ACCOUNT TO BE ACTIVATED</p>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <button type="submit" class="btn btn-success" ng-click="runViews()">ACTIVATE</button>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+
+                        </div>
+
+
+                            <div ng-show="isSet(3)">
+
+
+                                <div class="col-md-4">
+
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+                                        <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span>SYSTEM  ROLES</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <h4 align='center' ng-if='permUsers.user.id'>E-mail:
+                                                                {{permUsers.user.email}}, Mob:{{permUsers.user.mobile_number}}</h4><hr style='display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;'>
+                                                            <div class="">
+                                                                <form  >
+                                                                    <div class="input-group">
+                                                                        <input type="text" ng-model="permUsers.user" uib-typeahead="user as user.name for user in users | filter:$viewValue | limitTo:8" class="form-control input-lg" placeholder="SEARCH USER BEFORE PROCEED">
+                                                                        <div class="input-group-btn">
+                                                                            <button class="btn btn-lg btn-success" type="submit">
+                                                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </form>
+                                                            </div><BR>
+
+                                                            <div class="row">
+
+                                                                <table class="table table-striped table-condensed table-hover">
+
+
+
+
+                                                                    <tbody>
+
+
+
+                                                                    <tr ng-repeat="systemActivity in systemActivities">
+                                                                        <td><input type="radio" name="gender" value="male" ng-click="chooseRole(systemActivity)"> {{systemActivity.title}}-{{systemActivity.parent}}</td>
+
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+                                                            </div>
+
+                                                            <!--
+                                                        <button type="submit" class="btn btn-success" ng-click="savePermRoles(permRoles)">SAVE</button>
+
+                                                        --->
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                                <div class="col-md-4">
+
+
+
+
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+
+                                        <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-list" aria-hidden="true"></i></span> PERMISSIONS</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <h4 align='center' ng-if='permUsers.user.id'>E-mail:
+                                                                {{permUsers.user.email}}, Mob:{{permUsers.user.mobile_number}}</h4><hr style='display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;'>
+                                                            <div class="row">
+                                                                <div class="form-group col-sm-12 ">
+
+                                                                    <input type="text" ng-model="search"  class="form-control" placeholder="SEARCH USER BEFORE PROCEED">
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+
+                                                                <table class="table table-striped table-condensed table-hover">
+
+
+
+                                                                    <tbody>
+
+
+
+                                                                    <tr ng-repeat="perm  in perms | filter:search">
+                                                                        <td><input type="checkbox" ng-model="permUserVal" ng-click="checkRolePerms(permUserVal,perm,selectedRole)">
+                                                                        </td>
+                                                                        <td>{{perm.title}} </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+                                                            </div>
+
+                                                            <!--
+                                                        <button type="submit" class="btn btn-success" ng-click="savePermRoles(permRoles)">SAVE</button>
+
+                                                        --->
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+
+                                        <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span> ACCESS GIVEN</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+
+                                                            <div class="row">
+
+                                                                <table class="table table-striped table-condensed table-hover">
+
+
+
+                                                                    <tbody>
+
+
+
+                                                                    <tr ng-repeat="accessgiven  in savedRolePerms">
+                                                                        <td><span class="{{accessgiven.glyphicons}}"></span>{{accessgiven.title}}</td>
+                                                                        <td><button class="btn btn-warning" ng-click="removeRoleAccess(accessgiven)"><span class="fa fa-trash"></span>Remove</button></td>
+
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+                                                            </div>
+
+                                                            <!--
+                                                        <button type="submit" class="btn btn-success" ng-click="savePermRoles(permRoles)">SAVE</button>
+
+                                                        --->
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div ng-show="isSet(5)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">ADMITTED PATIENTS</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">DISCHARGED</div><br>
+
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div ng-show="isSet(1)">
+
+                                <div class="col-md-12">
+      <div class="wrapper wrapper-content animated fadeInRight">
+                                        <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>Users Registration</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label> Name *</label>
+                                                                    <input type="text" ng-model="user.name" class="form-control" placeholder="Name" id="fname">
+                                                                </div>
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>Email *</label>
+                                                                    <input type="text" ng-model="user.email" class="form-control" placeholder="Email" id="lname">
+                                                                </div>
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>Password*</label>
+                                                                    <input type="password" ng-model="user.password" class="form-control" placeholder="Password" id="lname">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label> Mobile Number*</label>
+                                                                    <input type="text" ng-model="user.mobile_number" class="form-control" placeholder=" Mobile Number" id="fname">
+                                                                </div>
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>Gender *</label>
+                                                                    <select ng-model="user.gender" class="form-control" ng-click="getFacilities()">
+
+                                                                        <option>Male</option>
+                                                                        <option>Female</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label>Facility Name</label>
+                                                                    <select ng-model="user.facility_id" class="form-control">
+
+                                                                        <option ng-value="facility.id" ng-repeat="facility in facilities">{{facility.facility_name}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4 col-sm-4">
+                                                                    <label> Professional</label>
+                                                                    <select ng-model="user.proffesionals_id" class="form-control" ng-click="getProffesions()">
+
+                                                                        <option ng-value="professional.id" ng-repeat="professional in professsionals">{{professional.prof_name}}</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <button type="submit" class="btn btn-success" ng-click="user_registration(user)">SAVE</button>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+                                </div>
+
+                            </div>
+
+                            <div ng-show="isSet(2)">
+
+                                <div class="col-md-4">
+
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+                   <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span>SYSTEM  USERS</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <h4 align='center' ng-if='permUsers.user.id'>E-mail:
+                                                                {{permUsers.user.email}}, Mob:{{permUsers.user.mobile_number}}</h4><hr style='display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;'>
+                                                            <div class="">
+                                                                <form  >
+                                                                    <div class="input-group">
+                                                                        <input type="text" ng-model="permUsers.user" uib-typeahead="user as user.name for user in users | filter:$viewValue | limitTo:8" class="form-control input-lg" placeholder="SEARCH USER BEFORE PROCEED">
+                                                                        <div class="input-group-btn">
+                                                                            <button class="btn btn-lg btn-success" type="submit">
+                                                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </form>
+                                                            </div><BR>
+
+                                                            <div class="row">
+
+                                                                <table class="table table-striped table-condensed table-hover">
+
+
+
+
+                                                                    <tbody>
+
+
+
+                                                                    <tr ng-repeat="user in users | filter:search">
+                                                                         <td><input type="radio" name="gender" value="male" ng-click="chooseUser(user)"> {{user.name}}</td>
+
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+                                                            </div>
+
+                                                            <!--
+                                                        <button type="submit" class="btn btn-success" ng-click="savePermRoles(permRoles)">SAVE</button>
+
+                                                        --->
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                                <div class="col-md-4">
+
+
+
+
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+
+                                             <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-list" aria-hidden="true"></i></span> PERMISSIONS</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+                                                            <h4 align='center' ng-if='permUsers.user.id'>E-mail:
+                                                                {{permUsers.user.email}}, Mob:{{permUsers.user.mobile_number}}</h4><hr style='display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;'>
+                                                            <div class="row">
+                                                                <div class="form-group col-sm-12 ">
+
+                                                                    <input type="text" ng-model="search"  class="form-control" placeholder="SEARCH USER BEFORE PROCEED">
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+
+                                                                <table class="table table-striped table-condensed table-hover">
+
+
+
+                                                                    <tbody>
+
+
+
+                                                                    <tr ng-repeat="perm  in perms | filter:search">
+                                                                         <td><input type="checkbox" ng-model="permUserVal" ng-click="checkUserPerms(permUserVal,perm,selectedUser)">
+                                                                        </td>
+                                                                        <td>{{perm.title}} </td>
+                                                                       </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+                                                            </div>
+
+                                                            <!--
+                                                        <button type="submit" class="btn btn-success" ng-click="savePermRoles(permRoles)">SAVE</button>
+
+                                                        --->
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="wrapper wrapper-content animated fadeInRight">
+
+                                            <div class="row">
+                                            <div class="col-md-12 form-box">
+                                                <form  role="form" class="registration-form" action="javascript:void(0);">
+                                                    <fieldset>
+                                                        <div class="form-top">
+                                                            <div class="form-top-left">
+                                                                <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span> ACCESS GIVEN</h3>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-bottom">
+
+                                                            <div class="row">
+
+                                                                <table class="table table-striped table-condensed table-hover">
+
+
+
+                                                                    <tbody>
+
+
+
+                                                                    <tr ng-repeat="accessgiven  in savedPerms | filter:search">
+                                                                        <td><span class="{{accessgiven.glyphicons}}"></span>{{accessgiven.title}}</td>
+                                                                        <td><button class="btn btn-warning" ng-click="removeAccess(accessgiven)"><span class="fa fa-trash"></span>Remove</button></td>
+
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+
+
+
+
+                                                            </div>
+
+                                                            <!--
+                                                        <button type="submit" class="btn btn-success" ng-click="savePermRoles(permRoles)">SAVE</button>
+
+                                                        --->
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                                            $('.registration-form input[type="text"]').on('focus', function () {
+                                                $(this).removeClass('input-error');
+                                            });
+
+                                            // next step
+                                            $('.registration-form .btn-next').on('click', function () {
+                                                var parent_fieldset = $(this).parents('fieldset');
+                                                var next_step = true;
+
+                                                parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        $(this).addClass('input-error');
+                                                        next_step = false;
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                                if (next_step) {
+                                                    parent_fieldset.fadeOut(400, function () {
+                                                        $(this).next().fadeIn();
+                                                    });
+                                                }
+
+                                            });
+
+                                            // previous step
+                                            $('.registration-form .btn-previous').on('click', function () {
+                                                $(this).parents('fieldset').fadeOut(400, function () {
+                                                    $(this).prev().fadeIn();
+                                                });
+                                            });
+
+                                            // submit
+                                            $('.registration-form').on('submit', function (e) {
+
+                                                $(this).find('input[type="text"],input[type="email"]').each(function () {
+                                                    if ($(this).val() == "") {
+                                                        e.preventDefault();
+                                                        $(this).addClass('input-error');
+                                                    } else {
+                                                        $(this).removeClass('input-error');
+                                                    }
+                                                });
+
+                                            });
+
+
+                                        });
+                                    </script>
+
+
+
+
+
+
+
+
+
+                                </div>
+
+                                                              </div>
+
+
+
+
+
+
+
+                                                    </div>
+
+
+
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+										
+										
+										
+                                    </div>
+
+
+
+
+
+                                </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

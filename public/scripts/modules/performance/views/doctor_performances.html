@@ -1,0 +1,88 @@
+<div style="padding-right: 5px; width:103%">
+    <md-content  class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="DOCTOR PERFORMANCES">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/perform.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Doctor Performances</span>
+                                    <span class="md-subhead">Generating Performances For Doctors</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <div layout="row">
+                                <md-input-container >
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container >
+                                    <label>Choose End Date</label>
+                                    <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-click="searchPerformance(pef)">Search</md-button>
+                                </md-input-container>
+                            </div>
+                            <div ng-show="loadedPerformances==false" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                            </div>
+
+                            <div ng-show="loadedPerformances==true">
+                                <md-table-pagination md-limit="query.per_page"
+                                                     md-limit-options="limitOptions"
+                                                     md-page="query.page"
+                                                     md-total="{{doctorPerformances.total}}"
+                                                     md-page-select="options.pageSelect"
+                                                     md-boundary-links="options.boundaryLinks"
+                                                     md-on-paginate="searchPerformance">
+                                </md-table-pagination>
+                                <md-table-container>
+                                    <table md-table md-row-select="options.rowSelection"
+                                           multiple="{{options.multiSelect}}"
+                                           ng-model="selected"
+                                           md-progress-linear ng-if="!promise">
+                                        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                        <tr md-row>
+                                            <th style="text-align: left; padding-left: 0px;"><span style="padding-left: 20px;"><strong>Doctor Name</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Total Clerked</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Proffessional Name</strong></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row md-select="user"
+                                            md-on-select="logItem(user)"
+                                            md-auto-select="options.autoSelect"
+                                            ng-disabled="false"
+                                            ng-repeat="user in doctorPerformances.data">
+                                            <td md-cell><strong>{{user.doctor_name }}</strong></td>
+                                            <td md-cell>{{user.total_clerked}}</td>
+                                            <td md-cell>{{user.prof_name}}</td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <md-table-pagination md-limit="query.per_page"
+                                                     md-limit-options="limitOptions"
+                                                     md-page="query.page"
+                                                     md-total="{{doctorPerformances.total}}"
+                                                     md-page-select="options.pageSelect"
+                                                     md-boundary-links="options.boundaryLinks"
+                                                     md-on-paginate="searchPerformance">
+                                </md-table-pagination>
+                            </div>
+                        </md-card>
+
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+
+        </div>
+    </md-content>
+
+
+</div>

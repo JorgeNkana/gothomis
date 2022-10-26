@@ -1,0 +1,32 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p><i class="fa fa-bed" aria-hidden="true">{{admissionDetails.department_name}}</i><span class="pull-right">{{"Name: " +admissionDetails.first_name}} {{admissionDetails.middle_name}} {{admissionDetails.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+admissionDetails.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+admissionDetails.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+admissionDetails.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+admissionDetails.gender}}</span> </p>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="col-md-6">
+                               <md-input-container class="md-block">
+                                   <textarea  ng-model="notes.instructions" placeholder="Reasons for transfer" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                               </md-input-container>
+                            </div>
+                            <div class="col-md-4">
+                                <md-input-container class="md-block">
+                                    <input type="text" ng-model="selectedItem" placeholder="Search consultation type here..."  uib-typeahead="item as item.item_name for item in consultations | filter:$viewValue | limitTo:5" >
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-2">
+                                <md-button class="md-raised md-primary pull-right" ng-click="internalTransfer(admissionDetails,notes,selectedItem)">Save</md-button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,569 @@
+<div ng-cloak="">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Consultation Queue">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                               uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                               typeahead-on-select="getConsultationModal($item)" autocomplete="off">
+
+
+                    </md-input-container>
+
+                    <!--<div layout="row">-->
+                        <!--<div ng-repeat="pt in patientData" class="mdl-chip mdl-chip&#45;&#45;contact mdl-chip&#45;&#45;deletable" ng-click="getConsultationModal(pt)">-->
+                            <!--<a href="">-->
+                                <!--<span class="mdl-chip__contact mdl-color&#45;&#45;teal mdl-color-text&#45;&#45;white">{{pt.first_name | limitTo: 1 }}</span>-->
+                                <!--<span class="mdl-chip__text" >{{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}} </span>-->
+                                <!--<a  class="mdl-chip__action"></a>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div  >
+                        <hr ng-if="resdatas.length>0">
+                        <b  ng-if="resdatas.length>0" class="text-center">INCOMING TRANSFER</b>
+                        <hr ng-if="resdatas.length>0">
+                        <div layout="row">
+                            <div ng-repeat="pt in resdatas" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="getConsultationModal(pt)">
+                                <a href="">
+                                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                    <span class="mdl-chip__text" >{{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}} </span>
+                                    <a  class="mdl-chip__action"></a>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </md-content>
+            </md-tab>
+
+
+            <md-tab label="my performance">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getPerformance(pef)">Search</md-button>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" ng-if="performanceRange.length>0 || performanceThisMonth.length>0">
+                        Dear&nbsp;&nbsp; <strong>{{currentUser.name}}</strong>,&nbsp;&nbsp; you have consulted&nbsp;&nbsp; {{performanceRange[0].total_clients}}&nbsp;&nbsp; patients from&nbsp;&nbsp; {{ pef.start }}&nbsp;&nbsp; to &nbsp;&nbsp;{{ pef.end }}.
+
+                        &nbsp;&nbsp;    Also a total of&nbsp;&nbsp; {{performanceThisMonth[0].total_patients}}&nbsp;&nbsp; patients this current month. <br>
+                        Thank you!
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="REPORT">
+                <div >
+                    <input type="datetime" ng-model="data.start_date" datetime-picker date-only date-format="yyyy-MM-dd hh:mm:ss" placeholder="Start Date">
+                    <input type="datetime"  ng-model="data.end_date" datetime-picker date-only date-format="yyyy-MM-dd hh:mm:ss" placeholder="End Date">
+
+                    <md-button   ng-click="Nutrition_mtuha(data)" class="md-raised md-raised-search ">Search</md-button>
+                </div>
+                <div id='divtoprint_nut'   class=" table-responsive" ng-if="nutrition">
+
+
+                    <p></p>
+
+                    <a ng-click="PrintContent_nutri();"   title="Print" class="no-print   "><b class="glyphicon glyphicon-print "></b>  </a>
+
+                    <div >
+
+                        <center>
+                            <div class="text-center"> <h8>'SIRI'</h8></div>
+                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII, JINSIA, WAZEE NA WATOTO </h8></div>
+                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                            <div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+
+                            <hr>
+
+                            <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                            <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                            <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+<p></p>
+TAREHE YA KUANZA:&nbsp;&nbsp;&nbsp; {{data.start_date}} &nbsp;&nbsp;&nbsp; TAREHE YA MWSHO:&nbsp;&nbsp;&nbsp;{{data.end_date}}
+                            <hr>
+                        </center>
+
+
+
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1" data-text="center">
+
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="3">Client Category</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="3">Sex</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="3">Number</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="8">Nutrition/HIV Status</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="6">Food Suppliments</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="5">Client Exiting</th>
+
+
+
+                            </tr>
+                            <tr  >
+
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Attended</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Assessed</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Counselled</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2" style="background-color: beige">SAM in-patient</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2" style="background-color: beige">SAM out-patient</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2" style="background-color: beige">MAM</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2" style="background-color: beige">Nornal</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2" style="background-color: beige">Over-weight/Obese</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="3">HIV Status</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">F-75</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">F-100</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">New RUTF</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Continuing RUTF</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">New RuSF</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Continuing RuSF</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Graduated</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Lost Follow-up</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Dead</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Treatment Failure</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Transferred</th>
+
+                            </tr>
+
+  <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric">+</th>
+                                <th  class="mdl-data-table__cell--non-numeric">-</th>
+                                <th  class="mdl-data-table__cell--non-numeric">u</th>
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">0 to <6 Months</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].female_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].female_less_6_month}}</th>
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].male_less_6_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].male_less_6_month}}</th>
+
+
+
+
+                            </tr>
+ <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">6 to <59 Months</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].female_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].female_less_59_month}}</th>
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].male_less_59_month}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].male_less_59_month}}</th>
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">5 to <15 Years</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].female_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].female_less_15_year}}</th>
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].male_less_15_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].male_less_15_year}}</th>
+
+
+
+
+                            </tr>
+ <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">15 to <18 Years</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].female_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].female_less_18_year}}</th>
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].male_less_18_year}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].male_less_18_year}}</th>
+
+
+                            </tr>
+<tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">18+ Yrs non-pregnant/post-partum</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].female_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].female_greater_18_year_non_preg}}</th>
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].male_greater_18_year_non_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].male_greater_18_year_non_preg}}</th>
+
+
+                            </tr>
+<tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">18+ Yrs pregnant/post-partum</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].female_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].female_greater_18_year_preg}}</th>
+
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].male_greater_18_year_preg}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].male_greater_18_year_preg}}</th>
+
+
+
+
+
+                            </tr>
+<tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Total Of Clients</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].total_female_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].total_female_attended}}</th>
+
+
+
+
+                            </tr>
+                            <tr  >
+                                <th  class="mdl-data-table__cell--non-numeric" > M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[0][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[1][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[2][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[3][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[4][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[5][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[6][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[7][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[8][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[9][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[10][0].total_male_attended}}</th>
+
+
+
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[11][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[12][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[13][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[14][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[15][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[16][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[17][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[18][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[19][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[20][0].total_male_attended}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{nutrition[21][0].total_male_attended}}</th>
+
+
+
+                            </tr>
+                            <tr>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="24">Remarks:
+                                    <hr></th>
+                            </tr>
+
+                        </table>
+<center>
+                        Name Of Person Reporting:&nbsp;&nbsp;&nbsp;........................
+                        &nbsp;&nbsp;&nbsp;Position:&nbsp;&nbsp;&nbsp;........................
+                        Date:&nbsp;&nbsp;&nbsp;........................
+                        &nbsp;&nbsp;&nbsp;Signature:&nbsp;&nbsp;&nbsp;........................
+</center>
+                    </div>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>

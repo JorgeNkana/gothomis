@@ -1,0 +1,122 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                 <!-- <h2>PATIENT NAME: {{patientInfo.first_name}} {{patientInfo.middle_name}} {{patientInfo.last_name}}, MRN:{{patientInfo.medical_record_number}} Request From:{{tests[0].doctor}}</h2>
+                -->
+				 
+				 
+			
+				<span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+		<table class="table table-bordered" border="0" style="font-family:Tahoma;font-size:11">
+                                                                    <tr style="">
+                                                                        <th rowspan="3">
+											<p>Names:{{tests[1][0].names}}</p>
+											<p>Gender:{{tests[1][0].gender}}</p>
+											<p>Dob:{{tests[1][0].dob}}</p>
+											<p>Contact:{{tests[1][0].mobile}}</p>
+														
+												
+												</th>
+                                                                       <th rowspan="3" colspan="5"><p>
+										  <p>Category:{{tests[1][0].category}}</p>
+											<p>Address:{{tests[1][0].residence}}</p>
+											<p>Country:{{tests[1][0].country}}</p>
+											<p>RequestedBy:{{tests[1][0].doctor_name}}</p>
+																	   </th>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                       
+                                                                    </tr>
+		
+				</table>	
+ 
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <p>      <span ng-if="tests[0][0].admission_id > 0">{{admisionInfo.ward_full_name}}, {{admisionInfo.bed_available}}</span>
+                        </p>
+                    </div>
+
+                    <div layout="row">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Test Name</th>
+                                <th>Sub Department</th>
+                                <th></th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="test in tests[0]">
+                                <td>{{$index + 1}}</td>
+                                <td>{{test.item_name}}</td>
+                                <td>{{test.sub_department_name}}</td>
+                                <td>
+                                    <!--Email validation-->
+                                    <div class="md-form">
+
+                                        <md-input-container flex="50">
+                                            <label>Sample Type</label>
+                                             
+                                            <md-select ng-model="sample_type" required>
+                                                <md-option value="">Please Specimen Type</md-option>
+                                                <md-option value="Blood">Blood</md-option>
+                                                <md-option value="Urine">Urine</md-option>
+                                                <md-option value="Stool">Stool</md-option>
+                                                <md-option value="Sputum">Sputum</md-option>
+  
+                                                <md-option value="Skin Smear  ">Skin Smear  </md-option>
+                                                <md-option value="CSF Analysis">CSF Analysis</md-option>
+                                                <md-option value="Prural fluid">Prural fluid</md-option>
+
+                                                <md-option value="Pus">Pus</md-option>
+                                                <md-option value="Tissue">Tissue</md-option>
+                                                <md-option value="Seminal">Seminal</md-option>
+                                                 
+ <md-option value=" Swab"> Swab</md-option>
+                                            </md-select>
+                                            <div ng-messages="projectForm.payment_services.$error">
+                                                <div ng-message="required">This is required.</div>
+                                            </div>
+                                        </md-input-container>
+                                           </div>
+                                </td>
+                                <td>
+                                    <md-button  class="md-raised md-primary"    ng-click="generateSampleNumber(test.item_name,sample_type,patientInfo.last_name,patientInfo.sub_department_name,test.request_id)" class="md-primary">
+                                        Sample#
+                                    </md-button>
+
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,234 @@
+<md-dialog  flex>
+    <form name="projectForm" autocomplete="off" ng-cloak>
+     <md-dialog-content>
+            <div class="md-dialog-content" id="remote">
+            <md-content class="md-padding">
+			 <table class="table table-bordered" width="100%" border="1">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA  WATOTO </h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+                                                           
+                                                            <div  class="text-center"><h8> <i> INVESTIGATION REPORT</i></h8></div>
+                                                                                                   
+                                                    </table>
+													
+			
+            <div layout="row">
+			<table class="table table-bordered" border="3">
+                                                                    <tr style="">
+                                                                        <th rowspan="3">
+											<p>Name of Hospital:{{menu[0].facility_name}} {{menu[0].description}}</p>
+											<p>Address of Hospital:{{menu[0].address}}</p>
+																	
+																		</th>
+ <th rowspan="3" colspan="5">
+ <p>Hospital Registration number: {{selectedTests.medical_record_number}}</p>
+													   
+ <p>Patient Name: {{selectedTests.first_name}} {{selectedTests.full_name}} {{selectedTests.last_name}}</p> 
+								   
+<p> Age: {{selectedTests.age}}</p>
+																		
+<p>Residential Address: {{selectedTests.residence_name}}</p>
+																	   
+</th>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                       
+                                                                    </tr>
+                                                                    <tr>
+                                                        <th rowspan="1">
+														 <p>Request to: {{patientPaticulars.sub_department_name |uppercase}}</p> 
+							</th>
+                                            <th colspan="5">Clinic/Ward:
+
+                                            	{{selectedTests.requesting_department}}
+                                            </th>
+											
+                                            
+                                        </tr>
+
+                                        <tr style="background-color:#c1c1c1">
+                                   <th>Request Date</th>
+                                                               <th></th>
+                                                                        <th colspan="3"> Requested By</th>
+                                                                        <th>Doctor Contact  </th>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>
+																		
+																	{{patientPaticulars.date_requested |uppercase}}	
+																		
+																		
+																		</th>
+																		
+																		<th>
+																		
+																	{{patientPaticulars.time_requested |uppercase}}	
+																		
+																		
+																		</th>
+                                                                        <th colspan="3">{{patientPaticulars.doctor_name |uppercase}}	</th>
+                                                                        
+                                                                        <th>{{patientPaticulars.doctor_mobile_number |uppercase}}	</th>
+                                                                    </tr>
+                                                                   
+                                                                    <tr style="background-color:#c1c1c1">
+                                                                        <th colspan="6"></th>
+                                                                       
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Type of Specimen: 
+																		{{patientPaticulars.sample_types |uppercase}}
+																		</th>
+                                                             <th>Date Collected:{{patientPaticulars.date_collected}}</th>
+                                                                        <th> Time Collected:
+												{{patientPaticulars.time_collected}}
+																		</th>
+                                                                        <th colspan="4">Collected By: 
+																		{{patientPaticulars.collected_by}}
+																		</th>
+                                                                         
+                                                                    </tr>
+                                                                   
+                                                                    <tr style="background-color:#c1c1c1">
+                                                                        <th colspan="6">
+																		Clinical Notes relevant for the investigation requested
+																		</th>
+                                                                        
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                            <td rowspan="3" colspan="6">
+																		<p>{{patientPaticulars.clinical_note |uppercase}}	</p>
+																		
+																		</td>
+                                                                    </tr> 
+																	<tr>
+                                                                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                       
+                                                                    </tr>
+																	 <tr style="background-color:#c1c1c1">
+                                                                        <th colspan="2">
+																		Diagnosis
+																		</th> 
+																		<th colspan="4">
+																		Investigation Requested
+																		</th>
+                                                                        
+                                                                        
+                                                                    </tr>
+																	<tr >
+                                                                        <td colspan="2">
+																		
+																		</td> 
+																		<td colspan="4">
+																		{{selectedTests.item_name|uppercase}}
+																		</td>
+                                                                        
+                                                                        
+                                                                    </tr>
+																	
+																	 <tr style="background-color:#c1c1c1">
+                                                                        <th colspan="1">
+																		Specimen Number: {{selectedTests.sample_no|uppercase}}
+																		</th>  
+																		<th colspan="2">
+																		PerformedBy:{{selectedTests.performedBy}}
+																		{{selectedTests.post_time}}
+																		</th> 
+																		<th colspan="2">
+																		 
+																		</th>
+																		<th colspan="2">
+																		Verified or Ammended By:
+																		
+																		{{selectedTests.verifiedBy}}
+																		<p></p>
+																		{{selectedTests.updated_at}}
+																		</th>
+                                                                        
+                                                                        
+                                                                    </tr>
+																	
+																	
+												<tr >
+                                                                        <td colspan="6">
+																	<h2 align="center">	Descriptions
+																	</h2>
+																		</td> 
+																		
+                                                                        
+                                                                        
+                                                                    </tr>					
+			<tr>
+                                                            <td rowspan="3" colspan="6">
+													{{selectedTests.description}}
+													<span ng-if="selectedTests.minimum_limit !=null">  ( {{selectedTests.minimum_limit}}- {{selectedTests.maximum_limit}})  {{selectedTests.si_units}} </span> 
+													
+														
+                                   
+								
+                				
+				  
+																		
+													
+																		</td>
+																		
+                                                                    </tr> 
+																	<tr>
+                                                                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                       
+																	</tr>
+																	
+									<tr ng-repeat="PanelsTest in PanelsTests">
+                                                            <td rowspan="3" colspan="6">
+													<textarea cols="120" rows="3" ng-model="results"></textarea>
+																											<input class="form-control" type="checkbox" >
+                                   
+								
+                 
+												
+																		</td>
+																		
+                                                                    </tr> 
+																	<tr>
+                                                                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                       
+                                                                    </tr>
+																
+                                                                    
+                                                                </table>
+
+			
+</div>
+   </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+			
+           <div class="push-left"> <md-button class="md-raised md-primary" ng-click="reportElectonically(selectedTests)">Send Electronically</md-button></div>
+		   
+		  <div class="push-right"> <md-button class="md-raised md-primary" ng-click="PrintviewResults(selectedTests)">Print</md-button></div>
+			
+			<md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

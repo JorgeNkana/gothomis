@@ -1,0 +1,15 @@
+<div ng-cloak="">
+    <md-content>
+        <md-input-container class="md-block">
+            <input title="Search Patient Names Here by using Medical Record Number" type="text"
+                   placeholder="Search Patients" name="search" uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient" typeahead-on-select="checkAttendance($item)">
+        </md-input-container>
+        <md-chips>
+            <md-chip ng-click="checkAttendance(surgical)" ng-repeat="surgical in surgicalPatients" style="cursor: pointer">
+                {{surgical.first_name | uppercase}} {{surgical.middle_name | uppercase}} {{surgical.last_name
+                | uppercase}}
+            </md-chip>
+        </md-chips>
+    </md-content>
+</div>

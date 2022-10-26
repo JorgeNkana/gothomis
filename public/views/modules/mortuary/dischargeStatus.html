@@ -1,0 +1,84 @@
+<md-dialog  class="fullscreen-dialog" ng-controller="mortuaryController">
+    <form autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+			
+                <h3> CORPSE NAME: {{SelectedPatient.corpse_name}}({{SelectedPatient.corpse_record_number}}) &nbsp; &nbsp;    &nbsp;     &nbsp; &nbsp; &nbsp;&nbsp;     
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                       <div layout="row">
+                                   
+                                    <div flex="100" >
+                                       <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             SERVICE NAME 
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>ORDERED BY</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>PAYMENT STATUS</span>
+                            </th>
+							<th sortable="placed" class="sortable">
+                                <span>COST</span>
+                            </th>
+
+                             
+							<th sortable='total.value' class="sortable">
+                                <span>TIME REQUESTED</span>
+                            </th>
+                         
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="getService in getServices track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{getService.item_name}}  </td>
+							<td >  {{getService.requested_by}}</td>
+							<td >  {{getService.payment_status}}</td>
+							<td >  {{getService.cost}}</td>
+                            <td>{{getService.requested_on}}</td>
+                             
+
+                               </tr>
+                        </tbody>
+                    </table>
+                                      
+                                    </div>
+                                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+             
+
+            <span flex></span>
+           
+			<md-button class="md-raised md-primary pull-right" ng-click="confirmDischarge(SelectedPatient)">
+                Request Discharge
+            </md-button> 
+			<md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            
+        </md-dialog-actions>
+    </form>
+</md-dialog>

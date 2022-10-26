@@ -1,0 +1,8 @@
+<div ng-controller='rolesController'>
+    <div ng-if='menu.length >0'>
+        <ng-include src="'/views/modules/clinic/dental/dental_home.html'"></ng-include>
+    </div>
+    <div ng-if='menu.length < 1'>
+        <h2>The MENU is Temporarily Unavailable</h2>
+    </div>
+</div>

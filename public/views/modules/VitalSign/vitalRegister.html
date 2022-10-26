@@ -1,0 +1,32 @@
+<md-dialog ng-controller="VitalSignController" flex="95">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span flex>NAME: {{selectedPatient.first_name | uppercase}}  {{selectedPatient.last_name | uppercase}}
+                        ({{selectedPatient.medical_record_number | uppercase}}) ({{selectedPatient.gender | uppercase}}) ({{selectedPatient.age | uppercase}})</span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <br>
+            <md-content class="md-padding">
+                <md-input-container  flex-gt-sm  ng-repeat="Vital in Vitals">
+                    <label>{{Vital.vital_name}}({{Vital.si_unit}})</label>
+                    <input id="{{Vital.vital_name.replace(regex, '_')}}" type="number" min="0" style="font-size: 1.8rem;">
+                </md-input-container>
+            </md-content>
+            <md-button style="width: 15%;" class="md-raised md-primary"  ng-click="vitalRegister(selectedPatient)">
+                SAVE VITALS
+            </md-button>
+        </md-dialog-content>
+
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()" class="md-primary">
+                close
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

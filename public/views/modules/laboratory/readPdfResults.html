@@ -1,0 +1,44 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                   <h2>PATIENT NAME: {{patientInfo.full_name}}  &nbsp; &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp; SAMPLE NUMBER: {{patientInfo.sample_no}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+         </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row"  ng-if="patientInfo.panel" >
+                        <embed ng-src={{resultsFile}} width="1500px" height="1900px"/>
+                  
+                      </div>
+					  <div layout="row" ng-if="!patientInfo.panel">
+                        <p><B>Description: &nbsp;&nbsp;&nbsp;{{patientInfo.description}}</B></p>
+
+                  
+                      </div>
+
+                </md-content>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+           <p ng-if="patientInfo.panel"><B>REMARKS: {{patientInfo.description}}</B></p>
+
+            <span flex></span>
+            <md-button  ng-click="cancel()">
+                Reject
+            </md-button>
+            <md-button  class="md-raised md-primary"    ng-click="approveTestResults(patientInfo)" class="md-primary">
+                Approve
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

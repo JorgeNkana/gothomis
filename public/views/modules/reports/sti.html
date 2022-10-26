@@ -1,0 +1,181 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+
+    .not_applicable {
+        background-color:#c1c1c1;
+    }
+
+    @media print {
+        .no-print{display:none;}
+    }
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >STI SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getStiReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+            <div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+                <table class="table-responsive"  style="border:thin solid black;">
+                    <caption> <b class="">
+                        <div class="text-center"> <h8>'SIRI'</h8></div>
+                        <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                        <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+                        <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                        <div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+                        <div  class="text-center"><h8> <i> STI REPORT</i></h8></div>
+                        <div  class="text-center"> <h5>STI REPORT </h5></div>
+
+                        <hr>
+
+                        <b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+                        <b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+                        <b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+                        <P></P>
+                        <P></P>
+                        <P></P>
+                        <b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+                        <b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+                        <hr>
+                    </b></caption>
+                    <tr style="background-color:#c1c1c1">
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" rowspan="2"  colspan="2">Indicator</th>
+                        <th  style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2"> <15 </th>
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2"> 15
+                            -24</th>
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">25
+                            -34
+                        </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">35
+                            - 49
+                        </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">
+                            >=50
+                        </th>
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Total </th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="1">Grand total</th>
+
+
+                    </tr>
+
+                    <tr style="background-color:#c1c1c1">
+
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                        <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+                    </tr>
+                    <tr >
+
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Number of new clients with Genital Discharge syndrome</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].male_under_15}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].female_under_15}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].male_15_24}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{sti[0][0].female_15_24}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].male_25_34}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].female_25_34}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].male_35_49}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].female_35_49}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].male_above_50}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].female_above5_50}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].male_total}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].female_total}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[0][0].grand_total}}</td>
+                    </tr>
+                    <tr >
+
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Number of new clients with Genital Ulcer disease</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].male_under_15}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].female_under_15}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].male_15_24}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{sti[1][0].female_15_24}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].male_25_34}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].female_25_34}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].male_35_49}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].female_35_49}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].male_above_50}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].female_above5_50}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].male_total}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].female_total}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[1][0].grand_total}}</td>
+                    </tr>
+                    <tr >
+
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;" colspan="2">Number of new clients with Pelvic Inflamatory disease</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[2][0].female_under_15}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{sti[2][0].female_15_24}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[2][0].female_25_34}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[2][0].female_35_49}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[2][0].female_above5_50}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;background-color:#c1c1c1"></td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[2][0].female_total}}</td>
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{sti[2][0].grand_total}}</td>
+                    </tr>
+
+
+                </table>
+            </div>
+            <div class="row no-print">
+                <table width="100%">
+                    <tr><td>
+                        <button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('sti')">
+                            SEND TO DHIS
+                        </button>
+                    </td></tr>
+                </table>
+            </div>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,43 @@
+<div id="wrapper"  ng-controller='rolesController'>
+    <!--  include menu -->
+    <ng-include src="'/views/menu.html'"></ng-include>
+
+    <div id="page-wrapper" class="gray-bg">
+        <!-- include navs -->
+        <ng-include src="'/views/navs.html'"></ng-include>
+
+
+
+
+
+        <!--  include search box -->
+        <!--<ng-include src="'/views/searchBox.html'"></ng-include>-->
+
+
+
+
+
+
+
+        <div class="row">
+
+            <!--  include registration form -->
+            <!---menu warning-->
+            <div ng-if='menu.length >0'>
+                <ng-include src="'/views/modules/referral/referral.html'"></ng-include>
+
+                <!--</div>-->
+                <div ng-if='menu.length < 1'>
+                    <button class='btn btn-danger '>The MENU is Temporarily Unavailable</button>
+
+                </div>
+                <!---menu warning-->
+            </div>
+
+
+
+            <!--  include footer -->
+            <ng-include src="'/views/footer.html'"></ng-include>
+
+        </div>
+    </div>

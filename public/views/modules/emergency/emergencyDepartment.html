@@ -1,0 +1,424 @@
+<div>
+    <div>
+        <md-content>
+            <md-toolbar class="md-hue-2" style="background-color: #009688;">
+                <div class="md-toolbar-tools">
+                    <h2 style="font-size: 124%; color: white;"align="center" flex md-truncate>Emergency Department</h2>
+                </div>
+            </md-toolbar>
+            <br>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Consultation Queue">
+                    <md-content class="md-padding">
+                        <form  name="searchForm">
+                            <div layout-gt-sm="row">
+                                <md-autocomplete flex  flex
+                                                 md-search-text="searchText"
+                                                 md-input-name="patient"
+                                                 md-no-cache="true"
+                                                 md-items="item in TraumaSeachQueue(search)"
+                                                 md-item-text="item.medical_record_number"
+                                                 md-selected-item-change="selectedPatientToSearch(item)"
+                                                 md-floating-label="Search Patients"
+                                                 md-clear-button="true"
+                                                 md-min-length="4" md-autofocus>
+                                    <md-item-template>
+                                        <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}}</span>
+                                    </md-item-template>
+                                </md-autocomplete>
+                            </div>
+                        </form>
+                        <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                            <div ng-repeat="pt in casualtyPatients" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="checkAttendance(pt)">
+                                <a style="color: black" href="">
+                                    <span class="mdl-chip__contact mdl-color--red-400 mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                    <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                uppercase}} </span>
+                                    <a  class="mdl-chip__action"></a>
+                                </a>
+                            </div>
+                        </md-grid-list>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Treatment Queue">
+                    <md-content class="md-padding">
+                        <form  name="searchForm">
+                            <div layout-gt-sm="row">
+                                <md-autocomplete flex  flex
+                                                 md-search-text="searchTexts"
+                                                 md-input-name="patient"
+                                                 md-no-cache="true"
+                                                 md-items="item in TraumaTreatmentSeachQueue(search)"
+                                                 md-item-text="item.medical_record_number"
+                                                 md-selected-item-change="selectedPatientToSearch(item)"
+                                                 md-floating-label="Search Patients"
+                                                 md-clear-button="true"
+                                                 md-min-length="4" md-autofocus>
+                                    <md-item-template>
+                                        <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}}</span>
+                                    </md-item-template>
+                                </md-autocomplete>
+                            </div>
+                        </form>
+                        <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                            <div ng-repeat="pt in patientInvData" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="selectedPatientToSearch(pt)">
+                                <a style="color: black" href="">
+                                    <span class="mdl-chip__contact mdl-color--orange mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                    <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                uppercase}} </span>
+                                    <a  class="mdl-chip__action"></a>
+                                </a>
+                            </div>
+                        </md-grid-list>
+                    </md-content>
+                </md-tab>
+                <md-tab label="death certification">
+                    <md-content class="md-padding">
+                        <md-input-container class="md-block">
+                            <input type="text" autocomplete="off" placeholder="Search corpse here..." uib-typeahead="cps as cps.first_name+' '+cps.last_name for cps in showCorpse($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedCorpse"
+                                   typeahead-on-select="getCorpseModal($item)">
+                        </md-input-container>
+                        <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                            <div  ng-repeat="corpse in corpseData" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="getCorpseModal(corpse)">
+                                <a style="color: black" href="">
+                                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{corpse.first_name | limitTo: 1 }}</span>
+                                    <span class="mdl-chip__text" >{{corpse.first_name | uppercase}} {{corpse.middle_name| uppercase}} {{corpse.last_name|
+                uppercase}} </span>
+                                    <a  class="mdl-chip__action"></a>
+                                </a>
+                            </div>
+                        </md-grid-list>
+                    </md-content>
+                </md-tab>
+                <md-tab label="my performance">
+                    <md-content class="md-padding">
+                        <div layout="row">
+                            <md-input-container >
+                                <label>Choose Start Date</label>
+                                <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-input-container >
+                                <label>Choose End Date</label>
+                                <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-input-container>
+                                <md-button class="md-raised md-primary" ng-click="getPerformance(pef)">Search</md-button>
+                            </md-input-container>
+                        </div>
+                        <div layout="row" ng-if="performanceRange.length>0 || performanceThisMonth.length>0">
+                            <strong>{{"Dear "+currentUser.name}}</strong>, you have consulted {{performanceRange[0].total_clients}} patients from {{ pef.start }} to {{ pef.end }}.
+                            Also a total of {{performanceThisMonth[0].total_patients}} patients this current month. <br>
+                            Thank you!
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label=" Reports">
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Casualty Minor Procedure">
+                            <md-content class="md-padding">
+                                <div layout="row">
+                                    <md-input-container flex="20">
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="rec.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                    </md-input-container>
+                                    <md-input-container flex="20">
+                                        <label>Choose End Date</label>
+                                        <input ng-model="rec.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <md-button class="md-raised md-primary" ng-click="reportRecord(rec)"> Search </md-button>
+                                    </md-input-container>
+                                </div>
+                                <div ng-if="reportDataFemale.length>0 || reportDataMale.length>0">
+                                    <table width="800px" border=0 class="table table-responsive">
+                                        <tr>
+                                            <td align='center'>
+                                                <div>
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div flex>
+                                                            <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                                        </div>
+                                                        <div flex>
+                                                            <center>
+                                                                <h3>Casualty Minor Procedure Report</h3>
+                                                            </center>
+                                                        </div>
+                                                        <div flex>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div flex="100" layout="row" layout-padding>
+                                                    <div flex="50">
+                                                        <dt>Start</dt>
+                                                        <dd>{{rec.start}}</dd>
+                                                    </div>
+                                                    <div flex="50">
+                                                        <dt>End</dt>
+                                                        <dd>{{rec.end}}</dd>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <!-- the actual content -->
+                                                <div ng-if="reportDataMale.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Casualty Minor Procedure Male </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Procedures</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in reportDataMale">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.item_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF MALE PROCEDURES</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{maleCalculated}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="reportDataFemale.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Casualty Minor Procedure Female </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Procedures</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in reportDataFemale">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.item_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF FEMALE PROCEDURES</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{femaleCalculated}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="reportCounts.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Casualty Minor Procedure Male and Female </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Procedures</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in reportCounts">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.item_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counts}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric"><b>TOTAL OF ALL PROCEDURES</b></td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{allReports}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </md-content>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Casualty Accidents Report">
+                            <md-content class="md-padding">
+                                <div layout="row">
+                                    <md-input-container flex="20">
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="rec.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                    </md-input-container>
+                                    <md-input-container flex="20">
+                                        <label>Choose End Date</label>
+                                        <input ng-model="rec.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <md-button class="md-raised md-primary" ng-click="reportPatientsData(rec)"> Search </md-button>
+                                    </md-input-container>
+                                </div>
+                                <div  ng-if="maleEmergency.length>0 || femaleEmergency.length>0">
+                                    <table width="800px" border=0 class="table table-responsive">
+                                        <tr>
+                                            <td align='center'>
+                                                <div>
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div flex>
+                                                            <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                                        </div>
+                                                        <div flex>
+                                                            <center>
+                                                                <h3>Casualty Accident Report</h3>
+                                                            </center>
+                                                        </div>
+                                                        <div flex>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div flex="100" layout="row" layout-padding>
+                                                    <div flex="50">
+                                                        <dt>Start</dt>
+                                                        <dd>{{rec.start}}</dd>
+                                                    </div>
+                                                    <div flex="50">
+                                                        <dt>End</dt>
+                                                        <dd>{{rec.end}}</dd>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                                <!-- the actual content -->
+                                                <div ng-if="maleEmergency.length>0">
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <tr class="mdl-data-table__cell--non-numeric" ><h4>Motor Accident Casualty Report For Male </h4></tr>
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Accident</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Accident Occured</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in maleEmergency">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.emergency_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF MOTOR ACCIDENTS FOR MALE</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{maleCalculatedEmergency}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="femaleEmergency.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Motor Accident Casualty Report For Female </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Accident</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Accident Occured</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in femaleEmergency">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.emergency_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF MOTOR ACCIDENTS FOR MALE</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{femaleCalculatedEmergency}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="nonMotorFemale.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Non Motor Accident Casualty Report For Female </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Accident</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Accident Occured</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in nonMotorFemale">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.emergency_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF MOTOR ACCIDENTS FOR MALE</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{TotalNonMotorFemale}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="nonMotorMale.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Non Motor Accident Casualty Report For Male </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Accident</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Accident Occured</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in nonMotorMale">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.emergency_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF MOTOR ACCIDENTS FOR MALE</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{TotalNonMotorMale}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="nonMotorMale.length>0">
+                                                    <div flex="100" layout="row" layout-align="space-between center">
+                                                        <h4>Non Motor and Motor Accident Casualty Report For Male and Female </h4>
+                                                        <div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered"
+                                                           width="100%" >
+                                                        <thead>
+                                                        <th class="mdl-data-table__cell--non-numeric">Type of Accident</th>
+                                                        <th class="mdl-data-table__cell--non-numeric">Accident Occured</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="dpt in totalPatients">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.emergency_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{dpt.counted}}</td>
+                                                        </tr>
+                                                        <tr  style="background-color: beige">
+                                                            <td class="mdl-data-table__cell--non-numeric">TOTAL OF ALL ACCIDENTS</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{TotalNonMotorAll}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                    </table>
+                                </div>
+                            </md-content>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>

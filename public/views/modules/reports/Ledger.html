@@ -1,0 +1,117 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >LEDGER</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+			<div class="to-print">
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>KITABU CHA 4: LEJA</h5></div>
+
+					<hr>
+
+					<b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					<b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+					<P></P>
+					<P></P>
+					<P></P>
+					<b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					<b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<hr>
+				</b></caption>
+
+
+
+				<tr style="background-color:#c1c1c1">
+
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">S/n </th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Tarehe </th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Kumbukumbu za kuagizia/kutoa</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Kiasi kilichopokelewa</th>
+
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Kiasi kilichotolewa</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Marekebisho (Upotevu,kurudishwa)</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Kiasi kilichopo</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelezo</th>
+
+				</tr>
+				<tr  ng-repeat="ledger0 in ledgers track by $index">
+
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right;">{{$index+1}}.</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{ledger0.created_at | date:'yyyy-MM-dd'}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{ledger0.batch_no}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right;">{{ledger0.kilichopokelewa | currency: '' : 0}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right;">{{ledger0.kilichotolewa  | currency: '' : 0}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right;">{{ledger0.marekebisho | currency: '' : 0}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right;">{{ledger0.kilichopo | currency: '' : 0}}</td>
+
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right;">&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+		<div class="row no-print">
+			<table width="100%">
+				<tr><td>
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('ledger')">
+					SEND TO DHIS
+				</button>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	</md-content>
+</md-dialog>

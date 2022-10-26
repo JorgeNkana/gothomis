@@ -1,0 +1,47 @@
+<md-dialog flex="60">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+              <p>{{patientData.fullname}}</p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <table  width="800px" border=1 class="table table-responsive">
+                <tr>
+                    <td>
+                        <table align='center'>
+                            <tr> <P align="centre">  <div class="row">
+                                <div class="col-md-12" style="text-align:center">
+                                    <br/>
+
+                                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                                    {{menu[0].description}}<br/>
+                                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                                    {{menu[0].address}}<br/>
+                                    {{menu[0].email}}<br>
+                                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}
+                                </div>
+                            </div>  </P  </tr>
+                            <tr> <td width="40%"> <b> Name:</b>{{patientData.first_name}} {{patientData.middle_name}} {{patientData.last_name}} ({{patientData.medical_record_number}}) </td> <td width="20%"></td>  <td width="30%"><b>Address:</b> {{patientResidences.residence_name}},{{patientResidences.council_name}}</td>   </tr>
+                            <tr> <td colspan='2' width="40%"><b><span ng-if="patientData.mobile_number"> SIMU: </span></b>{{patientData.mobile_number}}</td> <td><b> Gender : </b>{{patientData.gender}}</td></tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+            </table>
+        </md-dialog-content>
+
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()" class="md-primary">
+                close
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

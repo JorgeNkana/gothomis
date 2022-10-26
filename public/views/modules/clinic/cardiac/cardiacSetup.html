@@ -1,0 +1,62 @@
+<md-dialog flex="80" ng-controller="cardiacController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Cardiac Clinic Setup </h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="CLINIC SETUP DATA">
+                    <md-content class="md-padding">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Clinic Configuration</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex="50">
+                                <label>Clinic Name</label>
+                                <md-select placeholder="Select Clinic" ng-model="setup.department" md-on-open="loadEmergency()" style="min-width: 200px;">
+                                    <md-option ng-value="user" ng-repeat="user in cardio">{{user.department}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Clinic Capacity</label>
+                                <input type="number" name="name" ng-model="setup.capacity">
+                            </md-input-container>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary"  ng-click="saveCardioSetup(setup)">
+                            SAVE SETUP
+                        </md-button>
+                    </md-content>
+                </md-tab>
+                <md-tab ng-click="cardiacCapacity()" label="CLINIC SETUP RECORD">
+                    <md-content class="md-padding">
+
+                        <div flex-gt-sm="100" flex>
+                            <md-list-item ng-repeat="person in cardioCapacity"  class="noright">
+                                <md-icon class="menu-icon" md-svg-src="/svg/custom/calendar.svg"></md-icon>
+                                <p>{{ "Clinic Name: "+person.department  }}</p>
+                                   <p> {{"Capacity: "+person.capacity}}</p>
+                                <md-icon md-svg-src="/svg/custom/edit.svg" ng-click="editCardiac(person)" aria-label="Send Email" class="md-secondary md-hue-3" ></md-icon>
+                                <md-icon md-svg-src="/svg/custom/dust.svg" ng-click="doSecondaryAction($event)" aria-label="Send Email" class="md-secondary md-hue-3" ></md-icon>
+                            </md-list-item>
+                            </md-list>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

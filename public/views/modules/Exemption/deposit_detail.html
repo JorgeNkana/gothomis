@@ -1,0 +1,87 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog   flex="80" class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            <b > <p></p>
+
+            </b>
+            <span flex></span>
+
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+
+        </div>
+    </md-toolbar>
+    <md-dialog-content >
+        <b ng-click="PrintContent_deposit()" title="Print"
+           class="no-print pull-right"><b class="glyphicon glyphicon-print "></b> </b>
+<div id="print_d">
+
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" width="100%" >
+
+            <tr style="background-color:#f0ad4e">
+
+
+                <th class="mdl-data-table__cell--non-numeric" colspan="4">NAME: {{depositee[0][0].name}}   GENDER:{{depositee[0][0].gender}}</th>
+
+
+            </tr>
+            <tr style="background-color:beige">
+                <th class="mdl-data-table__cell--non-numeric">#</th>
+
+                <th class="mdl-data-table__cell--non-numeric">Deposited Amount(Tsh)</th>
+                <th class="mdl-data-table__cell--non-numeric">Amount used(Tsh)</th>
+                <th class="mdl-data-table__cell--non-numeric">Balance(Tsh)</th>
+                <th class="mdl-data-table__cell--non-numeric">TransType</th>
+                <th class="mdl-data-table__cell--non-numeric">Due date</th>
+
+
+
+            </tr>
+
+            <tr ng-repeat="deposit in depositee[0]   track by $index">
+                <td class="mdl-data-table__cell--non-numeric" >{{$index+1}}</td>
+
+
+                <td class="mdl-data-table__cell--non-numeric" >{{deposit.amount | currency:"    "}}</td>
+                <td class="mdl-data-table__cell--non-numeric" >{{deposit.withdraw | currency:"   "}}</td>
+                <td class="mdl-data-table__cell--non-numeric" >{{deposit.balance | currency:"    "}}</td>
+                <td class="mdl-data-table__cell--non-numeric" >{{deposit.type}}</td>
+                <td class="mdl-data-table__cell--non-numeric" >{{deposit.dated}}</td>
+
+
+            </tr>
+            <tr style="background-color:khaki">
+
+                <td class="mdl-data-table__cell--non-numeric" > </td>
+
+                <td class="mdl-data-table__cell--non-numeric" >{{depositee[1][0].deposited | currency:"    "}}</td>
+                <td class="mdl-data-table__cell--non-numeric" >{{depositee[1][0].used | currency:"   "}}</td>
+                <td class="mdl-data-table__cell--non-numeric" >{{depositee[1][0].balance | currency:"    "}}</td>
+
+            </tr>
+
+
+
+
+        </table>
+</div>
+    </md-dialog-content>
+</md-dialog>
+
+
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+
+        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+
+
+</script>

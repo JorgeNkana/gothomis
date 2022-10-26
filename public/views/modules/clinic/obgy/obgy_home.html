@@ -1,0 +1,40 @@
+<div ng-cloak="">
+    <md-content>
+        <md-input-container class="md-block">
+            <input title="Search Patient Names Here by using Medical Record Number" type="text"
+                   placeholder="Search Patients" name="search" uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient" typeahead-on-select="checkAttendance($item)">
+        </md-input-container>
+        <md-chips>
+            <md-chip ng-click="checkAttendance(obg)" ng-repeat="obg in obgyPatients" style="cursor: pointer">
+                {{obg.first_name | uppercase}} {{obg.middle_name | uppercase}} {{obg.last_name
+                | uppercase}}
+            </md-chip>
+        </md-chips>
+    </md-content>
+    <div flex-gt-sm="100">
+        <md-checkbox ng-model="data.cb" aria-label="my performance">
+            My performance
+        </md-checkbox>
+        <div ng-if=" data.cb ==true">
+            <div layout="row">
+                <md-input-container >
+                    <label>Choose Start Date</label>
+                    <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                </md-input-container>
+                <md-input-container >
+                    <label>Choose End Date</label>
+                    <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                </md-input-container>
+                <md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="getPerformance(pef)">Search</md-button>
+                </md-input-container>
+            </div>
+            <div layout="row" ng-if="performanceRange.length>0 || performanceThisMonth.length>0">
+                Dear <strong>{{currentUser.name}}</strong>, you have consulted {{performanceRange[0].total_clients}} patients from {{ pef.start }} to {{ pef.end }}.
+                Also a total of {{performanceThisMonth[0].total_patients}} patients this current month. <br>
+                Thank you!
+            </div>
+        </div>
+    </div>
+</div>

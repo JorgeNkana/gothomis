@@ -1,0 +1,18 @@
+<md-dialog class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h4><span class="pull-right">{{"Name: " +selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}</span>
+            </h4>
+
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancelPdf()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div>
+            <iframe ng-src={{resultsFile}} width="1500px" height="1900px" /></iframe>
+        </div>
+    </md-dialog-content>
+</md-dialog>

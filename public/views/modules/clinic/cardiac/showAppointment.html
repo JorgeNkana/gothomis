@@ -1,0 +1,49 @@
+<md-dialog flex="80">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{patientData.first_name| uppercase}}
+                    {{patientData.middle_name| uppercase}} {{patientData.last_name| uppercase}} {{patientData.age}} ({{patientData.medical_record_number}})
+                </h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="SET APPOINTMENT">
+                    <md-content class="md-padding">
+                        <div layout-gt-xs="row">
+                            <div flex="50">
+                                <h4 style="padding-left: 18px;">Appointment Date</h4>
+                                <md-datepicker ng-model="appointment" placeholder="Enter date"></md-datepicker>
+                            </div>
+
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary"  ng-click="appointmentSetup(appointment,patientData)">
+                            SET APPOINTMENT
+                        </md-button>
+                    </md-content>
+                </md-tab>
+                <md-tab label="APPOINTMENT LIST">
+                    <md-content class="md-padding">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Appointment List</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,290 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> PATIENT NAME: {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}}({{patientPaticulars.medical_record_number}}) &nbsp; OPERATION DAY:{{patientPaticulars.operation_date}}  BED:{{admissionInfoData.bed_name}}
+						  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+            <md-content class="md-padding">
+            <div layout="row">
+
+ <md-list flex>
+     <md-list-item ng-click="toggle.list1 = !toggle.list1">
+         <md-icon>explore</md-icon>
+         <span flex>PREMEDICATION</span>
+         <md-icon ng-show="!toggle.list1">expand_more</md-icon>
+         <md-icon ng-show="toggle.list1">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list1">
+                                <div class="row">
+
+                                <md-input-container >
+                                    <label>Type of drug given</label>
+                                    <input type="text" ng-model="nursingcare.drug"  uib-typeahead ="item as item.item_name  for item in searchDrug($viewValue) | limitTo:8 | filter:$viewValue">
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Given(time)</label>
+                                <input type="time" ng-model="nursingcare.time_given">
+                                </md-input-container>
+                                 <md-input-container>
+                                   <md-button  class="md-raised md-primary"    ng-click="saveGivenDrug(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div>
+     </span>
+     <md-list-item ng-click="toggle.list2 = !toggle.list2">
+         <md-icon>explore</md-icon>
+         <span flex>PRE OPERATION</span>
+         <md-icon ng-show="!toggle.list2">expand_more</md-icon>
+         <md-icon ng-show="toggle.list2">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list2">
+	 
+	
+                         
+
+                                                  
+	 
+                              <div class="row">
+							   <md-input-container flex="45">
+                                    <label>Pre OP Condition</label>
+							       <md-select  ng-model="PreOPCondition.condition" >
+                                      <md-option value="">Pre OP Condition</md-option>
+                                      <md-option value="Good">Good</md-option>
+                                      <md-option  value="Fair">Fair</md-option>
+                                      <md-option  value="Poor">Poor</md-option>
+                              </md-select>
+							  </md-input-container flex="45">
+                                <md-input-container >
+                                    <label>Operation Case</label>
+							  
+                            <md-select  ng-model="PreOPCondition.case">
+                                 <md-option value="">Case</md-option>
+                                 <md-option value="Emergence">Emergence</md-option>
+                                 <md-option value="Elective">Elective</md-option>
+                             </md-select>
+							 </md-input-container >
+							       
+                                 
+                                  <md-input-container>
+           <md-button  class="md-raised md-primary"  ng-click="savePreOpCondition(patientPaticulars,PreOPCondition)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div>
+     </span> 
+
+	 <md-list-item ng-click="toggle.list3 = !toggle.list3">
+         <md-icon>explore</md-icon>
+         <span flex>INTUBATION</span>
+         <md-icon ng-show="!toggle.list3">expand_more</md-icon>
+         <md-icon ng-show="toggle.list3">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list3">
+	 
+                              <div class="row">
+							   <md-input-container class="md-block">
+                                    <label>Method of Intubation</label>
+							       <md-select  ng-model="intubation.intubation" >
+                                 <md-option value="">Method of Intubation</md-option>
+                                 <md-option value="Oral">Oral</md-option>
+                                 <md-option value="Nasal">Nasal</md-option>
+                                 <md-option value="Not intubated">Not intubated</md-option>
+                              </md-select>
+							  </md-input-container >
+                                                  
+                                  <md-input-container>
+           <md-button  class="md-raised md-primary"  ng-click="saveIntubationMethod(patientPaticulars,intubation)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+
+								<div class="row">
+							   <md-input-container style="width:60px;">
+                                    <label>Respiration</label>
+							     <md-select  ng-model="Respiration.Respiration" >
+                                 <md-option value="">Respiration</md-option>
+                                 <md-option value="Spontenous">Spontenous</md-option>
+                                 <md-option value="Assistated">Assistated</md-option>
+                                 </md-option>
+                              </md-select>
+							  </md-input-container >
+                                                  
+                                  <md-input-container >
+           <md-button  class="md-raised md-primary"  ng-click="saveRespirationOperation(patientPaticulars,Respiration)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div>
+     </span>
+	 
+	 
+ <md-list-item ng-click="toggle.list4 = !toggle.list4">
+         <md-icon>explore</md-icon>
+         <span flex>EFFECTS</span>
+         <md-icon ng-show="!toggle.list4">expand_more</md-icon>
+         <md-icon ng-show="toggle.list4">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list4">
+	 
+                              <div class="row">
+							   <md-input-container class="md-block">
+                                    <label>Effect</label>
+							     <md-select  ng-model="effect.effect" >
+                                 <md-option value="">Effect</md-option>
+                                 <md-option value="Effect A">Effect A</md-option>
+                                 <md-option value="Effect B">Effect B</md-option>
+                                 <md-option value="Effect C">Effect C</md-option>
+                              </md-select>
+							  </md-input-container >
+                                                  
+                                  <md-input-container>
+           <md-button  class="md-raised md-primary"  ng-click="saveEffects(patientPaticulars,effect)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+
+								
+     </span>
+	 
+	 <md-list-item ng-click="toggle.list5 = !toggle.list5">
+         <md-icon>explore</md-icon>
+         <span flex>VITAL SIGNS</span>
+         <md-icon ng-show="!toggle.list5">expand_more</md-icon>
+         <md-icon ng-show="toggle.list5">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list5">
+	              <div class="row">
+							 
+					<md-input-container>
+                    <label>VITAL SIGN</label>
+					<md-select  ng-model="effect.effect" >
+                    <md-option value="">VITAL SIGN</md-option>
+                      <md-option  ng-repeat="VitalSign in VitalSigns" ng-click="getSelectedVitalSign(VitalSign)" value="{{VitalSign.id}}">{{VitalSign.TemplateName}}</md-option>
+                                      </md-select>
+							  </md-input-container >
+
+
+							 <md-input-container >
+                                    <label>{{VitalSign.TemplateName}}</label>
+                              <input type="text" ng-model="vitalSignValue" >
+                                </md-input-container>                                   
+                                <md-input-container>
+     <md-button  class="md-raised md-primary"  ng-click="saveVitalSigns(patientPaticulars,vitalSignValue)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+
+								
+     </span>
+	  
+	  <md-list-item ng-click="toggle.list7 = !toggle.list7">
+         <md-icon>explore</md-icon>
+         <span flex>REMARKS</span>
+         <md-icon ng-show="!toggle.list7">expand_more</md-icon>
+         <md-icon ng-show="toggle.list7">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list7">
+                                <div class="row">
+                                <md-input-container >
+                                    <label>Duration of Operation</label>
+             <input type="text" ng-model="nursingcare.duration_operartion" >
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Duration of Anaesthesia</label>
+                                <input type="text" ng-model="nursingcare.duration_anaesthesia">
+                                </md-input-container>
+                                 <md-input-container>
+                                   <md-button  class="md-raised md-primary"    ng-click="saveDuration(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+								
+								<div class="row">
+                                <md-input-container >
+                                    <label>Blood Loss</label>
+             <input type="text" ng-model="nursingcare.blood_loss" >
+                                </md-input-container>
+                                     <md-input-container>
+                                   <md-button  class="md-raised md-primary"    ng-click="saveBloodLoss(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div>
+								
+								<div class="row">
+                                <md-input-container>
+                                    <label>Fluid Given</label>
+             <input type="text" ng-model="nursingcare.fluid_given" >
+                                </md-input-container>
+                                     <md-input-container>
+                                   <md-button  class="md-raised md-primary"    ng-click="saveFluidGiven(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div>
+								<div class="row">
+                                <md-input-container>
+                                    <label>Complication</label>
+             <input type="text" ng-model="nursingcare.complication" >
+                                </md-input-container>
+                                     <md-input-container>
+                                   <md-button  class="md-raised md-primary"    ng-click="saveComplications(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div>
+								
+								
+     </span>  
+	 
+	 <md-list-item ng-click="toggle.list8 = !toggle.list8">
+         <md-icon>explore</md-icon>
+         <span flex>END SESSION</span>
+         <md-icon ng-show="!toggle.list8">expand_more</md-icon>
+         <md-icon ng-show="toggle.list8">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list8">
+                                <div class="row">
+                                <md-input-container class="md-block">
+                                    <label>Verify Discarge of {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}} from Theatre</label>
+             <input type="text" ng-model="nursingcare.discharge_theatre" >
+                                </md-input-container>
+                               
+                                 <md-input-container >
+                                   <md-button  class="md-raised md-primary"    ng-click="endSession(patientPaticulars,nursingcare)" class="md-primary">
+                                    VERIFY DISCHARGE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+														
+     </span>
+
+</md-list>
+</div>
+   </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

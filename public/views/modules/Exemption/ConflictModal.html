@@ -1,0 +1,76 @@
+<md-dialog >
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>COMPLAINER:&nbsp;&nbsp;{{marriage.first_name}}&nbsp;&nbsp;{{marriage.middle_name}}&nbsp;&nbsp;{{marriage.last_name}}&nbsp;&nbsp;({{marriage.medical_record_number}})&nbsp;&nbsp;Gender:&nbsp;&nbsp;{{marriage.gender}} </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div   style="min-width: 900px;">
+
+
+            <div >
+
+                <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <textarea ng-model="marriage.complainer_description" id="complainer_description" cols="3" rows="3"
+                                                      md-maxlength="255" rows="5"  md-select-on-focus
+                                                      placeholder="Complainer Descriptions " disabled></textarea>
+
+                </md-input-container>
+                <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <textarea ng-model="marriage.social_description" id="social_description" cols="3" rows="3"
+                                                      md-maxlength="255" rows="5"  md-select-on-focus
+                                                      placeholder="Enter your Descriptions here" required></textarea>
+
+                </md-input-container>
+                <md-input-container class="md-block col-md-6 col-sm-4" ng-if="marriage.status==0">
+
+                                            <textarea ng-model="marriage.complainee_description" id="complainee_description" cols="3" rows="3"
+                                                      md-maxlength="255" rows="5"  md-select-on-focus
+                                                      placeholder="Enter Complained Descriptions here" required></textarea>
+
+                </md-input-container><md-input-container class="md-block col-md-6 col-sm-4" ng-if="marriage.status !=0">
+
+                                            <textarea ng-model="marriage.complainee_description" id="complainee_description" cols="3" rows="3"
+                                                      md-maxlength="255" rows="5"  md-select-on-focus
+                                                      placeholder="Enter Complained Descriptions here" disabled></textarea>
+
+                </md-input-container>
+                <md-input-container class="md-block col-md-6 col-sm-4">
+                    <label>Date of event occurred</label>
+                    <input type="text"  datetime-picker date-format="yyyy-MM-dd"
+                           ng-model="marriage.event_date" disabled>
+
+                </md-input-container>
+                <md-input-container class="md-block col-md-4 col-sm-4">
+                    <label>Status</label>
+                    <md-select  ng-model="marriage.status">
+                        <md-option value="1">Complete</md-option>
+                        <md-option value="0">InComplete</md-option>
+                        <md-option value="2">Send To Court</md-option>
+                    </md-select>
+
+                </md-input-container>
+                <div class="form-group col-md-6 col-sm-4">
+                    <md-button class="md-raised md-primary"
+                               ng-click="Update_conflict_content(marriage)">
+                        Register
+                    </md-button>
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+
+
+
+
+    </md-dialog-content>
+</md-dialog>

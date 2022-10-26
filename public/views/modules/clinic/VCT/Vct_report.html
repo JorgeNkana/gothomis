@@ -1,0 +1,494 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1200px;
+    }
+    .chip {
+        display: inline-block;
+        padding: 0 25px;
+        height: 50px;
+        font-size: 15px;
+        line-height: 50px;
+        border-radius: 25px;
+        background-color: rgba(3, 12, 9, 0.47);
+    }
+    .chip img {
+        float: left;
+        margin: 0 10px 0 -25px;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+    .closebtn:hover {
+        color: #000;
+    }
+    .horizontal-collapse {
+        height: 70px;
+    }
+    .navbar-collapse.in {
+        overflow-y: hidden;
+    }
+
+
+
+
+
+    .card .card-image{
+        overflow: hidden;
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+        -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .card .card-image img{
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -ms-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    /*.card .card-image:hover img{*/
+    /*-webkit-transform: scale(1.2) rotate(-7deg);*/
+    /*-moz-transform: scale(1.2) rotate(-7deg);*/
+    /*-ms-transform: scale(1.2) rotate(-7deg);*/
+    /*-o-transform: scale(1.2) rotate(-7deg);*/
+    /*transform: scale(1.2) rotate(-7deg);*/
+    /*}*/
+
+    .card{
+        font-family: 'Roboto', sans-serif;
+        margin-top: 10px;
+        position: relative;
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 4 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .card .card-content {
+        padding: 10px;
+    }
+
+    .card .card-content .card-title, .card-reveal .card-title{
+        font-size: 24px;
+        font-weight: 200;
+    }
+
+    .card .card-action{
+        padding: 20px;
+        border-top: 1px solid rgba(160, 160, 160, 0.2);
+    }
+    .card .card-action a{
+        font-size: 15px;
+        color: #ffab40;
+        text-transform:uppercase;
+        margin-right: 20px;
+        -webkit-transition: color 0.3s ease;
+        -moz-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        -ms-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+    .card .card-action a:hover{
+        color:#ffd8a6;
+        text-decoration:none;
+    }
+
+    .card .card-reveal{
+        padding: 20px;
+        position: absolute;
+        background-color: #FFF;
+        width: 100%;
+        overflow-y: auto;
+        /*top: 0;*/
+        left:0;
+        bottom:0;
+        height: 100%;
+        z-index: 1;
+        display: none;
+    }
+
+    .card .card-reveal p{
+        color: rgba(0, 0, 0, 0.71);
+        margin:20px ;
+    }
+
+    .btn-custom{
+        background-color: transparent;
+        font-size:12px;
+    }
+    .my-legend .legend-scale ul {
+        margin: 0;
+        margin-bottom: 5px;
+        padding: 0;
+        float: left;
+        list-style: none;
+    }
+    .my-legend .legend-scale ul li {
+        display: inline-block;
+        Font-Family: Metric-Regular;
+        Font-Size: 12px;
+        Color: #666666;
+        list-style: none;
+        line-height: 18px;
+        vertical-align: text-top;
+    }
+    .my-legend ul.legend-labels li span {
+        display: inline-block;
+        height: 9px;
+        width: 9px;
+        margin-right: 5px;
+        margin-left: 10px;
+    }
+</style>
+
+<br><br>
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller='VctController'>
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4 > VCT REPORTS SUMMARY</h4>
+
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <form   role="form" class="registration-form" action="javascript:void(0);">
+                                    <fieldset>
+
+
+                                        <div class="form-bottom">
+                                            <div id='divtoprint'>
+
+
+                                                <p></p>
+
+                                                <a onclick="PrintContent();"   title="Print" class="no-print   "><b class="glyphicon glyphicon-print "></b>  </a>
+
+                                                <div class="row table-responsive">
+
+
+                                                    <table class="table table-bordered" border="1">
+                                                        <caption> <b class="">
+                                                            <div class="text-center"> <h8>'SIRI'</h8></div>
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA JINSIA, WAZEE, WATOTO NA WALEMAVU</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="public/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+
+                                                            <hr>
+
+
+                                                            <b class="col-md-4">Jina la Kituo....  {{menudetalis[0].facility_name}}     ........................ </b>
+                                                            <b class="col-md-4">Wilaya........ {{menudetalis[0].council_name}} ....................  </b>
+                                                            <b class="col-md-4">Mkoa............... {{menudetalis[0].region_name}} ............... </b>
+
+                                                            <hr>
+                                                </div></caption>
+                                                <tr>
+                                                   <th colspan="2"></th>
+                                                    <th> </th>
+
+                                                   <th colspan="2">VCT</th>
+
+
+                                                   <th colspan="2">PITC</th>
+                                                   <th colspan="2"></th>
+
+
+                                                   <th colspan="2">HBHTC</th>
+
+                                                    <th colspan="10"></th>
+
+
+
+                                                </tr>
+
+                                                <tr>
+                                                   <th rowspan="2"></th>
+                                                   <th rowspan="2">VIASHIRIA</th>
+                                                   <th rowspan="2">JUMLA</th>
+                                                   <th colspan="8">UMRI (MIAKA) WA WANAUME(ME)</th>
+
+                                                    <th>JUMLA(ME)</th>
+                                                    <th colspan="7">UMRI (MIAKA) WA WANAWAKE(KE)</th>
+
+                                                    <th>JUMLA(KE)</th>
+
+
+
+                                                </tr>
+                                                <tr>
+
+                                                    <th><1</th>
+                                                    <th>1-4</th>
+                                                    <th>5-9</th>
+                                                    <th>10-14</th>
+                                                    <th>15-19</th>
+                                                    <th>20-24</th>
+                                                    <th>25-49</th>
+                                                    <th>>=50</th>
+                                                    <th></th>
+                                                    <th>1-4</th>
+                                                    <th>5-9</th>
+                                                    <th>10-14</th>
+                                                    <th>15-19</th>
+                                                    <th>20-24</th>
+                                                    <th>25-49</th>
+                                                    <th>>=50</th>
+
+                                                    <th></th>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <th>1</th>
+                                                    <td>Idadi ya wateja Wapya(MP)</td>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <th>2</th>
+                                                    <td>Idadi ya wateja Wapya Waliopata Ushauri nasaha baada ya kupima na kupewa majibu ya  VVU</td>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <th>3</th>
+                                                    <td>Idadi ya wateja Wapya Waliopima na kupatikana na  VVU</td>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <th>4</th>
+                                                    <td>Idadi ya wateja Waliorudi(HM)</td>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <th>5</th>
+                                                    <td>Idadi ya wateja Waliorudi Waliopata Ushauri nasaha baada ya kupima na kupewa majibu ya  VVU</td>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                <tr>
+                                                <th>6</th>
+                                                    <td>Idadi ya wateja Waliorudi Waliopima na kupatikana na  VVU </td>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                </tr>
+                                                <th></th>
+                                                    <th> <b>Jumla ya wateja(1+4)</b> </th>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                </tr>
+                                                <th></th>
+                                                    <th> <b>Jumla ya wateja waliopima na kupatika na VVU(3+6)</b> </th>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                    <th>6</th>
+                                                    <th>7</th>
+                                                    <th>8</th>
+                                                    <th>9</th>
+                                                    <th>10</th>
+                                                    <th>11</th>
+                                                    <th>12</th>
+                                                    <th>13</th>
+                                                    <th>14</th>
+                                                    <th>15</th>
+                                                    <th>16</th>
+                                                    <th>17</th>
+                                                    <th>18</th>
+                                                    <th>19</th>
+
+
+                                                </tr>
+                                                </table>
+
+
+
+                                            </div>
+
+
+                                        </div>
+                            </div>
+                            <button type="button" ng-click="closeModal()" class="btn btn-info pull-right hidden-print">Close this window</button>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+
+<script>
+
+    function PrintContent()
+    {
+//location.reload();
+        var DocumentContainer = document.getElementById('divtoprint');
+
+        var WindowObject = window.open("", "PrintWindow",
+                "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.title = " GoT-HOMIS";
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+
+        setTimeout(function(){
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        },2000);
+
+
+
+    }
+</script>

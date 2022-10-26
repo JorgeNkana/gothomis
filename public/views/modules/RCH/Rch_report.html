@@ -1,0 +1,3666 @@
+<style>
+    label input[type=checkbox]:checked ~ span {
+
+
+
+        background-size: 100%;
+    }
+
+    .typeahead-demo .custom-popup-wrapper {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        background-color: #f9f9f9;
+    }
+
+    .typeahead-demo .custom-popup-wrapper > .message {
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        color: #868686;
+    }
+
+    .typeahead-demo .custom-popup-wrapper > .dropdown-menu {
+        position: static;
+        float: none;
+        display: block;
+        min-width: 160px;
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+
+
+
+</style>
+
+<style>
+    label input[type=checkbox]:checked ~ span {
+
+
+
+        background-size: 100%;
+    }
+
+    .typeahead-demo .custom-popup-wrapper {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        background-color: #f9f9f9;
+    }
+
+    .typeahead-demo .custom-popup-wrapper > .message {
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        color: #868686;
+    }
+
+    .typeahead-demo .custom-popup-wrapper > .dropdown-menu {
+        position: static;
+        float: none;
+        display: block;
+        min-width: 160px;
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+
+</style>
+<style>
+    html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+    .some-pdf-container { width: 100%; height: 100%; }
+</style>
+<md-tabs md-dynamic-height md-border-bottom>
+
+<md-tab label="ANTE NATAL">
+    <md-content class='md-padding'>
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="form-bottom">
+
+
+                                <div class="">
+                                    <div class="text-center"> <h1>'SIRI'</h1></div>
+                                    <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                    <div  class="text-center"><h6> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h6></div>
+                                    <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="60px" height="60px" /></div>
+
+                                    <div  class="text-center"> <h6>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h6></div>
+                                    <div  class="text-center"> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></div>
+                                    <div  class="text-center"> <h6>FOMU YA TAARIFA YA KITABU CHA 6: REJESTA YA WAJAWAZITO</h6></div>
+                                    <hr>
+
+                                    <div class="col-md-4">Jina la Kituo...................................................... </div>
+                                    <div class="col-md-4">Wilaya................ ... ......... ........................ </div>
+                                    <div class="col-md-4">Mkoa....................................................</div>
+                                    <hr>
+                                </div>
+                                <table class="table table-bordered" border="3">
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>No</th>
+                                        <th>Maelekezo</th>
+                                        <th>Umri (<20)</th>
+                                        <th>Umri(>20)</th>
+                                        <th>Jumla</th>
+                                    </tr>
+                                    <tr >
+                                        <td>1 </td>
+                                        <td>Idadi ya Wajawazito Waliotegemewa</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>2 </td>
+                                        <th>Hudhurio la kwanza</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2a</td>
+                                        <td>Umri wa mimba chini ya wiki 12 (< 12weeks) </td>
+                                        <td>{{antinatal[0][0].less_20}} </td>
+                                        <td> {{antinatal[0][0].above_20}}</td>
+                                        <td>{{antinatal[0][0].total}} </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2b</td>
+                                        <td>Umri wa mimba wiki 12 au zaidi (12+ weeks) </td>
+                                        <td>{{antinatal[1][0].less_20}} </td>
+                                        <td> {{antinatal[1][0].above_20}}</td>
+                                        <td>{{antinatal[1][0].total}} </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <td> <i>Jumla ya hudhurio la Kwanza (2a+2b)</i></td>
+                                        <td>{{antinatal[2][0].total_less_20}} </td>
+                                        <td> {{antinatal[2][0].total_above_20 }}</td>
+                                        <td>{{antinatal[2][0].total_a_b}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2c</td>
+                                        <td> Wateja wa marudio</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2d</td>
+                                        <td>Hudhurio la nne wajawazito wote </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr> <tr>
+                                    <td></td>
+                                    <td><i>Jumla ya Mahudhurio yote (2c+2d)</i> </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td>2e</td>
+                                        <td> Idadi ya wajawazito waliopima damu hudhurio la kwanza</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Wajawazito waliopata Chanjo ya TT2+ </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>4</td>
+                                        <th> Vidokezo vya Hatari</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4a</td>
+                                        <td> Mimba zaidi ya 4</td>
+                                        <td style="background-color:#c1c1c1"> </td>
+                                        <td>{{antinatal[3][0].total}} </td>
+                                        <td> {{antinatal[3][0].total}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4b</td>
+                                        <td> Umri chini ya miaka 20</td>
+                                        <td>{{antinatal[4][0].total_less_20}} </td>
+                                        <td style="background-color:#c1c1c1"> </td>
+                                        <td>{{antinatal[4][0].total_less_20}} </td>
+
+                                    </tr><tr>
+                                    <td>4c</td>
+                                    <td> Umri zaidi ya miaka 35</td>
+                                    <td style="background-color:#c1c1c1"> </td>
+                                    <td>{{antinatal[4][0].total_above_35}} </td>
+                                    <td>{{antinatal[4][0].total_above_35}} </td>
+
+                                </tr>
+                                    <tr>
+                                        <td>4d</td>
+                                        <td> Upungufu mkubwa wa damu <8.5g/dl – Anaemia hudhurio la
+                                            kwanza</td>
+                                        <td>{{antinatal[5][0].less_hb_less_20}} </td>
+                                        <td>{{antinatal[5][0].less_hb_above_20}} </td>
+                                        <td>{{antinatal[5][0].less_hb_total}} </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4e</td>
+                                        <td>Shinikizo la damu (BP =>140/90mm/hg) </td>
+                                        <td>{{antinatal[5][0].less_bp_less_20}} </td>
+                                        <td>{{antinatal[5][0].less_bp_above_20}} </td>
+                                        <td>{{antinatal[5][0].less_bp_total}} </td>
+
+                                    </tr><tr>
+                                    <td>4f</td>
+                                    <td> Kifua kikuu</td>
+                                    <td>{{antinatal[6][0].tb_less_20}} </td>
+                                    <td>{{antinatal[6][0].tb_above_20}} </td>
+                                    <td>{{antinatal[6][0].tb_total}} </td>
+
+                                </tr>
+                                    <tr>
+                                        <td>4g</td>
+                                        <td> Sukari kwenye mkojo</td>
+                                        <td>{{antinatal[7][0].urine_sugar_less_20}} </td>
+                                        <td>{{antinatal[7][0].urine_sugar_above_20}} </td>
+                                        <td>{{antinatal[7][0].urine_sugar_total}} </td>
+
+                                    </tr> <tr>
+                                    <td>4h</td>
+                                    <td>Protein kwenye mkojo </td>
+                                    <td>{{antinatal[7][0].urine_albumin_less_20}} </td>
+                                    <td>{{antinatal[7][0].urine_albumin_above_20}} </td>
+                                    <td>{{antinatal[7][0].urine_albumin_total}} </td>
+
+                                </tr><tr>
+                                    <td>4i</td>
+                                    <td> Waliopima Kaswendwe</td>
+                                    <td>{{antinatal[8][0].vdrl_rpr_less_20}} </td>
+                                    <td>{{antinatal[8][0].vdrl_rpr_above_20}} </td>
+                                    <td>{{antinatal[8][0].vdrl_rpr_total}} </td>
+
+                                </tr><tr>
+                                    <td>4j</td>
+                                    <td> Waliogundulika na maambukizi ya Kaswende</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4k</td>
+                                    <td> Waliopata matibabu ya Kaswende</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4l</td>
+                                    <td>Wenza/Waume waliopima Kaswende </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4m</td>
+                                    <td>Wenza/Waume waliogundulika na maambukizi ya kaswende </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4n</td>
+                                    <td> Wenza/Waume waliopata matibabu ya kaswende</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4o</td>
+                                    <td> Waliopatikana na magonjwa ya mambukizo ya ngono yasio
+                                        kaswende</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4p</td>
+                                    <td>Waliopata tiba sahihi ya magonjwa ya mambukizo ya ngono yasio
+                                        kaswende </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4q</td>
+                                    <td>Wenza/waume waliopatikana na magonjwa ya mambukizo ya
+                                        ngono yasio kaswende </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>4r</td>
+                                    <td> Wenza/waume waliopata tiba sahihi ya magonjwa ya ngono yasio
+                                        kaswende</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>5</td>
+                                        <th>PMTCT </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>5a</td>
+                                    <td> Tayari wana maambukizi ya VVU kabla ya kuanza kliniki</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td>5b</td>
+                                        <td>Wajawazito wote waliopata ushauri nasaha kabla ya kupima
+                                            VVU kliniki </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>5c</td>
+                                    <td>Wajawazito Waliopima VVU kipimo cha kwanza kliniki </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>8d</td>
+                                    <td> Wajawazito Waliokutwa na VVU (positive) kipimo cha
+                                        kwanza</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5e</td>
+                                    <td> Wajawazito Waliokutwa na VVU (positive) kipimo cha
+                                        kwanza walio chini ya umri wa miaka 25</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5f</td>
+                                    <td>Wajawazito waliopata ushauri baada ya kupima </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5g</td>
+                                    <td> Wajawazito walipiomwa VVU na wenza wao (Couple) kwa
+                                        pamoja katika kliniki ya wajawazito</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5h</td>
+                                    <td>Wajawazito waliopima VVU kipimo cha pili </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>8i</td>
+                                    <td> Wajawazito waliokutwa na maambukizi ya VVU kipimo cha
+                                        pili</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>8j</td>
+                                    <td> Wenza waliopima VVU kipimo cha kwanza Kliniki ya Wajawazito</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5k</td>
+                                    <td>Wenza waligundulika kuwa na maambukizi ya VVU kipimo cha kwanza Kliniki ya Wajawazito </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5l</td>
+                                    <td>Wenza waliopima VVU kipimo cha pili Kliniki ya Wajawazito </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5m</td>
+                                    <td>Wenza waligundulika kuwa na maambukizi ya VVU kipimo cha pili Kliniki ya Wajawazito  </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5n</td>
+                                    <td>Wajawazito na wenza waliopata majibu tofauti(discordant) baada ya kupima VVU Kliniki ya Wajawazito  </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5o</td>
+                                    <td> Waliopata ushauri juu ya ulishaji wa mtoto</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>6</td>
+                                        <th>Malaria </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>6a</td>
+                                        <td>Waliopewa vocha ya hati punguzo </td>
+                                        <td>{{antinatal[8][0].voucher_no_less_20}} </td>
+                                        <td>{{antinatal[8][0].voucher_no_above_20}} </td>
+                                        <td>{{antinatal[8][0].voucher_no_total}} </td>
+
+                                    </tr> <tr>
+                                    <td>6b</td>
+                                    <td> Waliopima Malaria kutumia MRD T</td>
+                                    <td>{{antinatal[8][0].mrdt_less_20}} </td>
+                                    <td>{{antinatal[8][0].mrdt_above_20}} </td>
+                                    <td>{{antinatal[8][0].mrdt_total}} </td>
+
+                                </tr> <tr>
+                                    <td>6c</td>
+                                    <td>Waliopima Malaria positive </td>
+                                    <td>{{antinatal[8][0].malaria_less_20}} </td>
+                                    <td>{{antinatal[8][0].malaria_above_20}} </td>
+                                    <td>{{antinatal[8][0].malaria_total}} </td>
+
+                                </tr> <tr>
+                                    <td>6d</td>
+                                    <td>Waliopewa IPT2 </td>
+                                    <td>{{antinatal[9][0].ipt2_less_20}} </td>
+                                    <td>{{antinatal[9][0].ipt2_above_20}} </td>
+                                    <td>{{antinatal[9][0].ipt2_total}} </td>
+
+                                </tr><tr>
+                                    <td>6e</td>
+                                    <td>Waliopewa IPT4 </td>
+                                    <td>{{antinatal[9][0].ipt4_less_20}} </td>
+                                    <td>{{antinatal[9][0].ipt4_above_20}} </td>
+                                    <td>{{antinatal[9][0].ipt4_total}} </td>
+
+                                </tr> <tr style="background-color:#c1c1c1">
+                                    <td></td>
+                                    <th>Huduma Nyingine </th>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr> <tr>
+                                    <td>7</td>
+                                    <td> Waliopewa Iron/Folic Acid (I,F,IFA) vidonge vya kutosha
+                                        mpaka udhurio linalofuata</td>
+                                    <td>{{antinatal[11][0].folic_less_20}} </td>
+                                    <td>{{antinatal[11][0].folic_above_20}} </td>
+                                    <td>{{antinatal[11][0].folic_total}} </td>
+
+                                </tr> <tr>
+                                    <td>8</td>
+                                    <td>Waliopewa Dawa za minyoo (Albendazole / Mebendazole ) </td>
+                                    <td>{{antinatal[11][0].deworm_less_20}} </td>
+                                    <td>{{antinatal[11][0].deworm_above_20}} </td>
+                                    <td>{{antinatal[11][0].deworm_total}} </td>
+
+                                </tr><tr>
+                                    <td>9</td>
+                                    <td> Waliopewa rufaa wakati wa ujauzito</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>10</td>
+                                    <td>Waliopewa rufaa kwenda CTC </td>
+                                    <td>{{antinatal[10][0].male}} </td>
+                                    <td>{{antinatal[10][0].female}} </td>
+                                    <td>{{antinatal[10][0].total}} </td>
+
+                                </tr>
+                                </table>
+
+                                <div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+                                <p></p>
+                                <div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+
+
+
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+    </md-content>
+</md-tab>
+
+<md-tab label="CHILD SUMMARY">
+    <md-content class='md-padding'>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="form-bottom">
+
+
+                                <div class="">
+                                    <div class="text-center"> <h1>'SIRI'</h1></div>
+                                    <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                    <div  class="text-center"><h6> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h6></div>
+                                    <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="60px" height="60px" /></div>
+
+                                    <div  class="text-center"> <h6>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h6></div>
+                                    <div  class="text-center"> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></div>
+                                    <div  class="text-center"> <h6>FOMU YA TAARIFA YA KITABU CHA 7: REJESTA YA WATOTO</h6></div>
+                                    <hr>
+
+                                    <div class="col-md-4">Jina la Kituo...................................................... </div>
+                                    <div class="col-md-4">Wilaya................ ... ......... ........................ </div>
+                                    <div class="col-md-4">Mkoa....................................................</div>
+                                    <hr>
+                                </div>
+                                <div class="">
+                                    <table class="table table-bordered" border="3">
+                                        <tr style="background-color:#c1c1c1">
+                                            <th>No</th>
+                                            <th>Maelekezo</th>
+                                            <th> </th>
+                                            <th colspan="3">  Idadi</th>
+
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td  > </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td>ME</td>
+                                            <td>KE</td>
+                                            <td>Jumla</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1 </td>
+                                            <td>Idadi ya watoto walioandikishwa na kupewa vyeti vya
+                                                kuzaliwa </td>
+                                            <td style="background-color:#c1c1c1"> </td>
+                                            <td>{{attendances[0].total_male}} </td>
+                                            <td> {{attendances[0].total_female}}</td>
+                                            <td>{{attendances[0].total_gender}} </td>
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td>2</td>
+                                            <td>Aina ya Chanjo kwa Umri  </td>
+                                            <td style="background-color:#c1c1c1"> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2a</td>
+                                            <td> BCG Umri mwaka <1 (Ndani ya eneo la huduma) </td>
+                                            <td style="background-color:#c1c1c1"> </td>
+                                            <td>{{deworms[5][0].male_less_year_inplace}} </td>
+                                            <td>{{deworms[5][0].female_less_year_inplace}} </td>
+                                            <td>{{deworms[5][0].total_less_year_inplace}} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>2b</td>
+                                            <td> BCG Umri mwaka 1+ (Ndani ya eneo la huduma) </td>
+                                            <td style="background-color:#c1c1c1"> </td>
+                                            <td>{{deworms[5][0].male_above_year_inplace}} </td>
+                                            <td>{{deworms[5][0].female_above_year_inplace}} </td>
+                                            <td>{{deworms[5][0].total_above_year_inplace}} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>2c</td>
+                                            <td> BCG Umri mwaka <1 (Nje ya eneo la huduma) </td>
+                                            <td style="background-color:#c1c1c1"> </td>
+                                            <td>{{deworms[5][0].male_less_year_outplace}} </td>
+                                            <td>{{deworms[5][0].female_less_year_outplace}} </td>
+                                            <td>{{deworms[5][0].total_less_year_outplace}} </td>
+
+
+                                        </tr> <tr>
+                                        <td>2d</td>
+                                        <td> BCG Umri mwaka 1+ (Nje ya eneo la huduma) </td>
+                                        <td style="background-color:#c1c1c1"> </td>
+                                        <td>{{deworms[5][0].male_above_year_outplace}} </td>
+                                        <td>{{deworms[5][0].female_above_year_outplace}} </td>
+                                        <td>{{deworms[5][0].total_above_year_outplace}} </td>
+
+                                    </tr>
+                                        <tr>
+                                            <td>2e</td>
+                                            <td> Polio Umri mwaka <1 (Ndani ya eneo la huduma) </td>
+                                            <td> Dozi 0 </td>
+                                            <td>{{deworms[6][0].male_dose_0}}  </td>
+                                            <td>{{deworms[6][0].female_dose_0}}  </td>
+                                            <td>{{deworms[6][0].total_dose_0}}  </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_dose_1}}  </td>
+                                            <td>{{deworms[6][0].female_dose_1}}  </td>
+                                            <td>{{deworms[6][0].total_dose_1}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_dose_2}}  </td>
+                                            <td>{{deworms[6][0].female_dose_2}}  </td>
+                                            <td>{{deworms[6][0].total_dose_2}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].male_dose_3}}  </td>
+                                            <td>{{deworms[6][0].female_dose_3}}  </td>
+                                            <td>{{deworms[6][0].total_dose_3}}  </td>
+                                        <tr>
+                                            <td>2f</td>
+                                            <td> Polio Umri mwaka 1+ (Ndani ya eneo la huduma) </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].above_year_male_dose_1}}  </td>
+                                            <td>{{deworms[6][0].above_year_female_dose_1}}  </td>
+                                            <td>{{deworms[6][0].above_year_total_dose_1}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].above_year_male_dose_2}}  </td>
+                                            <td>{{deworms[6][0].above_year_female_dose_2}}  </td>
+                                            <td>{{deworms[6][0].above_year_total_dose_2}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].above_year_male_dose_3}}  </td>
+                                            <td>{{deworms[6][0].above_year_female_dose_3}}  </td>
+                                            <td>{{deworms[6][0].above_year_total_dose_3}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2g</td>
+                                            <td> Polio Umri mwaka <1(Nje ya eneo la huduma </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].female_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].total_dose_1_out}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].female_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].total_dose_2_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].male_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].female_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].total_dose_3_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2h</td>
+                                            <td> Polio Umri mwaka 1+ (Nje ya eneo la huduma)</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].above_year_male_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].above_year_female_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].above_year_total_dose_1_out}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].above_year_male_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].above_year_female_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].above_year_total_dose_2_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].above_year_male_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].above_year_female_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].above_year_total_dose_3_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2i</td>
+                                            <td> Polio ya sindano Miezi 18 ( Ndani ya eneo la huduma)</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_polio_dose_1}}  </td>
+                                            <td>{{deworms[6][0].female_polio_dose_1}}  </td>
+                                            <td>{{deworms[6][0].total_polio_dose_1}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2j</td>
+                                            <td> Polio ya sindano miezi 18 ( Nje ya eneo la huduma)</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_polio_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].female_polio_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].total_polio_dose_1_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2k</td>
+                                            <td> Rota umri wiki 6 hadi 15 ( Ndani ya eneo la huduma )</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_rota_dose_1}}  </td>
+                                            <td>{{deworms[6][0].female_rota_dose_1}}  </td>
+                                            <td>{{deworms[6][0].total_rota_dose_1}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2l</td>
+                                            <td> Rota umri wiki 6 hadi 15 ( Nje ya eneo la huduma</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_rota_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].female_rota_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].total_rota_dose_1_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2m</td>
+                                            <td> Rota umri wiki 10 hadi 32 (Nje ya eneo la huduma )</td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_rota_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].female_rota_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].total_rota_dose_2_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2n</td>
+                                            <td> Rota umri wiki 10 hadi 32 ( Ndani ya eneo la huduma</td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_rota_dose_2}}  </td>
+                                            <td>{{deworms[6][0].female_rota_dose_2}}  </td>
+                                            <td>{{deworms[6][0].total_rota_dose_2}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2o</td>
+                                            <td> PENTA Umri mwaka <1 (Ndani ya eneo la huduma) </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_penta_dose_1}}  </td>
+                                            <td>{{deworms[6][0].female_penta_dose_1}}  </td>
+                                            <td>{{deworms[6][0].total_penta_dose_1}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_penta_dose_2}}  </td>
+                                            <td>{{deworms[6][0].female_penta_dose_2}}  </td>
+                                            <td>{{deworms[6][0].total_penta_dose_2}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].male_penta_dose_3}}  </td>
+                                            <td>{{deworms[6][0].female_penta_dose_3}}  </td>
+                                            <td>{{deworms[6][0].total_penta_dose_3}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2p</td>
+                                            <td> PENTA Umri mwaka 1+ (Ndani ya eneo la huduma) </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].above_year_penta_male_dose_1 }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_female_dose_1 }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_total_dose_1 }}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].above_year_penta_male_dose_2 }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_female_dose_2 }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_total_dose_2 }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].above_year_penta_male_dose_3 }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_female_dose_3 }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_total_dose_3 }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2q</td>
+                                            <td> PENTA Umri mwaka <1 (Nje ya eneo la huduma) </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_penta_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].female_penta_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].total_penta_dose_1_out}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_penta_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].female_penta_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].total_penta_dose_2_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].male_penta_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].female_penta_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].total_penta_dose_3_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2r</td>
+                                            <td> PENTA Umri mwaka 1+ (Nje ya eneo la huduma) </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].above_year_penta_male_dose_1_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_female_dose_1_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_total_dose_1_out }}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].above_year_penta_male_dose_2_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_female_dose_2_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_total_dose_2_out }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].above_year_penta_male_dose_3_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_female_dose_3_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_penta_total_dose_3_out }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2s</td>
+                                            <td> Pneumococcal (PCV13) <1 ( Ndani ya eneo la
+                                                huduma ) </td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_pneu_dose_1}}  </td>
+                                            <td>{{deworms[6][0].female_pneu_dose_1}}  </td>
+                                            <td>{{deworms[6][0].total_pneu_dose_1}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_pneu_dose_2}}  </td>
+                                            <td>{{deworms[6][0].female_pneu_dose_2}}  </td>
+                                            <td>{{deworms[6][0].total_pneu_dose_2}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].male_pneu_dose_3}}  </td>
+                                            <td>{{deworms[6][0].female_pneu_dose_3}}  </td>
+                                            <td>{{deworms[6][0].total_pneu_dose_3}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2t</td>
+                                            <td> Pneumococcal (PCV13) 1+ ( Ndani ya eneo la
+                                                huduma )</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].above_year_pneu_male_dose_1 }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_female_dose_1 }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_total_dose_1 }}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].above_year_pneu_male_dose_2 }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_female_dose_2 }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_total_dose_2 }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].above_year_pneu_male_dose_3 }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_female_dose_3 }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_total_dose_3 }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2u</td>
+                                            <td> Pneumococcal (PCV13)< 1 ( Nje ya eneo la huduma )</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].male_pneu_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].female_pneu_dose_1_out}}  </td>
+                                            <td>{{deworms[6][0].total_pneu_dose_1_out}}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].male_pneu_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].female_pneu_dose_2_out}}  </td>
+                                            <td>{{deworms[6][0].total_pneu_dose_2_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].male_pneu_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].female_pneu_dose_3_out}}  </td>
+                                            <td>{{deworms[6][0].total_pneu_dose_3_out}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2v</td>
+                                            <td>Pneumococcal (PCV13) 1+ ( Nje ya eneo la huduma)</td>
+                                            <td> Dozi 1</td>
+                                            <td>{{deworms[6][0].above_year_pneu_male_dose_1_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_female_dose_1_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_total_dose_1_out }}  </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 2</td>
+                                            <td>{{deworms[6][0].above_year_pneu_male_dose_2_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_female_dose_2_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_total_dose_2_out }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td> </td>
+                                            <td>   </td>
+                                            <td> Dozi 3</td>
+                                            <td>{{deworms[6][0].above_year_pneu_male_dose_3_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_female_dose_3_out }}  </td>
+                                            <td>{{deworms[6][0].above_year_pneu_total_dose_3_out }}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2w</td>
+                                            <td>Surua/ Rubela umri miezi 9 (Ndani ya eneo la
+                                                huduma)</td>
+                                            <td> Dozi 1</td>
+                                            <td> {{deworms[6][0].male_rubela_dose_1 }}</td>
+                                            <td> {{deworms[6][0].female_rubela_dose_1 }}</td>
+                                            <td> {{deworms[6][0].total_rubela_dose_1 }}</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>2x</td>
+                                            <td>Surua/ Rubela umri miezi 9 (Nje ya eneo la huduma)</td>
+                                            <td> Dozi 1</td>
+                                            <td> {{deworms[6][0].male_rubela_dose_1_out }}</td>
+                                            <td> {{deworms[6][0].female_rubela_dose_1_out }}</td>
+                                            <td> {{deworms[6][0].total_rubela_dose_1_out }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2y</td>
+                                            <td>Surua/Rubella umri miezi 18 ( Ndani ya Eneo la
+                                                huduma)</td>
+                                            <td> Dozi 2</td>
+                                            <td> {{deworms[6][0].male_rubela_dose_2 }}</td>
+                                            <td> {{deworms[6][0].female_rubela_dose_2 }}</td>
+                                            <td> {{deworms[6][0].total_rubela_dose_2 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2z</td>
+                                            <td>Surua/ Rubela umri miezi 18 (Nje ya eneo la
+                                                huduma)</td>
+                                            <td> Dozi 2</td>
+                                            <td> {{deworms[6][0].male_rubela_dose_2_out }}</td>
+                                            <td> {{deworms[6][0].female_rubela_dose_2_out }}</td>
+                                            <td> {{deworms[6][0].total_rubela_dose_2_out }}</td>
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <th>3</th>
+                                            <th class='text-center' colspan="5">Hali ya Chanjo ya Pepo punda kwa mama wakati wa kujifungua</th>
+
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td  > </td>
+                                            <td >Idadi ya watoto walioandikishwa  </td>
+                                            <td> ME</td>
+                                            <td>KE </td>
+                                            <td>Jumla </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3a</td>
+                                            <td  >Waliokingwa </td>
+                                            <td > {{attendances[0].total_gender}} </td>
+                                            <td>{{deworms[4][0].male}} </td>
+                                            <td>{{deworms[4][0].female}} </td>
+                                            <td>{{deworms[4][0].total}} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>3b</td>
+                                            <td  >Wasiokuwa na Kinga </td>
+                                            <td > {{attendances[0].total_gender}} </td>
+                                            <td>{{attendances[0].total_male- deworms[4][0].male}} </td>
+                                            <td>{{attendances[0].total_female - deworms[4][0].female}}</td>
+                                            <td> {{attendances[0].total_gender - deworms[4][0].total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3c</td>
+                                            <td  >Haijulikani </td>
+                                            <td >{{attendances[0].total_gender}}  </td>
+                                            <td>0 </td>
+                                            <td>0</td>
+                                            <td>0 </td>
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td>4</td>
+                                            <th >Mahudhuri na uwiano wa uzito, umri na urefu;
+                                                umri ch ini ya mwaka 1 </th>
+                                            <td >  </td>
+                                            <td> </td>
+                                            <td></td>
+                                            <td> </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td></td>
+                                            <td >Maelezo </td>
+                                            <td >  </td>
+                                            <td> ME</td>
+                                            <td>KE</td>
+                                            <td> Jumla</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4a</td>
+                                            <td >Jumla ya Mahudhurio ya Watoto </td>
+                                            <td >  </td>
+                                            <td>{{growth_att[0].total_male}} </td>
+                                            <td>{{growth_att[0].total_female}} </td>
+                                            <td>{{growth_att[0].total_gender}} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="3" >4b</td>
+                                            <td rowspan="3">Uwiano wa uzito kwa umri </td>
+                                            <td > >80% au >-2SD </td>
+                                            <td>{{deworms[8][0].male_above_80}}  </td>
+                                            <td>{{deworms[8][0].female_above_80}}  </td>
+                                            <td>{{deworms[8][0].total_above_80}}  </td>
+                                        </tr>
+
+                                        <td>60-80% au -2 hadi -3SD</td>
+                                        <td>{{deworms[8][0].male_between_60_80}}  </td>
+                                        <td>{{deworms[8][0].female_between_60_80}}  </td>
+                                        <td>{{deworms[8][0].total_between_60_80}}  </td>
+
+
+                                        <tr>
+                                            <td><60% au <-3SD </td>
+                                            <td>{{deworms[8][0].male_less_60}}  </td>
+                                            <td>{{deworms[8][0].female_less_60}}  </td>
+                                            <td>{{deworms[8][0].total_less_60}}  </td>
+
+                                        </tr>
+                                        <!--temporary---------------------------------------------------->
+                                        <tr>
+                                            <td rowspan="3" >4c</td>
+
+                                            <td rowspan="3">Uwiano wa uzito kwa urefu</td>
+                                            <td > >-2SD</td>
+                                            <td>{{deworms[8][0].male_height_greater_2}}  </td>
+                                            <td>{{deworms[8][0].female_height_greater_2}}  </td>
+                                            <td>{{deworms[8][0].total_height_greater_2}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>-2 hadi -3SD</td>
+                                            <td>{{deworms[8][0].male_height_between_2_3}}  </td>
+                                            <td>{{deworms[8][0].female_height_between_2_3}}  </td>
+                                            <td>{{deworms[8][0].total_height_between_2_3}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><-3SD</td>
+                                            <td>{{deworms[8][0].male_height_less_3}}  </td>
+                                            <td>{{deworms[8][0].female_height_less_3}}  </td>
+                                            <td>{{deworms[8][0].total_height_less_3}}  </td>
+
+                                            <!--temporary---------------------------------------------------->
+                                        <tr>
+                                        <tr>
+                                            <td rowspan="3" >4d</td>
+                                            <td rowspan="3">Uwiano wa urefu kwa umri</td>
+                                            <td > >-2SD</td>
+                                            <td>{{deworms[8][0].male_height_greater_2}}  </td>
+                                            <td>{{deworms[8][0].female_height_greater_2}}  </td>
+                                            <td>{{deworms[8][0].total_height_greater_2}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>-2 hadi -3SD</td>
+                                            <td>{{deworms[8][0].male_height_between_2_3}}  </td>
+                                            <td>{{deworms[8][0].female_height_between_2_3}}  </td>
+                                            <td>{{deworms[8][0].total_height_between_2_3}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><-3SD</td>
+                                            <td>{{deworms[8][0].male_height_less_3}}  </td>
+                                            <td>{{deworms[8][0].female_height_less_3}}  </td>
+                                            <td>{{deworms[8][0].total_height_less_3}}  </td>
+
+
+                                        </tr>
+                                        <tr>
+
+
+                                        <tr>
+                                            <td>5</td>
+                                            <th >Mahudhuri na uwiano wa uzito, umri na urefu;
+                                                umri mwaka 1 mpaka 5 </th>
+                                            <td >  </td>
+                                            <td> </td>
+                                            <td></td>
+                                            <td> </td>
+                                        </tr>
+
+                                        <tr style="background-color:#c1c1c1">
+                                            <td>5a</td>
+                                            <td >Jumla ya mahudhurio</td>
+                                            <td >  </td>
+                                            <td> </td>
+                                            <td></td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="3" >5b</td>
+                                            <td rowspan="3">Uwiano wa uzito kwa umri </td>
+                                            <td > >80% au >-2SD </td>
+                                            <td>{{deworms[9][0].male_above_80_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_above_80_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_above_80_1_5}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>60-80% au -2 hadi -3SD</td>
+                                            <td>{{deworms[9][0].male_between_60_80_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_between_60_80_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_between_60_80_1_5}}  </td>
+
+
+
+                                        </tr>
+                                        <tr>
+                                            <td><60% au <-3SD </td>
+                                            <td>{{deworms[9][0].male_less_60_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_less_60_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_less_60_1_5}}  </td>
+
+
+                                        </tr>
+                                        <tr>
+                                        <tr>
+                                            <!--temporary------------------------------------------>
+                                            <td rowspan="3" >5c</td>
+                                            <td rowspan="3">Uwiano wa uzito kwa urefu</td>
+                                            <td > >-2SD</td>
+                                            <td>{{deworms[9][0].male_height_greater_2_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_height_greater_2_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_height_greater_2_1_5}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>-2 hadi -3SD</td>
+                                            <td>{{deworms[9][0].male_height_between_2_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_height_between_2_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_height_between_2_3_1_5}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><-3SD</td>
+                                            <td>{{deworms[9][0].male_height_less_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_height_less_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_height_less_3_1_5}}  </td>
+
+
+
+                                        </tr>
+                                        <!--temporay------------------------------------------------------------->
+                                        <tr>
+                                        <tr>
+                                            <td rowspan="3" >5d</td>
+                                            <td rowspan="3">Uwiano wa urefu kwa umri</td>
+                                            <td > >-2SD</td>
+                                            <td>{{deworms[9][0].male_height_greater_2_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_height_greater_2_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_height_greater_2_1_5}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>-2 hadi -3SD</td>
+                                            <td>{{deworms[9][0].male_height_between_2_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_height_between_2_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_height_between_2_3_1_5}}  </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><-3SD</td>
+                                            <td>{{deworms[9][0].male_height_less_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].female_height_less_3_1_5}}  </td>
+                                            <td>{{deworms[9][0].total_height_less_3_1_5}}  </td>
+
+
+                                        </tr>
+                                        <tr>
+
+                                        <tr>
+
+                                            <th class='text-center' colspan="6">6. Nyongeza ya Vitamini A</th>
+
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td></td>
+                                            <td  > Maelezo</td>
+                                            <td >  </td>
+                                            <td> ME</td>
+                                            <td>KE </td>
+                                            <td>Jumla </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>6a</td>
+                                            <td  >Watoto umri wa miezi 6 </td>
+                                            <td >  </td>
+                                            <td>{{deworms[3][0].six_month_male}} </td>
+                                            <td>{{deworms[3][0].six_month_female}} </td>
+                                            <td>{{deworms[3][0].six_month_total}} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>6b</td>
+                                            <td  >Watoto chini ya umri wa mwaka 1 </td>
+                                            <td >  </td>
+                                            <td>{{deworms[3][0].one_year_male}} </td>
+                                            <td>{{deworms[3][0].one_year_female}} </td>
+                                            <td>{{deworms[3][0].one_year_total}} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>6c</td>
+                                            <td  >Watoto umri zaidi ya mwaka 1 - 5</td>
+                                            <td >  </td>
+                                            <td>{{deworms[3][0].one_five_year_male}} </td>
+                                            <td>{{deworms[3][0].one_five_year_female}} </td>
+                                            <td>{{deworms[3][0].one_five_year_total}} </td>
+                                        </tr>
+                                        <tr>
+
+                                        <tr>
+
+                                            <th class='text-center' colspan="6">7. Waliopewa Mebendazole/ Albendazole</th>
+
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td></td>
+                                            <td  >Maelezo  </td>
+                                            <td >   </td>
+                                            <td> ME</td>
+                                            <td>KE </td>
+                                            <td>Jumla </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>7a</td>
+                                            <td  >Watoto umri wa mwaka 1 hadi 5</td>
+                                            <td >  </td>
+                                            <td>{{deworms[0][0].male}} </td>
+                                            <td>{{deworms[0][0].female}}</td>
+                                            <td> {{deworms[0][0].total}}</td>
+                                        </tr>
+
+                                        <tr>
+
+                                            <th class='text-center' colspan="6">8. Ulishaji wa Watoto Wachanga</th>
+
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td></td>
+                                            <td  >Maelezo  </td>
+                                            <td > </td>
+                                            <td> ME</td>
+                                            <td>KE </td>
+                                            <td>Jumla </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>8a</td>
+                                            <td  >Watoto wachanga wanaonyonya maziwa ya mama pekee (EBF)</td>
+                                            <td >  </td>
+                                            <td>{{feeds[0].ebf_male}} </td>
+                                            <td>{{feeds[0].ebf_female}}</td>
+                                            <td>{{feeds[0].ebf_total}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>8b</td>
+                                            <td  >Watoto wachanga wanaopewa maziwa mbadala (RF)</td>
+                                            <td >  </td>
+                                            <td>{{feeds[0].rf_male}} </td>
+                                            <td>{{feeds[0].rf_female}}</td>
+                                            <td>{{feeds[0].rf_total}} </td>
+                                        </tr>
+                                        <tr>
+
+                                            <th class='text-center' colspan="6">9.Taarifa za PMTCT / waliopewa hati punguzo</th>
+
+                                        </tr>
+                                        <tr style="background-color:#c1c1c1">
+                                            <td></td>
+                                            <td  >Maelezo  </td>
+                                            <td > </td>
+                                            <td> ME</td>
+                                            <td>KE </td>
+                                            <td>Jumla </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>9a</td>
+                                            <td  >Watoto waliozaliwa na mama mwenye maambukizi ya VVU/ wat oto wenye HEID no.</td>
+                                            <td >  </td>
+                                            <td>{{deworms[2][0].male}} </td>
+                                            <td>{{deworms[2][0].female}}</td>
+                                            <td> {{deworms[2][0].total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9b</td>
+                                            <td  > Watoto waliohamishiwa Kliniki ya huduma na matibabu kwa
+                                                wenye VVU (CTC)</td>
+                                            <td >  </td>
+                                            <td>{{deworms[7][0].male}}  </td>
+                                            <td>{{deworms[7][0].female}}  </td>
+                                            <td>{{deworms[7][0].total}}  </td>
+                                        </tr>
+                                        <tr>
+                                            <td>9c</td>
+                                            <td  > Watoto waliopatiwa hati punguzo ya chandarua</td>
+                                            <td >  </td>
+                                            <td>{{deworms[1][0].male}} </td>
+                                            <td>{{deworms[1][0].female}}</td>
+                                            <td> {{deworms[1][0].total}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="">
+                                    <div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+                                    <p></p>
+                                    <div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+                                    <p></p>
+                                    <div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+                                    <p></p>
+                                    <div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+
+    </md-content>
+</md-tab>
+    <md-tab label="FAMILY-PLANNING">
+    <md-content class='md-padding'>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="form-bottom">
+
+
+                                <div class="">
+                                    <div class="text-center"> <h1>'SIRI'</h1></div>
+                                    <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                    <div  class="text-center"><h6> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h6></div>
+                                    <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="60px" height="60px" /></div>
+
+                                    <div  class="text-center"> <h6>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h6></div>
+                                    <div  class="text-center"> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></div>
+                                    <div  class="text-center"> <h6>KITABU CHA 8: REJESTA YA UZAZI WA MPANGO</h6></div>
+                                    <hr>
+
+                                    <div class="col-md-4">Jina la Kituo...................................................... </div>
+                                    <div class="col-md-4">Wilaya................ ... ......... ........................ </div>
+                                    <div class="col-md-4">Mkoa....................................................</div>
+                                    <hr>
+                                </div>
+
+                                <table class="table table-bordered" border="3">
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>No</th>
+                                        <th colspan="2" >Aina ya Huduma</th>
+                                        <th colspan="4" class="text-center" >Aina ya Wateja </th>
+                                        <th   >  </th>
+                                        <th   >  </th>
+
+
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th></th>
+                                        <th colspan="2">Maelezo</th>
+                                        <th colspan="4" class="text-center">Wateja wapya </th>
+                                        <th   >  </th>
+                                        <th   >  </th>
+
+
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th></th>
+                                        <th colspan="2"> </th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>1</th>
+                                        <th colspan="2">Idadi ya wateja waliopatiwa unasihi (MPYA) </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th></th>
+                                        <th colspan="2">Sindano </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr >
+                                        <th>1a</th>
+                                        <th colspan="2">Idadi ya Wateja wa Sind ano</th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th>2</th>
+                                        <th colspan="2">Vidonge</th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+                                    <tr >
+                                        <th>2a</th>
+                                        <th colspan="2">Idadi ya wateja wa Vidonge Ki tuoni</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr >
+                                        <th>2b</th>
+                                        <th colspan="2">Idadi ya Wateja wa vidonge wa CBD</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+
+
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th >3</th>
+                                        <th colspan="2">Kondom</th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+                                    <tr >
+                                        <th>3a</th>
+                                        <th colspan="2">Idadi ya wateja waliochukua kondom Kitu oni Me</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr >
+                                        <th>3b</th>
+                                        <th colspan="2">Idadi ya wateja waliochukua kondom Kit uoni Ke</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr >
+                                        <th>3c</th>
+                                        <th colspan="2">Idadi ya wateja waliochukua kondom C BD Me</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr >
+                                        <th>3d</th>
+                                        <th colspan="2">Idadi ya wateja waliochukua kondom C BD Ke</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr >
+                                        <th></th>
+                                        <th colspan="2"> <i>Jumla ya Wateja waliochukua njia za
+                                            muda mfupi (1a+2+3)</i></th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th>4</th>
+                                        <th colspan="2">Njia za muda Mrefu na za kudumu za
+                                            Uzazi wa Mpango</th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th colspan="2" >Miaka 25 na Zaidi</th>
+                                        <th  >Jumla  </th>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th>4</th>
+                                        <th colspan="2">Kufunga Uzazi</th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >   </th>
+                                        <th  colspan="2"> </th>
+
+                                        <th  >   </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>4a</th>
+                                        <th colspan="2">Kufunga uzazi mama (ML/ LA)- kituoni</th>
+                                        <th style="background-color:#c1c1c1">  </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th  colspan="2"> </th>
+
+                                        <th  >   </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>4b</th>
+                                        <th colspan="2">Kufunga uzazi mama (ML/LA) - outreach</th>
+                                        <th style="background-color:#c1c1c1">  </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th  colspan="2"> </th>
+
+                                        <th  >   </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>4c</th>
+                                        <th colspan="2">Kufunga uzazi baba (NS V) - kituoni</th>
+                                        <th style="background-color:#c1c1c1">  </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th  colspan="2"> </th>
+
+                                        <th  >   </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>4d</th>
+                                        <th colspan="2">Kufunga uzazi baba (NS V) - outreach</th>
+                                        <th style="background-color:#c1c1c1">  </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th style="background-color:#c1c1c1" >   </th>
+                                        <th  colspan="2"> </th>
+
+                                        <th  >   </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th>5</th>
+                                        <th colspan="2">Vipandikizi</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" >Miaka 25 na Zaidi</th>
+                                        <th  >Jumla  </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>5a</th>
+                                        <th colspan="2">Kuweka vipandikizi - kituoni</th>
+                                        <th rowspan="2">  </th>
+
+
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr   >
+                                        <th>5b</th>
+                                        <th colspan="2">Kuweka vipandikizi - outreach</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >  </th>
+
+
+
+                                    </tr>
+                                    <tr   >
+                                        <th>5c</th>
+                                        <th colspan="2">Kuondoa vipandikizi</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th>6</th>
+                                        <th colspan="2">Kitanzi (IUC D)</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" >Miaka 25 na Zaidi</th>
+                                        <th  >Jumla  </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>6a</th>
+                                        <th colspan="2">Kuweka Kitanzi - kituoni</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>6b</th>
+                                        <th colspan="2">Kuweka Kitanzi - outreach</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>6c</th>
+                                        <th colspan="2">Kuondoa Kitanzi - kituoni</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>6d</th>
+                                        <th colspan="2">Kuondoa Kitanzi - outreach</th>
+                                        <th rowspan="2">  </th>
+                                        <th  rowspan="2" >  </th>
+                                        <th  rowspan="2" >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th></th>
+                                        <th colspan="2"><i>Jumla ya Wateja Waliochukua Njia za Muda
+                                            Mrefu na za Kudumu za Uzazi wa Mpango
+                                            (4a+4b+4c+4d+5a+5b+6a+6b)</i></th>
+
+
+
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1" >
+                                        <th>7</th>
+                                        <th colspan="2">Njia Nyinginezo</th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th colspan="2" >Miaka 25 na Zaidi</th>
+                                        <th  >Jumla  </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>7a</th>
+                                        <th colspan="2">Njia za maumbile (mfano LAM)</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>7b</th>
+                                        <th colspan="2">Njia nyingine</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+                                    <tr   >
+                                        <th>7c</th>
+                                        <th colspan="2">Njia ya dharura ya uzazi wa mpango</th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th colspan="2" > </th>
+                                        <th  >   </th>
+
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <th></th>
+                                        <th colspan="2">Jumla ya Aina zote za Uzazi wa Mpango </th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+
+                                    <tr  >
+                                        <th></th>
+                                        <th colspan="2"><i>Jumla ya Wateja wa njia zote za Uzazi wa
+                                            Mpango(1a+2+3+6+7)</i> </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>8</th>
+                                        <th colspan="2">Jumla ya Mizunguko ya Vidonge Iliyotolewa </th>
+                                        <th>  </th>
+                                        <th  >  </th>
+                                        <th  >   </th>
+                                        <th  > </th>
+                                        <th  >   </th>
+                                        <th  >   </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>8a</th>
+                                        <th colspan="2"> Jumla ya mizunguko iliyoto lewa </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>8b</th>
+                                        <th colspan="2">Idadi ya mizunguko iliyotolewa
+                                            (Cycles distributed ) kituoni  </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr  >
+                                        <th>8c</th>
+                                        <th colspan="2"> Idadi ya mizunguko iliyotolewa
+                                            (Cycles distributed ) CBD </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>9</th>
+                                        <th colspan="2">Kondomu zilizotolewa </th>
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+                                    <tr>
+                                        <th>9a</th>
+                                        <th colspan="2"> Idadi ya kondomu zilizogawiwa Kituo ni Me </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>9b</th>
+                                        <th colspan="2"> Idadi ya kondomu zilizogawiwa Kitu oni Ke </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>9c</th>
+                                        <th colspan="2"> Idadi ya condom zilizogawiwa CB D Me </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>9d</th>
+                                        <th colspan="2">  Idadi ya condom zilizogawiwa CB D Ke</th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th colspan="2"> <i>Jumla ya wateja waliopatiwa huduma kituoni
+                                            (1a+2a+3a+3b+4a+4c+5a+6a)</i> </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th colspan="2"> <i>Jumla ya wateja waliopatiwa huduma outreach
+                                            (4b+4d+5b+6b)</i> </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th colspan="2"><i>Jumla ya wateja waliopatiwa huduma na CBD
+                                            (2b+3c+3d)</i>  </th>
+                                        <th> </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>10</th>
+                                        <th colspan="2">Huduma baada ya mimba kuharibika
+                                            (cPAC) / Baada ya kujifungua </th>
+
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+                                    <tr>
+                                        <th rowspan="3">10a</th>
+                                        <th   rowspan="3"> Waliopata huduma baada ya mimba kuharibika </th>
+
+                                        <th>MVA</th>
+                                        <th rowspan="2" >  </th>
+                                        <th rowspan="2" > </th>
+                                        <th rowspan="2" > </th>
+                                        <th  rowspan="2"> </th>
+                                        <th rowspan="2" > </th>
+                                        <th rowspan="2" > </th>
+
+
+                                    </tr>
+                                    <tr>
+
+
+
+
+
+                                    </tr><tr>
+
+                                    <th> D+C   </th>
+                                    <th></th>
+                                    <th  >   </th>
+                                    <th  >  </th>
+                                    <th  > </th>
+                                    <th  >  </th>
+                                    <th  >  </th>
+
+                                </tr>
+                                    <tr>
+                                        <th  rowspan="3">10b</th>
+                                        <th  rowspan="3"> Waliopata uzazi wa mpango
+                                            baada ya mimba kuharibika  </th>
+
+                                        <th >Jadelle</th>
+
+                                        <th rowspan="2" > </th>
+                                        <th rowspan="2" > </th>
+                                        <th  rowspan="2"> </th>
+                                        <th rowspan="2" > </th>
+                                        <th rowspan="2" > </th>
+                                        <th  > </th>
+                                    </tr><tr>
+
+
+
+
+                                </tr>
+                                    <tr>
+                                        <th>Implanon </th>
+                                        <th>  </th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  > </th>
+
+
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th  >   </th>
+                                        <th> Njia nyingine </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th  rowspan="3">10c</th>
+                                        <th   rowspan="3"> Waliopata njia ya uzazi wa mpango
+                                            siku 42 baada ya kujifungua  </th>
+
+                                        <th>Jadelle</th>
+
+                                        <th rowspan="2" > </th>
+                                        <th rowspan="2" > </th>
+                                        <th  rowspan="2"> </th>
+                                        <th rowspan="2" > </th>
+                                        <th rowspan="2" > </th>
+                                        <th   > </th>
+                                    </tr>
+                                    <tr>
+
+
+
+
+                                    </tr>
+                                    <tr>
+                                        <th>Implanon</th>
+                                        <th>   </th>
+                                        <th>  </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  > </th>
+
+
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th  >   </th>
+                                        <th> Njia nyingine </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>11</th>
+                                        <th colspan="2">Wateja waliochunguzwa saratani</th>
+
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+                                    <tr>
+                                        <th>11a</th>
+                                        <th colspan="2"> Waliochunguzwa Titi  </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>11b</th>
+                                        <th colspan="2"> Waliogundulika na matatizo ya matiti (mfano: kutoka
+                                            damu kwenye chuchu au uvimbe wa matiti)  </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>11c</th>
+                                        <th colspan="2"> Waliochunguzwa Shingo ya mfuko wa kizazi  </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>11d</th>
+                                        <th colspan="2"> Waliogundulika na matatizo ya shingo
+                                            ya mfuko wa kizazi (mfano: mchubuko au kidonda)  </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>11e</th>
+                                        <th colspan="2">  Waliodhaniwa wana saratani ya shingo
+                                            ya mfuko wa kizazi </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>12</th>
+                                        <th colspan="2">PITC</th>
+
+                                        <th>Miaka 10-14 </th>
+                                        <th  > Miaka 15-19 </th>
+                                        <th  > Miaka 20-24 </th>
+                                        <th  >Miaka 25 na Zaidi</th>
+                                        <th  > Marudio </th>
+                                        <th  > Jumla </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12a</th>
+                                        <th colspan="2"> Tayari wana uambukizo wa V VU </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12b</th>
+                                        <th colspan="2"> Wateja waliopima V VU </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12c</th>
+                                        <th colspan="2"> Wateja waliogundulika Positiv e (+) </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12d</th>
+                                        <th colspan="2"> Wenza waliopima V VU </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12e</th>
+                                        <th colspan="2">  Wenza Waliogundulika Positiv e (+)</th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12f</th>
+                                        <th colspan="2"> Wateja ambao matokeo ya vipimo vya VVU yanatofautiana </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12g</th>
+                                        <th colspan="2"> Wateja waliopata rufaa kwenda CTC </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr>
+                                        <th>12h</th>
+                                        <th colspan="2"> Wenza waliopata rufaa kwenda CTC </th>
+                                        <th>   </th>
+                                        <th  >   </th>
+                                        <th  >  </th>
+                                        <th  > </th>
+                                        <th  >  </th>
+                                        <th  >  </th>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <th> </th>
+                                        <th colspan="2"> Maudhi Madogo madogo/Madhara ya
+                                            dawa za Uzazi wa Mpango </th>
+                                        <th colspan="6"> Jumla ya Mwezi  </th>
+
+                                    </tr>
+                                    <tr>
+                                        <th> </th>
+                                        <th colspan="2"> </th>
+                                        <th colspan="6"> </th>
+
+                                    </tr><tr>
+                                    <th > </th>
+                                    <th colspan="2"> </th>
+                                    <th colspan="6"> </th>
+
+                                </tr><tr>
+                                    <th colspan="2"> </th>
+                                    <th> </th>
+                                    <th colspan="6"> </th>
+
+                                </tr>
+                                </table>
+                                <div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+                                <p></p>
+                                <div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+
+
+
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+    </md-content>
+</md-tab>
+
+    <md-tab label="LABOUR SUMMARY">
+    <md-content class='md-padding'>
+
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="form-bottom">
+
+
+                                <div class="">
+                                    <div class="text-center"> <h1>'SIRI'</h1></div>
+                                    <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                    <div  class="text-center"><h6>WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h6></div>
+                                    <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="60px" height="60px" /></div>
+
+                                    <div  class="text-center"> <h6>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h6></div>
+                                    <div  class="text-center"> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></div>
+                                    <div  class="text-center"> <h6>FOMU YA TAARIFA YA KITABU CHA 12: REJESTA YA WAZAZI</h6></div>
+                                    <hr>
+
+                                    <div class="col-md-4">Jina la Kituo...................................................... </div>
+                                    <div class="col-md-4">Wilaya................ ... ......... ........................ </div>
+                                    <div class="col-md-4">Mkoa....................................................</div>
+                                    <hr>
+                                </div>
+
+                                <table class="table table-bordered" border="3">
+                                    <tr style="background-color:#c1c1c1">
+                                        <th>No</th>
+                                        <th>Maelekezo</th>
+                                        <th>Umri (<20)</th>
+                                        <th>Umri(>20)</th>
+                                        <th>Jumla</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1 </td>
+                                        <td>Waliotarajiwa kujifungua katika eneo la huduma</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>2 </td>
+                                        <th>Taarifa ya Waliojifungua</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2a </td>
+                                        <td>Waliojifungulia katika kituo cha kutolea huduma za afya</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2b </td>
+                                        <td>Waliojifungua kabla ya kufika kituoni (BBA)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2c </td>
+                                        <td>Waliozalishwa na wakunga wa jadi (TBA)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2d </td>
+                                        <td>Waliojifungua nyumbani (H) bila msaada wa TBA </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <th><i>Jumla waliojifungua (2a+2b+2c+2d)</i> </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2e </td>
+                                        <td>Waliozalishwa na watoa huduma wenye ujuzi </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <th>Asilimia ya waliojifungulia katika vituo vya kutolea
+                                            huduma za afya ( 2a/1) x 100 </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>3 </td>
+                                        <th>Taarifa kuhusu uchungu </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>3a</td>
+                                        <td>Waliojifungua baada ya saa 12 toka uchungu kuanza </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>4</td>
+                                        <th>Taarifa ya njia za kujifungua </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4a</td>
+                                        <td>Kawaida (KW) </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4b</td>
+                                        <td>Vacuum (VM)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4c</td>
+                                        <td>Breech delivery (BR)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4d</td>
+                                        <td>Caesarian Section (CS)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <td> <i>Jumla (4a+4b+4c+4d)</i></td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>4e</td>
+                                        <td> Idadi ya wanawake waliopata Oxytocin baada ya kujifungua</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4f</td>
+                                        <td>Idadi ya wanawake waliopata Egometrine baada ya kujifungua </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>4g</td>
+                                        <td>Idadi ya wanawake waliopata Misoprostol baada ya kujifungua </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>5</td>
+                                        <th> Matatizo kabla ya kujifungua</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>5a</td>
+                                        <td> APH</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>5b</td>
+                                    <td>Pre-mature Rupture of Membrane (PROM) </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5c</td>
+                                    <td> High BP</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5d</td>
+                                    <td> Pre eclampsia</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5e</td>
+                                    <td>Eclampsia </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5f</td>
+                                    <td> Anaemia</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>5g</td>
+                                    <td>Malaria </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td>5h</td>
+                                        <td> HIV+ stage III au IV</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td> <i>Jumla wenye matatizo kabla ya kujifungua
+                                            (5a+5b+5c+5d+5e+5f+5g+5h)</i> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>5i</td>
+                                        <td> Waliokeketwa (FGM)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>6</td>
+                                        <th> Matatizo wakati na baada ya kujifungua</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>6a</td>
+                                        <td> PPH</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>6b</td>
+                                    <td>Pre eclampsia </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>6c</td>
+                                    <td>  Eclampsia</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>6d</td>
+                                    <td>  Obstructed Labour</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>6e</td>
+                                    <td> Retained Placenta </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>6f</td>
+                                    <td>  Third degree tear</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>6g</td>
+                                    <td> Ruptured Uterus </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td>6h</td>
+                                        <td>  Uambukizo/ Sepsis</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td> <i>Jumla ya matatizo baada ya kujifungua
+                                            (6a+6b+6c+6d+6e+6f+6g)</i> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>7</td>
+                                        <th>EmOC </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>7a</td>
+                                        <td> Amepewa Antibiotic</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>7b</td>
+                                    <td>Amepewa Uterotonic </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>7c</td>
+                                    <td>Amepewa Magnesim Sulphate </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>7d</td>
+                                    <td>Ameondolewa kondo la nyuma kwa mkono</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>8</td>
+                                        <th>PMTCT </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>8a</td>
+                                        <td> Jumla waliopimwa VVU ANC</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>8b</td>
+                                    <td>Waliogundulika Positive kutoka ANC </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>8c</td>
+                                    <td>Jumla waliopimwa VVU wakati na baada ya kujifungua </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>8d</td>
+                                    <td>Waliogund ulika Positive wakati na baada ya kujifungua</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><i>Jumla Walio na VVU (8b+8f)</i> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>8e</td>
+                                        <td> Waliochagua kunyonyesha maziwa ya mama pekee (EBF)</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>8f</td>
+                                        <td>Waliochagua ulishaji wa maziwa mbadala (RF) </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr> <tr>
+                                    <td>8g</td>
+                                    <td>Waliopewa ARV Prophylaxis (tail) wakati wa kuruhusiwa </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>8h</td>
+                                    <td> Waliopata rufaa kwenda kliniki ya huduma na matibabu
+                                        ya wenye VVU (CTC)</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>9</td>
+                                        <th> Watoto Waliozaliwa mmoja</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>9a</td>
+                                        <td>Jumla ya watoto waliozaliwa hai </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>9b</td>
+                                    <td>Waliozaliwa hai Uzito<2.5kg </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>9c</td>
+                                    <td> Waliozaliwa hai Uzito =>2.5kg</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>9d</td>
+                                    <td> Waliozaliwa wafu Macerated (MSB)</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>9e</td>
+                                    <td>Waliozaliwa wafu Fresh (FSB) </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>9f</td>
+                                    <td>Waliozaliwa na mama wenye VVU </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>9g</td>
+                                    <td>Waliopewa dawa za ARV </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><i>Jumla ya watoto waliozaliwa (hai na wafu) (9a+9d+9e)</i> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>9h</td>
+                                        <td> Watoto wenye APGAR Score chini ya 7 katika dakika 5</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>10</td>
+                                        <th> Watoto Waliozaliwa mapacha</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>10a</td>
+                                        <td>Jumla ya watoto waliozaliwa hai </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr><tr>
+                                    <td>10b</td>
+                                    <td>Waliozaliwa hai Uzito<2.5kg </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>10c</td>
+                                    <td> Waliozaliwa haiUzito =>2.5kg</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>10d</td>
+                                    <td> Waliozaliwa wafu Macerated (MSB)</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>10e</td>
+                                    <td>Waliozaliwa wafu Fresh (FSB) </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>10f</td>
+                                    <td>Waliozaliwa na mama wenye VVU </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>9g</td>
+                                    <td>Waliopewa dawa za ARV </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><i>Jumla ya watoto waliozaliwa (hai na wafu)
+                                            (10a+10f+10g)</i> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr >
+                                        <td>10h</td>
+                                        <td> Watoto wenye APGAR Score chini ya 7 katika dakika 5</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>11</td>
+                                        <th>Watoto waliosaidiwa kupumua </th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>11a</td>
+                                        <td> Idadi ya watoto Waliosaidiwa kupumua-suction</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr> <tr>
+                                    <td>11b</td>
+                                    <td>Idadi ya watoto waliosaidiwa kupumua- stimulation </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr><tr>
+                                    <td>11c</td>
+                                    <td> Idadi ya watoto waliosaidiwa kupumua- bag and mask</td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+
+                                </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>12</td>
+                                        <th> Huduma nyinginezo</th>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>12a</td>
+                                        <td>Idadi ya watoto walionyonyeshwa ndani ya saa moja
+                                            baada ya kuzaliwa </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>12b</td>
+                                        <td> Idadi ya Mama waliopewa rufaa</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>12c</td>
+                                        <td>Idadi ya Watoto waliopewa rufaa </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+
+                                    </tr>
+                                </table>
+                                <div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+                                <p></p>
+                                <div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+
+
+
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+
+
+    </md-content>
+</md-tab>
+
+    <md-tab label="POST NATAL">
+    <md-content class='md-padding'>
+
+
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="form-bottom">
+
+
+                                <div class="">
+                                    <div class="text-center"> <h1>'SIRI'</h1></div>
+                                    <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                    <div  class="text-center"><h6> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h6></div>
+                                    <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="60px" height="60px" /></div>
+
+                                    <div  class="text-center"> <h6>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h6></div>
+                                    <div  class="text-center"> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></div>
+                                    <div  class="text-center"> <h6>FOMU YA TAARIFA YA KITABU CHA 13: REJESTA YA MTOTO NA MAMA BAADA YA KUJIFUNGUA</h6></div>
+                                    <hr>
+
+                                    <div class="col-md-4">Jina la Kituo...................................................... </div>
+                                    <div class="col-md-4">Wilaya................ ... ......... ........................ </div>
+                                    <div class="col-md-4">Mkoa....................................................</div>
+                                    <hr>
+                                </div>
+                                <table class="table table-bordered" border="3">
+                                    <tr style="">
+                                        <th>No</th>
+                                        <th>Maelekezo</th>
+                                        <th>Umri (<20)</th>
+                                        <th>Umri(>20)</th>
+                                        <th>Jumla</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1a</td>
+                                        <td>Waliohudhuria Ndani ya saa 48</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1b</td>
+                                        <td>Waliohudhuria kati ya siku ya 3-7</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Jumla Waliohudhuria ndani ya siku 7 (1a+1b)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td> Waliomaliza mahudhurio yote ( saa 48, siku 3-7, siku 8-28, siku 29-
+                                            42)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td> Wenye upungufu mkubwa wa damu (Hb < 8.5 g/dl)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td> Waliopata matatizo ya akili</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td> Waliopata Vit.A</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td> Wenye msamba ulioambukizwa/Ulioachia</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td> Wenye fistula</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>8</td>
+                                        <td> Waliojifungulia Nje ya kituo cha
+                                            kutolea huduma za afya</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8a</td>
+                                        <td>Waliojifungua kabla ya
+                                            kufika kituo cha kutolea
+                                            huduma za afya (BBA)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8b</td>
+                                        <td>Waliojifungulia kwa wakunga
+                                            wa jadi (TBA)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8c</td>
+                                        <td>Waliojifungulia
+                                            nyumbani</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>9</td>
+                                        <td>Uzazi wa Mpango</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9a</td>
+                                        <td>Idadi ya wateja waliopata ushauri nasaha mara moja</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9b</td>
+                                        <td>Amepata njia ya uzazi wa mpango wakati wa hudhurio ya
+                                            Postnatal</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9c</td>
+                                        <td>Waliopata   njia ya uzazi wa mpango baada ya mimba kuharibika</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9d</td>
+                                        <td>Waliopata rufaa kupata njia ya uzazi wa mpango</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>10</td>
+                                        <td>PMTCT</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10a</td>
+                                        <td>Waliokuja Postinatal wakiwa Positive</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10b</td>
+                                        <td>Waliopima VVU wakati wa postnatal ( ndani ya siku 42 tangu ya
+                                            kujifungua)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10c</td>
+                                        <td>Waliogundulika wana VVU wakati wa postnatal (ndani ya siku 42
+                                            tangu ya kujifungua</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10d</td>
+                                        <td>Wenye VVU waliochagua kunyonyesha maziwa ya mama pekee
+                                            (EBF)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10e</td>
+                                        <td>Wenye VVU waliochagua kunywesha maziwa mbadala (RF)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>11</td>
+                                        <td> MTOTO</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>11a</td>
+                                        <td>Waliohudhuria Ndani ya saa 48</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>11b</td>
+                                        <td>Waliohudhuria kati ya siku ya 3-7</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Jumla Waliohudhuria ndani ya siku 7 (1a+1b)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>11c</td>
+                                        <td> Waliomaliza mahudhurio yote ( saa 48, siku 3-7, siku 8-28, siku 29-
+                                            42)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>12</td>
+                                        <td> HUDUMA KWA MTOTO</td>
+                                        <td>ME</td>
+                                        <td>KE</td>
+                                        <td>Jumla</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12a</td>
+                                        <td> Idadi ya watoto waliopewa BCG</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12b</td>
+                                        <td> Idadi ya watoto waliopewa OPV 0</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12c</td>
+                                        <td> Idadi ya watoto waliozaliwa na uzito wa <2.5kg wakapatiwa KMC</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12d</td>
+                                        <td> Idadi ya watoto waliozaliwa nyumbani chini ya 2.5kg</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12e</td>
+                                        <td> Idadi ya watoto waliozaliwa nyumbani walioanzishiwa huduma ya
+                                            kangaroo (KMC)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12f</td>
+                                        <td> Idadi ya watoto wenye upungufu mkubwa wa damu (Hb < 10 g/dl
+                                            au viganja vyeupe sana)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>13</td>
+                                        <td> UAMBUKIZO WA MTOTO</td>
+                                        <td>ME</td>
+                                        <td>KE</td>
+                                        <td>Jumla</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>13a</td>
+                                        <td>Idadi ya watoto wenye uambukizo mkali (septicaemia) </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>13b</td>
+                                        <td> Idadi ya watoto wenye uambukizo kwenye kitovu</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>13c</td>
+                                        <td>Idadi ya watoto wenye uambukizo kwenye ngozi </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>13d</td>
+                                        <td>Idadi ya watoto wenye jaundice </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td>Vifo vya watoto wachanga waliozaliwa nyumbani (perinatal);
+                                            neonatal</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15</td>
+                                        <td>Waliopewa dawa ya ARV</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color:#c1c1c1">
+                                        <td>16</td>
+                                        <td>ULISHAJI WA MTOTO</td>
+                                        <td>ME</td>
+                                        <td>KE</td>
+                                        <td>Jumla</td>
+                                    </tr>
+                                    <tr>
+                                        <td>16a</td>
+                                        <td>Watoto wachanga wanaonyonya maziwa ya mama pekee (EBF)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>16b</td>
+                                        <td> Watoto wachanga wanaonyweshwa maziwa mbadala (RF)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>16c</td>
+                                        <td> Watoto wachanga wanaonyweshwa maziwa ya mama na kupatiwa
+                                            chakula kingine (MF)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+
+                                <div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+                                <p></p>
+                                <div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+                                <p></p>
+                                <div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+
+
+
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+    </md-content>
+</md-tab>
+
+
+</md-tabs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    onClick ="$('#tableID').tableExport({type:'pdf',escape:'false'});"
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>

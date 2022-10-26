@@ -1,0 +1,78 @@
+<!--<md-dialog  >-->
+<md-dialog  >
+    <md-toolbar>
+        <div class="md-toolbar-tools text-center">
+            CREATE NEW STOCK
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div class="md-block col-md-12">
+            <md-input-container class="md-block   col-md-6 col-sm-4">
+                <label> Search Item </label>
+
+                <input type="text"  class="md-block" typeahead-on-select="" ng-model="product.selectedItem"   uib-typeahead ="item as item.item_name  for item in showSearch($viewValue)  | filter:$viewValue">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4"  >
+
+                <input type="number" class="md-block" id="quantity" placeholder="Enter  Quantity" ng-model="product.quantity" onkeyup="money(this, event)">
+
+            </md-input-container>
+
+            <md-input-container class="md-block col-md-6 col-sm-4">
+
+                <input type="text" class="md-block" id="vendorName" placeholder="Enter  Vendor Name" ng-model="product.vendor_name" autocomplete="false">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4" autocomplete="false"  >
+
+                <input type="text" class="md-block" id="invoiceNumber" min="0" required placeholder="Enter  Invoice Number" ng-model="product.invoice_number" >
+
+            </md-input-container>
+
+            <md-input-container class="md-block   col-md-6 col-sm-4">
+
+                <input type="text" class="md-block" placeholder="Enter Product  Expiry Date" ng-model="product.expiry_date"   datetime-picker date-only date-format="yyyy-MM-dd"    ng-model="item_receive.received_date">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4"  >
+
+                <input type="text" class="md-block" id="unitPrice" placeholder="Enter  Unit Price" ng-model="product.unit_price" onkeyup="money(this, event)">
+
+            </md-input-container>
+
+            <md-button ng-click="SaveNewStock(product)" class="   md-raised md-primary">SAVE</md-button>
+        </div>
+
+
+
+    </md-dialog-content>
+</md-dialog>
+
+<script type="text/Javascript">
+    function flag(element){
+        $('#tr_'+element.id.substring(4)).css('border-color','red');
+    }
+
+    function money(field,event){
+        if(event.which >= 37 && event.which <= 40)
+            return;
+
+// format number
+        $(field).val(function(index, value) {
+            value += '';
+            var dec = '';
+
+            var parts = value.split('.');
+            dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+            return parts[0]
+                .replace(/\D/g, '')
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+        });
+    }
+</script>

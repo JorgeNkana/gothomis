@@ -1,0 +1,24 @@
+<div ng-cloak="">
+    <md-content>
+        <md-input-container class="md-block">
+            <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                   uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                   typeahead-on-select="getIpdModal($item)" autocomplete="off">
+        </md-input-container>
+	<div layout="row">
+            <md-input-container class="md-block   col-md-2 col-sm-2">
+                <md-select ng-model="ward.ward_id" class="md-block" ng-change="getByWard(ward)" placeholder="Filter patients by ward">
+                    <md-option value="all">All Patients</md-option>
+                    <md-option ng-repeat="ward in wards" ng-value="ward.ward_id">{{ward.ward_name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout="row">
+            <md-chips>
+                <md-chip ng-repeat="pt in inpatients" ng-click="getIpdModal(pt)" style="cursor: pointer">
+                    {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}
+                </md-chip>
+            </md-chips>
+        </div>
+    </md-content>
+</div>

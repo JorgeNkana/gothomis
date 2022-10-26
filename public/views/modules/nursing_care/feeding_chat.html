@@ -1,0 +1,51 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+     
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA JINSIA, WAZEE, WATOTO NA WALEMAVU</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>  REGIONAL HOSPITAL </h8></div>
+                                                            <div  class="text-center"><h8> <i>FEEDING CHART</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{SelectedPatient.fullname}} </b>
+                                                            <b class="col-md-4">REG : {{SelectedPatient.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4">DIAGNOSIS:........................... </b>
+                                                            <b class="col-md-4">WARD:{{SelectedPatient.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{SelectedPatient.bed_name}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                        <tr style="background-color:#c1c1c1">
+                                                            <th>DATE</th><th>TIME</th><th>TYPE I/V</th><th>AMOUNT(mils)</th><th>ORAL FLUID/DIET</th> <th>AMOUNT(mils)</th> <th>NURSE</th>  </tr>
+                                                        <tr ng-repeat="itemsPrescribed in itemsPrescribeds"><td>{{itemsPrescribed.date_given}}</td><td>{{itemsPrescribed.time_given}}</td><td>{{itemsPrescribed.item_name}}</td><td>{{itemsPrescribed.intravenous_mils}}</td><td>{{itemsPrescribed.oral_given}}</td> <td>{{itemsPrescribed.oral_mils}}</td> <td>{{itemsPrescribed.nurse_prescribed}}</td>  </tr>
+
+
+                                                    </table>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+    </form>
+</md-dialog>

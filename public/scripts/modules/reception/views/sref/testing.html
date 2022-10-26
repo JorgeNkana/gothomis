@@ -1,0 +1,217 @@
+<div style="padding-right: 5px; width:103%">
+    <md-content  class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <ul class="breadcrumb">
+                <li><a ui-sref="general_laboratory()">Sample Testing</a></li>
+                <li><a></a></li>
+            </ul>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="SAMPLE COLLECTION">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/micro.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Sample Testing to Client</span>
+                                    <span ng-show="loadedSample==true" class="md-subhead"><strong>{{mrn}}</strong></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <div ng-show="loadedSample==false" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                            </div>
+                                <form name="projectForm" autocomplete="off" ng-cloak>
+                                        <div class="md-dialog-content">
+                                            <md-content class="md-padding">
+                                                <table class="table table-bordered" width="100%" border="1">
+                                                    <caption>
+                                                        <b class="">
+                                                            <div  class="text-center">
+                                                                <h8>JAMHURI YA MUUNGANO WA TANZANIA</h8>
+                                                            </div>
+                                                            <div  class="text-center">
+                                                                <h8> WIZARA YA AFYA NA MAENDELEO YA JAMII, JINSIA, WAZEE NA WATOTO</h8>
+                                                            </div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+                                                            <div  class="text-center">
+                                                                <h8> <i> GENERAL PURPOSE DIAGNOSTIC INVESTIGATION FORM</i></h8>
+                                                            </div>
+                                                </table>
+                                                <div layout="row">
+                                                    <table class="table table-bordered" border="3">
+                                                        <tr style="">
+                                                            <th rowspan="3">
+                                                                <p>Name of Hospital:{{patientPaticulars[0].facility_name}}</p>
+                                                                <p>Address of Hospital:{{patientPaticulars[0].facility_address}}</p>
+                                                                <p>Council:{{patientPaticulars[0].council_name}}</p>
+                                                            </th>
+                                                            <th rowspan="3" colspan="5">
+                                                                <p>Hospital Registration number: {{patientPaticulars[0].medical_record_number}}</p>
+                                                                <p>Surname: {{patientPaticulars[0].last_name}} </p>
+                                                                <p>Other names: {{patientPaticulars[0].first_name}}
+                                                                    {{patientPaticulars[0].middle_name}}
+                                                                </p>
+                                                                <p> Age: {{patientPaticulars[0].age}}</p>
+                                                                <p>Residential Address: {{patientPaticulars[0].residence_name}}</p>
+                                                            </th>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                        </div>
+                                </form>
+                            <md-content laout="column" flex >
+                                <md-card>
+                                    <md-card>
+                                        <div ng-show="showed" class="md-padding" layout="row" layout-wrap class="checkboxes">
+                                            <md-checkbox class="md-primary" ng-model="options.rowSelection">Row Selection</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.multiSelect">Multiple Selection</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.autoSelect">Auto Selection</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.decapitate">Decapitate</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.largeEditDialog">Lard Edit Dialogs</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.boundaryLinks">Pagination Boundary Links</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.limitSelect" ng-click="toggleLimitOptions()">Pagination Limit Select</md-checkbox>
+                                            <md-checkbox class="md-primary" ng-model="options.pageSelect">Pagination Page Select</md-checkbox>
+                                        </div>
+                                    </md-card>
+
+                                    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                                        <div class="md-toolbar-tools">
+                                            <span>Write results for the investigation done</span>
+                                            <div flex></div>
+                                            <md-button class="md-icon-button" ng-click="loadStuff()">
+                                                <md-icon>refresh</md-icon>
+                                            </md-button>
+                                        </div>
+                                    </md-toolbar>
+
+                                    <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                                        <div class="md-toolbar-tools">
+                                            <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                                        </div>
+                                    </md-toolbar>
+
+                                    <md-table-container>
+                                        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+                                            <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                            <tr md-row>
+                                                <th md-column md-order-by="sub_department_name"><span>Request To </span></th>
+                                                <th md-column md-order-by="time_requested"><span>Request Date</span></th>
+                                                <th md-column md-numeric md-order-by="doctor_name" md-desc><span>Requested By</span></th>
+                                                <th md-column md-numeric md-order-by="doctor_mobile_number"><span>Doctor Contact</span></th>
+                                                <th md-column md-numeric md-order-by="collected_by"><span>Clinical Notes </span></th>
+                                                <th md-column md-numeric md-order-by="sample_types"><span>Type of Specimen</span></th>
+                                                <th md-column md-numeric md-order-by="time_collected"><span>Date and Time Collected</span></th>
+                                                <th md-column md-numeric md-order-by="item_name" ><span>Investigation Requested</span></th>
+                                                <th md-column md-order-by="comment">
+                                                    <md-icon>comments</md-icon>
+                                                    <span>Enter Results</span>
+                                                </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody md-body>
+                                            <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect"
+                                                ng-disabled="dessert.calories.value > 400"
+                                                ng-repeat="dessert in patientsSample.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                                <td md-cell>{{dessert.sub_department_name}}</td>
+                                                <!--<td md-cell>-->
+                                                    <!--<md-select ng-model="dessert.type" placeholder="Other">-->
+                                                        <!--<md-option ng-value="type" ng-repeat="type in getTypes()">{{type}}</md-option>-->
+                                                    <!--</md-select>-->
+                                                <!--</td>-->
+                                                <td md-cell>{{dessert.time_requested}}</td>
+                                                <td md-cell>{{dessert.doctor_name}}</td>
+                                                <td md-cell>{{dessert.doctor_mobile_number}}</td>
+                                                <td md-cell>{{dessert.clinical_note}}</td>
+                                                <td md-cell>{{dessert.sample_types}}</td>
+                                                <td md-cell >{{dessert.time_collected}}</td>
+                                                <td md-cell>{{dessert.item_name}}</td>
+                                                <td md-cell ng-click="editComment($event, dessert)" ng-class="{'md-placeholder': !dessert.comment}">
+                                                    {{dessert.comment || 'Add Results'}}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </md-table-container>
+
+                                    <md-table-pagination ng-show="showed" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{desserts.count}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+                                    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                                        <div class="md-toolbar-tools">
+                                            <span>Results Verification of Laboratory Tests</span>
+                                            <div flex></div>
+                                            <md-button class="md-icon-button" ng-click="loadStuff()">
+                                                <md-icon>refresh</md-icon>
+                                            </md-button>
+                                        </div>
+                                    </md-toolbar>
+
+                                    <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                                        <div class="md-toolbar-tools">
+                                            <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                                        </div>
+                                    </md-toolbar>
+
+                                    <md-table-container>
+                                        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}"  md-progress="promise">
+                                            <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                            <tr md-row>
+                                                <th md-column md-numeric md-order-by="collected_by"><span>Full Name </span></th>
+                                                <th md-column md-order-by="sub_department_name"><span>Investigation </span></th>
+                                                <th md-column md-order-by="sub_department_name"><span>Result </span></th>
+                                                <th md-column md-order-by="time_requested"><span>Posted By</span></th>
+                                                <th md-column md-order-by="time_requested"><span>Type of Specimen</span></th>
+                                                <th md-column md-order-by="time_requested"><span>Time Collected</span></th>
+                                                <th md-column md-numeric md-order-by="doctor_name" md-desc><span>Department Requested</span></th>
+                                                <th md-column md-order-by="comment">
+                                                    <md-icon>comments</md-icon>
+                                                    <span>Options</span>
+                                                </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody md-body>
+                                            <tr md-row md-select="dessert" md-on-select="logItem"
+                                                ng-disabled="dessert.calories.value > 400"
+                                                ng-repeat="dessert in investigation_verified_sample | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                                <td md-cell>{{dessert.full_name+" : "+dessert.medical_record_number}}</td>
+                                                <td md-cell>{{dessert.item_name}}</td>
+                                                <!--<td md-cell>-->
+                                                <!--<md-select ng-model="dessert.type" placeholder="Other">-->
+                                                <!--<md-option ng-value="type" ng-repeat="type in getTypes()">{{type}}</md-option>-->
+                                                <!--</md-select>-->
+                                                <!--</td>-->
+                                                <td md-cell>{{dessert.description}}</td>
+                                                <td md-cell>{{dessert.posted_by}}</td>
+                                                <td md-cell>{{dessert.sample_types}}</td>
+                                                <td md-cell>{{dessert.time_collected}}</td>
+                                                <td md-cell>{{dessert.requesting_department}}</td>
+                                                <td md-cell layout="row" class="action-table-data">
+                                                    <a ng-click="aprovedLabResults(dessert)" aria-label="Edit" class="delete">
+                                                        <ng-md-icon icon="check_box" size="40" style="fill: green"></ng-md-icon>
+                                                        <md-tooltip md-direction="top" md-visible="false" autohide="true">Verify
+                                                        </md-tooltip>
+                                                    </a> <a ng-click="showVerified(user.patient_id)" aria-label="Delete" class="delete">
+                                                    <ng-md-icon icon="cancel" size="40" style="fill: red"></ng-md-icon>
+                                                    <md-tooltip md-direction="top" md-visible="false" autohide="true">Reject
+                                                    </md-tooltip>
+                                                </a>
+
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </md-table-container>
+                                </md-card>
+                            </md-content>
+                        </md-card>
+
+                    </md-content>
+            </md-tabs>
+
+        </div>
+    </md-content>
+
+
+</div>

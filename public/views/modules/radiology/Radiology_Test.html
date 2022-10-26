@@ -1,0 +1,361 @@
+<style>
+
+
+
+    label input[type=checkbox]:checked ~ span {
+
+        background: url('/img/checked.png');
+
+        background-size: 100%;
+    }
+
+    .typeahead-demo .custom-popup-wrapper {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        background-color: #f9f9f9;
+    }
+
+    .typeahead-demo .custom-popup-wrapper > .message {
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        color: #868686;
+    }
+
+    .typeahead-demo .custom-popup-wrapper > .dropdown-menu {
+        position: static;
+        float: none;
+        display: block;
+        min-width: 160px;
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+</style>
+
+
+<div ng-controller='radiologyDepartmentController'>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="">
+                <fieldset>
+
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3><span><i class="fa fa-desktop " aria-hidden="true"></i></span> Service Registered</h3>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal"
+                                        data-target="#exampleModal1" data-whatever="@mdo">Registered Service
+                                    <sup style="background-color: #ed5666;color: white;" ng-click="equipments_list()" data-toggle="modal"
+                                         data-target="#exampleModal" data-whatever="@mdo" data-toggle="tooltip"
+                                         class="badge badge-danger">{{ServedDevice.length}}</sup>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-bottom">
+
+                        <fieldset>
+                        <uib-accordion close-others="oneAtATime">
+
+                            <div uib-accordion-group class="panel-primary" heading="Registered Services and its Devices" uib-popover="Click here to view Registered Services" popover-trigger="'mouseenter'">
+
+                                <div class="row">
+
+
+                                    <div class="form-group col-md-12 col-sm-12">
+
+
+
+
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+
+                                                <th>No</th>
+                                                <th>Service Name</th>
+                                                <th>Equipment Name</th>
+                                                <th>Equipment Status</th>
+                                                <th>Sub-Department</th>
+                                                <th>Edit</th>
+                                                <th ng-if="update">Update</th>
+
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="ServedDevices in ServedDevice.slice(((currentPage-1)*itemsPerPage),
+                             ((currentPage)*itemsPerPage))">
+                                                <td>{{$index+1}}</td>
+                                                <td><b ng-if="!update">{{ServedDevices.item_name}}</b>
+                                                    <h3 ng-if="update">
+
+                                                        <div class="form-group">
+                                                            <input  type="text" class="form-control" placeholder="Status Name" ng-model="ServedDevices.item_name">
+                                                        </div>
+
+
+
+                                                    </h3>
+                                                </td>
+                                                <td class="text-navy"><b ng-if="!update">{{ServedDevices.equipment_name}}</b>
+                                                    <h3 ng-if="update">
+
+                                                        <div class="form-group">
+                                                            <input disabled  type="text" class="form-control" placeholder="Status Name" ng-model="ServedDevices.equipment_name">
+                                                        </div>
+
+
+
+                                                    </h3>
+
+
+                                                </td>
+                                                <td class=""><b ng-if="!update">{{ServedDevices.status_name}}</b>
+                                                    <h3 ng-if="update">
+
+                                                        <div class="form-group">
+                                                            <input disabled type="text"
+                                                                   class="form-control" typeahead-on-select=""
+                                                                   ng-model="ServedDevices.status_name" placeholder="Search Status"
+                                                                   uib-typeahead ="equipment as equipment.status_name
+                    for equipment in equipments | limitTo:8 | filter:$viewValue">
+                                                        </div>
+
+
+
+                                                    </h3>
+
+
+                                                </td>
+                                                <td class=""><b ng-if="!update">{{ServedDevices.sub_department_name}}</b>
+                                                    <h3 ng-if="update">
+
+                                                        <div class="form-group">
+                                                            <input disabled type="text"
+                                                                   class="form-control" typeahead-on-select=""
+                                                                   ng-model="ServedDevices.sub_department_name" placeholder="Search Status"
+                                                                   uib-typeahead ="equipment as equipment.status_name
+                    for equipment in equipments | limitTo:8 | filter:$viewValue">
+                                                        </div>
+
+
+
+                                                    </h3>
+
+
+                                                </td>
+                                                <td ng-if="update">  <button type="submit" class="btn btn-warning" ng-click="RadiologyUpdate(statusEquipments)">UPDATE</button>
+                                                </td>
+                                                <td>
+                                                    <label>  <input type="checkbox"  ng-model="update"><span></span></label>
+                                                </td>
+
+
+
+                                            </tr>
+
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                    <ul uib-pager total-items="ServedDevices" ng-model="currentPage"></ul>
+                                </div>
+
+
+
+
+
+                            </div>
+
+                        </uib-accordion>
+                </fieldset>
+
+
+
+
+
+
+                        <!--Test-->
+                        <script type="text/ng-template" id="customTemplate.html">
+                            <a>
+
+                                <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                            </a>
+                        </script>
+
+
+
+                        <!--End-->
+
+
+
+
+                        <!--<table class="table">-->
+                            <!--<tr ng-repeat="data in data.slice(((currentPage-1)*itemsPerPage),-->
+                             <!--((currentPage)*itemsPerPage))">-->
+                                <!--<td>{{data.name}}</td>-->
+                                <!--<td>{{data.id}}</td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                        <!--&lt;!&ndash;View <select class="" ng-model="viewby" ng-change="setItemsPerPage(viewby)">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>3</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>5</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>10</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>20</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>30</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>40</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option>50</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</select> records at a time.&ndash;&gt;-->
+
+                        <!--<hr />-->
+                        <!--<ul uib-pager total-items="totalItems" ng-model="currentPage"></ul>-->
+
+
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+
+                            <h3><span><i class="fa fa-list-alt "  aria-hidden="true"></i></span > Service Registration</h3>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary btn-rounded">List of Denied Services
+                                    <sup style="background-color: #ed5666;color: white;"  data-toggle="tooltip"
+                                         class="badge badge-danger">{{deniedDevices.length}}</sup>
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+
+                            <div class="form-group col-md-6 col-sm-6">
+
+                                <label>Service Name *</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select="" uib-popover="Search Service Name" popover-trigger="'mouseenter'"
+                                       ng-model="devicesdata.item_name" placeholder="Search Service Name"
+                                       uib-typeahead ="servicesData as servicesData.item_name
+                    for servicesData in servicesData | limitTo:8 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+
+
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6">
+                                <label>Sub-Department Name *</label>
+
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="devicesdata.sub_department_name" placeholder="Search Sub-Department"
+                                       uib-typeahead ="departments as departments.sub_department_name
+                    for departments in departments | limitTo:8 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Equipment Name *</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="devicesdata.equipment_name" placeholder="Search Service Name"
+                                       uib-typeahead ="devicesdata as devicesdata.equipment_name
+                    for devicesdata in devicesdata | limitTo:8 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12 col-sm-12">
+
+
+                        </div>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success" ng-click="serviceRegistration(devicesdata)">SAVE</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

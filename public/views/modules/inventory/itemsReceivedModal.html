@@ -1,0 +1,53 @@
+<div ng-cloak="">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Inspection list</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content class="md-padding">
+        <div style="width:1000px;">
+            <div id="quotationFormToPrint" class="container-fluid">
+                <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                    <thead style="background-color:beige">
+                    <th class="mdl-data-table__cell--non-numeric">SN</th>
+                    <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                    <th class="mdl-data-table__cell--non-numeric">Batch</th>
+                    <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                    <th class="mdl-data-table__cell--non-numeric">Cost price</th>
+                    <th class="mdl-data-table__cell--non-numeric">Supplier</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Action</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="order in orderItems track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <md-input-container class="md-block">
+                                <input type="text"  placeholder=" " ng-model="order.batch">
+                            </md-input-container>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <md-input-container class="md-block">
+                                <input type="text"  placeholder=" " ng-model="order.cost_price">
+                            </md-input-container>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <md-input-container class="md-block">
+                                <input type="text"  placeholder=" " ng-model="order.supplier">
+                            </md-input-container>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <md-button class="md-raised md-primary" ng-click="orderAction(order,1)">accept</md-button>
+                            <md-button class="md-raised md-warn" ng-click="orderAction(order,2)">reject</md-button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div></div>
+    </md-content>
+</div>

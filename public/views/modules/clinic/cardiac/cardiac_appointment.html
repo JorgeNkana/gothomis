@@ -1,0 +1,117 @@
+<div>
+    <div style="padding-right: 50px;">
+        <md-content>
+            <md-card>
+                <md-toolbar class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size: 124%" align="center" flex md-truncate>Cardiac Clinic Appointment</h2>
+                    </div>
+                </md-toolbar>
+                <br>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="RECEPTION APPOINTMENT">
+                        <md-content class="md-padding">
+                            <span style="padding-left: 18px;" class="md-headline">Appointment Lists</span>
+                            <md-content class="md-padding">
+                                <form  name="searchForm">
+                                    <div layout-gt-sm="row">
+                                        <md-autocomplete   flex
+                                                         md-search-text="searchTexts"
+                                                         md-input-name="patients"
+                                                         md-no-cache="true"
+                                                         md-items="item in getAppointmentList(searchTexts)"
+                                                         md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                         md-selected-item-change="selectedPatientForAppointment(item)"
+                                                         md-floating-label="Search Patient "
+                                                         md-min-length="4" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchTexts">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}</span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No  matching found for name "{{searchText}}".
+                                            </md-not-found>
+                                        </md-autocomplete>
+                                    </div>
+                                </form>
+                            </md-content>
+                            <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <div ng-repeat="pt in patientDatas" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="showAppointment(pt)">
+                                    <a style="color: black" href="">
+                                        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </md-grid-list>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="REFERED APPOINTMENT">
+                        <md-content class="md-padding">
+                            <span style="padding-left: 18px;" class="md-headline">Appointment Date {{date | date:'yyyy-MM-dd'}}</span>
+                            <md-content class="md-padding">
+                                <form  name="searchForm">
+                                    <div layout-gt-sm="row">
+                                        <md-autocomplete   flex
+                                                         md-search-text="searchText"
+                                                         md-input-name="patients"
+                                                         md-no-cache="true"
+                                                         md-items="item in getAppointmentCardioRefer(searchText)"
+                                                         md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                         md-selected-item-change="selectedPatientFromReception(item)"
+                                                         md-floating-label="Search Patient "
+                                                         md-min-length="4" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.mobile_number}}</span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No  matching found for name "{{searchText}}".
+                                            </md-not-found>
+                                        </md-autocomplete>
+                                    </div>
+                                </form>
+                                <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                    <div ng-repeat="pt in patientDataFromDoctor" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="showAppointment(pt)">
+                                        <a style="color: black" href="">
+                                            <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                            <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                            <a  class="mdl-chip__action"></a>
+
+                                        </a>
+                                    </div>
+                                </md-grid-list>
+                            </md-content>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="ONGOING APPOINTMENT">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2"></h1>
+                            <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <div ng-repeat="pt in cardiacOngoing" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="selectedCardioDetails(pt)">
+                                    <a style="color: black" href="">
+                                        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </md-grid-list>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+        </md-content>
+    </div>
+    <div class="md-padding actionButtons" layout="column">
+        <md-fab-speed-dial style="position: fixed; right: 10px; bottom: 100px;" md-open="scope.isOpen" md-direction="up"
+                           class="md-fling md-fab-bottom-right md-hover-full speed-dial">
+            <md-fab-trigger>
+                <md-button aria-label="Menu" class="md-fab md-warn" ng-click="showPrompt($event)" >
+                    <md-tooltip md-direction="down">Clinic Setup</md-tooltip>
+                    <md-icon class="menu-icon" md-svg-src="/svg/reception.svg"></md-icon>
+                </md-button>
+            </md-fab-trigger>
+        </md-fab-speed-dial>
+    </div>
+</div>

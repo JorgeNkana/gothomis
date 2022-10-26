@@ -1,0 +1,259 @@
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+</form>
+<md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="Start Dose ">
+        <md-content class="md-padding">
+            <md-input-container class="md-block">
+                <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue | limitTo:15" ng-model="item.selectedPatient"
+                       typeahead-on-select="getPatientReport(item.selectedPatient)" autocomplete="off">
+            </md-input-container>
+
+        </md-content>
+		<div ng-if="item.selectedPatient">
+		 <div layout-gt-sm="row" ng-repeat="item in prevMedicines[0]" >
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm="50">
+                {{item.item_name}} {{item.dose}},
+                                                  {{item.frequency}},{{'for '+ item.duration}}
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="number" min='1' max="12" id="qty" ng-model="item.periodic" placeholder="Frequency" >
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="text" min='1' max="12" id="" ng-model="item.duration" placeholder="Duration" >
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="text" min='1' max="12"   ng-model="item.route" placeholder="Route" >
+            </md-input-container>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <label >Choose Service Type</label>
+               <md-select ng-model="item.service_type">
+
+                  <md-option value="Procedure" >Procedure/Service</md-option>
+                  <md-option value="Medication" >Injection/Medication</md-option>
+                  <md-option value="Other" >Other</md-option>
+               </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="10">
+                <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="SaveOpdServiceOnservice(item)">Save</button>
+            </md-input-container>
+        </div>
+		</div>
+		 <div layout-gt-sm="row" ng-repeat="item in pastProcedures" >
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm="50">
+                {{item.item_name}} {{item.dose}},
+
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="number" min='1' max="12" id="qty" ng-model="item.periodic" placeholder="Frequency" >
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="text" min='1' max="12" id="" ng-model="item.duration" placeholder="Duration" >
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="text" min='1' max="12"   ng-model="item.route" placeholder="Route" >
+            </md-input-container>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <label >Choose Service Type</label>
+               <md-select ng-model="item.service_type">
+
+                  <md-option value="Procedure" >Procedure/Service</md-option>
+                  <md-option value="Medication" >Injection/Medication</md-option>
+                  <md-option value="Other" >Other</md-option>
+               </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="10">
+                <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="SaveOpdServiceOnservice(item)">Save</button>
+            </md-input-container>
+        </div>
+		</div>
+		<hr>
+		</div>
+		<div ng-if="prevMedicines[0].length<1 || pastProcedures[0].length<1">
+		No prescription found.....
+		<hr>
+		</div>
+		 
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm="50">
+                <input type="text" id="item" placeholder="Search Items or Service" ng-model="item.selectedItem"  typeahead-on-select="checkServicePaymentStatus(item)"
+                       uib-typeahead="item as item.item_name+' '+item.price for item in searchItems($viewValue,item) | filter:$viewValue | limitTo:5"  autocomplete="off">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="number" min='1' max="12" id="qty" ng-model="item.periodic" placeholder="Frequency" >
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="text" min='1' max="12" id="" ng-model="item.duration" placeholder="Duration" >
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <input type="text" min='1' max="12"   ng-model="item.route" placeholder="Route" >
+            </md-input-container>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="20">
+                <label >Choose Service Type</label>
+               <md-select ng-model="item.service_type">
+
+                  <md-option value="Procedure" ng-if="item.selectedItem.dept_id !=4">Procedure/Service</md-option>
+                  <md-option value="Medication" ng-if="item.selectedItem.dept_id==4">Injection/Medication</md-option>
+                  <md-option value="Other" >Other</md-option>
+               </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm="10">
+                <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="SaveOpdService(item)">Save</button>
+            </md-input-container>
+        </div>
+
+</md-tab>
+
+    <md-tab label="On Dosage Queues" ng-if="dosages.length>0" ng-click="getOnGoingDosage()">
+
+    <md-input-container class="md-block">
+
+    <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+           ng-model="search" autocomplete="off">
+    </md-input-container>
+
+        <div layout-gt-sm="row">
+            <div class="md-block" flex-gt-sm="20">
+              <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                  <tr ng-repeat="patient in dosages | filter:search">
+                      <th class="mdl-data-table__cell--non-numeric md-button " ng-click="loadPatientDosagePregres(patient)">{{patient.first_name+' '+patient.middle_name+' '+patient.last_name}}  ({{patient.medical_record_number}})</th>
+                  </tr>
+              </table>
+            </div>
+            <div class="md-block" flex-gt-sm="10">
+
+
+                </div> 
+				<div class="md-block" flex-gt-sm="10">
+
+
+                </div>
+            <div class="md-block table table-responsive" flex-gt-sm="60" ng-if="dosageprogres.length>0">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr style="background-color:gainsboro" >
+                        <th colspan="4" class="mdl-data-table__cell--non-numeric  " >{{'Names:&nbsp;&nbsp;'+dosageprogres[0].first_name+' '+dosageprogres[0].middle_name+' '+dosageprogres[0].last_name +'&nbsp;&nbsp;Mrn:&nbsp;&nbsp;'+dosageprogres[0].medical_record_number +'&nbsp;&nbsp;Gender:&nbsp;&nbsp;'+dosageprogres[0].gender+'&nbsp;&nbsp;D.O.B:&nbsp;&nbsp;'+dosageprogres[0].dob}}
+                        <md-button class="md-raised md-danger" ng-click="cancel_opd_dosage(dosageprogres[0].patient_id)" title="Cancel Entire Dosage At Once">CANCEL DOSAGE</md-button>
+
+                        </th>
+                    </tr>
+                    <tr  class="mdl-data-table__cell--non-numeric  ">
+                        <th class="mdl-data-table__cell--non-numeric  ">Service</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Time</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Status</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Duration</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Route</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Staff Name</th>
+                    </tr>
+                    <tr ng-repeat="dose in dosageprogres" class="mdl-data-table__cell--non-numeric  ">
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.item_name}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.created_at}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  md-button md-raised" ng-if="dose.remain>0" ng-click="ViewProgressDosage(dose)">{{dose.remain}} &nbsp;times remain</th>
+                        <th class="mdl-data-table__cell--non-numeric  md-button md-raised  " ng-if="dose.remain<1" ng-click="ViewDosageCompleteness(dose)" > &nbsp;Completed</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.duration}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.route}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.name}}</th>
+                    </tr>
+                </table>
+					<hr>
+					<p>
+					
+	<p>
+	
+		 <table class="full-width" >
+                                          <thead>
+<tr ng-repeat="med in prevMedicines[0]" >
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{med.item_name}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">{{med.dose}},
+                                                  {{med.frequency}},{{'for '+ med.duration}}</td>
+
+                                          </tr>
+										  
+
+                <tr ng-repeat="med in pastProcedures" >
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{med.item_name}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">{{med.dose}},
+                                                  </td>
+
+                                          </tr>
+
+										  </table>
+                <p></p>
+                <table class="full-width" >
+                                          <thead>
+
+
+
+                <tr ng-repeat="med in pastProcedures" >
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{med.item_name}}</td>
+
+
+                                          </tr>
+
+										  </table>
+
+										  
+            </div>
+			
+	
+
+        </div>
+
+
+</md-tab>
+
+    <md-tab label="Report">
+        <div class="md-block col-md-12 col-sm-4 pull-right">
+            <md-input-container >
+                <label>Choose Start Date</label>
+                <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container >
+                <label>Choose End Date</label>
+                <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="opd_nursing_report(data)">Search</md-button>
+            </md-input-container>
+            <md-input-container ng-if="stages.length>0">
+                <md-button class="md-raised md-secondary" class="md-block col-md-4 col-sm-4" ng-click="print_opd_nurse()">Print</md-button>
+            </md-input-container>
+
+
+        </div>
+        <center ng-if="stages.length<1">No  Record available for Selected Range of Date</center>
+        <div id="id_opd">
+
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1" ng-if="stages.length>0">
+            <tr style="background-color: bisque">
+
+                <th class="mdl-data-table__cell--non-numeric">#</th>
+                <th class="mdl-data-table__cell--non-numeric">Service Name</th>
+                <th class="mdl-data-table__cell--non-numeric">Category</th>
+                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+
+
+            </tr>
+            <tr ng-repeat="stage in stages">
+                <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{stage.item_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{stage.service_type}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{stage.quantity}}</td>
+
+
+            </tr>
+        </table>
+</div>
+    </md-tab>
+</md-tabs>

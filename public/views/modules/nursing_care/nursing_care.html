@@ -1,0 +1,825 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Admission Request" ng-click="setTabPendingAdmission(1)">
+                   <md-content class="md-padding">
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="requestSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+                       <h2 ng-if="admin.length==0" align="center">NO PENDING REQUEST FOR ADMISSION</h2>
+
+ <table class="table table-bordered table-striped" ng-if="admin.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+							<th sortable="placed" class="sortable">
+                                <span>ADMISSION NOTES</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admin in admin | filter:requestSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admin.fullname}}({{admin.medical_record_number}}) ,</td>
+                            <td >{{admin.updated_at}}</td>
+                              <td >{{admin.ward_name}}</td>
+                              <td >{{admin.instructions}}</td>
+                              <td>{{admin.name}}({{admin.doctor_mob}})</td>
+                             <td><md-button class="md-raised md-primary" ng-click="getAdmission(admin,admin.ward_id,admin.admission_id)">ADMIT</md-button></td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+<md-tab label="Admitted" ng-click="setTabAdmitted()">
+       <md-content class="md-padding">
+           <md-input-container class="md-block">
+               <input type="text" ng-model="admittedSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+           </md-input-container>
+
+
+
+         <h2 ng-if="admitted.length==0" align="center">NO ADMISSION LIST AVAILABLE ON YOUR ASSIGNED WARDS</h2>
+
+
+ <table class="table table-bordered table-striped" ng-if="admitted.length > 0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted | filter:admittedSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selected_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option ng-repeat="bedState in bedStates" ng-click="changedValueBed(bedState,admitted)"  ng-value=bedState.id>{{bedState.TemplateName}}</md-option>
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+<md-tab label="Procedures" ng-click="getOrderedProcedures()">
+    <md-content class="md-padding">	
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="procedureSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+		 <h2 ng-if="waitingProcedure.length==0" align="center">NO PENDING PROCEDURES</h2>
+		 <table class="table table-bordered table-striped" ng-if="waitingProcedure.length > 0">
+			<thead>
+			<tr>
+				<th class="st-sort-disable th-dropdown">
+				Sno
+				</th>
+				<th class="st-sort-disable th-dropdown">
+				 PATIENT WITH PENDING PROCEDURE
+				</th>
+				<th>
+				PROCEDURE
+				</th>
+				<th>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="patient in waitingProcedure | filter:procedureSearch track by $index"  >
+					<td >{{$index + 1}}.</td>
+					<td >{{patient.first_name + ' ' + patient.middle_name + ' ' + patient.last_name + ' ('+ patient.medical_record_number +')'}}</td>
+					<td><span style="font-style:italic">{{patient.item_name}}</span></td>
+					<td  ng-click="getProcedureDetails(patient)"><span style="font-weight:bold">Process</span></td>
+			   </tr>
+			</tbody>
+		</table>
+	</md-content>
+</md-tab>
+
+
+<md-tab label="Indicators" ng-click="setTabAdmission()">
+       <md-content class="md-padding">
+	   
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="indicatorsSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+
+         <h2 ng-if="admitted.length==0" align="center">NO ADMITTED PATIENTS FOUND</h2>
+
+
+ <table class="table table-bordered table-striped" ng-if="admitted.length > 0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted | filter:indicatorsSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                    
+                         <td>
+                             
+          <md-select ng-model="selectedStatus"    placeholder="Select" class="md-no-underline">
+          <md-option ng-repeat="indicator in indicators" ng-click="saveIndictors(indicator.id,admitted)"  ng-value=indicator.id>{{indicator.indicator_name}}</md-option>
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+<md-tab label="Doctor Remarks" ng-click="doctorNotes()">
+    <md-content class="md-padding">
+	
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="remarksSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+        <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+							<th sortable="placed" class="sortable">
+                                <span>DOCTOR REMARKS</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <!--<th  class="sortable">-->
+                                <!--<span>ACTION</span>-->
+                            <!--</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="doctorNote in doctorNoteses |filter:remarksSearch track by $index "  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{doctorNote.fullname}}({{doctorNote.medical_record_number}}) ,</td>
+                            <td >{{doctorNote.updated_at}}</td>
+                              <td >{{doctorNote.ward_name}}</td>
+                              <td>{{doctorNote.notes}}</td>  
+							  
+							  <td>{{doctorNote.doctor_rounded}}</td>
+                             <!--<td><md-button  class="md-raised md-primary"    ng-click="getMoreNotes(doctorNote)" class="md-primary">-->
+                <!--Read More...-->
+            <!--</md-button></td>-->
+         
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="Nursing Care Plans" ng-click="setTabAdmission(1)" >
+     <md-content class="md-padding">
+	 
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="plansSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+         <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted |filter:plansSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option  ng-click="nursingCareOptions(1,admitted)">Write Plans</md-option>
+         <md-option  ng-click="nursingCareOptions(2,admitted)">Preview Plans</md-option>
+         
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="Treatments" ng-click="setTabAdmission(1)">
+    <md-content class="md-padding">
+	
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="treatmentSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+        <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted |filter:treatmentSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option  ng-click="nursingTreatment(1,admitted)">Provide Emergence Drug</md-option>
+          <md-option  ng-click="nursingTreatment(2,admitted)">Drug Sheet</md-option>
+         
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+
+<md-tab label="Charting" ng-click="setTabAdmission(1)">
+    <md-content class="md-padding">
+	
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="chartingSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+        <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="admitted in admitted |filter:chartingSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                            <td >{{admitted.updated_at}}</td>
+                              <td >{{admitted.ward_name}}</td>
+                              <td>{{admitted.name}}({{admitted.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{admitted.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option ng-repeat="chartList in chartsReserved" ng-click="getChating(chartList,admitted)">{{chartList.TemplateName}}</md-option>
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+<md-tab label="COLLECT SAMPLE" ng-click="wardSampleCollection()">
+    <md-content class="md-padding">
+	
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="sampleSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+        <table  ng-if="sampleToCollects.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME TO COLLECT
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TEST REQUESTED</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>TIME REQUESTED</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="sampleToCollect in sampleToCollects |filter:sampleSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{sampleToCollect.first_name}} {{sampleToCollect.middle_name}} {{sampleToCollect.last_name}}</td>
+                            <td >{{sampleToCollect.item_name}}</td>
+                              <td >{{sampleToCollect.created_at}}</td>
+                              <td>{{sampleToCollect.name}}({{sampleToCollect.doctor_mob}})</td>
+                             <td>
+ <md-button  class="md-raised md-primary"    ng-click="getTestRequestAll(sampleToCollect)" class="md-primary">
+               COLLECT
+            </md-button></td>
+
+                                         
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+
+
+                <md-tab label="Reports">
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs >
+                            <vertical-tab-pane title="Admission Status">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Choose End Date</label>
+                                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="getReportBasedOnThisDate(pef)">Search</md-button>
+                                    </md-input-container>
+                                </div>
+
+                                <div layout="row" ng-click="getReportBasedOnThisDate(pef)">
+
+                                    <div flex="85" ng-if="results.length>0">
+									<div class="row" id="divtoprint">
+									 <div  class="container-fluid">
+                <div class="col-md-12" style="text-align:center">
+                    <br/>
+                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                        {{menu[0].description}}<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                    {{menu[0].address}}<br/>
+                    {{menu[0].email}}<br>
+                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}<br>
+                    <p><B>WARD STATUS REPORT</B></p>
+                </div>
+            </div>
+									
+									
+                                        FROM : {{pef.start}}&nbsp;&nbsp;&nbsp;TO:{{pef.end}}&nbsp;&nbsp;PRINTED BY :{{staff_name}}
+
+
+                                        <table class="table table-bordered table-striped" border="1" ng-if="results.length>0">
+                                            <thead>
+                                            <tr>
+                                                <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                                    <span>No.</span>
+                                                </th>
+                                                <th class="st-sort-disable th-dropdown">
+                                                    WARD NAME
+                                                </th>
+                                                <th class="st-sort-disable th-dropdown">
+                                                    ADMISSION
+                                                </th>
+                                                <th sortable="placed" class="sortable">
+                                                    <span>DISCHARGED</span>
+                                                </th>
+                                                  <th sortable="placed" class="sortable">
+                                                    <span>REFERRAL</span>
+                                                </th>
+
+                                                <th sortable="placed" class="sortable">
+                                                    <span>T/ OUT</span>
+                                                </th>
+
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>T/ IN</span>
+                                                </th>
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>ABSCONDED</span>
+                                                </th>
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>DEATH</span>
+                                                </th>
+                                                 <th sortable='total.value' class="sortable">
+                                                    <span>MATERNAL DEATH</span>
+                                                </th>
+                                                 <th sortable='total.value' class="sortable">
+                                                    <span>DELIVERY</span>
+                                                </th>
+                                                 <th sortable='total.value' class="sortable">
+                                                    <span>FSB</span>
+                                                </th>
+                                                 <th sortable='total.value' class="sortable">
+                                                    <span>MSB</span>
+                                                </th>
+
+                                                 <th sortable='total.value' class="sortable">
+                                                    <span>NEONATAL DEATH</span>
+                                                </th>
+
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>DAMA</span>
+                                                </th>
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>SERIOUS PATIENT</span>
+                                                </th>
+                                                
+                                                <th sortable='total.value' class="sortable">
+                                                    <span>PRESENT_NO</span>
+                                                </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr  ng-repeat="result in results track by $index"  >
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                    {{$index+1}}
+                                                </td>
+                                                <td >{{result.ward_name}}</td>
+                                                <td >{{result.waliolazwa}}</td>
+                                                <td >{{result.walioruhusiwa}}</td>
+                                                 <td >{{result.referral}}</td>
+                                                <td >{{result.transfer_out}}</td>
+                                                <td >{{result.transfer_in}}</td>
+                                                <td >{{result.absconded}}</td>
+                                                <td >{{result.died}}</td>
+                                                <td >{{result.maternal_death}}</td>
+                                                <td >{{result.delivery}}</td>
+                                                <td >{{result.fsb}}</td>
+                                                <td >{{result.msb}}</td>
+                                                <td >{{result.neonatal_death}}</td>
+                                                <td >{{result.dama}}</td>
+                                                <td >{{result.serious_patient}}</td>
+                                                <td >{{(result.waliolazwa -(- result.transfer_in)) -((result.walioruhusiwa) - (-result.died) -(- result.dama) -(- result.referral) -(-result.transfer_out))}}</td>
+
+
+
+
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+									                                </div>
+
+                                    </div>
+<md-button class="md-raised md-primary pull-right" ng-click="printForm()" ng-if="results.length>0" >
+                PRINT REPORT
+            </md-button> 
+
+                            </vertical-tab-pane>
+                            <vertical-tab-pane title="Admission List" >
+                                <div layout="row" class=>
+
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary pull-right" ng-click="setTabAdmission()">Load data</md-button>
+                                    </md-input-container>
+                                <md-input-container >
+                                        <md-button class="md-raised md-primary pull-right" ng-click="PrintAdmited()">Print</md-button>
+                                    </md-input-container>
+                                </div>
+
+                                <div layout="row"  >
+
+                                    <div flex="85">
+									<div class="row" id="admitedid">
+									 <div  class="container-fluid">
+                <div class="col-md-12" style="text-align:center">
+                    <br/>
+                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                        {{menu[0].description}}<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                    {{menu[0].address}}<br/>
+                    {{menu[0].email}}<br>
+                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}<br>
+
+                </div>
+            </div>
+
+
+
+                                        <table   class="table-responsive"  style="border:thin solid black; width:100%"  >
+                                            <thead style="background-color: beige">
+                                            <tr>
+
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   s/n </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Patient </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Ward </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Admission Date </th>
+                                            </tr>
+                                            </thead>
+                                            <tr ng-repeat="admitted in admitted |filter:selectedPatient track by $index">
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  {{$index+1}} </th>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.ward_name}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.updated_at}}</td>
+
+                                            </tr>
+                                        </table>
+
+                                    </div>
+									                                </div>
+
+                                    </div>
+
+                            </vertical-tab-pane>
+                            <vertical-tab-pane title="Discharge List">
+                                <div layout="row">
+                                    <md-input-container >
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Choose End Date</label>
+                                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="getDischargedReport(pef)">Search</md-button>
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary pull-right" ng-click="PrintDischarged()">Print</md-button>
+                                    </md-input-container>
+                                </div>
+
+
+                                <div layout="row" >
+
+                                    <div flex="85" >
+									<div class="row" id="dischargedid">
+									 <div  class="container-fluid">
+                <div class="col-md-12" style="text-align:center">
+                    <br/>
+                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                        {{menu[0].description}}<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                    {{menu[0].address}}<br/>
+                    {{menu[0].email}}<br>
+                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}<br>
+
+                </div>
+            </div>
+
+
+                                        <table  class="table-responsive"  style="border:thin solid black; width:100%"  >
+                                            <thead style="background-color: beige">
+                                            <tr>
+
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   s/n </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Patient </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Ward </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Admission Date </th>
+                                                 <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Discharge Date </th>
+                                                  <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  Total Days </th>
+                                            </tr>
+                                            </thead>
+                                            <tr ng-repeat="admitted in  pendingDischarged |filter:selectedPatient track by $index">
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  {{$index+1}} </th>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.ward_name}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.updated_at}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.discharged_date}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.totaldays}}</td>
+
+                                            </tr>
+                                        </table>
+
+                                    </div>
+									                                </div>
+
+                                    </div>
+
+
+                            </vertical-tab-pane>
+
+
+
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+
+
+
+
+    <md-tab label="Discharge" ng-click="getPendingDischarge(1)">
+    <md-content class="md-padding">
+                       <md-input-container class="md-block">
+                           <input type="text" ng-model="dischargeSearch" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                       </md-input-container>
+        <table class="table table-bordered table-striped" ng-if="admitted.length > 0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             PATIENT NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TIME</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th  class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+                            <th  class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="pendingDischarge in admitted | filter:dischargeSearch track by $index"  >
+                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                               {{$index+1}}
+                            </td>
+                            <td >{{pendingDischarge.fullname}}({{pendingDischarge.medical_record_number}}) ,</td>
+                            <td >{{pendingDischarge.updated_at}}</td>
+                              <td >{{pendingDischarge.ward_name}}</td>
+                              <td>{{pendingDischarge.name}}({{pendingDischarge.doctor_mob}})</td>
+                             <td>
+          <md-select ng-model="selectedChart_"+{{pendingDischarge.medical_record_number}}    placeholder="Select" class="md-no-underline">
+          <md-option  ng-click="patientDischarge(pendingDischarge)">Discharge Permit</md-option>
+          
+          </md-select>
+                                
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+
+
+</md-tabs>
+</md-content>
+</div>

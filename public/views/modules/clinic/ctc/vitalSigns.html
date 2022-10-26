@@ -1,0 +1,212 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1200px;
+    }
+
+    .accordion {
+        margin: auto;
+        width: 1100px;
+    }
+    .accordion input {
+        display: none;
+    }
+    .box {
+        position: relative;
+        background: white;
+        height: 64px;
+        transition: all .15s ease-in-out;
+    }
+    .box::before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    }
+    header.box {
+        background: #26a69a !important;
+        z-index: 100;
+        cursor: initial;
+        box-shadow: 0 -1px 0 #e5e5e5,0 0 2px -2px rgba(0,0,0,.12),0 2px 4px -4px rgba(0,0,0,.24);
+    }
+    header .box-title {
+        margin: 0;
+        font-weight: normal;
+        font-size: 16pt;
+        color: white;
+        cursor: initial;
+    }
+    .box-title {
+        width: calc(100% - 40px);
+        height: 64px;
+        line-height: 64px;
+        padding: 0 20px;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
+    }
+    .box-content {
+        width: calc(100% - 40px);
+        padding: 30px 20px;
+        font-size: 11pt;
+        color: rgba(0,0,0,.54);
+        display: none;
+    }
+    .box-close {
+        position: absolute;
+        height: 64px;
+        width: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        display: none;
+    }
+    input:checked + .box {
+        height: auto;
+        margin: 16px 0;
+        box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
+    }
+    input:checked + .box .box-title {
+        border-bottom: 1px solid rgba(0,0,0,.18);
+    }
+    input:checked + .box .box-content,
+    input:checked + .box .box-close {
+        display: inline-block;
+    }
+    .arrows section .box-title {
+        padding-left: 44px;
+        width: calc(100% - 64px);
+    }
+    .arrows section .box-title:before {
+        position: absolute;
+        display: block;
+        content: '\203a';
+        font-size: 18pt;
+        left: 20px;
+        top: -2px;
+        transition: transform .15s ease-in-out;
+        color: rgba(0,0,0,.54);
+    }
+    input:checked + section.box .box-title:before {
+        transform: rotate(90deg);
+    }
+
+
+</style>
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="VitalSignController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form">
+                <fieldset>
+                    <div class="form-top">
+                        <h3 style="font-size: 19px;">
+                            NAME: {{vitalQue.first_name | uppercase}} {{vitalQue.middle_name | uppercase}} {{vitalQue.last_name | uppercase}} GENDER: {{vitalQue.gender | uppercase}}
+                            MRN:{{vitalQue.medical_record_number | uppercase}} AGE:  {{vitalQue.age | uppercase}}
+
+                        </h3>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="col-sm-3" ng-repeat="Vital in Vitals">
+                                <label>{{Vital.vital_name}}({{Vital.si_unit}})</label>
+                                <div class="md-form form-sm" >
+                                    <input type="number" id="{{Vital.vital_name.replace(regex, '_')}}" min="0" class="form-control" style="font-size: 2.8rem;">
+
+                                </div>
+                            </div>
+                        </div>
+                        <button  type="submit" class="btn btn-success" ng-click="vitalRegister(vitalQue.account_id)">SAVE VITALS</button>
+                       <br><br><br><br>
+                        <div class="row">
+                            <button uib-popover="View Vitals" popover-trigger="'mouseenter'"  ng-click="getVitalPatient_id(vitalQue.patient_id)" data-toggle="modal" data-target="#basicExample" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored pull-right">
+                                <i class="material-icons">list</i>
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-full-height modal-top" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 align="center" style="font-size: 22px; font-weight: 100" class="title">
+                        NAME: {{vitalQue.first_name | uppercase}} {{vitalQue.middle_name | uppercase}} {{vitalQue.last_name | uppercase}} GENDER: {{vitalQue.gender | uppercase}}
+                        MRN:{{vitalQue.medical_record_number | uppercase}} AGE:  {{vitalQue.age | uppercase}}
+
+                    </h3>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+
+
+
+                    <div class="row">
+                        <div class="col-sm-12" ng-repeat="account in accountVital">
+
+
+                            <uib-accordion close-others="oneAtATime" >
+
+                                <div ng-click="vitalsDate(account.account_id)" uib-accordion-group  heading="{{account.visit_date}}">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+
+                                                    <th class="">Vital Name</th>
+                                                    <th>Vital Data</th>
+                                                    <th class="">Si unit</th>
+                                                    <th>Date Taken</th>
+                                                    <th>Time Taken</th>
+                                                    <th>Registered by</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="vitalvalues in vitalDatas">
+
+                                                    <td><p align="left">{{vitalvalues.vital_name}}</p></td>
+                                                    <td>{{vitalvalues.vital_sign_value}}</td>
+                                                    <td>{{vitalvalues.si_unit}}</td>
+                                                    <td>{{vitalvalues.date_taken}}</td>
+                                                    <td>{{vitalvalues.time_taken}}</td>
+                                                    <td>{{vitalvalues.submited_by}}</td>
+
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </uib-accordion>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <!--Footer-->
+                <div class="">
+
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Modal -->
+</div>

@@ -1,0 +1,220 @@
+<style>
+
+       .textArea{
+           background: #FFE;
+       }
+       #wrapperChatBox{
+           margin:0 auto;
+           padding-bottom:25px;
+           background:#EBF4FB;
+           width:392px;
+           height:580px;
+           border:1px solid #ACD8F0; }
+
+       #loginform { padding-top:18px; }
+
+       #loginform p { margin: 5px; }
+
+       #chatbox {
+           text-align:left;
+           margin:0 auto;
+           margin-bottom:25px;
+           padding:10px;
+           background:#fff;
+           height:270px;
+           width:430px;
+           border:1px solid #ACD8F0;
+           overflow:auto; }
+
+       #usermsg {
+           width:395px;
+           border:1px solid #ACD8F0;
+           background-color: white;}
+
+       #submit { width: 60px; }
+
+       .error { color: #ff0000; }
+
+       #menu { padding:12.5px 25px 12.5px 25px; }
+
+       .welcome { float:left; }
+
+       .logout { float:right; }
+
+       .msgln { margin:0 0 2px 0; }
+
+       .holder{
+           border: 1px dotted navy;
+           height: 400px;
+           width: 388px;
+           background-color: #EEF;
+           font: 12px Verdana;
+           position: relative;
+           overflow-y: auto;
+       }
+   </style>
+
+<div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        
+        <div class="navbar-header">
+          
+           
+        </div>
+        
+        
+        
+            <ul class="nav navbar-top-links navbar-right">
+            
+                <li>
+                    <span class="m-r-sm text-muted welcome-message" ng-if="authenticated" >{{currentUser.name | uppercase}} ,  {{menu[0].facility_name}}&nbsp;{{menu[0].description}}</span>
+                </li>
+
+                 <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>  <span class="label label-danger">{{messages_counts}}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                           <span ng-repeat="readMessage in readMessages">
+                        <li>
+                            <a href="" ng-controller="UserController">
+                                <div>
+
+                                   <i class="material-icons">question_answer</i> {{readMessage.message}}
+                                    <span class="pull-right text-muted small">{{readMessage.updated_at}}</span>
+
+                                </div>
+                            </a>
+                        </li>
+                       
+                        <li class="divider"></li>
+                        </span>
+
+
+                        <li>
+                            <div class="text-center link-block">
+                                <a style="font-size:17px; font-weight:400;" data-toggle="modal" data-target="#wrapperChatBox" href="">
+                                    <strong>Send SMS</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+           <img ng-src='{{photo}}' height='30px' width='30px' class="img-circle"><span class="label label-warning"></span>
+                    </a>
+                    
+                       <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a style="font-size:17px; font-weight:400;" data-toggle="modal" data-target="#modalProfileAvatar" href=""> Profile</a></li>
+                            <li><a href="">Performance</a></li>
+                            
+                            
+                        </ul>                                                <li>
+                           
+                       
+               
+
+
+                <li>
+                    <a ng-click="logout()" style="color:Red";>
+                        <i class="fa fa-sign-out" ></i> Log out
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        </div>
+
+
+        <div class="modal fade" id="modalProfileAvatar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
+                <!--Content-->
+                <div class="modal-content">
+
+                    <!--Header-->
+                    <div class="modal-header">
+                        <img ng-src='{{photo}}' class="img-circle img-responsive">
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body text-center mb-1">
+
+                        <h5 class="mt-1 mb-2">{{currentUser.name | uppercase}}</h5>
+
+                        <div class="md-form ml-0 mr-0">
+                            Change Profile Picture </div>
+                        <div class="md-form ml-0 mr-0">
+                             <input type="file" id="file1" class="btn btn-success btn-file" name="file" multiple
+                                   ng-files="getTheFiles($files)" />
+
+                        </div>
+
+
+                        <div class="text-center">
+                            <button class="btn btn-cyan mt-1"  ng-click="uploadFiles()">Change<i class="fa fa-sign-in ml-1"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="wrapperChatBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="menu">
+                <p class="welcome">STAFF ANNOUNCEMENT</p>
+                <p class="logout"><a id="exit" href="#">Exit Chat</a></p>
+                <div style="clear:both"></div>
+            </div>
+
+
+                <ng-chatbox ng-model="messages">
+                </ng-chatbox>
+
+                <input placeholder="Write here..." class="form-control" ng-model="my_text" type="text" id="usermsg"/>
+            <button class="btn btn-success" ng-click="add(my_text)"><i class="material-icons">perm_phone_msg</i>Send</button>
+
+        </div>
+
+
+
+        <div class="modal fade" id="smschat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
+                <!--Content-->
+                <div class="modal-content">
+
+                    <!--Header-->
+                    <div class="modal-header">
+                        SMS
+                       </div>
+                    <!--Body-->
+                    <div class="modal-body text-center mb-1">
+
+                        <h5 class="mt-1 mb-2">{{currentUser.name | uppercase}}</h5>
+
+                        <div class="md-form ml-0 mr-0">
+                            <ng-chatbox ng-model="messages">
+                                </ng-chatbox>
+                           </div>
+                        <div class="md-form ml-0 mr-0">
+                            <input type="text" ng-model="my_text" class="form-control">
+
+                            <button ng-click="add(my_text)">Write message</button>
+
+                        </div>
+
+
+                        <div class="text-center">
+                            <button class="btn btn-cyan mt-1"  ng-click="uploadFiles()">Change<i class="fa fa-sign-in ml-1"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>

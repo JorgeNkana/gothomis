@@ -1,0 +1,261 @@
+<md-dialog  class="fullscreen-dialog" ng-controller="radiologyController">
+   <md-toolbar>
+      <div class="md-toolbar-tools">
+         <p style="text-align: right;" ng-if="selectedPatient.first_name.length >0"><span><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;{{selectedPatient.first_name}}
+            {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+            {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp;
+            {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+            {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+            {{"Age: "+selectedPatient.age}}
+         </p>
+         <span flex></span>
+         <md-button class="md-icon-button" ng-click="cancel()">
+            <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+         </md-button>
+      </div>
+   </md-toolbar>
+   <md-dialog-content>
+      <md-tabs md-dynamic-height md-border-bottom>
+         <md-tab label=" PATIENT REQUEST FORM">
+            <md-content class="md-padding">
+               <div layout="row">
+                  <div flex="100">
+                     <md-card>
+                        <md-card-content>
+                           <table  width="100%">
+                              <tbody>
+                                 <tr>
+                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                       <p align="center"><strong>Radiology Request Form</strong></p>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="mdl-data-table__cell--non-numeric"> {{"Requested By : "+doctorRequest.doctor_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                       {{"Department: "+doctorRequest.dept}}&nbsp; {{"Time : "+doctorRequest.created_at}}
+                                       &nbsp; {{"Priority : "+doctorRequest.priority}}
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                       <p align="center"><strong>Relevant Clinical Notes</strong></p>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="mdl-data-table__cell--non-numeric"> {{"Investigation Name : "+doctorRequest.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                       {{"Clinical Notes: "+doctorRequest.clinical_note}}
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </md-card-content>
+                        <div layout-gt-sm="row">
+                           <md-checkbox style="padding-top: 8px;" ng-model="noImage">
+                              <p>Findings Only</p>
+                           </md-checkbox>
+                        </div>
+            </md-content>
+            <div layout="row">
+            <div>
+            <md-input-container class="md-block">
+            <input type="file"
+               name="file" multiple
+               ng-files="getTheFiles($files)"  />
+            </md-input-container>
+            </div>
+            </div>
+            <div layout="row">
+            <div flex="100">
+            <md-input-container class="md-block">
+            <label>Radiological Findings For {{doctorRequest.item_name}}</label>
+            <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="10000" rows="3" md-select-on-focus></textarea>
+            </md-input-container>
+            </div>
+            </div>
+            <md-button style="width: 15%;" ng-if="explanation.explanation && !noImage" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,doctorRequest.OrderId,selectedPatient.patient_id,doctorRequest.item_id)">SAVE RESULTS</md-button>
+            <md-button style="width: 15%;" class="md-raised md-primary" ng-show="noImage" ng-click="SaveImages(explanation.explanation,doctorRequest.OrderId,doctorRequest.item_id)">
+            SAVE RESULTS
+            </md-button>
+            </md-card>
+            </div>
+            </div>
+            </md-content>
+         </md-tab>
+         <md-content  class="md-padding">
+            <!--vertical tabs start-->
+            <div>
+               <vertical-tabs>
+                  <vertical-tab-pane  title="Radiological Findings">
+                     <div layout="row" ng-repeat="posts in findings">
+                        <div flex="100">
+                           <md-input-container class="md-block">
+                              <textarea id="{{posts.OrderId.replace(regex, '_')}}" placeholder="Enter Radiology Findings for {{posts.item_name}}" autocomplete="off"></textarea>
+                           </md-input-container>
+                        </div>
+                     </div>
+                     <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="FindingsRegister(findingsCheck)">SAVE FINDINGS</md-button>
+                  </vertical-tab-pane>
+                  <vertical-tab-pane title="Radiological Uploads">
+                     <div>
+                        <div layout="row">
+                           <div flex="20">
+                              <md-input-container class="md-block">
+                                 <input type="file"
+                                    name="file" multiple
+                                    ng-files="getTheFiles($files)"  />
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <div layout="row">
+                           <div flex="100">
+                              <md-input-container class="md-block">
+                                 <label>Radiological Findings For {{post1.item_name}}</label>
+                                 <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,post1.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">UPLOAD {{post1.item_name}}</md-button>
+                     </div>
+                     <div ng-if="post2.OrderId>0">
+                        <div layout="row">
+                           <div flex="20">
+                              <md-input-container class="md-block">
+                                 <input type="file"
+                                    name="file" multiple
+                                    ng-files="getTheFiles($files)"  />
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <div layout="row">
+                           <div flex="100">
+                              <md-input-container class="md-block">
+                                 <label>Radiological Findings For {{post2.item_name}}</label>
+                                 <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,post2.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">UPLOAD {{post2.item_name}}</md-button>
+                     </div>
+                     <div ng-if="post3.OrderId>0">
+                        <div flex="row">
+                           <div flex="20">
+                              <md-input-container class="md-block">
+                                 <input type="file"
+                                    name="file" multiple
+                                    ng-files="getTheFiles($files)"  />
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <div layout="row">
+                           <div flex="100">
+                              <md-input-container class="md-block">
+                                 <label>Radiological Findings For {{post3.item_name}}</label>
+                                 <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,post2.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">UPLOAD {{post3.item_name}}</md-button>
+                     </div>
+                     <div ng-if="post4.OrderId>0">
+                        <div layout="row">
+                           <div flex="20">
+                              <md-input-container class="md-block">
+                                 <input type="file"
+                                    name="file" multiple
+                                    ng-files="getTheFiles($files)"  />
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <div layout="row">
+                           <div flex="100">
+                              <md-input-container class="md-block">
+                                 <label>Radiological Findings For {{post4.item_name}}</label>
+                                 <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,post4.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">UPLOAD {{post4.item_name}}</md-button>
+                     </div>
+                     <div ng-if="post5.OrderId>0">
+                        <div flex="row">
+                           <div flex="20">
+                              <md-input-container class="md-block">
+                                 <input type="file"
+                                    name="file" multiple
+                                    ng-files="getTheFiles($files)"  />
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <div layout="row">
+                           <div flex="100">
+                              <md-input-container class="md-block">
+                                 <label>Radiological Findings For {{post5.item_name}}</label>
+                                 <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,post5.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">UPLOAD {{post5.item_name}}</md-button>
+                     </div>
+                     <div ng-if="post6.OrderId>0">
+                        <div flex="row">
+                           <div flex="20">
+                              <md-input-container class="md-block">
+                                 <input type="file"
+                                    name="file" multiple
+                                    ng-files="getTheFiles($files)"  />
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <div layout="row">
+                           <div flex="100">
+                              <md-input-container class="md-block">
+                                 <label>Radiological Findings For {{post6.item_name}}</label>
+                                 <textarea ng-model="explanation.explanation" autocomplete="off"  md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                              </md-input-container>
+                           </div>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary pull-right" ng-click="xrayImage(explanation,post6.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">UPLOAD {{post5.item_name}}</md-button>
+                     </div>
+                  </vertical-tab-pane>
+               </vertical-tabs>
+            </div>
+            <!--vertical tabs end-->
+         </md-content>
+         </md-tab>
+         <md-tab ng-click="verifyPerPatients(selectedPatient.patient_id)" label="MESSAGE NOTIFICATION">
+            <md-content class="md-padding">
+               <!--vertical tabs start-->
+               <vertical-tabs>
+                  <vertical-tab-pane title="Verification of Findings">
+                     <div flex-gt-sm="100" flex>
+                        <md-list-item ng-repeat="verify in verified"  class="noright">
+                           <md-icon class="menu-icon" md-svg-src="/svg/custom/calendar.svg"></md-icon>
+                           <p>{{ "Medical Record Number : "+verify.medical_record_number  }}</p>
+                           <md-icon md-svg-src="/svg/custom/check.svg" ng-click="verifyFindingsData(verify)"  class="md-secondary md-hue-3" >
+                              <md-tooltip md-direction="down">Verify</md-tooltip>
+                           </md-icon>
+                        </md-list-item>
+                        </md-list>
+                     </div>
+                  </vertical-tab-pane>
+                  <vertical-tab-pane title="Messaging Verification">
+                     <div layout="row">
+                     </div>
+                  </vertical-tab-pane>
+               </vertical-tabs>
+               <!--vertical tabs end-->
+            </md-content>
+         </md-tab>
+         <md-tab label="IMAGING REPORTS">
+            <md-content class="md-padding">
+               <!--vertical tabs start-->
+               <!--vertical tabs end-->
+            </md-content>
+         </md-tab>
+      </md-tabs>
+   </md-dialog-content>
+   <md-dialog-actions layout="row">
+      <span flex></span>
+   </md-dialog-actions>
+</md-dialog>

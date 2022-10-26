@@ -1,0 +1,322 @@
+<md-dialog   class="fullscreen-dialog"  >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            <b ><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;{{tbs.first_name}} {{tbs.middle_name}} {{tbs.last_name}} &nbsp;&nbsp;&nbsp;  {{"MRN: "+tbs.medical_record_number}}&nbsp;&nbsp;&nbsp;   {{"DoB: "+tbs.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+tbs.gender}}&nbsp;&nbsp;&nbsp;  <b ng-if="month >0 || year >0">  {{"Age: "+patientAge}}</b> <b ng-if="month <1 || year <1">{{""+day}}</b></b>
+
+            <span flex></span>
+            <md-button class="md-icon-md-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+<md-tabs md-dynamic-height md-border-bottom >
+
+    <md-tab label="Pre-record">
+        <md-content class='md-padding'>
+            <div >
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form   >
+                            <fieldset>
+
+
+                                <div class="form-bottom">
+                                    <div class="row">
+
+
+                                        <md-input-container class="md-block col-md-6 col-sm-6">
+                                            <label> Client Type </label>
+                                            <md-select type="text" ng-model="pretb.client_type" class="md-block">
+                                                <md-option value="">----option----</md-option>
+                                                <md-option value="NEW">New</md-option>
+                                                <md-option value="RELAPSE">Relapse</md-option>
+                                                <md-option value="RALF">Return After Lost To Follow Up</md-option>
+                                                <md-option value="FAILURE">Failure</md-option>
+                                                <md-option value="TRANSFERIN">Transfer In</md-option>
+                                            </md-select>
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block col-md-6 col-sm-6">
+                                            <label> Referral Type </label>
+                                            <md-select type="text" ng-model="pretb.referral_type" class="md-block">
+                                                <md-option value="">----option----</md-option>
+                                                <md-option value="SELF">Self Referral</md-option>
+                                                <md-option value="REFERRAL">Referral</md-option>
+                                                <md-option value="COMMUNITY">Community</md-option>
+
+                                            </md-select>
+                                       </md-input-container>
+
+
+
+
+
+                                        <md-button  type="submit" class="md-raised md-primary" ng-click="tb_pre_entry_registration(pretb,tbs)"> Save </md-button>
+
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+
+    <md-tab label="TB Type">
+        <md-content class='md-padding'>
+            <div >
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label> Client TB Type </label>
+                            <md-select type="text" ng-model="tbtype.tb_type" class="md-block">
+                                <md-option value="">----option----</md-option>
+
+                                <md-option value="P+" >P+</md-option>
+                                <md-option value="P-"  >P-</md-option>
+                                <md-option value="EP" >EP (site)</md-option>
+
+                            </md-select>
+                        </md-input-container>
+
+
+
+
+                        <div class="md-block col-md-12 col-sm-6">
+
+
+                            <md-button   type="submit" class="md-raised md-primary" ng-click="patient_tb_type_registration(tbtype,tbs.patient_id)"> Save </md-button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+<md-tab label="Treatment Type">
+        <md-content class='md-padding'>
+            <div >
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Treatment Type </label>
+                            <md-select type="text"ng-model="treatment.treatment_type_id" class="md-block">
+                                <md-option value="">--------option-----</md-option>
+                                <md-option value={{treatment_type.id}} ng-repeat="treatment_type in treatment_types">{{treatment_type.type}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Treatment Place </label>
+                            <md-select type="text"ng-model="treatment.treatment_place" class="md-block">
+                                <md-option value="">--------option-----</md-option>
+                                <md-option value="Health Facility">Health Facility</md-option>
+                                <md-option value="Home">Home</md-option>
+                            </md-select>
+                       </md-input-container>
+
+
+
+
+                        <div class="md-block col-md-12 col-sm-6">
+
+
+                            <md-button   type="submit" class="md-raised md-primary" ng-click="patient_tb_treatment_types(treatment,tbs.patient_id)"> Save </md-button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+<md-tab label="TB&VVU">
+        <md-content class='md-padding'>
+            <div >
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>CPT </label>
+                            <md-select type="text"ng-model="tbvvu.cpt" class="md-block">
+                                <md-option value="">--------option-----</md-option>
+                                <md-option value="YES" >YES</md-option>
+                                <md-option value="NO" >NO</md-option>
+                            </md-select>
+                       </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-6" ng-if="tbvvu.cpt=='YES'">
+                            <label>CPT Start Date </label>
+                            <input type="text" ng-model="tbvvu.cpt_start_date"  datetime-picker date-only date-format='yyyy-MM-dd' id="yyyy-MM-dd" class="md-block">
+
+                      </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>ART Start Date </label>
+                            <input type="text" ng-model="tbvvu.arv_start_date"  datetime-picker date-only date-format='yyyy-MM-dd' id="yyyy-MM-dd" class="md-block">
+
+                       </md-input-container>
+
+
+
+
+                        <div class="md-block col-md-12 col-sm-6">
+
+
+                            <md-button   type="submit" class="md-raised md-primary" ng-click="patient_tb_vvu_service(tbvvu,tbs.patient_id)"> Save </md-button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+
+    <md-tab label="Sputum">
+        <md-content class='md-padding'>
+            <div >
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Patient Sputum Test Attending Month  </label>
+                            <md-select type="text" ng-model="sputam.month" class="md-block">
+                                <md-option value="">----option----</md-option>
+
+                                <md-option value="2" >Second Month</md-option>
+                                <md-option value="3" >Third Month</md-option>
+                                <md-option value="4" >Forth Month</md-option>
+                                <md-option value="5" >Fifth Month</md-option>
+                                <md-option value="6" >Sixth Month</md-option>
+                                <md-option value="7" >Seventh Month</md-option>
+                                <md-option value="8" >Eighth Month</md-option>
+
+
+                            </md-select>
+                       </md-input-container>
+
+
+                        <div class="md-block col-md-12 col-sm-6">
+
+
+                            <md-button   type="submit" class="md-raised md-primary" ng-click="patient_tb_sputam_registration(sputam,tbs.patient_id)"> Save </md-button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+    <md-tab label="FollowUp">
+        <md-content class='md-padding'>
+            <div >
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Patient Medication Attending Month </label>
+                            <md-select type="text"ng-model="tbmedfollow.month" class="md-block">
+                                <md-option value="">--------option-----</md-option>
+                                <md-option value="1" >First Month</md-option>
+                                <md-option value="2" >Second Month</md-option>
+                                <md-option value="3" >Third Month</md-option>
+                                <md-option value="4" >Forth Month</md-option>
+                                <md-option value="5" >Fifth Month</md-option>
+                                <md-option value="6" >Sixth Month</md-option>
+                                <md-option value="7" >Seventh Month</md-option>
+                                <md-option value="8" >Eighth Month</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Remarks </label>
+                                            <textarea cols="2" rows="2"  ng-model="tbmedfollow.remark"   class="md-block">
+
+                                                </textarea>
+                        </md-input-container>
+
+
+
+
+
+                        <div class="md-block col-md-12 col-sm-6">
+
+
+                            <md-button   type="submit" class="md-raised md-primary" ng-click="tb_patient_medication_followups(tbmedfollow,tbs.patient_id)"> Save </md-button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+    <md-tab label="Output">
+        <md-content class='md-padding'>
+            <div >
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Patient TB Medication  Output</label>
+                            <md-select type="text"ng-model="tboutput.output" class="md-block">
+                                <md-option value="">--------option-----</md-option>
+                                <md-option value="Healed" >Healed</md-option>
+                                <md-option  value="Has Finish Treatment">Has Finish Treatment</md-option>
+                                <md-option value="Dead" >Dead</md-option>
+                                <md-option value="Lost" >Lost</md-option>
+                                <md-option value="Failure" >Failure</md-option>
+
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-6">
+                            <label>Remarks </label>
+                                            <textarea cols="2" rows="2"  ng-model="tboutput.comment"   class="md-block">
+
+                                                </textarea>
+                        </md-input-container>
+
+
+                        <div class="md-block col-md-12 col-sm-6">
+
+
+                            <md-button   type="submit" class="md-raised md-primary" ng-click="Tbl_tb_patient_treatment_outputs(tboutput,tbs.patient_id)"> Save </md-button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            </div>
+
+
+
+
+
+            </div>
+        </md-content>
+    </md-tab>
+
+
+</md-tabs>
+        </md-dialog-content>
+    </md-dialog>

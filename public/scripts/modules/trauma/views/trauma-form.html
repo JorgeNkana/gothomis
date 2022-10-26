@@ -1,0 +1,2501 @@
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Names: {{selectedPatient.surname+', '+selectedPatient.first_name+', '+selectedPatient.mrn}}</h2>&nbsp;&nbsp;
+			<h2>Gender: {{selectedPatient.gender}}</h2>&nbsp;&nbsp;
+			<h2>Age: {{selectedPatient.age}}</h2>&nbsp;&nbsp;&nbsp;
+			<h2>Temp: {{selectedPatient.temp ? selectedPatient.temp+'&deg;C' : ''}}</h2>&nbsp;
+			<h2>BP: {{selectedPatient.bp ? selectedPatient.bp : ''}}</h2>&nbsp;
+			<h2>HR: {{selectedPatient.hr ?selectedPatient.hr : ''}}</h2>&nbsp;
+			<h2>RR: {{selectedPatient.rr ? selectedPatient.rr : ''}}</h2>&nbsp;
+			<h2>Sp0<sub>2</sub>: {{selectedPatient.spo2 ? selectedPatient.spo2+' L' : ''}}</h2>&nbsp;
+			<h2>Weight: {{selectedPatient.weight ? selectedPatient.weight+' Kg' : ''}}</h2>&nbsp;
+			<h2>Height: {{selectedPatient.height ? selectedPatient.height+' Cm' : ''}}</h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 <md-button class="md-icon-button" ng-click="cancel()">
+				<md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+			</md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+        
+        <md-tab label="Clerk sheet"  >
+		<vertical-tabs>
+			<vertical-tab-pane title="CHIEF COMPLAINT">
+				<md-content class="md-padding">
+
+						<textarea rows="6" ng-model="chief_complaint.chief_complaint" placeholder="write chief complaint here..." id="chief_complaint" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                        <p></p>
+
+                    <section layout="row" layout-sm="row"  class="pull-left" layout-wrap>
+                        <md-checkbox ng-model="chief_complaint.mass_casualty">Mass Casualty</md-checkbox>
+                        <md-checkbox ng-model="chief_complaint.dead_on_arrival" aria-label=""  >Dead on arrival</md-checkbox>
+
+
+                    </section>
+
+						<md-button class="md-raised md-primary" ng-click="saveChiefComplain(chief_complaint,selectedPatient)">Save</md-button>
+
+				</md-content>
+			</vertical-tab-pane>
+            <vertical-tab-pane title="LOCATION OF INJURY">
+                <md-content class="md-padding">
+                    <div  >
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Ward</label>
+                                <input type="text" ng-model="patient.ward">
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Street</label>
+                                <input type="text" ng-model="patient.street">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Common name</label>
+                                <input type="text" ng-model="patient.common_name">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Road name</label>
+                                <input type="text" ng-model="patient.road_name">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>House Number</label>
+                                <input type="text" ng-model="patient.house_namber">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Head of Household</label>
+                                <input type="text" ng-model="patient.head_of_household">
+                            </md-input-container>
+                        </div>
+                        <md-button class="md-raised md-primary" ng-click="saveAccidentLocation(patient,selectedPatient)">Save</md-button>
+
+                    </div>
+                </md-content>
+            </vertical-tab-pane>
+                <vertical-tab-pane title="PRIMARY SURVEY">
+				<md-tabs>
+					<md-tab label="AIRWAYS">
+						<md-content class="md-padding">
+							<div class="row">
+								 <table border="1"  >
+									 <tr style="border:thin solid black; background-color: silver">
+										 <th colspan="4">
+											 PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+										 </th>
+									 </tr>
+									 <tr>
+										 <td rowspan="3"><b style="font-size:xx-large">A</b>irway<p></p>
+											 <md-checkbox ng-model="airway.normal" aria-label=""   >NML</md-checkbox>
+										 </td>
+										 <td >
+											 <md-checkbox ng-model="airway.angioedema" ng-checked="!airway.normal && airway.angioedema==true"  aria-label="" ng-disabled="airway.normal" >angioedema</md-checkbox>
+											 <md-checkbox ng-model="airway.stridor" ng-checked="!airway.normal && airway.stridor==true"    aria-label="" ng-disabled="airway.normal"  >Stridor</md-checkbox>
+											 <md-checkbox ng-model="airway.voice_changes" ng-checked="!airway.normal && airway.voice_changes==true"   aria-label="" ng-disabled="airway.normal" >Voice changes</md-checkbox>
+											 <md-checkbox ng-model="airway.oral_airway_burns" ng-checked="!airway.normal && airway.oral_airway_burns==true"  aria-label="" ng-disabled="airway.normal" >Oral/airway burns</md-checkbox>
+
+											 <p></p>
+											 <b>Obstructed by:</b>
+											 <md-checkbox ng-model="airway.tongue" ng-checked="!airway.normal && airway.tongue==true" aria-label="" ng-disabled="airway.normal" >Tongue</md-checkbox>
+											 <md-checkbox ng-model="airway.blood" ng-checked="!airway.normal && airway.blood==true" aria-label=""  ng-disabled="airway.normal">Blood</md-checkbox>
+											 <md-checkbox ng-model="airway.secretion" ng-checked="!airway.normal && airway.secretion==true" aria-label="" ng-disabled="airway.normal" >Secretion</md-checkbox>
+											 <md-checkbox ng-model="airway.vomit" ng-checked="!airway.normal && airway.vomit==true" aria-label=""  ng-disabled="airway.normal">Vomit</md-checkbox>
+											 <md-checkbox ng-model="airway.foreign_body" ng-checked="!airway.normal && airway.foreign_body==true" aria-label=""  ng-disabled="airway.normal">Foreign body</md-checkbox>
+
+										 </td>
+
+										 <td >
+
+											 <b>Airway Manipulation:</b>
+											 <md-checkbox ng-model="airway.repostioning" ng-checked="!airway.normal && airway.repostioning==true" aria-label="" ng-disabled="airway.normal" >Repostioning</md-checkbox>
+											 <md-checkbox ng-model="airway.suction" ng-checked="!airway.normal && airway.suction==true" aria-label=""  ng-disabled="airway.normal">Suction</md-checkbox>
+
+											 <p></p>
+											 <b>Airway :</b>
+											 <md-checkbox ng-model="airway.opa" ng-checked="!airway.normal && airway.opa==true" aria-label="" ng-disabled="airway.normal" >OPA</md-checkbox>
+											 <md-checkbox ng-model="airway.npa" ng-checked="!airway.normal && airway.npa==true" aria-label="" ng-disabled="airway.normal" >NPA</md-checkbox>
+											 <md-checkbox ng-model="airway.lma" ng-checked="!airway.normal && airway.lma==true" aria-label="" ng-disabled="airway.normal" >LMA</md-checkbox>
+											 <md-checkbox ng-model="airway.bvm" ng-checked="!airway.normal && airway.bvm==true" aria-label=""  ng-disabled="airway.normal">BVM</md-checkbox>
+											 <md-checkbox ng-model="airway.ett" ng-checked="!airway.normal && airway.ett==true" aria-label="" ng-disabled="airway.normal" >ETT</md-checkbox>
+
+											 <p></p>
+											 <b>Cervical collar:</b>
+											 <md-checkbox ng-model="airway.none_needed"  ng-checked="!airway.normal && airway.none_needed==true" aria-label="" ng-disabled="airway.normal" >None needed</md-checkbox>
+											 <md-checkbox ng-model="airway.placed_before_arrival"  ng-checked="!airway.normal && airway.placed_before_arrival==true" aria-label="" ng-disabled="airway.normal" >Placed before arrival</md-checkbox>
+											 <md-checkbox ng-model="airway.placed_in_eu"  ng-checked="!airway.normal && airway.placed_in_eu==true" aria-label="" ng-disabled="airway.normal" >Placed in EU</md-checkbox>
+											 <p></p>(none needed=not altered, no pain or TTP, no distracting injury)
+
+										 </td>
+									 </tr>
+                                     <tr>
+                                         <th colspan="4"> <md-button class="md-raised md-primary" ng-click="savePrimarySurvey(airway,selectedPatient)">Save</md-button>
+                                         </th>
+                                     </tr>
+								 </table>
+							</div>
+						</md-content>
+					</md-tab>
+					<md-tab label="BREATHING">
+						<md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">B</b>reathing<p></p>
+                                        <md-checkbox ng-model="breath.normal" aria-label=""   >NML</md-checkbox>
+                                    </td>
+                                    <td >
+                                        <b>Spontaneous Respiration:</b><md-radio-group layout="row" ng-model="breath.spontaneous_prespiration"  ng-disabled="breath.normal" >
+                                        <md-radio-button value="yes" ng-checked="!breath.normal && breath.spontaneous_prespiration=='yes'" class="md-primary">Yes</md-radio-button>
+                                        <md-radio-button value="no"  ng-checked="!breath.normal && breath.spontaneous_prespiration=='no'" class="md-primary">No </md-radio-button>
+                                    </md-radio-group>
+<p></p>
+                                        <b>Chest Raise:</b><md-radio-group layout="row" ng-model="breath.chest_rise"   ng-disabled="breath.normal" >
+                                        <md-radio-button value="Shallow" ng-checked="!breath.normal && breath.chest_rise=='Shallow'" class="md-primary">Shallow</md-radio-button>
+                                        <md-radio-button value="Retractions" ng-checked="!breath.normal && breath.chest_rise=='Retractions'" class="md-primary">Retractions </md-radio-button>
+                                        <md-radio-button value="Paradoxical" ng-checked="!breath.normal && breath.chest_rise=='Paradoxical'" class="md-primary">Paradoxical </md-radio-button>
+                                    </md-radio-group>
+<p></p>
+                                        <b>Trachea:</b><md-radio-group layout="row" ng-model="breath.trachea"   ng-disabled="breath.normal">
+                                        <md-radio-button value="Midline" ng-checked="!breath.normal && breath.trachea==true" class="md-primary">Midline</md-radio-button>
+                                        <md-radio-button value="deviated_to_L" ng-checked="!breath.normal && breath.trachea==true" class="md-primary">Deviated to L </md-radio-button>
+                                        <md-radio-button value="deviated_to_R" ng-checked="!breath.normal && breath.trachea==true" class="md-primary">Deviated to R </md-radio-button>
+
+                                    </md-radio-group>
+
+                                        <b>Breath Sounds:<p></p></b><md-radio-group layout="row" ng-model="breath.breath_sound" ng-disabled="breath.normal">
+                                        <md-radio-button value="abdominal_L" ng-checked="!breath.normal && breath.breath_sound==true" class="md-primary">Abdominal L</md-radio-button>
+                                        <md-radio-button value="abdominal_R" ng-checked="!breath.normal && breath.breath_sound==true" class="md-primary">Abdominal R </md-radio-button>
+
+
+                                    </md-radio-group>
+<p></p>
+                                        <label for=""></label>
+                                            <input type="text" ng-disabled="breath.normal" autocomplete="off" ng-model="breath.breath_sound_description"  placeholder="enter Breath sound remarks here ">
+
+
+                                    </td>
+
+                                    <td >
+
+
+                                            <label>Oxygen(L):</label>
+                                            <input type="text" autocomplete="off" ng-model="breath.oxygen"  ng-disabled="breath.normal"  >
+<p></p>
+
+                                        <p></p>
+                                        <md-checkbox ng-model="breath.nc" ng-checked="!breath.normal && breath.nc==true" aria-label="" ng-disabled="breath.normal" >NC</md-checkbox>
+                                        <md-checkbox ng-model="breath.mask" ng-checked="!breath.normal && breath.mask==true" aria-label="" ng-disabled="breath.normal" >Mask</md-checkbox>
+                                        <md-checkbox ng-model="breath.nrb" ng-checked="!breath.normal && breath.nrb==true" aria-label="" ng-disabled="breath.normal" >RNB</md-checkbox>
+                                        <md-checkbox ng-model="breath.bvm" ng-checked="!breath.normal && breath.bvm==true" aria-label=""  ng-disabled="breath.normal">BVM</md-checkbox>
+                                        <md-checkbox ng-model="breath.cpap_bipap" ng-checked="!breath.normal && breath.cpap_bipap==true" aria-label="" ng-disabled="breath.normal" >CPAP/BIPAP</md-checkbox>
+                                        <md-checkbox ng-model="breath.ventilator" ng-checked="!breath.normal && breath.ventilator==true" aria-label="" ng-disabled="breath.normal" >Ventilator</md-checkbox>
+                                    </td>
+                                       <td>
+                                        <b>Chest needle/tube(circles):</b>
+                                           <p></p>
+                                        <b>L:</b>
+<p></p>
+                                               <label>Size:</label>
+                                               <input type="text" ng-disabled="breath.normal" autocomplete="off" ng-model="breath.chest_needle_left_size"   >
+
+                                          
+                                               <label>Depth(cm):</label>
+                                               <input type="text" ng-disabled="breath.normal" autocomplete="off" ng-model="breath.chest_needle_left_depth"   >
+                                            
+<p></p>
+                                           <b>R:</b>
+                              <p></p>
+                                               <label>Size:</label>
+                                               <input type="text" ng-disabled="breath.normal" autocomplete="off" ng-model="breath.chest_needle_right_size"   >
+                                            
+                                               <label>Depth(cm):</label>
+                                               <input type="text" ng-disabled="breath.normal"  ng-model="breath.chest_needle_right_depth"   >
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveBreathingPrimarySurvey(breath,selectedPatient)">Save</md-button>
+                                    </th>
+                                </tr>
+                            </table>
+						</md-content>
+					</md-tab>
+					<md-tab label="CIRCULATION">
+						<md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">C</b>irculation<p></p>
+                                        <md-checkbox ng-model="circulation.normal" aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td >
+                                        <b>Skin:</b>
+                                        <md-checkbox ng-model="circulation.warm" aria-label="" ng-checked="!circulation.normal && circulation.warm==true"  ng-disabled="circulation.normal" >Warm</md-checkbox>
+                                        <md-checkbox ng-model="circulation.dry" aria-label="" ng-checked="!circulation.normal && circulation.dry==true"  ng-disabled="circulation.normal"  >Dry</md-checkbox>
+                                        <md-checkbox ng-model="circulation.pale" aria-label=""  ng-checked="!circulation.normal && circulation.pale==true" ng-disabled="circulation.normal"  >Pale</md-checkbox>
+                                        <md-checkbox ng-model="circulation.cyanotic" aria-label="" ng-checked="!circulation.normal && circulation.cyanotic==true" ng-disabled="circulation.normal"  >Cyanotic</md-checkbox>
+                                        <md-checkbox ng-model="circulation.moist" aria-label="" ng-checked="!circulation.normal && circulation.moist==true" ng-disabled="circulation.normal"  >Moist</md-checkbox>
+                                        <md-checkbox ng-model="circulation.cool" aria-label=""  ng-checked="!circulation.normal && circulation.cool==true" ng-disabled="circulation.normal"  >Cool</md-checkbox>
+
+                                        <p></p>
+                                        <b>Capillary refill:</b>
+                                        <md-radio-group layout="row" ng-model="circulation.capillary_refill" ng-disabled="circulation.normal">
+                                        <md-radio-button value="<2 sec"   class="md-primary">< 3 sec</md-radio-button>
+                                        <md-radio-button value=">=2 sec"  class="md-primary"> >=3 sec </md-radio-button>
+
+
+                                        </md-radio-group>
+                                        <p></p>
+                                        <b>Pulses:</b>
+                                        <md-radio-group layout="row" ng-model="circulation.pulses" ng-disabled="circulation.normal">
+                                            <md-radio-button value="Weak"   class="md-primary">Weak</md-radio-button>
+                                            <md-radio-button value="Asymmetric"  class="md-primary">Asymmetric</md-radio-button>
+
+
+                                        </md-radio-group>
+                                        <input type="text" ng-if="circulation.pulses=='Asymmetric'" ng-disabled="circulation.normal" placeholder="enter Asymmetric value" autocomplete="off" ng-model="circulation.asymmetric_value"   >
+
+                                        <p></p>
+                                        <b>JVD:</b>
+                                        <md-radio-group layout="row" ng-model="circulation.jvd" ng-disabled="circulation.normal">
+                                            <md-radio-button value="yes"   class="md-primary">Yes</md-radio-button>
+                                            <md-radio-button value="no"  class="md-primary"> No </md-radio-button>
+
+                                    </td>
+
+                                    <td colspan="2" >
+                                        <md-checkbox ng-model="circulation.bleeding_controlled" ng-checked="!circulation.normal && circulation.bleeding_controlled==true" ng-disabled="circulation.normal" aria-label=""  >Bleeding Controlled(bandage,tourniquet,direct pressure)</md-checkbox>
+                                        <p></p>
+
+                                        <b>Access:</b>
+                                        <p></p>
+                                        <b>IV:</b>
+                                        <label for="">Loc</label>
+                                        <input type="text" placeholder="Loc" autocomplete="off" ng-model="circulation.iv_loc"  ng-disabled="circulation.normal" >
+                                        <label for="">Size</label>
+                                        <input type="text" placeholder="Size" autocomplete="off" ng-model="circulation.iv_size" ng-disabled="circulation.normal"  >
+                                        <p></p>
+                                        <b>CVL:</b>
+                                        <label for="">Loc</label>
+                                        <input type="text" placeholder="Loc" autocomplete="off" ng-model="circulation.cvl_loc" ng-disabled="circulation.normal"  >
+                                        <label for="">Size</label>
+                                        <input type="text" placeholder="Size" autocomplete="off" ng-model="circulation.cvl_size" ng-disabled="circulation.normal"  >
+                                        <p></p>
+                                        <b>IC:</b>
+                                        <label for="">Loc</label>
+                                        <input type="text" placeholder="Loc" autocomplete="off" ng-model="circulation.ic_loc" ng-disabled="circulation.normal"  >
+                                        <label for="">Size</label>
+                                        <input type="text" placeholder="Size" autocomplete="off" ng-model="circulation.ic_size" ng-disabled="circulation.normal"  >
+                                        <p></p>
+                                        <b>IVF:</b>
+
+                                        <input type="text" placeholder="IVF in mls" autocomplete="off" ng-model="circulation.ivf" ng-disabled="circulation.normal"  >mls
+
+                                        <md-checkbox ng-model="circulation.ns" aria-label=""  ng-checked="!circulation.normal && circulation.ns==true" ng-disabled="circulation.normal" >NS</md-checkbox>
+                                        <md-checkbox ng-model="circulation.lr" aria-label=""  ng-checked="!circulation.normal && circulation.lr==true" ng-disabled="circulation.normal" >LR</md-checkbox>
+
+
+                                        <b>Other:</b>
+
+                                        <input type="text" placeholder="other observations" autocomplete="off" ng-model="circulation.other" ng-disabled="circulation.normal"  >
+<p></p>
+                                        <md-checkbox ng-model="circulation.blood_ordered" ng-checked="!circulation.normal && circulation.blood_ordered==true" aria-label="" ng-disabled="circulation.normal" >Blood Ordered</md-checkbox>
+                                        <md-checkbox ng-model="circulation.pelvic_blinder_placed" ng-checked="!circulation.normal && circulation.pelvic_blinder_placed==true" aria-label="" ng-disabled="circulation.normal" >Pelvic blinder Placed</md-checkbox>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveCirculationPrimarySurvey(circulation,selectedPatient)">Save</md-button>
+                                    </th>
+                                </tr>
+                            </table>
+						</md-content>
+					</md-tab>
+					<md-tab label="DISABILITY">
+						<md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">D</b>isability<p></p>
+                                        <md-checkbox ng-model="disability.normal" aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td colspan="4">
+                                        <b>Blood glucose:</b>
+                                        <input type="text" placeholder="blood glucose" autocomplete="off" ng-model="disability.blood_glucose_value" ng-disabled="disability.normal"  >
+                                        <md-checkbox ng-model="disability.glucose" aria-label="" ng-checked="!disability.normal && disability.glucose==true" ng-disabled="disability.normal" >Glucose</md-checkbox>
+                                        <p></p>
+                                        <b>Responsiveness:</b>
+                                        <md-checkbox ng-model="disability.responsiveness_a" aria-label="" ng-checked="!disability.normal && disability.responsiveness_a==true" ng-disabled="disability.normal" >A</md-checkbox>
+                                        <md-checkbox ng-model="disability.responsiveness_v" aria-label="" ng-checked="!disability.normal && disability.responsiveness_v==true" ng-disabled="disability.normal" >V</md-checkbox>
+                                        <md-checkbox ng-model="disability.responsiveness_p" aria-label="" ng-checked="!disability.normal && disability.responsiveness_p==true" ng-disabled="disability.normal" >P</md-checkbox>
+                                        <md-checkbox ng-model="disability.responsiveness_u" aria-label="" ng-checked="!disability.normal && disability.responsiveness_u==true"  ng-disabled="disability.normal">U</md-checkbox>
+                                        <md-checkbox ng-model="disability.responsiveness_naloxone" aria-label="" ng-checked="!disability.normal && disability.responsiveness_naloxone==true" ng-disabled="disability.normal"  >Naloxone</md-checkbox>
+
+                                        <p></p>
+                                        <b>GCS:</b>
+                                        <i style="color: red" ng-if="gcssummation && gcssummation<1 || gcssummation>15">GCS range is  (3-15)</i>
+                                        <input type="text" placeholder="GCS value"  autocomplete="off" ng-model="gcssummation" disabled  >
+                                        (
+                                        <b>E: </b> <input type="number" placeholder="E capillary" ng-model="disability.gcs_e" ng-keyup="gcsSum(disability)" autocomplete="off"    ng-disabled="disability.normal"   >
+                                       &nbsp; &nbsp; &nbsp; <b>V:</b><input type="number" placeholder="V capillary" autocomplete="off" ng-model="disability.gcs_v" ng-keyup="gcsSum(disability)"    ng-disabled="disability.normal"  >
+                                        &nbsp; &nbsp; &nbsp;  <b>M:</b>  <input type="number" placeholder="M capillary" autocomplete="off" ng-model="disability.gcs_m" ng-keyup="gcsSum(disability)"   ng-disabled="disability.normal"  >
+                                       )
+                                        <p></p>
+                                        <i style="color: red" ng-if="disability.gcs_e && disability.gcs_e<1 || disability.gcs_e>4">E range is  (1-4)</i>
+                                        <i style="color: red" ng-if="disability.gcs_v && disability.gcs_v <1 || disability.gcs_v >5">V range is  (1-5)</i>
+                                        <i style="color: red" ng-if=" disability.gcs_m && disability.gcs_m <1 || disability.gcs_m >6">M range is  (1-6)</i>
+
+                                        <p></p>
+                                        <b>Pupil:</b>
+                                        <b>L:</b>
+                                        <input type="text" placeholder=" Left Pupil" autocomplete="off" ng-model="disability.pupil_l_1" ng-disabled="disability.normal"  >mm->
+                                        <input type="text"   autocomplete="off" ng-model="disability.pupil_l_2" ng-disabled="disability.normal"  >mm
+                                        <b>R:</b>
+                                        <input type="text" placeholder=" Right Pupil" autocomplete="off" ng-model="disability.pupil_r_1" ng-disabled="disability.normal"  >mm->
+                                        <input type="text"   autocomplete="off" ng-model="disability.pupil_r_2" ng-disabled="disability.normal"  >mm
+
+
+
+                                        <p></p>
+                                        <b>Movement Extremities:</b>
+                                        <md-checkbox ng-model="disability.lue" aria-label="" ng-checked="!disability.normal && disability.lue==true" ng-disabled="disability.normal" >LUE</md-checkbox>
+                                        <md-checkbox ng-model="disability.rue" aria-label="" ng-checked="!disability.normal && disability.rue==true" ng-disabled="disability.normal" >RUE</md-checkbox>
+                                        <md-checkbox ng-model="disability.lle" aria-label="" ng-checked="!disability.normal && disability.lle==true" ng-disabled="disability.normal" >LLE</md-checkbox>
+                                        <md-checkbox ng-model="disability.rle" aria-label="" ng-checked="!disability.normal && disability.rle==true"  ng-disabled="disability.normal">RLE</md-checkbox>
+                                        <md-checkbox ng-model="disability.naloxone" aria-label="" ng-checked="!disability.normal && disability.naloxone==true" ng-disabled="disability.normal" >Naloxone</md-checkbox>
+
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-disabled="gcssummation && gcssummation<1 || gcssummation>15 || disability.gcs_m && disability.gcs_m <1 || disability.gcs_m >6 || disability.gcs_v &&  disability.gcs_v <1 || disability.gcs_v >5 || disability.gcs_e && disability.gcs_e <1 || disability.gcs_e >4"
+                                                                ng-click="saveDisabilityPrimarySurvey(disability,selectedPatient,gcssummation)">Save</md-button>
+                                        <i style="color: red" ng-if="gcssummation && gcssummation<1 || gcssummation>15 || disability.gcs_m && disability.gcs_m <1 || disability.gcs_m >6 || disability.gcs_v &&  disability.gcs_v <1 || disability.gcs_v >5 || disability.gcs_e && disability.gcs_e <1 || disability.gcs_e >4">make correction please!</i>
+                                    </th>
+                                </tr>
+                            </table>
+						</md-content>
+					</md-tab>
+					<md-tab label="EXPOSURE">
+						<md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">E</b>xposure<p></p>
+                                        <md-checkbox ng-model="exposure.normal" aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td  colspan="4">
+                                        <md-checkbox ng-model="exposure.exposed_completely" aria-label="" ng-disabled="exposure.normal" ng-checked="!exposure.normal && exposure.exposed_completely==true" >Exposed Completely</md-checkbox>
+
+
+                                    </td>
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveExposurePrimarySurvey(exposure,selectedPatient)">Save</md-button>
+                                    </th>
+                                </tr>
+
+                                </tr>
+                            </table>
+						</md-content>
+					</md-tab>
+					<md-tab label="FAST">
+						<md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">
+                                        <md-checkbox ng-model="fast.not_indicated" aria-label="" ng-disabled="fast.normal" ng-checked="!fast.normal && fast.not_indicated==true" >Not Indicated</md-checkbox>
+<p></p>
+                                        <b style="font-size:xx-large">F</b>ast<p></p>
+                                        <md-checkbox ng-model="fast.normal" aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td  colspan="4">
+                                        <b>Peritoneum:</b> <p></p>
+                                        <md-radio-group layout="row" ng-model="fast.peritoneum" ng-disabled="fast.normal">
+                                            <md-radio-button value="negative"   class="md-primary">Negative</md-radio-button>
+                                            <md-radio-button value="indeterminate"  class="md-primary"> Indeterminate </md-radio-button>
+                                            <md-radio-button value="Not Done"  class="md-primary"> Not Done </md-radio-button>
+
+                                        </md-radio-group>
+                                            <p></p>
+                                          <p></p> <b>Free fluid:</b>
+                                            <input type="text" placeholder="Free fluid " autocomplete="off" ng-model="fast.free_fluid" ng-disabled="fast.normal"  >
+<p></p>
+                                            <b>Chest:</b>
+
+                                            <md-radio-group layout="row" ng-model="fast.chest" ng-disabled="fast.normal">
+                                                <md-radio-button value="negative"   class="md-primary">Negative</md-radio-button>
+                                                <md-radio-button value="indeterminate"  class="md-primary"> Indeterminate </md-radio-button>
+                                                <md-radio-button value="Not Done"  class="md-primary"> Not Done </md-radio-button>
+                                            </md-radio-group>
+                                                <p></p> <b>Pneumothorax(R/l)</b>
+                                                <input type="text" placeholder="Pneumothorax " autocomplete="off" ng-model="fast.pneumothorax" ng-disabled="fast.normal"  >
+                                                <p></p> <b>Pleural fluid(R/l)</b>
+                                                <input type="text" placeholder="Pleural fluid " autocomplete="off" ng-model="fast.pleural_fluid" ng-disabled="fast.normal"  >
+
+                                                <p></p>
+                                                <md-checkbox ng-model="fast.pericardial_effusion" aria-label="" ng-disabled="fast.normal" ng-checked="!fast.normal && fast.pericardial_effusion==true" >Pericardial effusion</md-checkbox>
+                                                <p></p>
+
+                                    </td>
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveFastPrimarySurvey(fast,selectedPatient)">Save</md-button>
+                                    </th>
+                                </tr>
+
+                                </tr>
+
+                            </table>
+						</md-content>
+					</md-tab>
+				</md-tabs>
+			</vertical-tab-pane>
+			
+			<vertical-tab-pane title="MEDICAL HISTORY">
+				<md-tabs>
+					<md-tab label="PAST MEDICAL &  SURGERIES">
+                        <md-content class="md-padding">
+                            <table    >
+
+                                <tr>
+                                    <td ><b >Medications:</b><p></p>
+                                        <textarea rows="4" ng-model="med.medication" placeholder="write Medication history here..." id="medication" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                                        <p></p>
+                                       <b>Past Medical:</b>
+                                        <md-checkbox ng-model="med.past_medical_htn" ng-clicked="med.past_medical_htn==true && saved==0" aria-label=""  >HTN</md-checkbox>
+                                        <md-checkbox ng-model="med.past_medical_diabetes" aria-label="" ng-clicked="med.past_medical_diabetes==true && !saved"  >Diabetes</md-checkbox>
+                                        <md-checkbox ng-model="med.past_medical_copd" aria-label="" ng-clicked="med.past_medical_copd==true && !saved" >COPD</md-checkbox>
+                                        <md-checkbox ng-model="med.past_medical_psychiatric"  ng-clicked="med.past_medical_psychiatric==true && !saved" aria-label=""  >Psychiatric</md-checkbox>
+                                        <md-checkbox ng-model="med.past_medical_renal_disease" ng-clicked="med.past_medical_renal_disease==true && !saved" aria-label=""  >Renal Disease</md-checkbox>
+                                        <textarea rows="2" ng-model="med.other_past_medical"   placeholder="write other Past Medical history here..." id="other_past_medical" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                                        <p></p>
+<b>Past Surgeries(type & date):</b>
+                                        <textarea rows="2" ng-model="med.past_surgeries" placeholder="write other Past Surgical history here..." id="past_surgeries" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                    </td>
+
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveMedicalHistory(med,selectedPatient)">Save</md-button>
+                                    </th>
+                                </tr>
+
+                                </tr>
+                            </table>
+                        </md-content>
+						</md-content>
+					</md-tab>
+					<md-tab label="Allergy and vaccination">
+                        <md-content class="md-padding">
+                            <table    >
+
+                                <tr>
+                                    <td ><b >Allergies:</b>
+                                        <textarea rows="4" ng-model="med.allergies" placeholder="write Allergies history here..." id="allergies" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                                        <p></p>
+                                        <div >
+                                        <b>Pregnant:</b>
+                                        <md-radio-group layout="row" ng-model="med.pregnant"   >
+                                            <md-radio-button value="yes"  class="md-primary" ng-disabled="selectedPatient.gender !='FEMALE'">Yes</md-radio-button>
+                                            <md-radio-button value="no"  class="md-primary" ng-disabled="selectedPatient.gender !='FEMALE'">No </md-radio-button>
+                                            <md-radio-button value="Not Applicable"  class="md-primary">Not Applicable </md-radio-button>
+                                        </md-radio-group></div>
+                                        <p></p>
+                                        <b>Vaccinations up to date?:</b>
+                                        <md-radio-group layout="row" ng-model="med.vaccination_up_to_date"   >
+                                            <md-radio-button value="yes"  class="md-primary">Yes</md-radio-button>
+                                            <md-radio-button value="no"  class="md-primary">No </md-radio-button>
+                                        </md-radio-group>
+                                        <textarea rows="1" ng-if="med.vaccination_up_to_date=='no'" ng-model="med.vaccination_description" placeholder="write  here..." id="vaccination_description" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                        <p></p>
+                                        <b>Substance Use:</b>
+                                        <md-checkbox ng-model="med.tobacco" ng-clicked="med.tobacco==true && saved==0" aria-label=""  >Tobacco</md-checkbox>
+                                        <md-checkbox ng-model="med.alcohol" aria-label="" ng-clicked="med.alcohol==true && !saved"  >Alcohol</md-checkbox>
+                                        <md-checkbox ng-model="med.drugs" aria-label="" ng-clicked="med.drugs==true && !saved" >Drugs</md-checkbox>
+                                        <md-checkbox ng-model="med.iv_drugs" aria-label="" ng-clicked="med.iv_drugs==true && !saved" >IV Drugs</md-checkbox>
+<p></p><div ng-if="selectedPatient.gender=='FEMALE'">
+                                        <b>Last Menstrual Cycle:</b>
+                                        <input type="text" ng-model="med.last_menstrual_cycle" id="last_menstrual_cycle">
+                                        <b>G:</b>
+                                        <input type="text" ng-model="med.last_menstrual_cycle_g" id="last_menstrual_cycle_g">
+                                        <b>P:</b>
+                                        <input type="text" ng-model="med.last_menstrual_cycle_p" id="last_menstrual_cycle_p">
+                                        </div> <p></p>
+                                        <b>Safe Home?:</b>
+                                        <textarea rows="2" ng-model="med.save_home" placeholder="write  here..." id="save_home" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                    </td>
+
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveAllergyHistory(med,selectedPatient)">Save</md-button>
+                                    </th>
+                                </tr>
+
+                                </tr>
+                            </table>
+                        </md-content>
+					</md-tab>
+
+
+				</md-tabs>
+			</vertical-tab-pane>
+			
+			<vertical-tab-pane title="HPI">
+				<md-tabs>
+					<md-tab label="HPI">
+						<md-content class="md-padding">
+							 <table>
+                                 <tr>
+                                     <th colspan="2">HISTORY OF PRESENTING ILLNESS</th>
+                                     <td> <b> Date of Injury:</b>
+                                         <md-datepicker ng-model="hpi.date_of_injury"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                                        required></md-datepicker>
+                                         <b>  Time of Injury:</b>
+
+                                         <input type="text" ng-model="hpi.time_of_injury" required id="time_of_injury">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td colspan="2">Enter exact term from Reference Card for the following <p></p>
+                                     <b>Place of injury</b>
+                                         <textarea rows="2"  ng-model="hpi.place_of_injury" placeholder="write  here..." id="place_of_injury" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                     </td>
+                                     <td >
+                                     <b>Pre-hospital Care given:</b>
+                                          <md-radio-group layout="row" ng-model="hpi.prehospital_care"   >
+                                             <md-radio-button value="None"  class="md-primary">None</md-radio-button>
+                                             <md-radio-button value="lay person"  class="md-primary">lay person </md-radio-button>
+                                             <md-radio-button value="health professional"  class="md-primary">health professional </md-radio-button>
+
+                                         </md-radio-group>
+                                         <p></p>
+                                     <b>Patient's activity of time of injury:</b>
+                                         <textarea rows="2"  ng-model="hpi.patient_activity_injury_time" placeholder="write  here..." id="patient_activity_injury_time" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveHPI(hpi,selectedPatient)">Save</md-button>
+                                     </th>
+                                 </tr>
+                             </table>
+						</md-content>
+					</md-tab>
+					<md-tab label="MECHANISM OF INJURY">
+						<md-content class="md-padding">
+                            <table border="1">
+
+                                <tr>
+                                    <th>
+                                        <md-input-container class="md-block" >
+                                            <label >choose mechanism  Type</label>
+                                        <md-select ng-model="opt">
+
+                                        <md-option ng-value="1">Road Traffic Incident</md-option>
+                                        <md-option ng-value="2">Fall </md-option>
+                                        <md-option ng-value="3">Hit by falling object</md-option>
+                                        <md-option ng-value="4">Stab/Cut</md-option>
+                                        <md-option ng-value="5">Gunshot</md-option>
+                                        <md-option ng-value="6">Sexual Assault  </md-option>
+                                        <md-option ng-value="7">Other blunt force trauma(stuck/hit)  </md-option>
+                                        <md-option ng-value="8">Suffocation Chocking ,Hanging   </md-option>
+                                        <md-option ng-value="9">Drowning  </md-option>
+                                        <md-option ng-value="11">Burn Caused by  </md-option>
+                                        <md-option ng-value="12">Poisoning/Toxic Exposure</md-option>
+                                        <md-option ng-value="13">Unknown </md-option>
+                                        <md-option ng-value="14">NONE </md-option>
+                                    </md-select>
+                                        </md-input-container>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+
+                                    <td  >
+
+                                        <div ng-if="opt==1"><b >
+                                        <md-checkbox ng-model="med.road_trafic_incident" id="road_trafic_incident"     >  Road Traffic Incident:
+                                        </md-checkbox>
+                                    </b>
+                                        </div>
+                                        <div ng-if="opt==1">
+
+                                            <md-radio-group layout="column" ng-model="med.driver_passenger_pedestrian"   >
+                                                <md-radio-button value="Driver"  class="md-primary">Driver</md-radio-button>
+                                                <md-radio-button value="Passenger"  class="md-primary">Passenger</md-radio-button>
+                                                <md-radio-button value="Pedestrian"  class="md-primary">Pedestrian</md-radio-button>
+                                            </md-radio-group>
+                                                <p></p>
+                                          <md-radio-group layout="column" ng-model="med.airbag_seatbelt_restraint"   >
+                                                <md-radio-button value="Airbeg"  class="md-primary">Airbeg</md-radio-button>
+                                                <md-radio-button value="Seat belt"  class="md-primary">Seat belt</md-radio-button>
+                                                <md-radio-button value="Other Vehicle restraint"  class="md-primary">Other Vehicle restraint</md-radio-button>
+                                            </md-radio-group>
+
+                                        <p></p>
+                                        <b>Vehicle involved:</b>
+                                            <md-input-container class="md-block">
+                                                <label for="">Choose Vehicle involved</label>
+                                            <md-select ng-model="med.vehicle_involved" required="">
+
+                                                <md-option   class="md-primary"> </md-option>
+                                                <md-option value="Motorcycle"  class="md-primary">Motorcycle</md-option>
+                                                <md-option value="Car"  class="md-primary">Car (salon, SUV etc)</md-option>
+                                                <md-option value="Truck"  class="md-primary">Truck (Lories, Canter etc.)</md-option>
+                                                <md-option value="Bus"  class="md-primary">Bus</md-option>
+                                                <md-option value="Motorcycle (two wheeler)"  class="md-primary">Motorcycle (two wheeler)</md-option>
+                                                <md-option value="Tricycle-motorised (Bajaj etc.) "  class="md-primary">Tricycle-motorised (Bajaj etc.)  </md-option>
+                                                <md-option value="Bicycle-non-motorised "  class="md-primary">Bicycle-non-motorised   </md-option>
+                                                <md-option value="Non-motorised tricycle (Guta etc.)"  class="md-primary">Non-motorised tricycle (Guta etc.)    </md-option>
+                                                <md-option value="Animal trailer (cart etc.)"  class="md-primary">Animal trailer (cart etc.)</md-option>
+                                                <md-option value="Tractor"  class="md-primary">Tractor</md-option>
+                                                <md-option value="Train"  class="md-primary">Train</md-option>
+
+</md-select>
+                                            </md-input-container>
+
+                                            <p></p>
+<p></p>
+                                        <b>Other Vehicle involved:</b><input type="text"  ng-model="med.other_vehicle_involved">
+                                        <p></p>
+
+                                        <b>Crashed with/hit by:</b><input type="text"  ng-model="med.crashed_with">
+<p></p>
+                                        <md-checkbox ng-model="med.extricated"   aria-label=""  >Extricated</md-checkbox>
+
+
+                                        <p></p>
+                                        <md-checkbox ng-model="med.ejected"   aria-label=""  >Ejected</md-checkbox>&nbsp;&nbsp;
+<p></p>
+
+                                        </div>
+                                        <p></p>
+                                        <div ng-if="opt==2">
+                                            <b><md-checkbox  ng-model="med.fall"  id="fall"  ng-checked="opt==2"  >Fall from: </md-checkbox></b><textarea rows="2" ng-model="med.fall_from" ng-if="med.fall"  placeholder="write  here" id="fall_from" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+                                            &nbsp;&nbsp;
+                                        <p></p>
+                                        </div>
+                                        <div ng-if="opt==3">
+                                        <b>Hit by falling object:</b>
+                                            <textarea rows="2" ng-model="med.hit_by_falling_object"   placeholder="write  here" id="hit_by_falling_object" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                            <p></p></div>
+                                        <div ng-if="opt==4">
+                                        <b>Stab/Cut:</b> &nbsp;&nbsp;
+                                            <textarea rows="2" ng-model="med.stab_cut"   placeholder="write    here" id="stab_cut" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                        </div>
+                                        <p></p>
+                                        <div ng-if="opt==5">
+                                        <md-checkbox ng-model="med.gunshot"   ng-checked="opt==5" >Gunshot</md-checkbox>&nbsp;&nbsp;
+                                        </div>
+                                        <div ng-if="opt==6">
+                                        <md-checkbox ng-model="med.sexual_assault"  ng-checked="opt==6"  >Sexual Assault</md-checkbox>&nbsp;&nbsp;
+                                        <p></p>
+                                        </div>
+                                        <div ng-if="opt==7">
+                                        <b>Other blunt force trauma(stuck/hit)</b> &nbsp;&nbsp;
+                                            <textarea rows="2" ng-model="med.other_bunt_force"   placeholder="write  here" id="other_bunt_force" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+
+                                        </div>
+                                        <p></p>
+                                        <div ng-if="opt==8">
+                                        <md-checkbox ng-model="med.suffocation_choking_hanging"  ng-checked="opt==8" aria-label=""  ><b>Suffocation Chocking ,Hanging</b></md-checkbox>&nbsp;&nbsp;
+                                        <p></p>
+                                        </div>
+                                        <div ng-if="opt==9">
+                                        <b>Drowning:</b>
+                                            <textarea rows="2" ng-model="med.drowning"   placeholder="write drowning descriptions here" id="drowning" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+
+                                        </div>
+
+                                        <div ng-if="opt==11">
+                                        <b>Burn Caused by:</b> &nbsp;&nbsp;
+                                            <textarea rows="2" ng-model="med.burn_caused_by"   placeholder="write    here" id="burn_caused_by" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                            <p></p>
+                                        </div>
+                                        <div ng-if="opt==12">
+                                        <b>Poisoning/Toxic Exposure:</b>
+                                            <textarea rows="2" ng-model="med.poisoning_toxic_exposure"   placeholder="write    here" id="poisoning_toxic_exposure" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+
+                                        <p></p>
+                                        </div>
+
+                                        <div ng-if="opt==13">
+                                        <md-checkbox ng-model="med.unknown"  ng-checked="opt==13" aria-label=""  >Unknown</md-checkbox>&nbsp;&nbsp;
+                                        </div>
+                                        <div ng-if="opt && opt==14">
+                                        <md-checkbox ng-model="med.road_traffic_incident_none" ng-checked="opt==14">NONE   </md-checkbox>
+                                        </div>
+                                        <p></p>
+                                        <div ng-if="opt !=14 ">
+                                        <b>Other:</b>
+
+                                       &nbsp;&nbsp;
+                                        <textarea rows="2" ng-model="med.other"   placeholder="write other descriptions or remarks  here" id="other" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                        </div>
+                                    </td>
+                                    <td > <b>Intent:</b>
+                                        <md-radio-group layout="column" ng-model="med.intent"   >
+                                            <md-radio-button value="Unintentional or accidental"  class="md-primary">Unintentional or accidental</md-radio-button>
+                                            <md-radio-button value="Intentional"  class="md-primary">Intentional </md-radio-button>
+                                            <md-radio-button value="Self Harm"  class="md-primary">Self Harm </md-radio-button>
+                                            <md-radio-button value="Assault"  class="md-primary">Assault </md-radio-button>
+                                            <md-radio-button value="Legal process,political unarest or war"  class="md-primary">Legal process,political unrest or war </md-radio-button>
+                                            <md-radio-button value="Unknown"  class="md-primary">Unknown </md-radio-button>
+                                        </md-radio-group>
+                                        <p></p>
+<div ng-if="med.intent=='Assault'">
+                                        <b>Assaulted By(see Reference Card):</b><input type="text"  ng-model="med.assaulted_by">&nbsp;&nbsp;
+                                       <p></p>
+</div>
+                                        <b>Hours since last meal:</b><input type="text"  ng-model="med.hours_since_last_meal">&nbsp;&nbsp;
+                                  <p></p>
+                                        <b>Substance use within 6 hours of injury:</b>
+                                        <md-radio-group layout="column" ng-model="med.substance_six_hour_injury">
+                                             <md-radio-button value="Unknown"  class="md-primary">Unknown </md-radio-button>
+                                             <md-radio-button value="None"  class="md-primary">None </md-radio-button>
+                                             <md-radio-button value="Reported"  class="md-primary">Reported </md-radio-button>
+                                             <md-radio-button value="Evidence(positive test or findings)"  class="md-primary">Evidence(positive test or findings) </md-radio-button>
+                                             <md-radio-button value="Alcohol"  class="md-primary">Alcohol </md-radio-button>
+                                             <md-radio-button value="Other Substance"  class="md-primary">Other Substance </md-radio-button>
+                                        </md-radio-group>
+                                        <b ng-if="med.substance_six_hour_injury=='Other Substance'" >Other Substance(if known):</b><input type="text" ng-if="med.substance_six_hour_injury=='Other Substance'"  ng-model="med.other_substance">&nbsp;&nbsp;
+                                        <p></p>
+
+                                        <table border="1">
+
+                                            <tr>
+                                                <td>
+                                                    <b>Details of Intent</b> <p></p>
+                                                    <b><i>Loss of Consciousness:</i></b>
+                                                    <md-radio-group layout="row" ng-model="med.loss_of_consciousness"   >
+                                                        <md-radio-button value="<5 min"  class="md-primary"><5 minites</md-radio-button>
+                                                        <md-radio-button value="5-29 min"  class="md-primary">5-29 Minutes </md-radio-button>
+                                                        <md-radio-button value="30-24 hr"  class="md-primary">30-24 hours </md-radio-button>
+                                                        <md-radio-button value="None"  class="md-primary">None </md-radio-button>
+                                                       </md-radio-group>
+                                                    <p></p>
+                                                    <b><i>Trauma:</i></b>
+                                                    <md-radio-group layout="row" ng-model="med.trauma"   >
+                                                        <md-radio-button value="Head"  class="md-primary">Head</md-radio-button>
+                                                        <md-radio-button value="Neck"  class="md-primary">Neck </md-radio-button>
+                                                        <md-radio-button value="Chest"  class="md-primary">Chest</md-radio-button>
+                                                        <md-radio-button value="None of these"  class="md-primary">None of these</md-radio-button>
+                                                       </md-radio-group>
+                                                    <p></p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4"> <md-button class="md-raised md-primary" ng-click="saveInjuryMechanism(med,selectedPatient,opt)">Save</md-button>
+                                    </th>
+                                </tr>
+                            </table>
+						</md-content>
+					</md-tab>
+
+				</md-tabs>
+			</vertical-tab-pane>
+			
+			<vertical-tab-pane title="PHYSICAL EXAM">
+				 <table class="table-striped"  style="border:thin solid black; width:100%">
+                     <tr  style="border:thin solid black; background-color: silver">
+                         <td colspan="4"><b>PHYSICAL EXAMINATION</b>(see reference Card for normal findings. Do NOT mark NML unless all key elements are normal)</td>
+                     </tr>
+                     <tr>
+                         <td> <md-checkbox ng-model="med.general_normal " ng-click="clearFields('general_normal')" ng-disabled="med.general_examination"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>General</th>
+                         <td> <textarea rows="2" ng-model="med.general_examination" ng-disabled="med.general_normal " placeholder="write  here..." id="general_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                        <i>write <b>none</b>  if not applicable</i>
+                         </td>
+                         <td colspan="2" rowspan="11"> </td>
+                     </tr>
+                     <tr>
+                         <td> <md-checkbox ng-model="med.heent_normal"   ng-disabled="med.general_normal || med.heent_examination" ng-checked="!med.general_normal && med.heent_normal==true"    aria-label=""  >NML</md-checkbox>
+
+                         </td>
+                         <th>HEENT</th>
+                         <td> <textarea rows="2" ng-model="med.heent_examination"  ng-disabled="med.general_normal || med.heent_normal" placeholder="write  here..." id="heent_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i>
+                         </td>
+
+                     </tr>
+                     <tr>
+                         <td> <md-checkbox ng-model="med.neuro_normal"    ng-disabled="med.general_normal || med.neuro_examination" ng-checked="!med.general_normal && med.neuro_normal==true"   aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Neuro</th>
+                         <td> <textarea rows="2" ng-model="med.neuro_examination" ng-disabled="med.general_normal || med.neuro_normal" placeholder="write  here..." id="neuro_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i> </td>
+
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox ng-model="med.neck_normal"  ng-disabled="med.general_normal || med.neck_examination" ng-checked="!med.general_normal && med.neck_normal==true"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Neck</th>
+                         <td> <textarea rows="2" ng-model="med.neck_examination" ng-disabled="med.general_normal || med.neck_normal" placeholder="write  here..." id="neck_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i></td>
+
+                     </tr>
+                  <tr>
+                         <td> <md-checkbox ng-model="med.pulm_chest_normal"    ng-disabled="med.general_normal || med.pulm_chest_examination"  ng-checked="!med.general_normal && med.pulm_chest_normal==true" aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Pulm/Chest</th>
+                         <td> <textarea rows="2" ng-model="med.pulm_chest_examination" ng-disabled="med.general_normal || med.pulm_chest_normal" placeholder="write  here..." id="pulm_chest_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i> </td>
+
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox ng-model="med.cardiac_normal"    ng-disabled="med.general_normal || med.cardiac_examination" ng-checked="!med.general_normal && med.cardiac_normal==true"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Cardiac</th>
+                         <td> <textarea rows="2" ng-model="med.cardiac_examination" ng-disabled="med.general_normal || med.cardiac_normal" placeholder="write  here..." id="cardiac_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i> </td>
+
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox ng-model="med.abdominal_normal"    ng-disabled="med.general_normal || med.abdominal_examination" ng-checked="!med.general_normal && med.abdominal_normal==true"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Abdominal</th>
+                         <td> <textarea rows="2" ng-model="med.abdominal_examination" ng-disabled="med.general_normal || med.abdominal_normal" placeholder="write  here..." id="abdominal_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i>  </td>
+                         <td colspan="2"></td>
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox ng-model="med.gu_rectal_normal"    ng-disabled="med.general_normal || med.gu_rectal_examination" ng-checked="!med.general_normal && med.gu_rectal_normal==true"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>GU/Rectal</th>
+                         <td> <textarea rows="2" ng-model="med.gu_rectal_examination" ng-disabled="med.general_normal || med.gu_rectal_normal" placeholder="write  here..." id="gu_rectal_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i>  </td>
+
+                     </tr>
+                  <tr>
+                         <td> <md-checkbox ng-model="med.back_normal"    ng-disabled="med.general_normal || med.back_examination"  ng-checked="!med.general_normal && med.back_normal==true" aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Back</th>
+                         <td> <textarea rows="2" ng-model="med.back_examination" ng-disabled="med.general_normal || med.back_normal" placeholder="write  here..." id="back_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i> </td>
+
+                     </tr>
+                  <tr>
+                         <td> <md-checkbox ng-model="med.msk_skin_normal"   ng-disabled="med.general_normal || med.msk_skin_examination" ng-checked="!med.general_normal && med.msk_skin_normal==true"   aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>MSK/Skin</th>
+                         <td> <textarea rows="2" ng-model="med.msk_skin_examination" ng-disabled="med.general_normal || med.msk_skin_normal" placeholder="write  here..." id="msk_skin_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <i>write <b>none</b> if not applicable</i> </td>
+
+                     </tr>
+                     <tr>
+                         <th colspan="4"> <md-button class="md-raised md-primary" ng-click="savePhysicalExam(med,selectedPatient)">Save</md-button>
+                         </th>
+                     </tr>
+                 </table>
+			</vertical-tab-pane>
+			
+			<vertical-tab-pane title="INVESTIGATION">
+                <table class="table-striped" border="1"  style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+                        <th colspan="8">LAB RESULTS:</th>
+                        <th colspan="8">IMAGING RESULTS:</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <b>UPT:</b> <textarea rows="2" ng-disabled="selectedPatient.gender=='MALE'"  ng-model="med.upt" id="upt" placeholder="enter UPT result " autocomplete="off" md-select-on-focus style="width: 100%; height: 118px; margin-top: 0px; margin-bottom: 0px;"  ></textarea>
+                          <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b>Hgb(<i>g/dl</i>):</b><textarea rows="2"   ng-model="med.hgb" id="hgb" placeholder="enter Hgb result in g/dl" autocomplete="off" md-select-on-focus style="width: 100%; height: 118px; margin-top: 0px; margin-bottom: 0px;" onkeyup="money(this, event)"></textarea>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b>Blood Grouping  Done?:</b>
+                            <md-radio-group layout="column" ng-model="med.blood_given"   >
+                                <md-radio-button value="not"  class="md-primary">NOT done</md-radio-button>
+                                <md-radio-button value="yes"  class="md-primary">YES </md-radio-button>
+                            </md-radio-group>
+                            <p></p>
+                            <div ng-if="med.blood_given =='yes'">
+
+                            <b>Blood Grouping type:</b>
+                            <md-input-container class="md-block" >
+                            <label >choose blood type</label>
+                            <md-select ng-model="med.blood_type">
+                                <md-option ></md-option>
+                                <md-option value="A+">A+</md-option>
+                                <md-option value="A-">A-</md-option>
+                                <md-option value="B+">B+</md-option>
+                                <md-option value="B-">B-</md-option>
+                                <md-option value="AB+">AB+</md-option>
+                                <md-option value="AB-">AB-</md-option>
+                                <md-option value="O+">O+</md-option>
+                                <md-option value="O-">O-</md-option>
+                            </md-select>
+                        </md-input-container>
+                            </div>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b>Other Lab results:</b>
+                            <textarea rows="2" ng-model="med.other_lab_result"   placeholder="write other descriptions or remarks or other lab results  here" id="other_lab_result" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b> <md-checkbox ng-model="med.result_pending" >Result pending</md-checkbox></b>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <md-button class="md-raised md-primary" ng-click="saveLabResult(med,selectedPatient)">Save Lab result</md-button>
+
+                        </td>
+                        <td colspan="8">
+                            <b> <md-checkbox ng-model="nondone" >None Done</md-checkbox></b>
+                            <p></p>
+                            <div ng-if="!nondone">
+
+
+                            <b>Pneumothorax:</b><textarea rows="2"   ng-model="med.pneumothorax" id="pneumothorax" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                             <b>Pleural Fluid:</b><textarea rows="2"   ng-model="med.pleural_fluid" id="pleural_fluid" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Rib Fracture:</b><textarea rows="2"   ng-model="med.rib_fracture" id="rib_fracture" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Pulmonary Opacity:</b><textarea rows="2"   ng-model="med.palmonary_opacity" id="palmonary_opacity" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                          <b>C-spine Fracture:</b><textarea rows="2"   ng-model="med.c_spine_fracture" id="c_spine_fracture" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                           <b>Extremity Fracture:</b><textarea rows="2"   ng-model="med.extremity_fracture" id="extremity_fracture" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Pelvic Fracture:</b><textarea rows="2"   ng-model="med.pelvic_fracture" id="pelvic_fracture" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                          <b>Wide Mediastinum:</b><textarea rows="2"   ng-model="med.wide_mediastinum" id="wide_mediastinum" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                           <b>Other Imaging results:</b><textarea rows="2"   ng-model="med.other_image_result" id="other_image_result" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>  <md-button class="md-raised md-primary" ng-click="saveImagingResult(med,selectedPatient)">Save Imaging result</md-button>
+
+                        </td>
+
+                    </tr>
+                </table>
+			</vertical-tab-pane>
+			
+			<vertical-tab-pane title="ADD. INTERVENTIONS">
+                <table class="table-striped" border="1"  style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+                        <th colspan="16">ADDITIONAL INVERVENTIONS:</th>
+
+                    </tr>
+                    <tr  style="border:thin solid black; background-color:beige">
+                        <th colspan="8">Fluids and Medications Given(<i>include time</i>):</th>
+                        <th colspan="8">Procedures (<i>include time and outcome</i>):</th>
+                    </tr>
+                    <tr>
+
+                        <td colspan="8">
+                            <b> <md-checkbox ng-model="med.ivf" >Intravenous fluids(in mls):</md-checkbox></b>
+                            <p></p>
+<div ng-if="med.ivf">
+                            <b>Normal Saline:</b><textarea rows="2"   ng-model="med.ns" id="ns" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea> Time:<input type="time" ng-model="med.ns_time">
+                            <p></p>
+                            <b>Ringer’s Lactate:</b><textarea rows="2"   ng-model="med.lr" id="lr" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea> Time:<input type="time" ng-model="med.lr_time">
+                            <p></p>
+                            <b>Other:</b><textarea rows="2"   ng-model="med.other_fluid" id="other_fluid" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea> Time:<input type="time" ng-model="med.other_fluid_time">
+                            <p></p>
+</div>
+                            <md-checkbox ng-model="med.blood_products"><b>Blood products (Specify number of units given)</b></md-checkbox>
+                            <p></p>
+                            <div ng-if="med.blood_products">
+                            <b>Whole Blood</b><textarea rows="2"   ng-model="med.whole_blood" id="whole_blood" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>PRBC:</b><textarea rows="2"   ng-model="med.prbc" id="prbc" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>FFP:</b><textarea rows="2"   ng-model="med.ffp" id="ffp" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Platelets:</b><textarea rows="2"   ng-model="med.platelets" id="platelets" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            </div>
+                            <b>Opioid Analgesia:</b><textarea rows="2"   ng-model="med.oploid_analgesia" id="oploid_analgesia" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Other Analgesia:</b><textarea rows="2"   ng-model="med.other_analgesia" id="other_analgesia" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Sedation and Paralytics:</b><textarea rows="2"   ng-model="med.sedation_paralytics" id="sedation_paralytics" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Antibiotics:</b><textarea rows="2"   ng-model="med.antibiotics" id="antibiotics" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Tetanus:</b><textarea rows="2"   ng-model="med.tetanus" id="tetanus" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Other:</b><textarea rows="2"   ng-model="med.other" id="other" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <md-button class="md-raised md-primary" ng-click="saveFluidandMedication(med,selectedPatient)">Save Fluid and Medication</md-button>
+
+                        </td>
+                        <td colspan="8">
+                            <b> <md-checkbox ng-model="med.nondone" >None Done</md-checkbox></b>
+                            <p></p>
+                            <div ng-if="!med.nondone">
+                            <b>Cricothyroidotomy:</b><textarea rows="2"   ng-model="med.cricothyroidotomy" id="cricothyroidotomy" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Intubation:</b><textarea rows="2"   ng-model="med.intubation" id="intubation" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b> Chest Tube:</b><textarea rows="2"   ng-model="med.chest_tube" id="chest_tube" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Pericardiocentesis:</b><textarea rows="2"   ng-model="med.pericardiocentesis" id="pericardiocentesis" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Open Thoracotomy:</b><textarea rows="2"   ng-model="med.open_thoracotomy" id="open_thoracotomy" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Splinting:</b><textarea rows="2"   ng-model="med.splinting" id="splinting" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Fracture Reduction/Pelvic Stabilisation:</b><textarea rows="2"   ng-model="med.fracture_red_pelvic_stab" id="fracture_red_pelvic_stab" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Foreign Body removal:</b><textarea rows="2"   ng-model="med.foreign_body_removal" id="foreign_body_removal" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Simple /Complex Laceration Repair:</b><textarea rows="2"   ng-model="med.simple_complex_lac_repair" id="simple_complex_lac_repair" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b ng-if="">Other Imaging results:</b><textarea rows="2" ng-if=""  ng-model="med.other_procedure" id="other_procedure" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <md-button class="md-raised md-primary" ng-click="saveProcedure(med,selectedPatient)">Save Procedure</md-button>
+
+                        </td>
+
+                    </tr>
+                </table>
+			</vertical-tab-pane>
+			
+
+			<vertical-tab-pane title="ASSESSMENT&PLAN">
+
+
+                <table class="table-striped" border="1"    style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+                        <th colspan="16">ASSESSMENT(<i>include summary and differential </i>) AND PLAN (<i> imaging, meds/intervation, consults, etc</i>)</th>
+
+                    </tr>
+                    <tr  style="border:thin solid black; background-color:beige">
+                        <th colspan="8">ASSESSMENT:</th>
+                        <th colspan="8">PLAN: </th>
+                    </tr>
+                    <tr>
+
+                        <td colspan="8">
+
+                            <b>Summary:</b><textarea rows="2"   ng-model="med.summary" id="summary" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Consultant( <i>time called,time arrived, recommendations</i>):</b><textarea rows="2"   ng-model="med.consultant" id="consultant" placeholder="write here  Consultants time called,time arrived, recommendations" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="selectedConfirmed" typeahead-on-select="addConf($item,selectedPatient,'Differential')"
+                                       placeholder="Type ICD code or diagnosis to  Search" id="selectedConfirmed"
+                                       uib-typeahead="conf as conf.description+' '+conf.code for conf in showDiagnosis($viewValue) | filter:$viewValue | limitTo:30">
+                            </md-input-container>
+                            <table>
+                                <tr ng-repeat="conf in diagnosisTemp">
+                                    <td >{{conf.description}}-{{conf.diagnosis_code}} <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(conf,diagnosisTemp)"></span></td>
+                                </tr>
+                            </table>
+                            <p></p>
+                            <b>Other Differentials:</b><textarea rows="2"   ng-model="med.other_differential" id="other_differential" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+
+                        </td>
+                        <td colspan="8">
+
+                            <b>Imaging:</b><textarea rows="2"   ng-model="med.imaging" id="imaging" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Medication:</b><textarea rows="2"   ng-model="med.medication" id="medication" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Intervention:</b><textarea rows="2"   ng-model="med.intervention" id="intervention" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <p></p>
+                            <b>Consults:</b><textarea rows="2"   ng-model="med.consults" id="consults" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Other:</b><textarea rows="2"   ng-model="med.other_plan" id="other_plan" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+                        <th colspan="16"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <md-button class="md-raised md-primary" ng-click="saveAssesementandPlan(med,selectedPatient)">Save ASSESSMENT and Plan</md-button>
+                        </th>
+                    </tr>
+                </table>
+			</vertical-tab-pane>
+            <vertical-tab-pane title="RE-ASSESSMENT">
+                <table class="table-striped" border="1"   style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+
+
+                    </tr>
+                    <tr  style="border:thin solid black; background-color:beige">
+                        <th colspan="16">RE-ASSESSMENT</th>
+                    </tr>
+                    <tr>
+
+                        <td colspan="8">
+
+                            <b>Re-assessment Time(<i>indicate AM or PM</i>):</b><textarea rows="2"   ng-model="med.re_assement_at" id="re_assement_at" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Temperature:</b><textarea rows="2"   ng-model="med.re_assement_temp" id="re_assement_temp" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>HR:</b><textarea rows="2"   ng-model="med.re_assement_bp" id="re_assement_bp" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>RR:</b><textarea rows="2"   ng-model="med.re_assement_rr" id="re_assement_rr" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <p></p>
+                            <b>SpO<sub>2</sub>(% on L):</b><textarea rows="2"   ng-model="med.re_assement_spo2" id="re_assement_spo2" placeholder="write here" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+                        </td>
+                        <td colspan="8">
+                            <b>Condition:</b>
+                            <md-radio-group layout="row" ng-model="med.condition_change"   >
+                                <md-radio-button value="Same"  class="md-primary">Same</md-radio-button>
+                                <md-radio-button value="Changed"  class="md-primary">Changed </md-radio-button>
+                            </md-radio-group>
+                            <textarea rows="2" ng-if="med.condition_change=='Changed'"   ng-model="med.condition_change_description" id="condition_change_description" placeholder="write here changes observed" autocomplete="off" md-select-on-focus style="width: 100%; height: 325px;"></textarea>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="16"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <md-button class="md-raised md-primary" ng-click="saveReAssesementandPlan(med,selectedPatient)">Save ASSESSMENT and Plan</md-button>
+                        </th>
+                    </tr>
+                </table>
+            </vertical-tab-pane>
+			<md-tab label="History"   ng-click="loadHistory(selectedPatient.client_id)" >
+            <vertical-tabs>
+            <vertical-tab-pane title="CHIEF COMPLAINT">
+                <md-content class="md-padding">
+
+                        <textarea rows="6" ng-disabled="true"  placeholder="{{chief_complaints[0].complaint}}" id="chief_complaint" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                        <p></p>
+
+                    <section layout="row" layout-sm="row"  class="pull-left" layout-wrap>
+                        <md-checkbox ng-disabled="true" 
+                        ng-checked="chief_complaints[0].mass_casualty==1">Mass Casualty</md-checkbox>
+                        <md-checkbox ng-disabled="true"  ng-checked="chief_complaints[0].dead_on_arrival==1" aria-label=""  >Dead on arrival</md-checkbox>
+
+
+                    </section>
+
+                        
+
+                </md-content>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="LOCATION OF INJURY">
+                <md-content class="md-padding">
+                    <div  >
+
+                        <div layout-gt-sm="row" >
+                            <md-input-container ng-disabled="true" class="md-block" flex-gt-sm>
+                                <label>Ward</label>
+                                <input type="text" ng-disabled="true" placeholder="{{accloaction[0].ward}}">
+                            </md-input-container>
+
+                            <md-input-container   class="md-block" flex-gt-sm>
+                                <label>Street</label>
+                                <input type="text" ng-disabled="true" placeholder="{{accloaction[0].street}}">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container ng-disabled="true" class="md-block" flex-gt-sm>
+                                <label>Common name</label>
+                                <input type="text" ng-disabled="true" placeholder="{{accloaction[0].common_name}}">
+                            </md-input-container>
+                            <md-input-container ng-disabled="true" class="md-block" flex-gt-sm>
+                                <label>Road name</label>
+                                <input type="text" ng-disabled="true" placeholder="{{accloaction[0].road_name}}">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container ng-disabled="true" class="md-block" flex-gt-sm>
+                                <label>House Number</label>
+                                <input type="text" ng-disabled="true" placeholder="{{accloaction[0].house_namber}}">
+                            </md-input-container>
+                            <md-input-container ng-disabled="true" class="md-block" flex-gt-sm>
+                                <label>Head of Household</label>
+         <input type="text" ng-disabled="true" placeholder="{{accloaction[0].head_of_household}}">
+                            </md-input-container>
+                        </div>
+                       
+
+                    </div>
+                </md-content>
+            </vertical-tab-pane>
+                <vertical-tab-pane title="PRIMARY SURVEY">
+                <md-tabs>
+                    <md-tab label="AIRWAYS">
+                        <md-content class="md-padding">
+                            <div class="row">
+                                 <table border="1"  >
+                                     <tr style="border:thin solid black; background-color: silver">
+                                         <th colspan="4">
+                                             PRIMARY SURVEY  
+                                         </th>
+                                     </tr>
+                                     <tr>
+                                         <td rowspan="3"><b style="font-size:xx-large">A</b>irway<p></p>
+                                             <md-checkbox ng-disabled="true" ng-checked="airway[0].normal==1" aria-label=""   >NML</md-checkbox>
+                                         </td>
+                                         <td >
+                                             <md-checkbox  ng-disabled='true' ng-checked="airway[0].angioedema==1"  aria-label=""   >angioedema</md-checkbox>
+                                             <md-checkbox   ng-checked="  airway[0].stridor==1"    aria-label="" ng-disabled="true"  >Stridor</md-checkbox>
+                                             <md-checkbox  ng-checked="  airway[0].voice_changes==1"   aria-label="" ng-disabled="true" >Voice changes</md-checkbox>
+                                             <md-checkbox  ng-checked=" airway[0].oral_airway_burns==1"  aria-label="" ng-disabled="true" >Oral/airway burns</md-checkbox>
+
+                                             <p></p>
+                                             <b>Obstructed by:</b>
+                                             <md-checkbox   ng-checked=" airway[0].tongue==1" aria-label="" ng-disabled="true" >Tongue</md-checkbox>
+                                             <md-checkbox  ng-checked=" airway[0].blood==1" aria-label=""  ng-disabled="true">Blood</md-checkbox>
+                                             <md-checkbox   ng-checked=" airway[0].secretion==1" aria-label="" ng-disabled="true" >Secretion</md-checkbox>
+                                             <md-checkbox  ng-checked=" airway[0].vomit==1" aria-label=""  ng-disabled="true">Vomit</md-checkbox>
+                                             <md-checkbox   ng-checked=" airway[0].foreign_body==1" aria-label=""  ng-disabled="true">Foreign body</md-checkbox>
+
+                                         </td>
+
+                                         <td >
+
+                                             <b>Airway Manipulation:</b>
+                                             <md-checkbox n ng-checked=" airway[0].repostioning==1" aria-label="" ng-disabled="true" >Repostioning</md-checkbox>
+                                             <md-checkbox   ng-checked=" airway[0].suction==1" aria-label=""  ng-disabled="true">Suction</md-checkbox>
+
+                                             <p></p>
+                                             <b>Airway :</b>
+                                             <md-checkbox  ng-checked=" airway[0].opa==1" aria-label="" ng-disabled="true" >OPA</md-checkbox>
+                                             <md-checkbox  ng-checked=" airway[0].npa==1" aria-label="" ng-disabled="true" >NPA</md-checkbox>
+                                             <md-checkbox   ng-checked=" airway[0].lma==1" aria-label="" ng-disabled="true" >LMA</md-checkbox>
+                                             <md-checkbox   ng-checked=" airway[0].bvm==1" aria-label=""  ng-disabled="true">BVM</md-checkbox>
+                                             <md-checkbox  ng-checked=" airway[0].ett==1" aria-label="" ng-disabled="true" >ETT</md-checkbox>
+
+                                             <p></p>
+                                             <b>Cervical collar:</b>
+                                             <md-checkbox    ng-checked=" airway[0].none_needed==1" aria-label="" ng-disabled="true" >None needed</md-checkbox>
+                                             <md-checkbox   ng-checked="  airway[0].placed_before_arrival==1" aria-label="" ng-disabled="true" >Placed before arrival</md-checkbox>
+                                             <md-checkbox   ng-checked=" airway[0].placed_in_eu==1" ng-disabled="true"aria-label=""  >Placed in EU</md-checkbox>
+                                             <p></p>(none needed=not altered, no pain or TTP, no distracting injury)
+
+                                         </td>
+                                     </tr>
+                                      
+                                 </table>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="BREATHING">
+                        <md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY  
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">B</b>reathing<p></p>
+                                        <md-checkbox ng-checked=" breath[0].normal==1" ng-disabled="true"  aria-label=""   >NML</md-checkbox>
+                                    </td>
+                                    <td >
+                                        <b>Spontaneous Respiration:</b> {{breath[0].spontaneous_prespiration}}
+<p></p>
+                                        <b>Chest Raise:</b>{{breath[0].chest_rise}}
+<p></p>
+                                <b>Trachea:</b>  {{breath[0].trachea}}
+
+                                        <b>Breath Sounds:<p></p></b> {{breath[0].breath_sound}}
+<p></p>
+                                        <label for="">Breath sound</label>
+                                            <input type="text" ng-disabled="true" autocomplete="off"  placeholder="{{breath[0].breath_sound_description}} ">
+
+
+                                    </td>
+
+                                    <td >
+
+
+                                            <label>Oxygen(L):</label>{{breath[0].oxygen}}
+                                             
+<p></p>
+
+                                        <p></p>
+                                        <md-checkbox   ng-checked="breath[0].nc==1" aria-label="" ng-disabled="true" >NC</md-checkbox>
+                                        <md-checkbox ng-model="breath.mask"  ng-checked=" breath[0].mask==1" aria-label="" ng-disabled="true" >Mask</md-checkbox>
+                                        <md-checkbox   ng-checked="  breath[0].nrb==1" aria-label="" ng-disabled="true" >RNB</md-checkbox>
+                                        <md-checkbox n ng-checked="  breath[0].bvm==1" aria-label=""  ng-disabled="true">BVM</md-checkbox>
+                                        <md-checkbox   ng-checked=" breath[0].cpap_bipap==1" aria-label="" ng-disabled="true" >CPAP/BIPAP</md-checkbox>
+                                        <md-checkbox   ng-checked=" breath[0].ventilator==1" aria-label="" ng-disabled="true" >Ventilator</md-checkbox>
+                                    </td>
+                                       <td>
+                                        <b>Chest needle/tube(circles):</b>
+                                           <p></p>
+                                        <b>L:</b>
+<p></p>
+                                               <label>Size:</label>
+                                                {{breath[0].chest_needle_left_size}}
+
+                                          
+                                               <label>Depth(cm):</label>
+                                             {{breath[0].chest_needle_left_depth}}
+                                            
+<p></p>
+                                           <b>R:</b>
+                              <p></p>
+                                               <label>Size:</label>
+                                              {{breath[0].chest_needle_right_size}}
+                                            
+                                               <label>Depth(cm):</label>
+                                                {{breath[0].chest_needle_right_depth}}
+
+                                    </td>
+                                </tr>
+                               
+                            </table>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="CIRCULATION">
+                        <md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">C</b>irculation<p></p>
+                                        <md-checkbox  ng-checked="circulation[0].normal==1" ng-disabled="true" aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td >
+                                        <b>Skin:</b>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked=" circulation[0].warm==1"  ng-disabled="true" >Warm</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label="" ng-checked=" circulation[0].dry==1"  ng-disabled="true"  >Dry</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label=""  ng-checked=" circulation[0].pale==1" ng-disabled="true"  >Pale</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label="" ng-checked=" circulation[0].cyanotic==1" ng-disabled="true"  >Cyanotic</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label="" ng-checked=" circulation[0].moist==1" ng-disabled="true"  >Moist</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label=""  ng-checked=" circulation[0].cool==1" ng-disabled="true"  >Cool</md-checkbox>
+
+                                        <p></p>
+                                        <b>Capillary refill:</b>
+                                         {{circulation[0].capillary_refill}}
+                                        <p></p>
+                                        <b>Pulses:</b> {{circulation[0].pulses}}
+                                        <p></p>
+Asymmetric Value :{{circulation[0].asymmetric_value}}
+                                        <p></p>
+                                        <b>JVD:</b>
+                                         {{circulation.jvd}}
+
+                                    </td>
+
+                                    <td colspan="2" >
+                                        <md-checkbox ng-model="" ng-checked=" circulation.bleeding_controlled==1" ng-disabled="true" aria-label=""  >Bleeding Controlled(bandage,tourniquet,direct pressure)</md-checkbox>
+                                        <p></p>
+
+                                        <b>Access:</b>
+                                        <p></p>
+                                        <b>IV:</b>
+                                        <label for="">Loc</label>
+                                        {{circulation[0].iv_loc}}
+                                        <label for="">Size</label>
+                                        {{circulation[0].iv_size}}
+                                        <p></p>
+                                        <b>CVL:</b>
+                                        <label for="">Loc</label>
+                                         {{circulation[0].cvl_loc}}
+                                         &nbsp;
+                                        <label for="">Size</label>
+                                         {{circulation[0].cvl_size}}
+                                        <p></p>
+                                        <b>IC:</b>
+                                        <label for="">Loc</label>
+                                         {{circulation[0].ic_loc}}
+                                        <label for="">Size</label>
+                                        {{circulation[0].ic_size}}
+                                        <p></p>
+                                        <b>IVF:</b>
+{{circulation[0].ivf}}
+                                        mls
+
+                                        <md-checkbox ng-model=" " aria-label=""  ng-checked="  circulation[0].ns==1" ng-disabled="true" >NS</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label=""  ng-checked=" circulation[0].lr==1" ng-disabled="true" >LR</md-checkbox>
+
+
+                                        <b>Other:</b>
+
+                                        <input type="text" placeholder="other observations" autocomplete="off" ng-model="circulation.other" ng-disabled="circulation.normal"  >
+<p></p>
+                                        <md-checkbox ng-model=" " ng-checked= "circulation[0].blood_ordered==1" aria-label="" ng-disabled="true" >Blood Ordered</md-checkbox>
+                                        <md-checkbox ng-model=" " ng-checked= "circulation[0].pelvic_blinder_placed==1" aria-label="" ng-disabled="true" >Pelvic blinder Placed</md-checkbox>
+
+                                    </td>
+                                </tr>
+                                 
+                            </table>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="DISABILITY">
+                        <md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">D</b>isability<p></p>
+                                        <md-checkbox ng-model="" ng-checked="disability[0].normal==1"  ng-disabled="==true"aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td colspan="4">
+                                        <b>Blood glucose:</b>
+                                        {{disability[0].blood_glucose_value}}
+                                        <md-checkbox ng-model="" aria-label="" ng-checked=" disability[0].glucose==1" ng-disabled="true" >Glucose</md-checkbox>
+                                        <p></p>
+                                        <b>Responsiveness:</b>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked=" disability[0].responsiveness_a==1" ng-disabled="true" >A</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked="disability[0].responsiveness_v==1" ng-disabled="true" >V</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked=" disability[0].responsiveness_p==1" ng-disabled="true" >P</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked="disability[0].responsiveness_u==1"  ng-disabled="true">U</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked="  disability[0].responsiveness_naloxone==1" ng-disabled="true"  >Naloxone</md-checkbox>
+
+                                        <p></p>
+                                        <b>GCS:</b>
+                                         
+                                         {{disability[0].gcs}}
+                                        (
+                                        <b>E: </b>  {{disability[0].gcs_e}}
+                                       &nbsp; &nbsp; &nbsp; <b>V:</b> {{disability[0].gcs_v}}
+                                        &nbsp; &nbsp; &nbsp;  <b>M:</b>  {{disability[0].gcs_m}}
+                                       )
+                                        <p></p>
+                                         
+                                         
+                                        <p></p>
+                                        <b>Pupil:</b>
+                                        <b>L:</b>
+                                       {{disability[0].pupil_l_1}}mm->
+                                        {{disability[0].pupil_l_2}}mm
+                                        <b>R:</b>
+                                        {{disability[0].pupil_r_1}}mm->
+                                       {{disability[0].pupil_r_2}}mm
+
+
+
+                                        <p></p>
+                                        <b>Movement Extremities:</b>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked="disability[0].lue==1" ng-disabled="true" >LUE</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked=" disability[0].rue==1" ng-disabled="true" >RUE</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked=" disability[0].lle==1" ng-disabled="true" >LLE</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked="disability[0].rle==1"  ng-disabled="true">RLE</md-checkbox>
+                                        <md-checkbox ng-model="" aria-label="" ng-checked="  disability[0].naloxone==1" ng-disabled="true" >Naloxone</md-checkbox>
+
+                                    </td>
+
+
+                                </tr>
+                                 
+                            </table>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="EXPOSURE">
+                        <md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3"><b style="font-size:xx-large">E</b>xposure<p></p>
+                                        <md-checkbox ng-disabled="true" ng-checked=" exposure[0].normal==1" aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td  colspan="4">
+                                        <md-checkbox   aria-label="" ng-disabled="true" ng-checked=" exposure[0].exposed_completely==1" >Exposed Completely</md-checkbox>
+
+
+                                    </td>
+                                 
+
+                                </tr>
+                            </table>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="FAST">
+                        <md-content class="md-padding">
+                            <table border="1"  >
+                                <tr style="border:thin solid black; background-color: silver">
+                                    <th colspan="4">
+                                        PRIMARY SURVEY (see Reference Card for normal findings, only mark NML if all key elements are normal)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">
+                                        <md-checkbox ng-model="" aria-label="" ng-disabled="true" ng-checked="fast[0].not_indicated==1" >Not Indicated</md-checkbox>
+<p></p>
+                                        <b style="font-size:xx-large">F</b>ast<p></p>
+                                        <md-checkbox ng-disabled="true" ng-checked="fast[0].normal==1"aria-label=""  >NML</md-checkbox>
+                                    </td>
+                                    <td  colspan="4">
+                                        <b>Peritoneum:</b> <p></p>
+                                         {{fast[0].peritoneum}}
+                                            <p></p>
+                                          <p></p> <b>Free fluid:</b>
+                                            {{fast[0].free_fluid}}
+<p></p>
+                                            <b>Chest:</b>
+
+                                            {{fast[0].chest}}
+                                                <p></p> <b>Pneumothorax(R/l)</b>
+                                                 {{fast[0].pneumothorax}}
+                                                <p></p> <b>Pleural fluid(R/l)</b>
+                                                {{fast[0].pleural_fluid}}
+
+                                                <p></p>
+                                                <md-checkbox ng-model="" aria-label="" ng-disabled="true" ng-checked="  fast[0].pericardial_effusion==true" >Pericardial effusion</md-checkbox>
+                                                <p></p>
+
+                                    </td>
+                                 
+
+                                </tr>
+
+                            </table>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </vertical-tab-pane>
+            
+            <vertical-tab-pane title="MEDICAL HISTORY">
+                <md-tabs>
+                    <md-tab label="PAST MEDICAL &  SURGERIES">
+                        <md-content class="md-padding">
+                            <table    >
+
+                                <tr>
+                                    <td ><b >Medications:</b><p></p>
+                                        {{pastmedical[0].medication}}
+                                        <p></p>
+                                       <b>Past Medical:</b>
+                                        <md-checkbox ng-model=" " ng-checked="pastmedical[0.past_medical_htn==1" aria-label="" ng-disabled="true"  >HTN</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label="" ng-checked="pastmedical[0].past_medical_diabetes==1" ng-disabled="true"  >Diabetes</md-checkbox>
+                                        <md-checkbox ng-disabled="true" ng-model="" aria-label="" ng-checked="pastmedical[0].past_medical_copd==1" >COPD</md-checkbox>
+                                        <md-checkbox ng-model=" " ng-disabled="true" ng-checked="pastmedical[0].past_medical_psychiatric==1 " aria-label=""  >Psychiatric</md-checkbox>
+                                        <md-checkbox ng-model=" " ng-disabled="true"ng-checked="pastmedical[0].past_medical_renal_disease==1 " aria-label=""  >Renal Disease</md-checkbox>
+                                        <p></p>
+                                        <label>Othe past Med History</label>
+                                        <textarea rows="2" ng-disabled="true" ng-model=" "   placeholder="{{pastmedical[0].other_past_medical}}"   md-select-on-focus style="width:100%; height:45%"></textarea>
+                                        <p></p>
+<b>Past Surgeries(type & date):</b>
+                                        <textarea rows="2" ng-disabled="true" ng-model=" " placeholder="{{pastmedical[0].past_surgeries}}" id="past_surgeries" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                    </td>
+
+                                 
+
+                                </tr>
+                            </table>
+                        </md-content>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Allergy and vaccination">
+                        <md-content class="md-padding">
+                            <table    >
+
+                                <tr>
+                                    <td ><b >Allergies:</b>
+                                        <textarea rows="4" ng-model=" " placeholder="{{allergies[0].allergies}}" id="allergies" autocomplete="off" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                                        <p></p>
+                                        <div >
+                                        <b>Pregnant:</b>
+                                        {{allergies[0].pregnant}}
+                                          
+                                        <p></p>
+                                        <b>Vaccinations up to date?:</b>
+                                         {{allergies[0].vaccination_up_to_date}}
+                                        <p></p>
+                                        <label>Vaccinations</label>
+                                        <textarea rows="1" ng-if="med.vaccination_up_to_date=='no'" ng-model=" " placeholder="{{allergies[0].vaccination_description}}" id="vaccination_description" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+
+                                        <p></p>
+                                        <b>Substance Use:</b>
+                                        <md-checkbox ng-model=" " ng-clicked="allergies[0].tobacco==1  " aria-label="" ng-disabled="true" >Tobacco</md-checkbox>
+                                        <md-checkbox ng-model=" " aria-label="" ng-clicked="allergies[0].alcohol==1" ng-disabled="true" >Alcohol</md-checkbox>
+                                        <md-checkbox ng-model=""ng-disabled="true" aria-label="" ng-clicked="allergies[0].drugs==1" >Drugs</md-checkbox>
+                                        <md-checkbox ng-model="" ng-disabled="true" aria-label="" ng-clicked="allergies[0].iv_drugs==1" >IV Drugs</md-checkbox>
+<p></p><div >
+                                        <b>Last Menstrual Cycle:</b>
+                                        {{allergies[0].last_menstrual_cycle}}
+                                         
+                                        <b>G:</b>
+                                        {{allergies[0].last_menstrual_cycle_g}}
+                                        
+                                        <b>P:</b>
+                                         {{allergies[0].last_menstrual_cycle_p}}
+                                       
+                                        </div> <p></p>
+                                        <b>Safe Home?:</b>
+                                        {{allergies[0].save_home}}
+                                        
+
+                                    </td>
+
+                                 
+
+                                </tr>
+                            </table>
+                        </md-content>
+                    </md-tab>
+
+
+                </md-tabs>
+            </vertical-tab-pane>
+            
+            <vertical-tab-pane title="HPI">
+                <md-tabs>
+                    <md-tab label="HPI">
+                        <md-content class="md-padding">
+                             <table>
+                                 <tr>
+                                     <th colspan="2">HISTORY OF PRESENTING ILLNESS</th>
+                                     <td> <b> Date of Injury:</b>
+                                          {{hpi[0].date_of_injury}}
+                                         <b>  Time of Injury:</b>
+{{hpi[0].time_of_injury}}
+                                         
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td colspan="2">Enter exact term from Reference Card for the following <p></p>
+                                     <b>Place of injury</b>
+                                     {{hpi[0].place_of_injury}}
+                                         
+
+                                     </td>
+                                     <td >
+                                     <b>Pre-hospital Care given:</b>
+                                     {{hpi[0].prehospital_care}}
+                                           
+                                           
+                                         <p></p>
+                                     <b>Patient's activity of time of injury:</b>
+                                      {{hpi[0].patient_activity_injury_time}}
+                                        
+
+                                     </td>
+                                 </tr>
+                                 
+                             </table>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="MECHANISM OF INJURY">
+                        <md-content class="md-padding">
+                            <table border="1">
+
+                                
+                                <tr>
+
+                                    <td  >
+
+                                        <div ><b >
+                                        <md-checkbox ng-model="" ng-checked="mechanism[0].road_trafic_incident==1"
+                                        ng-disabled="true"   >  Road Traffic Incident:
+                                        </md-checkbox>
+                                    </b>
+                                        </div>
+                                        <div  > 
+                                            {{mechanism[0].driver_passenger_pedestrian==1}}
+                                            <md-radio-group layout="column" ng-model="med.driver_passenger_pedestrian"   >
+                                                <md-radio-button value="Driver"  class="md-primary">Driver</md-radio-button>
+                                                <md-radio-button value="Passenger"  class="md-primary">Passenger</md-radio-button>
+                                                <md-radio-button value="Pedestrian"  class="md-primary">Pedestrian</md-radio-button>
+                                            </md-radio-group>
+                                                <p></p>
+                                          <md-radio-group layout="column" ng-model="med.airbag_seatbelt_restraint"   >
+                                                <md-radio-button value="Airbeg"  class="md-primary">Airbeg</md-radio-button>
+                                                <md-radio-button value="Seat belt"  class="md-primary">Seat belt</md-radio-button>
+                                                <md-radio-button value="Other Vehicle restraint"  class="md-primary">Other Vehicle restraint</md-radio-button>
+                                            </md-radio-group>
+
+                                        <p></p>
+                                        <b>Vehicle involved:</b>
+                                            <md-input-container class="md-block">
+                                                <label for="">Choose Vehicle involved</label>
+
+                                                {{mechanism[0].vehicle_involved}}
+                                              
+                                            </md-input-container>
+
+                                            <p></p>
+<p></p>
+                                        <b>Other Vehicle involved:</b>
+{{mechanism[0].other_vehicle_involved}}
+
+                                        <p></p>
+
+                                        <b>Crashed with/hit by:</b>
+{{mechanism[0].crashed_with}}
+
+<p></p>
+                                        <md-checkbox ng-model="med.extricated"   aria-label=""  ng-checked="mechanism[0].extricated==1" ng-disabled="true" >Extricated</md-checkbox>
+
+
+                                        <p></p>
+                                        <md-checkbox ng-model="med.ejected"   aria-label="" ng-checked="mechanism[0].ejected==1" ng-disabled="true" >Ejected</md-checkbox>&nbsp;&nbsp;
+<p></p>
+
+                                        </div>
+                                        <p></p>
+                                        <div  >
+                                            <b><md-checkbox  ng-model="med.fall"  ng-checked="mechanism[0].fall==1" ng-disabled="true" >Fall from: </md-checkbox></b><textarea rows="2" ng-model="med.fall_from"    placeholder="{{mechanism[0].fall_from}}" ng-disabled="true" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+                                            &nbsp;&nbsp;
+                                        <p></p>
+                                        </div>
+                                        <div  >
+                                        <b>Hit by falling object:</b>
+                                            <textarea rows="2" ng-model="med.hit_by_falling_object"   placeholder="{{mechanism[0].hit_by_falling_object}}" ng-disabled="true"autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                            <p></p></div>
+                                        <div  >
+                                        <b>Stab/Cut:</b> &nbsp;&nbsp;
+                                            <textarea rows="2" ng-model="med.stab_cut"   placeholder="{{mechanism[0].stab_cut}}" ng-disabled="true" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                        </div>
+                                        <p></p>
+                                        <div  >
+                                        <md-checkbox ng-model="med.gunshot"   ng-checked="mechanism[0].gunshot==1" ng-checked="true" >Gunshot</md-checkbox>&nbsp;&nbsp;
+                                        </div>
+                                        <div >
+                                        <md-checkbox ng-model="med.sexual_assault"   ng-checked="mechanism[0].sexual_assault==1" ng-checked="true" ng-disabled="true" >Sexual Assault</md-checkbox>&nbsp;&nbsp;
+                                        <p></p>
+                                        </div>
+                                        <div  >
+                                        <b>Other blunt force trauma(stuck/hit)</b> &nbsp;&nbsp;
+                                            <textarea rows="2" ng-model="med.other_bunt_force"   placeholder="{{mechanism[0].other_bunt_force}}" ng-disabled="true"autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+
+                                        </div>
+                                        <p></p>
+                                        <div  >
+                                        <md-checkbox ng-model=""  ng-checked="mechanism[0].suffocation_choking_hanging" aria-label="" ng-disabled="true" ><b>Suffocation Chocking ,Hanging</b></md-checkbox>&nbsp;&nbsp;
+                                        <p></p>
+                                        </div>
+                                        <div  >
+                                        <b>Drowning:</b>
+                                            <textarea rows="2" ng-model="med.drowning"   placeholder="{{mechanism[0].drowning}}" id="drowning"  ng-disabled="true"autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+
+                                        </div>
+
+                                        <div  >
+                                        <b>Burn Caused by:</b> &nbsp;&nbsp;
+                                            <textarea rows="2" ng-model="med.burn_caused_by"     placeholder="{{mechanism[0].burn_caused_by}}"    ng-disabled="true"md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                            <p></p>
+                                        </div>
+                                        <div  >
+                                        <b>Poisoning/Toxic Exposure:</b>
+                                            <textarea rows="2" ng-model="med.poisoning_toxic_exposure"   placeholder="{{mechanism[0].poisoning_toxic_exposure}}"    ng-disabled="true"md-select-on-focus style="width:100%; height:155px"></textarea>
+
+
+                                        <p></p>
+                                        </div>
+
+                                        <div  >
+                                        <md-checkbox ng-model="med.unknown"  ng-checked="mechanism[0].unknown==1" aria-label="" ng-disabled="true" >Unknown</md-checkbox>&nbsp;&nbsp;
+                                        </div>
+                                        <div ng-if="opt && opt==14">
+                                        <md-checkbox ng-model="med.road_traffic_incident_none" ng-checked="mechanism[0].road_traffic_incident_none==1" aria-label="" ng-disabled="true">NONE   </md-checkbox>
+                                        </div>
+                                        <p></p>
+                                        <div  >
+                                        <b>Other:</b>
+
+                                       &nbsp;&nbsp;
+                                        <textarea rows="2" ng-model="med.other"   placeholder="{{mechanism[0].other}}" id="other" ng-disabled="true" autocomplete="off" md-select-on-focus style="width:100%; height:155px"></textarea>
+
+                                        </div>
+                                    </td>
+                                    <td > <b>Intent:</b>
+                                        {{mechanism[0].intent}}
+                                         
+                                        <p></p>
+<div >
+                                        <b>Assaulted By(see Reference Card):</b>
+{{mechanism[0].assaulted_by}}
+                                        &nbsp;&nbsp;
+                                       <p></p>
+</div>
+                                        <b>Hours since last meal:</b>
+{{mechanism[0].hours_since_last_meal}}
+&nbsp;&nbsp;
+                                  <p></p>
+                                        <b>Substance use within 6 hours of injury:</b>
+                                        {{mechanism[0].substance_six_hour_injury}}
+                                         
+                                        <b   >Other Substance(if known):</b>
+{{mechanism[0].other_substance}}
+                                         &nbsp;&nbsp;
+                                        <p></p>
+
+                                        <table border="1">
+
+                                            <tr>
+                                                <td>
+                                                    <b>Details of Intent</b> <p></p>
+                                                    <b><i>Loss of Consciousness:</i>
+{{mechanism[0].loss_of_consciousness}}
+                                                    </b>
+                                                     
+                                                    <p></p>
+                                                    <b><i>Trauma:</i></b>
+                                                    {{mechanism[0].trauma}}
+                                                    
+                                                    <p></p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </md-content>
+                    </md-tab>
+
+                </md-tabs>
+            </vertical-tab-pane>
+            
+            <vertical-tab-pane title="PHYSICAL EXAM">
+                 <table class="table-striped"  style="border:thin solid black; width:100%">
+                     <tr  style="border:thin solid black; background-color: silver">
+                         <td colspan="4"><b>PHYSICAL EXAMINATION</b>(see reference Card for normal findings. Do NOT mark NML unless all key elements are normal)</td>
+                     </tr>
+                     <tr>
+                         <td> <md-checkbox  ng-checked="med[0].general_normal==1 "   ng-disabled="true"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>General</th>
+                         <td> <textarea rows="2"   ng-disabled="true " placeholder="{{med[0].general_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                         
+                         </td>
+                         <td colspan="2" rowspan="11"> </td>
+                     </tr>
+                     <tr>
+                         <td> <md-checkbox ng-model="med.heent_normal"   ng-disabled="true" ng-checked="med[0].heent_normal==true"    aria-label=""  >NML</md-checkbox>
+
+                         </td>
+                         <th>HEENT</th>
+                         <td> <textarea rows="2"  ng-disabled="true" placeholder="{{med[0].heent_examination}}" id="heent_examination" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             
+                         </td>
+
+                     </tr>
+                     <tr>
+                         <td> <md-checkbox     ng-disabled="true" ng-checked=" med[0].neuro_normal==1"   aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Neuro</th>
+                         <td> <textarea rows="2"   ng-disabled="true" placeholder="{{med[0].neuro_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                             
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox    ng-disabled="true" ng-checked=" med[0].neck_normal==true"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Neck</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].neck_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                             </td>
+
+                     </tr>
+                  <tr>
+                         <td> <md-checkbox      ng-disabled="true"  ng-checked=" med[0].pulm_chest_normal==true" aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Pulm/Chest</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].pulm_chest_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                              </td>
+
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox      ng-disabled="true" ng-checked="  med[0].cardiac_normal==1"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Cardiac</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].cardiac_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                              </td>
+
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox      ng-disabled="true" ng-checked="  med[0].abdominal_normal==1"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Abdominal</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].abdominal_examination}}"   md-select-on-focus style="width:100%; height:45%"></textarea>
+                                </td>
+                         <td colspan="2"></td>
+                     </tr>
+                 <tr>
+                         <td> <md-checkbox      ng-disabled="true" ng-checked=" med[0].gu_rectal_normal==1"  aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>GU/Rectal</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].gu_rectal_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                               </td>
+
+                     </tr>
+                  <tr>
+                         <td> <md-checkbox     ng-disabled="true"  ng-checked=" med[0].back_normal==1" aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>Back</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].back_examination}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                              </td>
+
+                     </tr>
+                  <tr>
+                         <td> <md-checkbox     ng-disabled="true" ng-checked=" med[0].msk_skin_normal==1"   aria-label=""  >NML</md-checkbox>
+                         </td>
+                         <th>MSK/Skin</th>
+                         <td> <textarea rows="2" ng-model="" ng-disabled="true" placeholder="{{med[0].msk_skin_examination}}"   md-select-on-focus style="width:100%; height:45%"></textarea>
+                             </td>
+
+                     </tr>
+                     
+                 </table>
+            </vertical-tab-pane>
+            
+            <vertical-tab-pane title="INVESTIGATION">
+                <table class="table-striped" border="1"  style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+                        <th colspan="8">LAB RESULTS:</th>
+                        <th colspan="8">IMAGING RESULTS:</th>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <b>UPT:</b> <textarea rows="2" ng-disabled="true"  ng-model="" id="upt" placeholder="{{lab[0].upt}} " autocomplete="off" md-select-on-focus style="width: 100%; height: 118px; margin-top: 0px; margin-bottom: 0px;"  ></textarea>
+                          <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b>Hgb(<i>g/dl</i>):</b><textarea rows="2"   ng-model=" " ng-disabled="true" placeholder="{{lab[0].hgb}}" autocomplete="off" md-select-on-focus style="width: 100%; height: 118px; margin-top: 0px; margin-bottom: 0px;" onkeyup="money(this, event)"></textarea>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b>Blood Grouping  Done?:</b>
+                            <md-radio-group layout="column" ng-model="med.blood_given"   >
+                                <md-radio-button value="not"  class="md-primary">NOT done</md-radio-button>
+                                <md-radio-button value="yes"  class="md-primary">YES </md-radio-button>
+                            </md-radio-group>
+                            <p></p>
+                            <div  >
+
+                            <b>Blood Grouping type:</b>
+                            <md-input-container class="md-block" >
+                            <label >choose blood type</label>
+                            <md-select ng-model="med.blood_type">
+                                <md-option ></md-option>
+                                <md-option value="A+">A+</md-option>
+                                <md-option value="A-">A-</md-option>
+                                <md-option value="B+">B+</md-option>
+                                <md-option value="B-">B-</md-option>
+                                <md-option value="AB+">AB+</md-option>
+                                <md-option value="AB-">AB-</md-option>
+                                <md-option value="O+">O+</md-option>
+                                <md-option value="O-">O-</md-option>
+                            </md-select>
+                        </md-input-container>
+                            </div>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b>Other Lab results:</b>
+                            <textarea rows="2"  ng-disabled="true"   placeholder="{{lab[0].other_lab_result}}"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <b> <md-checkbox ng-checked="lab[0].result_pending==1"  ng-disabled="true">Result pending</md-checkbox></b>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+
+                        </td>
+                        <td colspan="8">
+                            <b> <md-checkbox ng-checked="image[0].nondone==1"  ng-disabled="true" >None Done</md-checkbox></b>
+                            <p></p>
+                            <div  >
+
+
+                            <b>Pneumothorax:</b><textarea rows="2"   ng-model=""   placeholder="{{image[0].pneumothorax}}" ng-disabled="true" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                             <b>Pleural Fluid:</b><textarea rows="2"   ng-model="" placeholder="{{image[0].pleural_fluid}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Rib Fracture:</b><textarea rows="2"   ng-model="" placeholder="{{image[0].rib_fracture}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Pulmonary Opacity:</b><textarea rows="2"   ng-model="m" placeholder="{{image[0].palmonary_opacity}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                          <b>C-spine Fracture:</b><textarea rows="2"   ng-model=" " placeholder="{{image[0].c_spine_fracture}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                           <b>Extremity Fracture:</b><textarea rows="2"   ng-model="" placeholder="{{image[0].extremity_fracture}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Pelvic Fracture:</b><textarea rows="2"   ng-model="" placeholder="{{image[0].pelvic_fracture}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                          <b>Wide Mediastinum:</b><textarea rows="2"   ng-model="" placeholder="{{image[0].wide_mediastinum}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                           <b>Other Imaging results:</b><textarea rows="2"   ng-model="" placeholder="{{image[0].other_image_result}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>   
+
+                        </td>
+
+                    </tr>
+                </table>
+            </vertical-tab-pane>
+            
+            <vertical-tab-pane title="ADD. INTERVENTIONS">
+                <table class="table-striped" border="1"  style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+                        <th colspan="16">ADDITIONAL INVERVENTIONS:</th>
+
+                    </tr>
+                    <tr  style="border:thin solid black; background-color:beige">
+                        <th colspan="8">Fluids and Medications Given(<i>include time</i>):</th>
+                        <th colspan="8">Procedures (<i>include time and outcome</i>):</th>
+                    </tr>
+                    <tr>
+
+                        <td colspan="8">
+                            <b> <md-checkbox ng-model="med.ivf" ng-checked="fluid[0].ivf==1" ng-disabled="true" >Intravenous fluids(in mls):</md-checkbox></b>
+                            <p></p>
+<div  >
+                            <b>Normal Saline:</b><textarea rows="2"   ng-model=" "   placeholder="{{fluid[0].ns}}" ng-disabled="true" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea> Time:<input type="time" ng-model="med.ns_time" placeholder="{{fluid[0].ns_time}}" ng-disabled="true">
+                            <p></p>
+                            <b>Ringer’s Lactate:</b><textarea rows="2"   ng-model="med.lr" placeholder="{{fluid[0].lr}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea> Time:<input type="time" ng-model="med.lr_time">
+                            <p></p>
+                            <b>Other:</b><textarea rows="2"   ng-model="med.other_fluid" placeholder="{{fluid[0].other_fluid}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea> Time:<input type="time" ng-model="med.other_fluid_time"  placeholder="{{fluid[0].other_fluid_time}}" ng-disabled="true" >
+                            <p></p>
+</div>
+                            <md-checkbox ng-model="med.blood_products" ng-checked="fluid[0].blood_products==1" ng-disabled="true"><b>Blood products (Specify number of units given)</b></md-checkbox>
+                            <p></p>
+                            <div  >
+                            <b>Whole Blood</b><textarea rows="2"   ng-model="med.whole_blood" id="whole_blood" placeholder="{{fluid[0].whole_blood}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>PRBC:</b><textarea rows="2"   ng-model="med.prbc" placeholder="{{fluid[0].prbc}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>FFP:</b><textarea rows="2"   ng-model="med.ffp" placeholder="{{fluid[0].ffp}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Platelets:</b><textarea rows="2"   ng-model="med.platelets" placeholder="{{fluid[0].platelets}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            </div>
+                            <b>Opioid Analgesia:</b><textarea rows="2"   ng-model="med.oploid_analgesia" placeholder="{{fluid[0].oploid_analgesia}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Other Analgesia:</b><textarea rows="2"   ng-model="med.other_analgesia" placeholder="{{fluid[0].other_analgesia}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Sedation and Paralytics:</b><textarea rows="2"   ng-model="med.sedation_paralytics"placeholder="{{fluid[0].sedation_paralytics}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Antibiotics:</b><textarea rows="2"   ng-model="med.antibiotics" placeholder="{{fluid[0].antibiotics}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Tetanus:</b><textarea rows="2"   ng-model="med.tetanus"  placeholder="{{fluid[0].tetanus}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Other:</b><textarea rows="2"   ng-model="med.other"  placeholder="{{fluid[0].other}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+
+                        </td>
+                        <td colspan="8">
+                            <b> <md-checkbox ng-model="med.nondone" ng-checked="procedure.nondone==1" ng-disabled="true">None Done</md-checkbox></b>
+                            <p></p>
+                            <div  >
+                            <b>Cricothyroidotomy:</b><textarea rows="2"   ng-model="med.cricothyroidotomy" placeholder="{{procedure[0].cricothyroidotomy}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Intubation:</b><textarea rows="2"   ng-model="med.intubation" placeholder="{{procedure[0].intubation}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b> Chest Tube:</b><textarea rows="2"   ng-model="med.chest_tube" placeholder="{{procedure[0].chest_tube}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Pericardiocentesis:</b><textarea rows="2"   ng-model="med.pericardiocentesis" placeholder="{{procedure[0].pericardiocentesis}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Open Thoracotomy:</b><textarea rows="2"   ng-model="med.open_thoracotomy" placeholder="{{procedure[0].open_thoracotomy}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Splinting:</b><textarea rows="2"   ng-model="med.splinting" placeholder="{{procedure[0].splinting}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Fracture Reduction/Pelvic Stabilisation:</b><textarea rows="2"   ng-model="med.fracture_red_pelvic_stab" placeholder="{{procedure[0].fracture_red_pelvic_stab}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Foreign Body removal:</b><textarea rows="2"   ng-model="med.foreign_body_removal" placeholder="{{procedure[0].foreign_body_removal}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Simple /Complex Laceration Repair:</b><textarea rows="2"   ng-model="med.simple_complex_lac_repair" placeholder="{{procedure[0].simple_complex_lac_repair}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b ng-if="">Other Imaging results:</b><textarea rows="2" ng-if=""  ng-model="med.other_procedure" placeholder="{{procedure[0].other_procedure}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             
+
+                        </td>
+
+                    </tr>
+                </table>
+            </vertical-tab-pane>
+            
+
+            <vertical-tab-pane title="ASSESSMENT&PLAN">
+
+
+                <table class="table-striped" border="1"    style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+                        <th colspan="16">ASSESSMENT(<i>include summary and differential </i>) AND PLAN (<i> imaging, meds/intervation, consults, etc</i>)</th>
+
+                    </tr>
+                    <tr  style="border:thin solid black; background-color:beige">
+                        <th colspan="8">ASSESSMENT:</th>
+                        <th colspan="8">PLAN: </th>
+                    </tr>
+                    <tr>
+
+                        <td colspan="8">
+
+                            <b>Summary:</b><textarea rows="2"    placeholder="{{ass[0].summary}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Consultant( <i>time called,time arrived, recommendations</i>):</b><textarea rows="2"      placeholder="{{ass[0].consultant}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="selectedConfirmed" typeahead-on-select="addConf($item,selectedPatient,'Differential')"
+                                       placeholder="Type ICD code or diagnosis to  Search" id="selectedConfirmed"
+                                       uib-typeahead="conf as conf.description+' '+conf.code for conf in showDiagnosis($viewValue) | filter:$viewValue | limitTo:30">
+                            </md-input-container>
+                            <table>
+                                <tr ng-repeat="conf in diagnosisTemp">
+                                    <td >{{conf.description}}-{{conf.diagnosis_code}} <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(conf,diagnosisTemp)"></span></td>
+                                </tr>
+                            </table>
+                            <p></p>
+                            <b>Other Differentials:</b><textarea rows="2"   ng-model="" placeholder="{{ass[0].other_differential}}" ng-disabled="true"  md-select-on-focus style="width:100%; height:45%"></textarea>
+
+
+                        </td>
+                        <td colspan="8">
+
+                            <b>Imaging:</b><textarea rows="2"     placeholder="{{ass[0].imaging}}" ng-disabled="true"md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Medication:</b><textarea rows="2"   ng-model=""     placeholder="{{ass[0].medication}}" ng-disabled="true"md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Intervention:</b><textarea rows="2"   ng-model=""  placeholder="{{ass[0].intervention}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                             <p></p>
+                            <b>Consults:</b><textarea rows="2"   ng-model="" placeholder="{{ass[0].consults}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Other:</b><textarea rows="2"   ng-model="" placeholder="{{ass[0].other_plan}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+                        <th colspan="16"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             
+                        </th>
+                    </tr>
+                </table>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="RE-ASSESSMENT">
+                <table class="table-striped" border="1"   style="border:thin solid black; width:100%">
+                    <tr  style="border:thin solid black; background-color: silver">
+
+
+                    </tr>
+                    <tr  style="border:thin solid black; background-color:beige">
+                        <th colspan="16">RE-ASSESSMENT</th>
+                    </tr>
+                    <tr>
+
+                        <td colspan="8">
+
+                            <b>Re-assessment Time(<i>indicate AM or PM</i>):</b><textarea rows="2"   ng-model="" placeholder="{{reass[0].re_assement_at}}" ng-disabled="true" autocomplete="off" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>Temperature:</b><textarea rows="2"   ng-model="" placeholder="{{reass[0].re_assement_temp}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>HR:</b><textarea rows="2"    placeholder="{{reass[0].re_assement_bp}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <b>RR:</b><textarea rows="2"    placeholder="{{reass[0].re_assement_rr}}" ng-disabled="true"md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+                            <p></p>
+                            <b>SpO<sub>2</sub>(% on L):</b><textarea rows="2"   ng-model="" placeholder="{{reass[0].re_assement_spo2}}" ng-disabled="true" md-select-on-focus style="width:100%; height:45%"></textarea>
+                            <p></p>
+
+                        </td>
+                        <td colspan="8">
+                            <b>Condition:</b>
+                            <md-radio-group ng-disabled="true" layout="row" ng-model="med.condition_change"   >
+                                <md-radio-button value="Same" ng-disabled="true"  class="md-primary">Same</md-radio-button>
+                                <md-radio-button ng-disabled="true" value="Changed"  class="md-primary">Changed </md-radio-button>
+                            </md-radio-group>
+                            <textarea rows="2"     placeholder="{{reass[0].condition_change_description}}" ng-disabled="true"md-select-on-focus style="width: 100%; height: 325px;"></textarea>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="16"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             
+                        </th>
+                    </tr>
+                </table>
+            </vertical-tab-pane>
+            
+            <!-- <table class="table-responsive"  style="border:thin solid black; width:100%">
+                <tbody>
+                <tr ng-if="clientvitals.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">VITALS</strong></td>
+                </tr>
+                <tr  ng-repeat="vt in clientvitals" ng-if="clientvitals.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >
+                        Temp: {{vt.temp ? vt.temp+'&deg;C' : ''}} &nbsp;
+                        BP: {{vt.bp ? vt.bp : ''}}
+                         HR: {{vt.hr ?vt.hr : ''}}
+                         RR: {{vt.rr ? vt.rr : ''}} &nbsp;
+                         Sp0<sub>2</sub>: {{vt.spo2 ? vt.spo2+' L' : ''}} &nbsp;
+                         Weight: {{vt.weight ? vt.weight+' Kg' : ''}} &nbsp;
+                        Height: {{vt.height ? vt.height+' Cm' : ''}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td><td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+
+                </tr>
+                 <tr ng-if="chief_complaints.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">CHIEF COMPLAINTS</strong></td>
+                </tr>
+                <tr ng-repeat="vt in chief_complaints" ng-if="chief_complaints.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;"> <b style="color: red" ng-if="vt.dead_on_arrival=='1'">Dead on Arrival</b> <p></p>    {{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+                <tr ng-if="primarysurveys.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">PRIMARY SURVEY</strong></td>
+                </tr>
+                <tr ng-repeat="vt in primarysurveys" ng-if="primarysurveys.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+
+                <tr ng-if="medhistories.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">MEDICAL HISTORY</strong></td>
+                </tr>
+                <tr ng-repeat="vt in medhistories" ng-if="medhistories.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+                <tr ng-if="hpis.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">HPI</strong></td>
+                </tr>
+                <tr ng-repeat="vt in hpis" ng-if="hpis.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+                 <tr ng-if="physicalexams.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">PHYSICAL EXAM</strong></td>
+                </tr>
+                <tr ng-repeat="vt in physicalexams" ng-if="physicalexams.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+                 <tr ng-if="investigations.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">INVESTIGATION</strong></td>
+                </tr>
+                <tr ng-repeat="vt in investigations" ng-if="investigations.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+              <tr ng-if="addinvestigations.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">ADD. INTERVENTIONS</strong></td>
+                </tr>
+                <tr ng-repeat="vt in addinvestigations" ng-if="addinvestigations.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+                <tr ng-if="assesmentPlans.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">ASSESSMENT&PLAN</strong></td>
+                </tr>
+                <tr ng-repeat="vt in assesmentPlans" ng-if="assesmentPlans.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+             <tr ng-if="reaassesmentPlans.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">RE-ASSESSMENT</strong></td>
+                </tr>
+                <tr ng-repeat="vt in reaassesmentPlans" ng-if="reaassesmentPlans.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+             <tr ng-if="dispossions.length>0">
+                    <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                        <strong style="text-align: center">DISPOSITION</strong></td>
+                </tr>
+                <tr ng-repeat="vt in dispossions" ng-if="dispossions.length>0">
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{vt.complaint}}</td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.created_at}}
+                    </td>
+                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                        {{vt.name}}
+                    </td>
+                </tr>
+                </tbody>
+            </table> -->
+        </md-tab>
+			 
+        </md-tabs>
+    </md-dialog-content>
+</md-dialog>
+
+<script>
+    $(document).ready(function () {
+        $('input.number').keyup(function(event) {
+            // skip for arrow keys
+            if(event.which >= 37 && event.which <= 40) return;
+
+            // format number
+            $(this).val(function(index, value) {
+                return value
+                    .replace(/\D/g, "")
+                    //.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    ;
+            });
+        });
+
+    });
+    function money(field, event){
+        // format number
+        $(field).val(function(index, value) {
+            return value
+                .replace(/\D/g, "")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                ;
+        });
+    }
+
+    function flag(element){
+        $('#tr_'+element.id.substring(4)).css('border-color','red');
+    }
+</script>

@@ -1,0 +1,56 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1" width="100%">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA JINSIA, WAZEE, WATOTO NA WALEMAVU</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> </div>
+                                                            <div  class="text-center"><h8> <i>DRUG SHEET</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{itemsPrescribeds[0].patient_name}} </b>
+                                                            <b class="col-md-4">REG : {{itemsPrescribeds[0].medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4"> </b>
+                                                            <b class="col-md-4">WARD:{{itemsPrescribeds[0].ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{itemsPrescribeds[0].bed_name}} </b>
+                                                            <b class="col-md-4">ADMISSION DATE: {{itemsPrescribeds[0].admission_date}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                         <tr style="background-color:#c1c1c1">
+                                                          <th>No.</th>  <th>TYPE OF DRUG</th><th>DOSE</th><th>INSTRUCTIONS GIVEN</th><th>HOURS</th><th>DAYS</th><th>START ON</th><th>ORDER BY</th> <th>DISPENSE</th>  </tr>
+                                                        <tr ng-repeat="itemsPrescribed in itemsPrescribeds track by $index"><td>{{$index+1}}</td><td>{{itemsPrescribed.item_name}}</td><td>{{itemsPrescribed.dose}}</td>
+                                                            <td > <b ng-if="itemsPrescribed.continuation_status==null"> {{itemsPrescribed.instruction}} </b>
+                                                                <b style="background-color: red" ng-if="itemsPrescribed.continuation_status !=null"> {{itemsPrescribed.continuation_status }}->{{itemsPrescribed.stoped_by}}</b></td>
+
+                                                            <td>{{itemsPrescribed.frequency}}</td><td>{{itemsPrescribed.duration}}</td><td>{{itemsPrescribed.start_date}}</td><td>{{itemsPrescribed.dr_ordered}}</td>
+                                                            <td>   <md-button class="md-raised md-primary" ng-if="itemsPrescribed.continuation_status==null" ng-click="dispenseThisPatient(itemsPrescribed)">Dispense</md-button>
+
+                            </td>  </tr>
+
+
+                                                    </table>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+  </md-dialog>

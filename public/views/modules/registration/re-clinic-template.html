@@ -1,0 +1,69 @@
+<md-dialog flex="100" ng-controller="patientController">
+    <form autocomplete="off">
+        <md-toolbar class="md-dialog-header">
+            <div class="md-toolbar-tools">
+                <h5 style="text-align: right;">
+                    <ng-md-icon icon="account_circle" size="40"
+                                style="fill: white"></ng-md-icon>
+                    <h3>{{patientData.first_name}} {{patientData.last_name}}
+                        ({{patientData.medical_record_number}})</h3>
+                    <span flex></span>
+                    <md-button class="pull-right" class="md-icon-button" ng-click="cancel()">
+                        <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+                    </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <md-content class="md-padding">
+                <div  class="row">
+                    <md-button style="padding: 0px 48px; margin-left: 20px" class="md-raised" ng-click="enterEncounter(patientData,residences,encounter,patientData.id,1)">
+                        <span style="align-content: center"> OPD</span>
+                    </md-button>
+                    <div ng-repeat="item in departments" class="col-sm-3">
+                        <md-button style="padding: 0px 49px;"  class="md-raised" ng-click="enterEncounter(patientData,residences,encounter,patientData.id,item.id)">
+
+                            <span style="align-content: center"> {{item.department_name }}</span></md-button>
+                    </div>
+                </div>
+            </md-content>
+            </md-content>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+
+
+<!--<md-bottom-sheet class="md-grid" layout="column" ng-controller="patientController">-->
+
+<!--            <h2>List of CLINICS to send Patient{{patientData.first_name}}  {{patientData.last_name}} ({{patientData.medical_record_number}})</h2>-->
+<!--            <span flex></span>-->
+<!--            <md-button class="md-icon-button" ng-click="cancelSheet()">-->
+<!--                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>-->
+<!--            </md-button>-->
+
+<!--    <div layout="row" layout-align="center center" ng-cloak>-->
+
+<!--        <h4> {{patientData.fullname}}</h4>-->
+<!--    </div>-->
+<!--    <div ng-cloak>-->
+<!--        <md-list flex layout="row" layout-align="center center">-->
+<!--            <md-list-item>-->
+<!--                <div>-->
+<!--                    <md-button class="md-grid-item-content" ng-click="enterEncounter(patientData,residences,encounter,patientData.id,1)">-->
+<!--                        <md-icon md-svg-src="/svg/doctor_opd.svg"></md-icon>-->
+<!--                        <div class="md-grid-text"> OPD </div>-->
+<!--                    </md-button>-->
+<!--                </div>-->
+<!--            </md-list-item>-->
+
+<!--            <md-list-item ng-repeat="item in departments">-->
+<!--                <div>-->
+<!--                    <md-button class="md-grid-item-content" ng-click="enterEncounter(patientData,residences,encounter,patientData.id,item.id)">-->
+<!--                        <ng-md-icon icon="add_to_queue" ></ng-md-icon>-->
+<!--                        <div class="md-grid-text"> {{ item.department_name }} </div>-->
+<!--                    </md-button>-->
+<!--                </div>-->
+<!--            </md-list-item>-->
+<!--        </md-list>-->
+<!--    </div>-->
+<!--</md-bottom-sheet>-->

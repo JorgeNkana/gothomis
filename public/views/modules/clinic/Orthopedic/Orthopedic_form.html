@@ -1,0 +1,106 @@
+<div ng-cloak="">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Consultation Queue">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                               uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                               typeahead-on-select="checkAttendance($item)" autocomplete="off">
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" ng-repeat="pt in resdatas" ng-click="checkAttendance(pt)" style="cursor: pointer">
+                        {{pt.first_name  }}&nbsp;&nbsp;&nbsp;{{pt.middle_name }}&nbsp;&nbsp;&nbsp;{{pt.last_name }}
+                    </md-button>
+                    <div layout="row"  >
+                        <md-chips>
+                            <md-chip ng-repeat="pt in resdatas" ng-click="checkAttendance(pt)" style="cursor: pointer">
+                                {{pt.first_name  }}&nbsp;&nbsp;&nbsp;{{pt.middle_name }}&nbsp;&nbsp;&nbsp;{{pt.last_name }}
+                            </md-chip>
+                        </md-chips>
+                    </div>
+                    <div layout="row"  >
+                        <md-chips>
+                            <md-chip ng-repeat="pt in patientData" ng-click="checkAttendance(pt)" style="cursor: pointer">
+                                {{pt.first_name  }}&nbsp;&nbsp;&nbsp;{{pt.middle_name  }}&nbsp;&nbsp;&nbsp;{{pt.last_name  }}
+                            </md-chip>
+                        </md-chips>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Treatment Queue">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                               uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch2($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                               typeahead-on-select="getConsultationModal($item)" autocomplete="off">
+                    </md-input-container>
+                    <div layout="row">
+                        <md-chips>
+                            <md-chip ng-repeat="pt in patientInvData" ng-click="getConsultationModal(pt)" style="cursor: pointer">
+                                {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}
+                            </md-chip>
+                        </md-chips>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Cancel Bills">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input data-toggle="tooltip" title="Search Patient Names Here by using Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                               uib-typeahead="patient as patient.name for patient in patientBill |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                               typeahead-on-select="getBillModal($item)" autocomplete="off">
+                    </md-input-container>
+                    <div layout="row">
+                        <md-chips>
+                            <md-chip ng-repeat="bill in patientBill" ng-click="getBillModal(bill)" style="cursor: pointer">
+                                <a href="">
+                                    {{bill.name.split('#')[0] | uppercase }}
+                                </a>
+                            </md-chip>
+                        </md-chips>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="death certification">
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input type="text" autocomplete="off" placeholder="Search corpse here..." uib-typeahead="cps as cps.first_name+' '+cps.last_name for cps in showCorpse($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedCorpse"
+                               typeahead-on-select="getCorpseModal($item)">
+                    </md-input-container>
+                    <div layout="row">
+                        <md-chips>
+                            <md-chip ng-repeat="corpse in corpseData" ng-click="getCorpseModal(corpse)" style="cursor: pointer">
+                                <a href="">
+                                    {{corpse.first_name | uppercase}}  {{corpse.middle_name | uppercase}}  {{corpse.last_name | uppercase}}
+                                </a>
+                            </md-chip>
+                        </md-chips>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="my performance">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getPerformance(pef)">Search</md-button>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" ng-if="performanceRange.length>0 || performanceThisMonth.length>0">
+                        Dear <strong>{{currentUser.name}}</strong>, you have consulted {{performanceRange[0].total_clients}} patients from {{ pef.start }} to {{ pef.end }}.
+
+                        Also a total of {{performanceThisMonth[0].total_patients}} patients this current month. <br>
+                        Thank you!
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>

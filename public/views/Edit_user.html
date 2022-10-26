@@ -1,0 +1,248 @@
+<div id="wrapper" ng-controller="UserController">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="/img/arm.png" width="90px" height="90px" />
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">GoT-HoMIS </strong>
+                             </span>  </span> </a>
+
+                    </div>
+                    <div class="logo-element">
+                        <img alt="image" class="img-circle" src="/img/arm.png" width="50px" height="50px" />
+                    </div>
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-edit"></i> <span class="nav-label">Patient Registration</span> </a>
+
+                </li>
+                <li>
+                    <a href="index.html"><i class="fa fa-table"></i> <span class="nav-label">Corpse Registration</span> </a>
+
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Registration Reports</span><span class=""></span></a>
+                    <ul class="nav nav-second-level">
+
+
+                    </ul>
+                </li>
+
+
+
+
+
+
+
+
+
+
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+
+                <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                    <div class="form-group">
+                        <input type="text" placeholder="Search client" class="form-control lg" name="top-search" id="top-search">
+                    </div>
+                </form>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message" ng-if="authenticated">Welcome {{currentUser.name}} </span>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>  <span class="label label-danger">2</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="mailbox.html">
+                                <div>
+                                    <i class="fa fa-user-md fa-fw danger"></i> Exemption Denied
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+                        <li>
+                            <a href="grid_options.html">
+                                <div>
+                                    <i class="fa fa-exclamation-triangle fa-fw"></i> Denied Bills
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="notifications.html">
+                                    <strong>See All Alerts</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user-md fa-fw"></i>  <span class="label label-warning"></span>
+                    </a>
+
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="mailbox.html">Performance</a></li>
+
+
+                    </ul>
+                    <li>
+
+
+
+
+
+                        <li>
+                            <a ng-click="user.logout()" style="color:Red" ;>
+                        <i class="fa fa-sign-out" ></i> Log out
+                    </a>
+                        </li>
+            </ul>
+
+        </nav>
+    </div>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2></h2>
+
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="well">
+                    <h5 ng-if="authenticated">Welcome, {{currentUser.name}}</h5>
+                    <h3>Users</h3>
+                    <p></p>
+
+
+
+
+
+                    <!-- Modal -->
+
+                    <!--<pre>{{japh|json }}</pre>-->
+                    <div class="buttons" style="margin-bottom: 10px">
+                        <button class="btn btn-primary" ng-click="user.getUsers()">  Get Users!</button>
+                        <a href="#!edit" class="btn btn-default">Add Users!</a>
+
+                        <p></p>
+                        <button class="btn btn-info form-control" ng-if="user.users" title=" Dear:  {{currentUser.name}}.... {{user.users.length}}  Users have already registered ">  Users Available<sup class="badge button-red">{{user.users.length}}</sup></button>
+                    </div>
+                    <ul class="list-group" ng-if="user.users">
+
+                        <h6 class="alert alert-danger" ng-if="del">{{deleted}}</h6>
+                        <h6 class="alert alert-success" ng-if="kol">{{good}}</h6>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Quick Search" ng-model="search">
+                        </div>
+                        <li class="list-group-item" ng-repeat="user in user.users|filter:search">
+
+                            <h4 ng-if="!e">{{user.name}}</h4>
+                            <h5 ng-if="!e">{{user.email}}</h5>
+
+                            <h3 ng-if="e">
+
+                                <div class="form-group">
+                                    <input type="Name" class="form-control" placeholder="Name" ng-model="user.name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email" ng-model="user.email">
+                                </div>
+                                <div class="form-group">
+
+
+                                    <button class="btn btn-success" ng-click="update(user,user.id)">Save</button>
+
+                                </div>
+                            </h3>
+                            <!--<button class="btn btn-default" ng-click="edit(user.id)">Edit</button>-->
+                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                            <button class="alert-danger" ng-click="delete(user.name,user.id)">Delete</button>
+                        </li>
+                    </ul>
+
+                    <div class="alert alert-danger" ng-if="user.error">
+                        <strong>There was an error: </strong> {{user.error.error}}
+                        <br>Please go back and login again
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="col-sm-6 col-sm-offset-3" ng-controller="UserController">
+        <div class="well">
+            <h5 ng-if="authenticated">Welcome, {{currentUser.name}}</h5>
+            <h3>Users</h3>
+            <div class="buttons" style="margin-bottom: 10px">
+
+                <a href="#!users" class="btn btn-default">Get Users!</a>
+                <button class="btn btn-danger" ng-click="user.logout()">Logout</button>
+                <h6 class="alert alert-success" ng-if="send">{{send}}</h6>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Name" ng-model="user.name">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email" ng-model="user.email">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                </div>
+                <button class="btn btn-primary" ng-click="register(user)">Register</button>
+                <p></p>
+
+            </form>
+            <div class="alert alert-danger" ng-if="user.error">
+                <strong>There was an error: </strong> {{user.error.error}}
+                <br>Please go back and login again
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="footer">
+
+        <div class="pull-right">
+            <strong>Copyright </strong>GoT-HoMIS 3.0 &copy; 2017
+        </div>
+    </div>
+
+</div>
+</div>

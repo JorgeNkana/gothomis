@@ -1,0 +1,83 @@
+<style>
+    table td {
+        border-top: none !important;
+    }
+    hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: 16em;
+        margin-right: 16em;
+        border-style: inset;
+        border-width: 1px;
+    }
+</style>
+
+<div >
+    <div>
+        <div id="contentToPrint" class="container-fluid">
+            <div class="row">
+                <div class="col-md-12" style="text-align:center">
+                    <br/>
+                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                    {{menu[0].description}}<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                    {{menu[0].address}}<br/>
+                    {{menu[0].email}}<br>
+                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}
+                </div>
+            </div>
+            <div class="col-md-12">
+
+                <div class="col-md-6-offset-2" ng-if="patientInfo.patient_id">
+                    <br/> <br/>
+                    Patient Names:{{patientInfo.patients.first_name}} {{patientInfo.middle_name}} {{patientInfo.last_name}} <br />
+                    MRN:{{patientInfo.medical_record_number}}<br />
+                    Receipt Number: {{bills[0].invoice_id}}<br />
+                    Patient Category: {{patientInfo.sub_category_name}}<br />
+                    Staff Names: {{currentUser.name}}<br /> <br>
+                </div>
+
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-responsive">
+                        <thead>
+                        <th>Item Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Discount</th>
+                        <th>Sub Total</th>
+                        </thead>
+                        <tr ng-repeat="item in bills">
+                            <td>{{item.item_name}}</td>
+                            <td >{{item.price}}</td>
+                            <td >{{item.quantity}}</td>
+                            <td >{{item.discount}}</td>
+                            <td>{{item.price*item.quantity - item.discount | currency : 'Tshs ' : 2}}</td>
+                        </tr><tr>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td  >  <strong>Total Bill: </strong>  <strong>{{Amount_Billed | currency: ' Tshs' : 2}}</strong></td>
+
+
+                    </tr>
+                        <tr>
+                            <th colspan="8">
+                                <center>Total Amount Paid:{{Amount_Paid_toDay_plus_previous | currency: ' Tshs' : 2}}  &nbsp;&nbsp;
+                             Balance:{{Amount_Billed-Amount_Paid_toDay_plus_previous | currency: ' Tshs' : 2}}</center>
+                            </th>
+                        </tr>
+                    </table>
+                </div> </div>
+        </div>
+        <button type="button" ng-click="printInvoice()" class="btn btn-info pull-right hidden-print">Print Receipt</button>
+
+    </div>
+</div>

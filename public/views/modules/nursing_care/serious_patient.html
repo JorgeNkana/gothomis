@@ -1,0 +1,75 @@
+<md-dialog class="fullscreen-dialog">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1" width="100%">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>
+{{facility_address.facility_name}} {{facility_address.description}}<br/>{{facility_address.address}}
+															</h8></div>
+                                                            <div  class="text-center"><h8> <i> SERIOUS PATIENT FORM</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{selectedPatient.fullname}} </b>
+                                                            <b class="col-md-4">REG : {{selectedPatient.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4">ADMISSION DATE: {{selectedPatient.admission_date}} </b>
+                                                            <b class="col-md-4">WARD:{{selectedPatient.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{selectedPatient.bed_name}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                        <tr style="background-color:#c1c1c1">
+                                                            <th> </th><th> </th><th> </th><th> </th><th>   </th> <th> </th> </tr>
+                                                       
+
+                                                    </table>
+													  <div layout="row">
+
+                                                            
+
+
+                                     <div flex="100">       
+                                          <md-input-container class="md-block">
+                                    <label>short notes on serious patient</label>
+                             <input type="text"  
+							 ng-model="notes">
+                                </md-input-container>
+                              
+                                    </div>
+
+
+                                  
+
+
+
+                                     
+                                </div>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+			<md-button  class="md-raised md-primary"    ng-click="saveNotes(notes,selectedPatient)" class="md-primary">
+                Save
+            </md-button>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+    </form>
+</md-dialog>

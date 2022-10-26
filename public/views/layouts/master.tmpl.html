@@ -1,0 +1,183 @@
+<!--left sidebar section starts-->
+<style>
+	.docs-logo> img {
+    height: 100px;
+    width: auto;
+    display: block;
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.nav-header {
+    background-color: teal;
+    border-bottom: 1px solid #267ED5;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    z-index: 2;
+}
+a.docs-logo {
+    border-bottom: none;
+}
+</style>
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('min-width: 2000px')">
+     <center>
+                <header class="nav-header">
+                    <a ng-href="/" class="docs-logo" style="color:white;text-decoration:none">
+                        <img src="/img/arm.png" alt="" />
+                        <h1 class="docs-logotype md-heading">GoT-HoMIS</h1>
+                    </a>
+
+        <strong> <h3 style="font-size: 15px; color:white;">{{ currentUser.name}}</h3></strong>
+        <a href="#" class="user-email">{{ currentUser.email }}</a>
+                </header>
+
+     </center>
+
+    <md-list>
+        <md-item>
+            <a ui-sref="dashboard" ng-click="hide_left_bar()">
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon="dashboard"></ng-md-icon>
+                    </div>
+                    <div class="inset">Dashboard
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+        <md-item ng-click="change_password_dialog()">
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon="lock"></ng-md-icon>
+                    </div>
+                    <div class="inset">Change Password
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+    </md-list>
+</md-sidenav>
+</perfect-scrollbar>
+</md-sidenav>
+
+<!--left sidebar section ends-->
+
+<!-- .icon("dashboard", "/svg/home.svg", 512) -->
+
+<!-- 
+    in user controller
+$scope.goHome = function() {
+            $state.go('dashboard');
+        };
+
+-->
+
+<div layout="column" class="relative" layout-fill role="main">
+    <md-toolbar layout="row" ng-controller="UserController as userc">
+        <md-button ng-click="toggleSidenav('left')" class="menu">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+
+        <md-button ng-click="goHome()" class="menu" hide-xl>
+            <md-icon md-svg-icon="dashboard"></md-icon>
+        </md-button>
+
+
+        <span flex></span>
+
+        <md-menu>
+            <!-- Trigger element is a md-button with an icon -->
+            <md-button ng-click="$mdMenu.open($event)" class="md-icon-button" aria-label="Open sample menu">
+                <md-icon md-svg-icon="default_profile"></md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="userc.change_profile()">Set profile picture</md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
+
+        <md-button ng-click="dash.togglelist();" class="menu">
+            <md-icon md-svg-icon="notifications"></md-icon>
+        </md-button>
+        <md-button ng-click="userc.logout()" class="menu">
+            <md-icon md-svg-icon="logout"></md-icon>
+            Log out
+        </md-button>
+    </md-toolbar>
+
+    <md-content flex md-scroll-y style="background-color:white;">
+        <ui-view layout="column" layout-fill layout-padding style="background-color:white;padding:2em;">
+            <div class="inset" hide-sm></div>
+            <ng-switch on="data.selectedIndex" class="tabpanel-container">
+                <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0" md-swipe-left="next()" md-swipe-right="previous()" layout="row" layout-align="center center">
+                    <md-card flex-gt-sm="90" flex-gt-md="80">
+                        <md-card-content>
+                            <h2>Activity</h2>
+                            <md-list>
+                                <md-item ng-repeat="item in activity | filter:search">
+                                    <md-item-content>
+                                        <div class="md-tile-left inset" hide-sm>
+                                            <user-avatar></user-avatar>
+                                        </div>
+                                        <div class="md-tile-content">
+                                            <h3>{{item.what}}</h3>
+                                            <h4>{{item.who}}</h4>
+                                            <p>
+                                                {{item.notes}}
+                                            </p>
+                                        </div>
+                                    </md-item-content>
+                                    <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                                    <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                                </md-item>
+                                <md-divider></md-divider>
+                                <md-item layout class="inset">
+                                    <md-button layout layout-align="start center" flex class="md-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg> More
+                                    </md-button>
+                                </md-item>
+                            </md-list>
+                        </md-card-content>
+                    </md-card>
+                </div>
+                <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()" md-swipe-right="previous()" layout="row" layout-align="center center">
+                    <md-card flex-gt-sm="90" flex-gt-md="80">
+                        <md-card-content>
+                            <h2>Favorites</h2>
+                            <md-list>
+                                <md-item ng-repeat="item in activity | filter:search | orderBy:'-what'">
+                                    <md-item-content>
+                                        <div class="md-tile-left inset" hide-sm>
+                                            <user-avatar></user-avatar>
+                                        </div>
+                                        <div class="md-tile-content">
+                                            <h3>{{item.what}}</h3>
+                                            <h4>{{item.who}}</h4>
+                                            <p>
+                                                {{item.notes}}
+                                            </p>
+                                        </div>
+                                    </md-item-content>
+                                    <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                                    <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                                </md-item>
+                                <md-divider></md-divider>
+                                <md-item layout class="inset">
+                                    <md-button layout layout-align="start center" flex class="md-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg> More
+                                    </md-button>
+                                </md-item>
+                            </md-list>
+                        </md-card-content>
+                    </md-card>
+                </div>
+
+            </ng-switch>
+
+        </ui-view>
+    </md-content>
+</div>

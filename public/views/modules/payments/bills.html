@@ -1,0 +1,213 @@
+<style>
+    tr.paid td {
+        font-weight: bold;
+        font-size: 18px;
+        background-color: #efeae8;
+    }
+
+    tr.waiting td {
+        font-size: 18px;
+        font-color: #fdffaa;
+        background-color: #fcd202;
+    }
+
+    tr.waiting_cntr td {
+        font-size: 18px;
+        background-color: #c9c1bd;
+    }
+</style>
+<div>
+    <md-input-container class="md-block">
+        <input  title="Click here to search patients" type="text"
+                placeholder="Click here to search patients"
+                uib-typeahead="patient as patient.name for patient in searchPatients($viewValue) |filter:$viewValue |limitTo:5"
+                ng-model="selectedPatient"
+                typeahead-on-select="getBillModal($item)" autocomplete="off">
+    </md-input-container>
+    <!-- chips and table div -->
+    <div layout="row">
+        <!--<div flex="pendingGePGConfirmations.length > 0 ? 55 : 100">-->
+        <div flex="60">
+			
+            <md-chips>
+                 <md-chip ng-repeat="bill in billsData track by $index" ng-click="getBillModal(bill)" style="cursor: pointer;">
+                   <span> {{bill.name.split('#')[0] | uppercase}}</span>
+                </md-chip>
+            </md-chips>		
+			
+        </div>
+        <div flex="1">
+        </div>
+        <div flex="39">
+            <div class="row table-responsive" style="padding-left:4px;padding-right:4px">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                    <th colspan="3" style="background-color:#f0f5f5; font-weight:bold;">GEPG BILLS</th>
+                    <th colspan="1" style="vertical-align:middle"><button class="btn btn-primary" ng-click="checkGePG()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button></th>
+                    <th style="background-color:#c9c1bd; font-weight:bold;">WAITING CNTRL NUMBER</th>
+                    <th style="background-color:#fcd202; font-weight:bold;">WAITING PAYMENT</th>
+                    <th style="background-color:#efeae8; font-weight:bold;">PAID</th>
+                    </thead>
+                    <thead>
+                    <th colspan="7" class="input">
+                        <input type="text" ng-model="search" placeholder="Quick Search....."
+                               class=" form form-control"/>
+                    </th>
+                    </thead>
+                    <thead>
+                    <th style="text-align:left;background-color:#ccddee"></th>
+                    <th style="text-align:left;background-color:#ccddee">Name</th>
+                    <th style="text-align:left;background-color:#ccddee">Control#</th>
+                    <th style="text-align:left;background-color:#ccddee">Tshs</th>
+                    <th style="text-align:left;background-color:#ccddee">Cancel</th>
+                    <th style="text-align:left;background-color:#ccddee">Receipt</th>
+                    <th style="text-align:left;background-color:#ccddee">Remove</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="bill in pendingGePGConfirmations | filter:search track by $index"
+                        ng-class="{ paid: bill.Paid.toString() == '1', waiting: bill.Paid.toString() == '0' && bill.PayCntrNum != null, waiting_cntr: bill.Paid.toString() == '0' && bill.PayCntrNum == null}">
+                        <td style="text-align:right">{{$index+1}}.</td>
+                        <td style="text-align:left">{{bill.Name}}</td>
+                        <td ng-click="billInfo(bill)"><strong>{{bill.PayCntrNum.replace(regex,' ')}}</strong></td>
+						<td><strong>{{bill.BillAmount | currency : '':2}}</strong></td>
+                        <td ng-click="cancelBill(bill,$index);" style="text-align:center; vertical-align:middle">
+                            <ng-md-icon icon="close" size="30" ng-if="bill.Paid.toString() == '0'"></ng-md-icon>
+                        </td>
+                        <td ng-click="GePGReceipt(bill);" style="text-align:center; vertical-align:middle">
+                            <ng-md-icon icon="print" size="30" ng-if="bill.Paid.toString() == '1'"></ng-md-icon>
+                        </td>
+                        <td ng-click="Processed(bill,$index)" style="text-align:center; vertical-align:middle">
+                            <ng-md-icon icon="check" size="30" ng-if="bill.Paid.toString() == '1'"></ng-md-icon>
+                        </td>
+                    </tr>
+                    <thead>
+                    <tr>
+                        <th colspan="7" style="text-align:left;background-color:#ccddee"></th>
+                    </tr>
+                    </thead>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div flex-gt-sm="100">
+        <md-input-container >
+            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="reconcile()">RECONCILE GePG PAYMENTS</button>
+        </md-input-container>
+		<md-input-container>
+			&nbsp;
+        </md-input-container>
+		<md-input-container>
+            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="cashDeposit()">ON-HAND CASH DEPOSIT</button>
+        </md-input-container>
+		<md-input-container>
+			&nbsp;
+        </md-input-container>
+			<button class="mdl-button mdl-js-button mdl-button--raised" ng-click="data.cb = !data.cb"><md-checkbox  aria-label="Check balance">CHECK BALANCE</md-checkbox></button>
+		</md-input-container>
+        <div ng-if=" data.cb ==true">
+            <md-input-container>
+                <label>Choose Start Date</label>
+                <input ng-model="cs.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Choose End Date</label>
+                <input ng-model="cs.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="cashiersBalance(cs)">Search</md-button>
+            </md-input-container>
+        </div>
+        <md-content ng-if="data.cb ==true ">
+            Dear <strong>{{transactions[0].user_name}}</strong> you have a total of {{transactions[0].sub_total |
+            currency :
+            ' Tshs. ' :2}} (Cash on hand)
+            from {{transactions[0].transactions}} transactions and {{transactionsGePG[0].sub_total |
+            currency :
+            ' Tshs. ' :2}} (GePG transactions) from {{transactionsGePG[0].transactions}} transactions. Thank you!
+            <vertical-tabs>
+                <vertical-tab-pane title="Cash transactions">
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"
+                               ng-if="detailedData.length>0">
+                            <thead>
+                            <th class="mdl-data-table__cell--non-numeric">Sale ID</th>
+                            <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                            <th class="mdl-data-table__cell--non-numeric">Patient Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Staff Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Item name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Items Purchased</th>
+                            <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                            <th class="mdl-data-table__cell--non-numeric">Total Discount</th>
+                            <th class="mdl-data-table__cell--non-numeric">Transaction Date</th>
+                            </thead>
+                            <tbody ng-repeat="d in detailedData " ng-switch on="isSelData(d)" ng-click="selData(d,$index)">
+                            <tr ng-class="{sel:selIdx==$index}">
+                                <td class="mdl-data-table__cell--non-numeric">{{d.receipt_number}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.medical_record_number}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.first_name+' '+d.middle_name+' '+d.last_name}}
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.user_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.item_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.total_items}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.sub_total}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.total_discount}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.created_at}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </vertical-tab-pane>
+                <vertical-tab-pane title="GePG transactions">
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"
+                               ng-if="detailedDataGePG.length>0">
+                            <thead>
+                            <th class="mdl-data-table__cell--non-numeric">Sale ID</th>
+                            <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                            <th class="mdl-data-table__cell--non-numeric">Patient Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Staff Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Item name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Items Purchased</th>
+                            <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                            <th class="mdl-data-table__cell--non-numeric">Total Discount</th>
+                            <th class="mdl-data-table__cell--non-numeric">Transaction Date</th>
+                            </thead>
+                            <tbody ng-repeat="d in detailedDataGePG " ng-switch on="isSelData(d)" ng-click="selData(d,$index)">
+                            <tr ng-class="{sel:selIdx==$index}">
+                                <td class="mdl-data-table__cell--non-numeric">{{d.gepg_receipt}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.medical_record_number}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.first_name+' '+d.middle_name+' '+d.last_name}}
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.user_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.item_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.total_items}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.sub_total}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.total_discount}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{d.created_at}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </vertical-tab-pane>
+            </vertical-tabs>
+        </md-content>
+    </div>
+</div>
+<script>
+	function money(field,event){
+		if(event.which >= 37 && event.which <= 40) 
+				return;
+				
+		  // format number
+		  $(field).val(function(index, value) {
+			value += '';
+			var dec = '';
+			
+			var parts = value.split('.');
+			dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+			return parts[0]
+			.replace(/\D/g, '')
+			.replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+		  });
+	}	
+</script>

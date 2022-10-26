@@ -1,0 +1,1809 @@
+<form autocomplete="off">
+
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Sample Testing" ng-click="setTabSamplesProcessor(1)">
+
+                    <md-content class="md-padding">
+                        <!-- <h3 class="md-display-1">Search re-attended
+                            patients</h3> -->
+                        <!-- register patient  -->
+                        <md-input-container class="md-block">
+                            <input type="text" placeholder="Place Cursor to scan barcode sample number for testing" name="search"
+                                   uib-typeahead="patient as patient.fullname+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedPatient" typeahead-on-select="openDialogForServices(selectedPatient,ev)">
+                        </md-input-container>
+
+
+                        <div  role="form">
+                            <div class="panel-body" ng-if="labDepartmentCollectedSamples.length == 0">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><span class="fa fa-warning fa-pause fa-3x" style="color: red"></span><b> No any pending sample to test posted right now </b> </li>
+
+                                </ul>
+                            </div>
+
+
+                            <md-content class="md-padding" style="padding:2em;" ng-if="labDepartmentCollectedSamples.length>0">
+                                <div layout="row">
+                                    <div flex="20">
+                                        <md-list style="color:white;font-weight:700">
+                                            <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getLabCollectedSample(labDepartmentCollectedSample.sub_department_id)" class="md-1-line" ng-repeat="labDepartmentCollectedSample in labDepartmentCollectedSamples ">
+                                                {{labDepartmentCollectedSample.sub_department_name}}
+                                            </md-list-item>
+                                        </md-list>
+                                    </div>
+                                    <div flex="80">
+                                        <md-card>
+
+                                            <md-card-content>
+                                                <md-chips>
+                                                    <md-chip ng-repeat="getLabCollectedSample in getLabCollectedSamples | filter:selectedPatient" ng-click="getSamplesToTest(getLabCollectedSample)"  style="cursor:pointer;">
+                                                        <strong>{{getLabCollectedSample.first_name}} {{getLabCollectedSample.middle_name}} {{getLabCollectedSample.last_name}} ({{getLabCollectedSample.sample_no}}):{{getLabCollectedSample.item_name}}</strong>
+                                                        <sup class="button " style="background-color: red" ng-if="getLabCollectedSample.priority=='Urgent'">Urgent</sup>
+                                                    </md-chip>
+                                                </md-chips>
+
+                                            </md-card-content>
+                                        </md-card>
+
+                                    </div>
+                                </div>
+                            </md-content>
+
+
+
+
+
+
+
+
+</form>
+</div>
+<!-- end register patient -->
+</md-content>
+
+</md-tab>
+<md-tab label="TB and Leprosy  Form" ng-click="savedTbLeprosyRequestData()">
+    <vertical-tabs>
+        <vertical-tab-pane title="TB AND LEPROSY REQUEST"  >
+            <b ng-if="tb_leps.length==0" style="color: red">No request for TB or Leprosy available</b>
+            <md-chips>
+
+                <md-chip ng-repeat="pt in tb_leps" ng-click="getTbLeprosyForm(pt)" style="cursor: pointer">
+                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                    {{pt.first_name | uppercase }}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase }}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase }}{{pt.medical_record_number | uppercase }}
+
+                </md-chip>
+            </md-chips>
+        </vertical-tab-pane>
+
+        <vertical-tab-pane title="APROVE TB AND LEPROSY RESULT"  >
+            <b ng-if="tb_leps_result.length==0" style="color: red">No request for TB or Leprosy available</b>
+            <md-chips>
+
+                <md-chip ng-repeat="pt in tb_leps_result" ng-click="getTbLeprosyAproveForm(pt)" style="cursor: pointer">
+                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                    {{pt.first_name | uppercase }}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase }}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase }}{{pt.medical_record_number | uppercase }}
+
+                </md-chip>
+            </md-chips>
+        </vertical-tab-pane>
+    </vertical-tabs>
+    <!--<table class="table table-bordered " >-->
+    <!--<caption> <b class="">-->
+
+    <!--<div  class="text-right"> <h8> TB/LEP01</h8></div>-->
+    <!--<div  class="text-center"> <h8> The United Republic of Tanzania</h8></div>-->
+    <!--<div  class="text-center"> <h8> MINISTRY OF HEALTH, COMMUNITY DEVELOPMENT,GENDER, ELDERLY AND CHILDREN</h8></div>-->
+    <!--<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>-->
+
+    <!--<div  class="text-center"> <h8>  National TB and Leprosy Programme</h8></div>-->
+    <!--<div  class="text-center"><h8> REQUEST AND REPORT FORM FOR BIOLOGICAL SPECIMEN FOR TB AND LEPROSY</h8></div>-->
+
+    <!--</b></caption>-->
+    <!--<tr>-->
+    <!--<td>Name of health facility:  </td>-->
+    <!--<td>Date of request: </td>-->
+    <!--<td>Time: </td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td>Name of patient: </td>-->
+    <!--<td>Age: </td>-->
+    <!--<td>Sex(M/F): </td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td> </td>-->
+    <!--<td>Date of collection: </td>-->
+    <!--<td>Time:</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3">Physical address (ward,street,village,house number):  </td>-->
+
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="2">Contact telephone/mobile no: </td>-->
+    <!--<td>TB District No: </td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="2">Area leader/neighbor: </td>-->
+    <!--<td>Laboratory Serial No: </td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3"><b>Reason for examination</b><p></p>-->
+    <!--<md-radio-group layout="row" ng-model="tb.reason_for_examination">-->
+    <!--<md-radio-button value="diagnosis_if_tb" class="md-primary">Diagnosis.If diagnosis,TB</md-radio-button>-->
+    <!--<md-radio-button value="MRDT" class="md-primary">MRDT </md-radio-button>-->
+    <!--<md-radio-button value="Leprosy" class="md-primary">Leprosy </md-radio-button>-->
+    <!--<md-radio-button value="follow-up" class="md-primary">Or Follow-up. ifnfollowup </md-radio-button>-->
+    <!--</md-radio-group>-->
+    <!--<p></p>-->
+
+    <!--<md-input-container class="md-block " ng-if="tb.reason_for_examination=='follow-up'">-->
+    <!--<label>Month on treatment</label>-->
+    <!--<input type="datetime" ng-model="tb.month_on_treatment" datetime-picker   date-format="yyyy-MM-dd"  >-->
+
+    <!--</md-input-container>-->
+
+    <!--</td>-->
+
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3">-->
+    <!--HIV status: <p></p>-->
+    <!--<md-radio-group layout="row" ng-model="tb.hiv_status">-->
+    <!--<md-radio-button value="Reactive" class="md-primary">Reactive</md-radio-button>-->
+    <!--<md-radio-button value="Nonreactive" class="md-primary">Non reactive </md-radio-button>-->
+    <!--<md-radio-button value="Unknown" class="md-primary">Unknown </md-radio-button>-->
+    <!--</md-radio-group>-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3">-->
+    <!--Previously treated for TB ? <p></p>-->
+    <!--<md-radio-group layout="row" ng-model="tb.pre_tb_treatment">-->
+    <!--<md-radio-button value="YES" class="md-primary">YES</md-radio-button>-->
+    <!--<md-radio-button value="No" class="md-primary">No </md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</td>-->
+    <!--</tr>-->
+
+    <!--<tr>-->
+    <!--<td colspan="3">-->
+    <!--Specimen type-->
+    <!--<p></p>-->
+    <!--<md-radio-group layout="row" ng-model="tb.specimen_type">-->
+    <!--<md-radio-button value="Sputum" class="md-primary">Sputum</md-radio-button>-->
+    <!--<md-radio-button value="CSF" class="md-primary">CSF </md-radio-button>-->
+    <!--<md-radio-button value="Peritoneal_fluid" class="md-primary">Peritoneal fluid </md-radio-button>-->
+    <!--<md-radio-button value="Skin_Smear" class="md-primary">Skin Smear </md-radio-button>-->
+    <!--<md-radio-button value="Pleural_fluid" class="md-primary">Pleural fluid </md-radio-button>-->
+    <!--<md-radio-button value="Lymph_node" class="md-primary">Lymph node </md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3">-->
+    <!--Test(s) requested  <p></p>-->
+    <!---->
+    <!--<md-radio-group layout="row" ng-model="tb.test_requested">-->
+    <!--<md-radio-button value="Microscope" class="md-primary">Microscope</md-radio-button>-->
+    <!--<md-radio-button value="Xpert_MTB_RIF" class="md-primary">Xpert MTB/RIF </md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3">-->
+    <!--Name and signature of person requesting examination:-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="3" >-->
+
+    <!--<b class="text-center">Contacts for results feedback(if RR for Xpert MTB/RIF) DTLC/RTLC</b>-->
+    <!--<p></p>-->
+
+    <!--<div  class="md-block   col-md-12">-->
+
+
+    <!--<md-input-container class="md-block  md-block   col-md-6 col-sm-4 ">-->
+    <!--<label> RTLC name: </label>-->
+    <!--<input type="text" ng-model="tb.rtlc_name"   >-->
+
+    <!--</md-input-container>-->
+
+
+
+    <!--<md-input-container class="md-block  md-block   col-md-6 col-sm-4 ">-->
+    <!--<label>  Email contact: </label>-->
+    <!--<input type="text" ng-model="tb.rtlc_email"   >-->
+
+    <!--</md-input-container>-->
+    <!--<p></p>-->
+    <!--<md-input-container class="md-block md-block   col-md-6 col-sm-4  ">-->
+    <!--<label> DTLC name: </label>-->
+    <!--<input type="text" ng-model="tb.dtlc_name"   >-->
+
+    <!--</md-input-container>-->
+
+
+
+    <!--<md-input-container class="md-block  md-block   col-md-6 col-sm-4 ">-->
+    <!--<label>  Email contact: </label>-->
+    <!--<input type="text" ng-model="tb.dtlc_email"   >-->
+
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<th colspan="3">-->
+    <!--<md-button ng-click="saveTbLeprosyRequest(tb)" class="md-primary md-raised">Save</md-button>-->
+    <!--</th>-->
+    <!--</tr>-->
+
+    <!--</table>-->
+
+    <!--<md-checkbox  ng-model="inv" aria-label="">-->
+    <!--View laboratory result form-->
+    <!--</md-checkbox>-->
+    <!--<div ng-if="inv">-->
+    <!--<table class="table table-bordered text-center" >-->
+    <!--<caption>-->
+
+
+
+    <!--<div  class="text-center"> <b>Results (to be completed in Laboratory)</b></div>-->
+    <!--<p></p>-->
+
+
+    <!--<div  class="md-block   col-md-12">-->
+
+
+    <!--<md-input-container class="md-block  md-block   col-md-4 col-sm-4 ">-->
+    <!--<label> Laboratory Serial no: </label>-->
+    <!--<input type="text" ng-model="lab.laboratory_serial_no"   >-->
+
+    <!--</md-input-container>-->
+
+
+
+    <!--<md-input-container class="md-block  md-block   col-md-4 col-sm-4 ">-->
+    <!--<label>  Date and Time of reception </label>-->
+
+    <!--<input type="datetime" ng-model="lab.reception_date" datetime-picker   date-format="yyyy-MM-dd h:m"  >-->
+
+    <!--</md-input-container>-->
+
+
+    <!--<md-radio-group layout="row" ng-model="lab.zn_fm"  class="md-block  md-block   col-md-4 col-sm-4 ">-->
+    <!--<md-radio-button value="ZN" class="md-primary">ZN</md-radio-button>-->
+    <!--<md-radio-button value="FM" class="md-primary">FM </md-radio-button>-->
+
+    <!--</md-radio-group>-->
+
+    <!--</div>-->
+
+    <!--</caption>-->
+    <!--<tr>-->
+    <!--<td>Date</td>-->
+    <!--<td>Specimen</td>-->
+    <!--<td>Received by</td>-->
+    <!--<td>Appearance<sup>*</sup></td>-->
+    <!--<td colspan="5">Result(Tick one)</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> <md-input-container class="md-block  md-block  ">-->
+    <!--<label>Enter Appearance  </label>-->
+    <!--<input type="text" ng-model="lab.appearance"   >-->
+
+    <!--</md-input-container></th>-->
+    <!--<th style="background:silver">neg</th>-->
+    <!--<th style="background:silver">Scanty</th>-->
+    <!--<th style="background:silver">1+</th>-->
+    <!--<th style="background:silver">2+</th>-->
+    <!--<th style="background:silver">3+</th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;"><md-radio-group layout="row" ng-model="lab.specimen"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="A" class="md-primary">A</md-radio-button>-->
+
+    <!--</md-radio-group></th>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<th rowspan="2"> <md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="neg" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group></th>-->
+    <!--<th rowspan="2">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="Scanty" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</th>-->
+    <!--<th rowspan="2">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="1+" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</th>-->
+    <!--<th rowspan="2">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="2+" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</th>-->
+    <!--<th rowspan="2">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="3+" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group></th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;"><md-radio-group layout="row" ng-model="lab.specimen"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="B" class="md-primary">B</md-radio-button>-->
+
+    <!--</md-radio-group></th></th>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<th style="background:silver">N <sup>#</sup> </th>-->
+    <!--<th style="background:silver"> T<sup>#</sup></th>-->
+    <!--<th style="background:silver"> TI<sup>#</sup></th>-->
+    <!--<th style="background:silver">RR<sup>#</sup></th>-->
+    <!--<th style="background:silver">I <sup>#</sup></th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td>-->
+
+    <!--<md-radio-group layout="row" ng-model="lab.specimen"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="Xpert_MTB_RIF" class="md-primary">Xpert MTB/RIF</md-radio-button>-->
+
+    <!--</md-radio-group></th></td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1</td>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> <md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="N" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group></th>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="T" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</th>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="TI" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</th>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="RR" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group>-->
+    <!--</th>-->
+    <!--<th style="border-right: thin dotted black;border-bottom: thin dotted black;">-->
+    <!--<md-radio-group layout="row" ng-model="lab.result"  class="md-block  md-block   ">-->
+    <!--<md-radio-button value="I" class="md-primary"></md-radio-button>-->
+
+    <!--</md-radio-group></th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="9">-->
+
+    <!--<sup>*</sup>Visual appearence of sputum(blood stained,purulent,mucous,mucopurulent,salivary)-->
+    <!--<p></p>-->
+    <!--<sup>#</sup>N=MTB not detected;; T=MTB detected rifampicin resistance not detected;; RR=MTB detected rifampicin resistance  detected <p></p>-->
+    <!--;; TI=MTB detected rifampicin resistance indeterrminate;; I=Error/ No result/Invalid-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<th colspan="9">Skin Smearbresult(to be completed in laboratory)</th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="4">Ear lobe</td>-->
+    <!--<td colspan="5">Lesion</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td colspan="4"> <md-input-container class="md-block  md-block  ">-->
+    <!--<label>Enter  Ear lop  </label>-->
+    <!--<input type="text" ng-model="lab.ear_lobe"   >-->
+
+    <!--</md-input-container></td>-->
+    <!--<td colspan="5">-->
+    <!--<md-input-container class="md-block  md-block  ">-->
+    <!--<label>Enter Lesion  </label>-->
+    <!--<input type="text" ng-model="lab.lesion"   >-->
+
+    <!--</md-input-container></td>-->
+    <!--</tr>-->
+    <!--</table>-->
+    <!--<div class="text-center">-->
+
+
+    <!--Date :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--Examined by :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Signature:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--<p></p>-->
+    <!--Date :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--Reviewed by :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Signature:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+
+    <!--<p></p>-->
+    <!--COMMENTS: <md-input-container class="md-block  md-block  ">-->
+    <!--<label>Enter  Comments  </label>-->
+    <!--<input type="text" ng-model="lab.comment"   >-->
+    <!--<md-button ng-click="saveTbLeprosyResult(lab)" class="md-primary md-raised">Save</md-button>-->
+    <!--</md-input-container>-->
+    <!--<p></p>-->
+    <!--Resaits report verified by: :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--Time :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--Signature :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--</div>-->
+    <!--</div>-->
+</md-tab>
+<md-tab label="Results Approve" ng-click="showResultsToVerify()">
+
+       <md-input-container class="md-block">
+                            <input type="text" placeholder="Place Cursor to scan barcode sample number for test approve" name="search"
+                                   uib-typeahead="patient as patient.fullname+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedPatient" typeahead-on-select="openDialogForServices(selectedPatient,ev)">
+                        </md-input-container>
+
+     <md-content class="md-padding" style="padding:2em;">
+                                <div layout="row">                                   
+                                    <div flex="100">                                       
+
+<md-list style="color:white;font-weight:700" ng-if="verifyLabResults.length ==0">
+                                            <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;"  class="md-1-line">
+                                                No lab results to Approve right now
+                                            </md-list-item>
+                                        </md-list>
+
+                                              <md-chips>
+                                                  <!--single tests  -->
+                                                    <md-chip ng-repeat="singleTest in  singleTests | filter:selectedPatient" ng-click="validateLabResultsPerRequest(singleTest)"  style="cursor:pointer;">
+                                                        <strong>{{singleTest.full_name}}-{{singleTest.item_name+' ('+singleTest.sample_no+')'}}</strong>
+                                                        <sup class="button " style="background-color: red" ng-if="singleTest.priority=='Urgent'">Urgent</sup>
+                                                    </md-chip>
+                                                     <!--panel tests  -->
+                                                    <md-chip ng-repeat="PanelsTest in  PanelsTests | filter:selectedPatient" ng-click="validateLabResultsPerRequest(PanelsTest.order_id)"  style="cursor:pointer;">
+                                                        <strong>{{PanelsTest.full_name}}-{{PanelsTest.item_name+' ('+PanelsTest.sample_no+')'}}</strong>
+                                                        <sup class="button " style="background-color: red" ng-if="PanelsTest.priority=='Urgent'">Urgent</sup>
+                                                    </md-chip>
+
+
+
+                                                </md-chips>
+
+                                        
+
+                                    </div>
+                                </div>
+                            </md-content>
+</md-tab>
+
+  <md-tab label="BLOOD ORDER" ng-click="Blood_request_queue()" ng-if="blood_requests.length>0">
+
+     
+    <h1 class="text-center" ng-if="blood_requests.length<1">No Blood Request Found..</h1>
+    <md-input-container class="md-block ">
+
+        <input ng-model="search" placeholder="Search" />
+    </md-input-container>
+    <div layout="row" ng-if="blood_requests.length>0" >
+        <md-chips>
+
+            <md-chip ng-repeat="pt in blood_requests  | filter:search" ng-click="Issue_blood_request(pt)" style="cursor: pointer">
+                <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                {{pt.first_name  }}&nbsp;&nbsp;&nbsp;{{pt.middle_name  }}&nbsp;&nbsp;&nbsp;{{pt.last_name  }}
+            </md-chip>
+        </md-chips>
+    </div>
+
+
+
+
+</md-tab>
+<md-tab label="AMMEND RESULT ">
+ <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                        <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                               uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue | limitTo:15" ng-model="selectedPatient"
+                               typeahead-on-select="getLabResults(selectedPatient.patient_id)" autocomplete="off">
+                    </md-input-container>
+                    
+                   
+                </md-content>
+
+                 <div layout="row">
+                                                <div flex="20">
+                                                    
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getLabResultsDetails(lab)" class="md-1-line" ng-repeat="lab in labInvestigations">
+                                    {{lab.date_attended}}
+                                </md-list-item>
+                            </md-list>
+                                                </div>
+                                                <div flex="80">
+                                                    <table class="full-width">
+                                                        <thead ng-if="labResults.length>0">
+                                                        <td class="mdl-data-table__cell--non-numeric">Investigation</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">Description</td>
+                                                        <td class="mdl-data-table__cell--non-numeric" ng-if="!rs.attached_image"></td>
+                                                        <td class="mdl-data-table__cell--non-numeric" ng-if="rs.attached_image">Attachment</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">Remarks</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">Verifier</td>
+                                                        <td class="mdl-data-table__cell--non-numeric">Date</td>
+                                                        <td></td>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="rs in labResults">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{rs.item_name}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric">
+
+<textarea ng-model="rs.ammended_result" placeholder="{{rs.description}} &nbsp;{{rs.units}}">
+    
+</textarea>
+                                                            
+
+                                                        </td>
+                                                            <td class="mdl-data-table__cell--non-numeric" ng-if="!rs.attached_image"> </td>
+                                                            <td class="mdl-data-table__cell--non-numeric" ng-if="rs.attached_image"><md-button ng-click="getAttachedDocument(rs)">attachment</md-button></td> 
+                                                            <td class="mdl-data-table__cell--non-numeric" >{{rs.remarks}} </td>
+                                                            <td class="mdl-data-table__cell--non-numeric" >{{rs.name}} </td>
+                                                            <td class="mdl-data-table__cell--non-numeric">{{rs.created_at}}</td>
+                                                            <td>
+                                                                <button ng-click="saveAmmendedResult(rs)">
+                                                                    Save Ammended result
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+    </md-tab>
+<md-tab label="BLOOD STOCK ">
+    <vertical-tabs>
+        <vertical-tab-pane title="BLOOD BANK BALANCE" ng-click=" ">
+
+            <md-button ng-if="!blood_stocks" class="md-primary md-raised"  ng-click="blood_stocks_balance()">Click To View</md-button>
+            <md-button ng-if="blood_stocks.length<0" class="md-warn md-raised"  ng-click="blood_stocks_balance()">No data Found...</md-button>
+
+            <div layout="row" >
+                <div flex="80"></div>
+                <md-checkbox  ng-model="inv" aria-label="Graphy" >
+                    Graphical View?
+                </md-checkbox>
+            </div>
+            <!--invoices-->
+            <div ng-if="inv">
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="data" chart-labels="labels">
+                </canvas>
+            </div>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="blood_stocks.length>0 && !inv">
+                <thead style="background-color:beige">
+                <th class="mdl-data-table__cell--non-numeric">Group</th>
+                <th class="mdl-data-table__cell--non-numeric">Unit</th>
+
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="blood_stock in blood_stocks">
+
+                    <td class="mdl-data-table__cell--non-numeric">{{blood_stock.blood_group}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{blood_stock.available_unit}}</td>
+
+                </tr>
+                <tr title="Total Number Unit Available [{{Total_unit_balance}}]" style="background-color:beige">
+
+                    <td class="mdl-data-table__cell--non-numeric">Total Number Unit Available</td>
+                    <td class="mdl-data-table__cell--non-numeric" class="badge">{{Total_unit_balance}}</td>
+
+                </tr>
+                </tbody>
+            </table>
+
+
+        </vertical-tab-pane>
+
+        <vertical-tab-pane title="UNIT ISSUED/USED">
+            <div layout="row">
+                <div flex="40">
+
+                    <md-radio-group layout="row" ng-model="outreach">
+                        <md-radio-button value="patient" md-checked class="md-primary">Internal</md-radio-button>
+                        <md-radio-button value="outreach" class="md-primary">External </md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div flex="60">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="blood_stocks_issued(data)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+            </div>
+
+
+            <div ng-if="blood_stock_issues && blood_stock_issues.length<1" style="color:red;">No Record Found</div>
+            <div  ng-if="outreach=='patient'">
+
+                <div layout="row" >
+                    <div flex="80"></div>
+                    <md-checkbox  ng-model="inv1" aria-label="Graphy" >
+                        Graphical View?
+                    </md-checkbox>
+                </div>
+                <!--invoices-->
+                <div  >
+                    <canvas id="bar" class="chart chart-bar" ng-if="inv1"
+                            chart-data="data1" chart-labels="labels1">
+                    </canvas>
+                </div>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="blood_stock_issues.length>0 && !inv1">
+                    <caption> <b class="md-headline">BLOOD UNITS USED TO PATIENTS</b>[{{data.start_date| date:'yyyy-MM-dd'}}--{{data.end_date| date:'yyyy-MM-dd'}}]</caption>
+                    <thead style="background-color:beige">
+                    <th class="mdl-data-table__cell--non-numeric">Group</th>
+                    <th class="mdl-data-table__cell--non-numeric">Unit Used</th>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr ng-repeat="issued in blood_stock_issues[0]">
+                        <td class="mdl-data-table__cell--non-numeric">{{issued.blood_group}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> <b ng-if="issued.unit_issued>0">{{issued.unit_issued}}</b>
+                            <b ng-if="issued.unit_issued < 1 ">0</b></td>
+
+                    </tr>
+                    <tr title="Total Number Unit Available [{{Total_unit_issued}}]" style="background-color:beige">
+
+                        <td class="mdl-data-table__cell--non-numeric">Total Number Unit Used</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{Total_unit_issued}}</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div  ng-if="outreach=='outreach'">
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="blood_stock_issues.length>0" >
+                    <caption><b class="md-headline">BLOOD UNITS ISSUED TO ANOTHER FACILITY</b>[{{data.start_date| date:'yyyy-MM-dd'}}--{{end.end_date| date:'yyyy-MM-dd'}}]</caption>
+                    <thead style="background-color:beige">
+                    <th class="mdl-data-table__cell--non-numeric">Group</th>
+                    <th class="mdl-data-table__cell--non-numeric">Unit Used</th>
+                    <th class="mdl-data-table__cell--non-numeric">Facility</th>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr ng-repeat="issued in blood_stock_issues[1]">
+                        <td class="mdl-data-table__cell--non-numeric">{{issued.blood_group}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> <b ng-if="issued.unit_issued>0">{{issued.unit_issued}}</b>
+                            <b ng-if="issued.unit_issued < 1 ">0</b></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{issued.unit_issued_out}}</td>
+                    </tr>
+                    <tr title="Total Number Unit Available [{{Total_unit_issued}}]" style="background-color:beige">
+
+                        <td class="mdl-data-table__cell--non-numeric">Total Number Unit Used</td>
+                        <td class="mdl-data-table__cell--non-numeric" colspan="2">{{Total_unit_issued_out}}</td>
+
+
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </vertical-tab-pane>
+
+        <vertical-tab-pane title="BLOOD ISSUING">
+
+
+            <div layout="row"  >
+                <div flex="80"></div>
+                 
+            </div>
+            <div >
+                
+
+                
+                <div class="col-md-6"  >
+                    <md-input-container class="md-block" >
+                        <label>Enter Place or Facility You want To Issue</label>
+                        <input type="text" min="0" class="md-block" autocomplete="off" id="unit_issued_out" ng-model="issue.unit_issued_out">
+                    </md-input-container>
+                </div>
+                <div class="col-md-12" >
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >Choose Blood Group</label>
+                            <md-select ng-model="issue.blood_group">
+                                <md-option value="A+">A+</md-option>
+                                <md-option value="A-">A-</md-option>
+                                <md-option value="B+">B+</md-option>
+                                <md-option value="B-">B-</md-option>
+                                <md-option value="AB+">AB+</md-option>
+                                <md-option value="AB-">AB-</md-option>
+                                <md-option value="O+">O+</md-option>
+                                <md-option value="O-">O-</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label>Enter Number Of unit To Issue</label>
+                            <input type="number" min="0" autocomplete="off" id="unit" class="md-block" ng-model="issue.unit">
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4" ng-if="issue.unit>0">
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                            <md-button class="md-raised md-primary" ng-click="blood_stock_issuing(issue,selectedPatient)">  Issue</md-button>
+
+                        </section>
+                    </div>
+
+
+                </div>
+            </div>
+        </vertical-tab-pane>
+        <vertical-tab-pane title="RECEIVING STOCK">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <md-input-container class="md-block" >
+                        <label >Choose Blood Group</label>
+                        <md-select ng-model="stock.blood_group">
+                            <md-option value="A+">A+</md-option>
+                            <md-option value="A-">A-</md-option>
+                            <md-option value="B+">B+</md-option>
+                            <md-option value="B-">B-</md-option>
+                            <md-option value="AB+">AB+</md-option>
+                            <md-option value="AB-">AB-</md-option>
+                            <md-option value="O+">O+</md-option>
+                            <md-option value="O-">O-</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-md-4">
+                    <md-input-container class="md-block" >
+                        <label>Enter Number Of unit</label>
+                        <input type="number" min="0" class="md-block" ng-model="stock.unit">
+                    </md-input-container>
+                </div>
+                <div class="col-md-4">
+                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                        <md-button class="md-raised md-primary" ng-click="Add_blood_stock(stock)">  Add To List</md-button>
+
+                    </section>
+                </div>
+                <div class="col-md-12" ng-if="blood_arrays.length>0">
+
+
+                    <table  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                        <tr style="background-color:beige">
+                            <th class="mdl-data-table__cell--non-numeric">Blood Group</th>
+                            <th class="mdl-data-table__cell--non-numeric">Unit</th>
+                            <th class="mdl-data-table__cell--non-numeric"> </th>
+                        </tr>
+                        <tr ng-repeat="blood_array in blood_arrays">
+                            <td class="mdl-data-table__cell--non-numeric">{{blood_array.blood_group}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{blood_array.unit}}</td>
+
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <a ng-click="removeBloodArray($index)"
+                                   style="color:maroon"
+                                   title="Remove from list">Remove</a></td>
+                        </tr>
+                        <tr style="background-color:beige">
+                            <th class="mdl-data-table__cell--non-numeric" >Total Unit</th>
+                            <th class="mdl-data-table__cell--non-numeric" colspan="2">{{Total_unit}}</th>
+                        </tr>
+                    </table>
+                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+                        <md-button class="md-raised md-primary" ng-click="blood_stock(stock)">  Save</md-button>
+                    </section>
+                </div>
+            </div>
+
+        </vertical-tab-pane>
+
+    </vertical-tabs>
+
+</md-tab>
+
+
+
+<md-tab label="Lab Reports">
+    <md-content class="md-padding">
+  
+ <!--vertical tabs start-->
+        <vertical-tabs >
+            <vertical-tab-pane title="Lab Monthly Report">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd " />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="labMonthlyReport(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary"   ng-click="printlabMonthlyReport()">Print</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout-padding style="width:90%;margin:0 auto;">
+
+                    <div id="monthly_id">
+                        <table class="table-responsive"  style="border:thin solid black; width:100%">
+                            <caption> <b class="">
+
+                                <b class="col-md-4">Jina la Kituo: {{menu[0].facility_name}} {{menu[0].description}} </b>
+
+                                <p></p>
+                                <p></p>
+                                <b class="col-md-4">Tarehe ya Kuanza:{{pef.start | date:'dd.MM.yyyy'}} </b>
+                                <b class="col-md-4">Tarehe ya Kumaliza:{{pef.end | date:'dd.MM.yyyy'}} </b>
+                                <hr>
+                            </b></caption>
+                            <tr style="background-color:#c1c1c1;font-size:medium;font-family: Tunga" >
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  >  </th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  >Kipimo</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  >Idadi ya  vipimo vilivyohitajika kupimwa kwa wagonjwa/wateja walioelekezwa na Mganga kwenda  Maabara</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  > Idadi ya Vipimo Vilivyofanyika</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  >Idadi ya Vipimo ambavyo havikufanyika vilivyokuwa vimeagizwa na Mganga </th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  > Idadi ya vipimo vilivyofanyika kwa  Msamaha</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  > Jumla ya fedha ya vipimo vilivyofanyika kwa malipo ya papo kwa papo/CHF/NHIF</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"  > Jumla ya fedha ya vipimo vya msamaha (Vipimo vya msamaha ukithaminisha  katika fedha)</th>
+
+
+                            </tr>
+                            <tr ng-repeat="det in labss track by $index">
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</th>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.lab_indicator}}</td>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.all_test_conducted -(- det.unavailable_test)-(-det.available_test_not_conducted)}}</td>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.all_test_conducted}}</td>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.unavailable_test - (-det.available_test_not_conducted)}}</td>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.tests_conducted_misamaha}}</td>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.gharama_bima| currency:""}}</td>
+                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{det.gharama_misamaha | currency:""}}</td>
+
+                            </tr>
+
+
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Report by Test">
+                <div layout="row">
+                    <div flex="10">
+                    </div>
+                    <div flex="20">
+                        <md-input-container>
+                            <label>Choose Start Date</label>
+                            <input ng-model="data.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                        </md-input-container>
+                    </div>
+                    <div flex="20">
+                        <md-input-container>
+                            <label>Choose End Date</label>
+                            <input ng-model="data.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                        </md-input-container>
+                    </div>
+                    <div flex="30">
+                        <md-input-container class="md-block">
+                            <input data-toggle="tooltip" title="Search Tests here" type="text" placeholder="Search Tests" name="search"
+                                   uib-typeahead="test as test.item_name for test in showSearchTests($viewValue) |filter:$viewValue | limitTo:15"
+                                   ng-model="selectedItem"
+                                   typeahead-on-select="getLabReports($item,data)" autocomplete="off">
+                        </md-input-container>
+                    </div>
+                    <div flex="5">
+
+                    </div>
+                    <div flex="15">
+                        <md-button  class="md-raised md-primary" ng-click="printResReport()">print</md-button>
+                    </div>
+                </div>
+
+                <div layout="row">
+
+                </div>
+                <div layout="row">
+                    <div flex="100" id="divtoprintrep" >
+
+                        <table class="table table-bordered" border="1">
+                            <caption> <b class="">
+
+                                <div  class="text-center"> <h5>  RIPOTI YA UPIMAJI KWA KIPIMO</h5></div>
+                                <hr>
+                                <b class="col-md-4">Jina la Kituo: {{menu[0].facility_name }} </b>
+                                <b class="col-md-4">Wilaya : {{facility_address.council_name}}  </b>
+                                <b class="col-md-4">Mkoa : {{facility_address.region_name}} </b>
+                                <b class="col-md-4">KIPIMO : {{selectedItem.item_name}} </b>
+                                <P></P>
+                                <P></P>
+                                <P></P>
+                                <b class="col-md-4">Kuanzia:{{data.start | date:'dd.MM.yyyy'}} </b>
+                                <b class="col-md-4">Hadi:{{data.end | date:'dd.MM.yyyy'}} </b>
+                                <hr>
+                            </b></caption>
+                            <tr style="background-color:#c1c1c1">
+                                <th rowspan="2"> Na </th>
+                                <th  rowspan="2">Majibu</th>
+                                <th colspan="3">Umri chini ya mwezi 1</th>
+                                <th colspan="3">Umrimwezi 1 hadi umri chini ya mwaka 1</th>
+                                <th colspan="3">Umri
+                                    mwaka 1
+                                    hadi umri
+                                    chini ya
+                                    miaka 5</th>
+
+                                <th colspan="3">miaka 5
+                                    hadi
+                                    miaka
+                                    chini ya 60</th>
+
+                                <th colspan="3">Umri
+                                    miaka 60
+                                    na
+                                    kuendelea</th>
+
+                                <th colspan="3">Jumla
+                                    Kuu</th>
+                            </tr>
+                            <tr style="background-color:#c1c1c1">
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+
+
+
+                            </tr>
+                            <tr ng-repeat="item in testsReport" >
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{$index+1}} </th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.description}} </th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_0_1_month}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_0_1_month }}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_0_1_month}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_0_11_month}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_0_11_month}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_0_11_month}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_1_5_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_1_5_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_1_5_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_6_59_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_6_59_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_6_59_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_above_60_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_above_60_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.total_above_60_year}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.male_total_attendance}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.female_total_attendance}}</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.grand_total_attendance}}</th>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Sample tested Counts">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getSampleTesttedCount(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary"   ng-click="getSampleTesttedCountprint()">Print</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+
+                    <div flex="85" id="labtestcoutnt">
+
+                        <table class="table table-bordered table-striped" border="1" >
+                            <thead>
+                            <tr>
+
+                                <th >S/No</th>
+                                <th >Test Name</th>
+                                <th >Number of Clients</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="sampleStatus in sampleCounts track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    {{ $index+ 1}}
+                                </td>
+
+                                <td >{{sampleStatus.item_name}}</td>
+                                <td >{{sampleStatus.clients}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="TAT Report">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="TaTReport(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container ng-if="tats.length>0">
+                        <md-button class="md-raised md-secondary" class="md-block col-md-4 col-sm-4" ng-click="print_tat()">Print</md-button>
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Filtering</label>
+                        <input ng-model="search"  />
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="TATreport(pef)">
+
+                    <div flex="85" id="tat_id" style="overflow-x:scroll;max-width:960px;" >
+
+                        <table class="table table-bordered " border="1" style="font-family: 'Times New Roman'" ng-if="tats.length > 0">
+
+                            <thead>
+                            <tr>
+
+                                <th >S/No</th>
+                                <th >Date</th>
+                                <th >Test Done</th>
+                                <th >Patient Name</th>
+                                <th >Log In Time</th>
+                                <th >Log Out Time</th>
+                                <th >Total TAT=(LogInTime-LogOutTime)</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="printResult in tats |filter:search track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    {{ $index+ 1}}
+                                </td>
+                                <td >{{printResult.date}}</td>
+                                <td >{{printResult.test_done}}</td>
+                                <td >{{printResult.first_name+" "+printResult.middle_name+" "+printResult.last_name+" ("+printResult.medical_record_number+")"}}</td>
+                                <td >{{printResult.login}}</td>
+                                <td >{{printResult.logout}}</td>
+                                <td >{{printResult.tat}} </td>
+
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+		 <vertical-tab-pane title="Preview Results">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="rePrintResults(pef)">Search</md-button>
+                    </md-input-container>
+                    <md-input-container ng-if="printResults.length>0">
+                        <md-button class="md-raised md-secondary" class="md-block col-md-4 col-sm-4" ng-click="print_()">Print</md-button>
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Filtering</label>
+                        <input ng-model="search"  />
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="rePrintResults(pef)">
+
+                    <div flex="85" >
+
+
+                        <div id="id_lab">
+                        <table class="table table-bordered table-striped" border="1" style="font-family: 'Times New Roman'" ng-if="printResults.length > 0">
+
+                            <thead>
+                            <tr>
+                                
+                                <th >S/No</th>
+                                <th >Sample #</th>
+
+                                <th >Test Name</th>
+                                <th >Test Results</th>
+                                <th >Medical Record Number</th>
+ 			<th >Gender</th>
+ <th >Age</th>
+
+
+                                <th >Time</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="printResult in printResults|filter:search track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                  {{ $index+ 1}}
+                                </td>
+                                <td >{{printResult.sample_no}}</td>
+
+                                <td >{{printResult.item_name}}</td>
+                                <td >{{printResult.description}}  &nbsp;{{printResult.units}}</td>
+                                <td >{{printResult.medical_record_number}}</td>
+<td >{{printResult.gender}}</td>
+<td >{{printResult.age}}</td>
+                                <td >{{printResult.created_at}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Sample Status">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getSampleStatus(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="getStaffPerfomance(pef)">
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="sampleStatuses.length > 0">
+                            <thead>
+                            <tr>
+
+                                <th >S/No</th>
+                                <th >Sample #</th>
+                                <th >Sample Types</th>
+                                <th >Sample Section</th>
+                                <th >Test Name</th>
+                                <th >Medical Record Number</th>
+                                <th >Sample Status</th>
+                                <th >Requested Time</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="sampleStatus in sampleStatuses track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    {{ $index+ 1}}
+                                </td>
+                                <td >{{sampleStatus.sample_no}}</td>
+                                <td >{{sampleStatus.sample_types}}</td>
+                                <td >{{sampleStatus.sub_department_name}}</td>
+                                <td >{{sampleStatus.item_name}}</td>
+                                <td >{{sampleStatus.medical_record_number}}</td>
+                                <td >
+
+                                    {{sampleStatus.sample_status}}
+
+                                </td>
+                                <td >{{sampleStatus.created_at}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Your Perfomances">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="getPermanceAtLabForSpecificStaff(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="staffPerformances.length > 0">
+                            <thead>
+                            <tr>
+
+                                <th >S/No</th>
+                                <th >Staff Name</th>
+
+                                <th >Number of Tests Perfomed</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="staffPerformance in staffPerformances track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    {{ $index+ 1}}
+                                </td>
+                                <td >{{staffPerformance.posted_by}}</td>
+                                <td >{{staffPerformance.test_number}}</td>
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </vertical-tab-pane>
+
+
+            <vertical-tab-pane title="Specimen Rejection Form">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="rePrintResults(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="rePrintResults(pef)">
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="printResults.length > 0">
+                            <thead>
+                            <tr>
+                                
+                                <th >S/No</th>
+                                <th >Sample #</th>
+                                <th >Test Results</th>
+                                <th >Test Name</th>
+                                <th >Medical Record Number</th>
+                                <th >Time</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="printResult in printResults track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                  {{ $index+ 1}}
+                                </td>
+                                <td >{{printResult.sample_no}}</td>
+                                <td >{{printResult.description}}</td>
+                                <td >{{printResult.item_name}}</td>
+                                <td >{{printResult.medical_record_number}}</td>
+                                <td >{{printResult.created_at}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+
+			
+			<vertical-tab-pane title="Order Audit Trail">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="rePrintResults(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="rePrintResults(pef)">
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="printResults.length > 0">
+                            <thead>
+                            <tr>
+                                
+                                <th >S/No</th>
+                                <th >Sample #</th>
+                                <th >Test Results</th>
+                                <th >Test Name</th>
+                                <th >Medical Record Number</th>
+                                <th >Time</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="printResult in printResults track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                  {{ $index+ 1}}
+                                </td>
+                                <td >{{printResult.sample_no}}</td>
+                                <td >{{printResult.description}}</td>
+                                <td >{{printResult.item_name}}</td>
+                                <td >{{printResult.medical_record_number}}</td>
+                                <td >{{printResult.created_at}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+			
+			<vertical-tab-pane title="Report Results Remotely">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="reportRemoteResults(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" >
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="remoteResults.length > 0">
+                            <thead>
+                            <tr>
+                                
+                                <th >S/No</th>
+                                <th >Sample #</th>
+                                <th >Results</th>
+                                <th >Test Name</th>
+                                <th >MRN</th>
+                                <th >Time</th>
+                                <th >Action</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+             <tr ng-repeat="remoteResult in remoteResults track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                  {{ $index+ 1}}
+                                </td>
+                                <td >{{remoteResult.sample_no}}</td>
+                                <td >{{remoteResult.description}}</td>
+                                <td >{{remoteResult.item_name}}</td>
+                                <td >{{remoteResult.medical_record_number}}</td>
+                                <td >{{remoteResult.created_at}}</td>
+<td > <md-button class="md-raised md-primary" ng-click="viewResults(remoteResult)">View</md-button></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+			
+			<vertical-tab-pane title="Pending Results">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="pendingResults(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" >
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="remoteResults.length > 0">
+                            <thead>
+                            <tr>
+                                
+                                <th >S/No</th>
+                                <th >Sample #</th>
+                                <th >Results</th>
+                                <th >Test Name</th>
+                                <th >MRN</th>
+                                <th >Time</th>
+                                <th >Action</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+             <tr ng-repeat="remoteResult in remoteResults track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                  {{ $index+ 1}}
+                                </td>
+                                <td >{{remoteResult.sample_no}}</td>
+                                <td >{{remoteResult.description}}</td>
+                                <td >{{remoteResult.item_name}}</td>
+                                <td >{{remoteResult.medical_record_number}}</td>
+                                <td >{{remoteResult.created_at}}</td>
+<td > <md-button class="md-raised md-primary" ng-click="viewResults(remoteResult)">View</md-button></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+
+
+
+        </vertical-tabs>
+        <!--vertical tabs end-->
+  
+</md-content>
+
+
+
+<md-tab label="FINANCE REPORTS">
+
+
+    <div style="overflow-x:scroll;max-width:960px;" >
+        <div layout="row">
+            <md-input-container>
+                <label>Choose Start Date</label>
+                <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Choose End Date</label>
+                <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="getDetailedReportsdepartmentally(dept)">Search</md-button>
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-if="cashdetailedData"
+                           ng-click="pharmacashprint()">
+                    Print
+                </md-button>
+        </div>
+        <div >
+
+
+            <md-input-container class="md-block">
+                <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+            </md-input-container>
+            <div id="pharmcash_id">
+                <table  class="table-responsive"  style="border:thin solid white; width:100%" >
+                    <tr style="background-color:white">
+                        <td align='center' style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                            <div>
+                                <div layout="row" layout-align="space-between center">
+                                    <div flex>
+                                        <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                    </div>
+                                    <div flex>
+                                        <center>
+                                            <h3 class="md-title">{{cardTitle.facility_name}}
+                                                {{cardTitle.description}}</h3>
+                                        </center>
+                                        <center>
+                                            <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                        </center>
+
+                                    </div>
+                                    <div flex>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="background-color:white">
+                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                            <div flex="100" layout="row" layout-padding>
+                                <div flex="50">
+                                    <dt>Start</dt>
+                                    <dd>{{dept.start}}</dd>
+                                </div>
+                                <div flex="50">
+                                    <dt>End</dt>
+                                    <dd>{{dept.end}}</dd>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="background-color:white">
+                        <td>
+
+                            <!-- the actual content -->
+                            <div flex="100" layout="row" layout-align="space-between center">
+
+
+
+
+                                <div>
+                                    <h4>Generated on {{department_report_generated_on}}</h4>
+                                    <h4>Generated by {{currentUser.name}}</h4>
+
+                                </div>
+                            </div>
+
+                            <table class="table-responsive"  style="border:thin solid black; width:100%"
+                                   width="100%" ng-if="cashdetailedData.length>0">
+                                <caption> <h3>Lab Cash Collection Finance Report</h3>
+                                    <p></p>
+                                    <h4> Grand Total : {{cashdetailedTotal | currency: 'Tshs. ' :2}}</h4>
+                                </caption>
+                                <thead>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">s/n</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MRN</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Unit Price</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cost</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="dpt in cashdetailedData |filter:search track by $index">
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.medical_record_number}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.item_name}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.total_items}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.price | currency: 'Tshs. ' :2}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.sub_total | currency: 'Tshs. ' :2}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table-responsive"  style="border:thin solid black; width:100%"
+                                   width="100%" ng-if="insurancedetailedData.length>0">
+                                <caption> <h3>Lab Insurance  Finance Report</h3>
+                                    <p></p>
+                                    <h4> Grand Total : {{insurancedetailedTotal | currency: 'Tshs. ' :2}}</h4>
+                                </caption>
+                                <thead>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">s/n</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MRN</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Unit Price</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cost</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="dpt in insurancedetailedData |filter:search track by $index">
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.medical_record_number}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.item_name}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.total_items}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.price | currency: 'Tshs. ' :2}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.sub_total | currency: 'Tshs. ' :2}}</td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                            <table class="table-responsive"  style="border:thin solid black; width:100%"
+                                   width="100%" ng-if="exemptiondetailedData.length>0">
+                                <caption> <h3>Lab Exemption  Finance Report</h3>
+                                    <p></p>
+                                    <h4> Grand Total : {{exemptiondetailedTotal | currency: 'Tshs. ' :2}}</h4></caption>
+                                <thead>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">s/n</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MRN</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Unit Price</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cost</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="dpt in exemptiondetailedData |filter:search track by $index">
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.medical_record_number}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.item_name}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.total_items}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.price | currency: 'Tshs. ' :2}}</td>
+                                    <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.sub_total | currency: 'Tshs. ' :2}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</md-tab>
+</md-tab>
+
+
+<md-tab label="MACHINE  SAMPLE RESULTS" ng-click="rejectedResultsFromMachines(p)">
+
+
+    <div   >
+        <div layout="row">
+            <md-input-container>
+                <label>Choose Start Date</label>
+                <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Choose End Date</label>
+                <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="rejectedResultsFromMachines(dept)">Search</md-button>
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-if="cashdetailedData"
+                           ng-click="pharmacashprint()">
+                    Print
+                </md-button>
+        </div>
+        <div > 
+            <md-input-container class="md-block">
+                <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+            </md-input-container>
+            <div id="pharmcash_id">
+
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+    <th>Machine</th>
+    <th>Varsion</th>
+    <th>SampleNo</th>
+    <th>Result</th>
+    <th>Range</th>
+    <th>Flag</th>
+    <th>Name</th>
+    <th>ReleasedBy</th>
+    <th>Remarks</th>
+    <th>PostedDate</th>
+    
+    </tr>
+
+    <tr ng-repeat=" reject in Machinerejects |filter:search track by $index">
+        <th>{{$index+1}}</th>
+    <th>{{reject.machineName}}</th>
+    <th>{{reject.version}}</th>
+    <th>{{reject.sampleId}}</th>
+    <th>{{reject.result}} {{reject.unit}}</th>
+    <th>{{reject.range}}</th>
+    <th>{{reject.flag}}</th>
+    <th>{{reject.patientName}}</th>
+    <th>{{reject.releasedBy}}</th>
+    <th>{{reject.remark}}</th>
+    <th>{{reject.created_at}}</th>
+    
+    </tr>
+    
+</table>
+
+            </div>
+        </div>
+    </md-input-container>
+    </div>
+</div>
+
+</md-tab>
+
+
+</md-tabs>
+</md-content>
+</div>

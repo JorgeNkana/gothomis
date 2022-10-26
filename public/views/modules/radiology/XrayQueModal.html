@@ -1,0 +1,99 @@
+<div ng-controller="radiologyController"  class="wrapper wrapper-content animated fadeInRight">
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-male" aria-hidden="true"></i></span> NAME: {{XrayQue.first_name | uppercase}} {{XrayQue.middle_name | uppercase}} {{XrayQue.last_name | uppercase}} ({{XrayQue.gender | uppercase}})
+                                                ({{XrayQue.medical_record_number | uppercase}}) DATE OF BIRTH:  ({{XrayQue.dob | uppercase}})
+                                                <span class="pull-right"></span>
+                                            </h3>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-bottom">
+
+
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-sm-12">
+
+                                                <table class="table table-bordered">
+                                                    <thead>
+
+
+                                                    <thead>
+                                                    <tr>
+
+                                                        <th class="text-navy">Requested date</th>
+                                                        <th class="text-navy">Requested by</th>
+                                                        <th class="text-navy">Firm/Department</th>
+                                                        <th class="text-navy">Urgent/Routine</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tr>
+
+                                                        <td>{{XrayQue.visit_date | date: 'dd/MM/yyyy'}} </td>
+                                                        <td>{{XrayQue.doctor_name}}</td>
+                                                        <td><b ng-if="XrayQue.admission_id <1">OPD</b>
+                                                            <b ng-if="XrayQue.admission_id >0">IPD</b></td>
+                                                        <td> {{XrayQue.priority  | uppercase}} <span class="fa fa-check fa-lg" ></span></td>
+
+                                                    </tr>
+
+
+                                                    <tr>
+
+
+
+
+                                                        <th class="text-navy text-center" colspan="4"><b align="center">Investigation Requested</b></th>
+
+                                                    </tr>
+
+                                                    <tr>
+
+                                                        <th colspan="4">
+                                                            <div class="form-group">
+                                                                {{XrayQue.item_name  | uppercase}}
+                                                            </div>
+
+                                                        </th>
+
+
+                                                    </tr>
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+
+</div>

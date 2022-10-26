@@ -1,0 +1,58 @@
+<style>
+    .bottomSheetdemoBasicUsage .md-inline-list-icon-label {
+        display: inline-block;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: -10px;
+        height: 24px;
+        vertical-align: middle;
+    }
+    .bottomSheetdemoBasicUsage .md-grid-item-content {
+        height: 90px;
+        padding-top: 10px; }
+
+    .bottomSheetdemoBasicUsage .md-grid-item-content md-icon {
+        height: 52px;
+        width: 52px; }
+
+    .bottomSheetdemoBasicUsage .md-grid-text {
+        padding-bottom: 5px; }
+
+    .bottomSheetdemoBasicUsage md-list-item, .bottomSheetdemoBasicUsage md-list-item .md-list-item-inner {
+        min-height: 48px; }
+
+    .bottomSheetdemoBasicUsage h2 {
+        line-height: 36px;
+        padding-top: 10px; }
+
+    .bottomSheetdemoBasicUsage .md-subheader .md-subheader-inner {
+        padding: 0; }
+
+    .bottomSheetdemoBasicUsage md-toast .md-toast-content {
+        background-color: #B14141; }
+
+    .bottomSheetdemoBasicUsage md-toast > * {
+        font-weight: bolder; }
+</style>
+<md-bottom-sheet class="md-grid" layout="column" ng-controller="patientController">
+      <div layout="row" layout-align="center center" ng-cloak>
+
+        <h4> LIST AWAITING FOR PROCEDURES</h4>
+    </div>
+ 
+     <md-button class="md-icon-button" ng-click="cancelSheet()">
+                <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+    <div ng-cloak>
+        <md-list flex layout="row" layout-align="center center">
+
+             <md-chips>
+                                                    <md-chip ng-repeat="dataList in dataLists" ng-click="getProcedureDetails(dataList)" style="cursor:pointer;">
+                                                        <strong>   {{ dataList.first_name }} {{ dataList.middle_name }} {{ dataList.last_name }}({{dataList.medical_record_number}}):{{dataList.item_name}}</strong>
+
+                                                    </md-chip>
+                                                </md-chips>  
+             
+        </md-list>
+    </div>
+</md-bottom-sheet>

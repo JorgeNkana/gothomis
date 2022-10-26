@@ -1,0 +1,69 @@
+<md-dialog class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <b> NAME: {{selectedPatient.first_name}}&nbsp;&nbsp;&nbsp; {{selectedPatient.middle_name}} {{selectedPatient.last_name}} &nbsp;&nbsp;&nbsp; MRN: {{selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; GENDER:{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;D.O.B:{{selectedPatient.dob}}<p></p>
+
+            </b>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                        <thead style="background-color:beige">
+                        <tr>
+
+                            <th class="mdl-data-table__cell--non-numeric">Blood Group</th>
+                            <th class="mdl-data-table__cell--non-numeric">Unit Requested</th>
+                            <th class="mdl-data-table__cell--non-numeric">Requested By</th>
+                            <th class="mdl-data-table__cell--non-numeric">Department</th>
+                            <th class="mdl-data-table__cell--non-numeric"> Reason</th>
+                            <th class="mdl-data-table__cell--non-numeric"> </th>
+                            <th class="mdl-data-table__cell--non-numeric">Unit Issued </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr >
+
+
+                            <td class="mdl-data-table__cell--non-numeric">{{selectedPatient.blood_group}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{selectedPatient.unit_requested}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{selectedPatient.name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{selectedPatient.department_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{selectedPatient.request_reason}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> <div class="">
+                                <md-input-container class="md-block" >
+                                    <label >Choose Blood Group</label>
+                                    <md-select ng-model="selectedPatient.blood">
+                                        <md-option value="A+">A+</md-option>
+                                        <md-option value="A-">A-</md-option>
+                                        <md-option value="B+">B+</md-option>
+                                        <md-option value="B-">B-</md-option>
+                                        <md-option value="AB+">AB+</md-option>
+                                        <md-option value="AB-">AB-</md-option>
+                                        <md-option value="O+">O+</md-option>
+                                        <md-option value="O-">O-</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div></td>
+                            <td class="mdl-data-table__cell--non-numeric"> <md-input-container class="md-block" >
+                                <label>Enter Number Of unit To Issue</label>
+                                <input type="number" min="1" autocomplete="off" id="unit" class="md-block" ng-model="selectedPatient.unit">
+                            </md-input-container></td>
+                            <td class="mdl-data-table__cell--non-numeric"><md-button class="md-raised md-primary" ng-click="Issue_blood_request(selectedPatient)">Issue</md-button></td>
+
+
+
+                        </tr>
+
+                    </table>
+
+
+
+    </md-dialog-content>
+</md-dialog>

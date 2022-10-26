@@ -1,0 +1,129 @@
+<div>
+    <div style="padding-right: 5px;">
+        <md-content>
+            <md-card>
+                <md-toolbar class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size: 124%" align="center" flex md-truncate>Vital Sign and Anthropometric</h2>
+                    </div>
+                </md-toolbar>
+                <br>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab  label="VITAL SIGN TAKING">
+                        <md-content class="md-padding">
+                            <form  name="searchForm">
+                                <div layout-gt-sm="row">
+                                    <md-autocomplete flex  flex
+                                                     md-search-text="search"
+                                                     md-input-name="patient"
+                                                     md-no-cache="true"
+                                                     md-items="item in getPatientToEncounter(search)"
+                                                     md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                     md-selected-item-change="selectedPatientForVital(item)"
+                                                     md-clear-button="true"
+                                                     md-floating-label="Search Patient"
+                                                     md-min-length="4" md-autofocus>
+                                        <md-item-template>
+                                            <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}}</span>
+                                        </md-item-template>
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+                            <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <div ng-repeat="pt in patientDataLoaded" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="assignVitals(pt)">
+                                    <a style="color: black" href="">
+                                        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </md-grid-list>
+                        </md-content>
+                    </md-tab>
+                    <md-tab  label="VITAL SIGN RECORDS">
+                        <md-content class="md-padding">
+                            <md-content class="md-no-momentum">
+                                <form  name="searchForm">
+                                    <div layout-gt-sm="row">
+                                        <md-autocomplete flex  flex
+                                                         md-search-text="searchText"
+                                                         md-input-name="patients"
+                                                         md-no-cache="true"
+                                                         md-clear-button="true"
+                                                         md-items="item in getPatientToEncounter(searchText)"
+                                                         md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                         md-selected-item-change="selectedPatientForVitalRecord(item)"
+                                                         md-floating-label="Search Patient"
+                                                         md-min-length="4" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}}</span>
+                                            </md-item-template>
+                                        </md-autocomplete>
+                                    </div>
+                                </form>
+                            </md-content>
+
+                        </md-content>
+
+
+                        <md-tab label="Report">
+                            <div class="md-block col-md-12 col-sm-4 pull-right">
+                                <md-input-container >
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container >
+                                    <label>Choose End Date</label>
+                                    <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="vitalsreport(data)">Search</md-button>
+                                </md-input-container>
+                                <md-input-container ng-if="vitals.length>0">
+                                    <md-button class="md-raised md-secondary" class="md-block col-md-4 col-sm-4" ng-click="print_vital()">Print</md-button>
+                                </md-input-container>
+
+
+                            </div>
+                            <center ng-if="vitals.length<1">No  Record available for Selected Range of Date</center>
+                            <div id="id_vital">
+
+
+                                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1" ng-if="vitals.length>0">
+                                    <tr  style="background-color: seashell;font-family: 'Times New Roman'">
+                                        <th class="mdl-data-table__cell--non-numeric">Client</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Vital_name</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Vital_value</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Date</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Staff_name</th>
+                                    </tr>
+                                    <tr ng-repeat="vt in vitals" style="font-family: Tahoma" >
+
+                                        <th class="mdl-data-table__cell--non-numeric full-width">{{vt.first_name}}
+                                            {{vt.middle_name}}
+                                            {{vt.last_name}}&nbsp;&nbsp;&nbsp;
+                                            {{vt.medical_record_number}}
+                                            {{vt.gender}}&nbsp;&nbsp;&nbsp;
+                                            {{vt.age}}</th>
+                                        </td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{vt.vital_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            {{vt.vital_sign_value}} &nbsp; {{vt.si_unit}}&nbsp;
+                                            &nbsp;
+                                        </td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            {{vt.date_taken}} &nbsp; {{vt.time_taken}}
+
+                                        </td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            {{vt.submited_by}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </md-tab>
+            </md-card>
+        </md-content>
+    </div>
+</div>

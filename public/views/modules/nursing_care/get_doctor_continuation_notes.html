@@ -1,0 +1,69 @@
+<style>
+.md-dialog-content{
+	min-width:1100px;
+	}
+</style>
+<md-dialog>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+<div style="min-height:195px;" id="divtoprint">
+
+                      <table class="table table-bordered" border="1" width="100%">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA  NA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO </h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>  {{facility_address.facility_name}}
+															{{facility_address.description}}<br>
+															{{facility_address.facility_address}} </h8></div>
+                                                            <div  class="text-center"><h8> <i>CONTINUATION NOTES</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{SelectedPatient.fullname}} </b>
+                                                            <b class="col-md-4">REG :{{SelectedPatient.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                             <b class="col-md-4">WARD:{{SelectedPatient.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{SelectedPatient.bed_name}} </b>
+                                                            <b class="col-md-4">ADMISSION DATE: {{SelectedPatient.admission_date}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                         <tr style="background-color:#c1c1c1">
+                                                          <th>No.</th>  <th>Date</th><th>DOCTOR CONTINUATION NOTES</th>
+														  <th>DOCTOR NAME</th></tr>
+                                                        <tr ng-repeat="doctorNote in doctorNoteses track by $index"><td>{{$index+1}}</td>
+                                                       
+                                                       <td> {{doctorNote.time_written}} </td>
+                                                       <td >{{doctorNote.notes}}</td>
+                                                      <td >{{doctorNote.doctor_rounded}}</td>
+                                                      
+                                                                                                     
+                                                       </tr>
+
+
+                                                    </table> 
+													</div>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+           <md-button class="md-raised md-primary pull-right" ng-click="printForm()">
+                Print
+            </md-button> 
+			<md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+  </md-dialog>

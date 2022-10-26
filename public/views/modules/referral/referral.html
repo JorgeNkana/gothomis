@@ -1,0 +1,45 @@
+<md-content>
+
+      <table class="table table-striped table-bordered " width="100%">
+                        <thead>
+						<tr>
+                        <th >S/No.</th>
+                        <th >Patient Full Name</th>
+                        <th  ">Gender</th>
+                        <th   >Age</th>
+                        <th   >MRN</th> 
+						<th   >Facility Name</th>
+                      
+                        <th   >Doctor's Name</th>
+                        <th   >Status</th>
+						  <th   >Priority</th>
+                        <th  >Action</th>
+						</tr>
+                        </thead>
+                        <tbody>
+						 
+                        <tr   ng-repeat="pt in referrals track by $index">
+                       <td   ng-if="pt.first_name">{{$index+1}}  </td>
+							
+							<td ng-if="pt.first_name">{{pt.first_name}} {{pt.middle_name}} {{pt.last_name}}</td>
+							
+                            <td  ng-if="pt.first_name">{{pt.gender}}</td>
+                            <td  ng-if="pt.first_name">{{pt.age}}</td>
+                            <td  ng-if="pt.first_name">{{pt.medical_record_number}}</td>
+							<td  ng-if="pt.first_name">{{pt.sender_facility}}</td>
+                            
+                            <td  ng-if="pt.first_name">{{pt.doctor_name}} ({{pt.doctor_number}})
+							</td>
+                            <td  ng-if="pt.first_name">
+							<span ng-if='pt.status==1'>PENDING </span>
+							<span ng-if='pt.status==0'>RECEIVED </span>
+							<span ng-if='pt.status==2'>CONSULTED </span>
+							</td>
+							<td ng-if="pt.first_name">High</td>
+                            <td  class="mdl-data-table__cell--non-numeric" 
+							ng-if="pt.first_name">
+							<md-button class="md-raised md-primary" ng-click="acceptReferral(pt)">View</md-button></td>
+                        </tr>
+                        </tbody>
+                    </table>           
+    </md-content>

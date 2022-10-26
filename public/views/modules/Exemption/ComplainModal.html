@@ -1,0 +1,57 @@
+<md-dialog >
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{complain_contents[0].department_name}}  COMPLAIN </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div   style="min-width: 900px;">
+
+            <div class="form-top">
+
+
+            </div>
+            <div class="form-bottom">
+
+
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Complain</th>
+                        <th>Immediate measure</th>
+                        <th>Solution</th>
+                        <th>Remarks</th>
+                        <th></th>
+                        <th ng-if="ed"> </th>
+                    </tr>
+                    <tr ng-repeat="contents in complain_contents | filter:search track by $index">
+                        <td>{{$index+1}}</td>
+                        <td>{{contents.complain}}</td>
+                        <td>{{contents.immediate_measure}}</td>
+                        <td ng-if="!ed">{{contents.solution}}</td>
+                        <td ng-if="!ed">{{contents.remarks}}</td>
+                        <td ng-if="ed"> <input type="text" ng-model="contents.solution"></td>
+                        <td ng-if="ed"> <input type="text" ng-model="contents.remarks"></td>
+
+                        <td><input type="checkbox" ng-model="ed" class="fa fa-pencil no-print" title="Edit"> </td>
+                        <td ng-if="ed"><a ng-click="Update_complain_content(contents)" class="fa fa-save" title="Save Changes">SAVE</a></td>
+
+
+                    </tr>
+
+                    <tr>
+                </table>
+
+</div>
+            </div>
+
+
+
+
+    </md-dialog-content>
+</md-dialog>

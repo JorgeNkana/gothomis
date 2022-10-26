@@ -1,0 +1,354 @@
+<div ng-cloak="">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Today appointment"  ng-click="Today_appointment()" ng-if="today_appointment.length>0" >
+                <md-input-container class="md-block">
+                    <input type="text" ng-model="search" placeholder="Search...">
+                </md-input-container>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                    <tr style="background-color: bisque">
+                        <th class="mdl-data-table__cell--non-numeric">s/n</th>
+                        <th class="mdl-data-table__cell--non-numeric">dept</th>
+                        <th class="mdl-data-table__cell--non-numeric">Appointment Date</th>
+                        <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                        <th class="mdl-data-table__cell--non-numeric">Status</th>
+                        <th class="mdl-data-table__cell--non-numeric">Edit</th>
+                    </tr>
+                    <tr ng-repeat="appointment in today_appointment | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{appointment.department_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status!=3">{{appointment.appoint_date}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==3" > <input type="datetime" ng-model="appointment.appoint_date" placeholder="Appointment date" datetime-picker date-only date-format="yyyy-MM-dd "   required></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{appointment.medical_record_number}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==0">Pending</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==1">Done</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==2">Cancelled</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==4">Missed Appointment</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==3"> Pending</td>
+
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="e" > <md-select ng-model="appointment.status"  ng-if="appointment.status!=1">
+                            <md-option value="1">Appointment Done</md-option>
+                            <md-option value="0">Appointment Pending</md-option>
+                            <md-option value="2">Appointment Cancelled</md-option>
+                            <md-option value="3">Postpone Appointment</md-option>
+                            <md-option value="4">Missed Appointment</md-option>
+                        </md-select></td>
+                        <td class="mdl-data-table__cell--non-numeric"   > <input type="checkbox" ng-model="e" ></td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="e"><md-button ng-click="Update_general_appointment(appointment,appointment.id,appointment.status)">Update</md-button></td>
+
+                    </tr>
+                </table>
+
+            </md-tab>
+<md-tab label="APPOINTMENTS"  ng-click="appointment_dated()" ng-if="appointment_date.length>0" >
+
+                <div layout="row">
+                    <div flex="20">
+                        <md-list style="color:white;font-weight:700">
+                            <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;"  class="md-1-line" ng-repeat="appointment_dat in appointment_date" title="{{appointment_dat.appoint_date}}" ng-click="appointment_list(appointment_dat.appoint_date)">
+                                {{appointment_dat.appoint_date}}
+                            </md-list-item>
+                        </md-list>
+                    </div>
+
+
+                <div flex="80">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+        <center ng-if="appointments.length<=0">No Appoint Yet..</center>
+
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="search" placeholder="Search...">
+                    </md-input-container>
+
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="appointments.length>0">
+    <tr style="background-color: bisque">
+        <th class="mdl-data-table__cell--non-numeric">s/n</th>
+        <th class="mdl-data-table__cell--non-numeric">dept</th>
+        <th class="mdl-data-table__cell--non-numeric">Appointment Date</th>
+        <th class="mdl-data-table__cell--non-numeric">MRN</th>
+        <th class="mdl-data-table__cell--non-numeric">Status</th>
+        <th class="mdl-data-table__cell--non-numeric">Edit</th>
+    </tr>
+    <tr ng-repeat="appointment in appointments | filter:search track by $index">
+        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{appointment.department_name}}</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status!=3">{{appointment.appoint_date}}</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==3" > <input type="datetime" ng-model="appointment.appoint_date" placeholder="Appointment date" datetime-picker date-only date-format="yyyy-MM-dd "   required></td>
+        <td class="mdl-data-table__cell--non-numeric">{{appointment.medical_record_number}}</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==0">Pending</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==1">Done</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==2">Cancelled</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==4">Missed Appointment</td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="appointment.status==3"> Pending</td>
+
+        <td class="mdl-data-table__cell--non-numeric" ng-if="e" > <md-select ng-model="appointment.status"  ng-if="appointment.status!=1">
+            <md-option value="1">Appointment Done</md-option>
+            <md-option value="0">Appointment Pending</md-option>
+            <md-option value="2">Appointment Cancelled</md-option>
+            <md-option value="3">Postpone Appointment</md-option>
+            <md-option value="4">Missed Appointment</md-option>
+        </md-select></td>
+        <td class="mdl-data-table__cell--non-numeric"   > <input type="checkbox" ng-model="e" ></td>
+        <td class="mdl-data-table__cell--non-numeric" ng-if="e"><md-button ng-click="Update_general_appointment(appointment,appointment.id,appointment.status)">Update</md-button></td>
+
+    </tr>
+</table>
+
+ </div>
+                    </div>
+            </md-tab>
+
+            <md-tab label="Set Appointments">
+
+                <md-input-container class="md-block">
+                    <input data-toggle="tooltip" title="Search Patients by Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                           uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                           typeahead-on-select="" autocomplete="off">
+
+
+                </md-input-container>
+                <div class="col-md-12">
+
+
+                    <md-input-container class="md-block col-md-6">
+                        <label>Choose Appointment Date</label>
+                        <input type="datetime" ng-model="app.appoint_date" datetime-picker date-only date-format="yyyy-MM-dd "   required>
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-6">
+                        <label>Enter Descriptions(Optional)</label>
+                        <textarea type="text" ng-model="app.description" rows="2" cols="2" maxlength="250"    ></textarea>
+
+                    </md-input-container>
+
+                    <md-input-container class="md-block col-md-6">
+                        <label>Choose dept Name</label>
+                        <md-select ng-model="app.dept_id" required>
+                            <md-option value={{ap.id}} ng-repeat="ap in depts">{{ap.department_name}}</md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <div class="  col-md-6">
+                        <md-button   ng-click="Save_general_appointments(app,selectedPatient)" class="md-raised md-primary ">SAVE</md-button>
+                    </div>
+                </div>
+
+            </md-tab>
+
+
+            <md-tab label="REPORTS">
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="appointment_stages(data)">Search</md-button>
+                    </md-input-container>
+
+                </div>
+                <center ng-if="stages.length<1">No Appoint Record available for Selected Range of Date</center>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="stages.length>0">
+                    <tr style="background-color: bisque">
+
+                        <th class="mdl-data-table__cell--non-numeric">Dept Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Appointment Done</th>
+                        <th class="mdl-data-table__cell--non-numeric">Pending Appointment </th>
+                        <th class="mdl-data-table__cell--non-numeric">Appointment Cancelled</th>
+                        <th class="mdl-data-table__cell--non-numeric">Missed Appointment</th>
+
+                    </tr>
+                    <tr ng-repeat="stage in stages">
+                        <td class="mdl-data-table__cell--non-numeric">{{stage.department_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{stage.done}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{stage.pending}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{stage.cancelled}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{stage.missed}}</td>
+
+                    </tr>
+                </table>
+            </md-tab>
+            <md-tab label="Configurations">
+                <form >
+                    <md-input-container class="md-block col-md-6 col-md-4">
+
+                        <input type="text" autocomplete="off" class="md-block " typeahead-on-select="SelectedUserWithDeptAccess(selectedUser.id)" ng-model="selectedUser"  uib-typeahead ="user as user.name +''+user.mobile_number+' '+user.email for user in SearchUser($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search User to assign Department to Access"  >
+
+
+                    </md-input-container>
+
+
+                </form>
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <div class="col-md-6">
+                                <form   >
+                                    <fieldset>
+                                        <div class=" ">
+                                            <div class="form-top-left">
+                                                <b><span><i class="fa fa-gear" aria-hidden="true"></i></span>DEPARTMENT PER USER CONFIGURATION</b>
+
+                                            </div>
+                                        </div>
+                                        <div  >
+
+
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"  flex="50"  >
+
+
+                                                <thead style="background-color: beige">
+
+                                                <tr>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        No
+
+                                                    </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+Department Name
+                                                    </td>
+                                                     
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                                        Check/Tick
+
+                                                    </td>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <tr ng-repeat="dept_user in departments   | filter:search track by $index">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric"><b  >{{ dept_user.department_name }}</b>
+
+                                                    </td>
+
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <form >  <md-checkbox class="md-block" ng-click="populateInArray(dept_user,selectedUser)"  ng-model="dept_user.value1"  ><span></span> </md-checkbox></form>
+
+                                                    </td>
+
+                                                    <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="4">
+                                                        <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to save" ng-click="dept_user_configure()">Save</md-button>
+
+                                                    </th>
+                                                </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                            <dir-pagination-controls
+                                                    max-size="5"
+                                                    direction-links="true"
+                                                    boundary-links="true"   >
+                                            </dir-pagination-controls>
+
+                                            <table class=" table table-bordered">
+                                                <tr ng-if="User_dept_populate.length >0">
+                                                    <th class="mdl-data-table__cell--non-numeric" >User name</th>
+                                                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Dept  name</th>
+                                                </tr>
+                                                <tr ng-repeat="User in User_dept_populate">
+                                                    <td >{{User.user_name}}</td>
+                                                    <td >{{User.dept_name}}</td>
+                                                    <td title="Remove"><a   ng-click="removeItem($index)" >X</a></td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+
+
+                                    </fieldset>
+                                </form>
+                            </div>
+
+                            <div class="col-md-6"  flex="50">
+                                <div class=" " ng-if="access_givens && access_givens.length<1">
+                                    <div class="form-top-left">
+                                        <b><span><i class="fa fa-gear" aria-hidden="true"></i></span>NO DEPARTMENT ACCESS GIVEN</b>
+
+                                    </div>
+                                </div>
+                                <div class=" " ng-if="access_givens.length>0">
+                                    <div class="form-top-left">
+                                        <b><span><i class="fa fa-gear" aria-hidden="true"></i></span>DEPARTMENT GIVEN ACCESS</b>
+
+                                    </div>
+                                </div>
+
+                                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="access_givens.length>0"  >
+
+
+                                    <thead style="background-color: beige">
+
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                            No
+
+                                        </td>
+
+                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                            Dept Name
+
+
+
+                                        </td>
+
+                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                            Check/Tick
+
+                                        </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    <tr ng-repeat="access_given in access_givens  | filter:search track by $index">
+                                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                        <td class="mdl-data-table__cell--non-numeric"><b  >{{ access_given.department_name }}</b>
+
+                                        </td>
+
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <md-button class="md-block" ng-click="Remove_user_dept_access(access_given.access_id)"  ng-model="dept_user.value1"  ><span></span> Remove </md-button>
+
+                                        </td>
+
+                                        <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>

@@ -1,0 +1,500 @@
+<div ng-controller="ctcController">
+<div class="wrapper wrapper-content animated fadeInRight" >
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span></span>CARE AND TREATMENT CLINIC (CTC) <span class="pull-right">DOCTOR</span></h4>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row hidden-print">
+                        <ul class="nav nav-tabs nav-justified" >
+                            <li ng-class="{active: isSet(1) }">
+                                <a href ng-click="setTabReception(1)">Clerk Sheet</a></li>
+                        <li ng-class="{active: isSet(2) }">
+						<a href ng-click="setTabVitalSigns(2)">Vital Signs</a></li>
+                            <li ng-class="{active: isSet(3) }">
+                                <a href ng-click="setTabFamilyInformation(3)"><span >Client Status</span></a></li>
+
+                            <li ng-class="{active: isSet(4) }">
+						<a href ng-click="setTabLabInvestigations(4)">Investigations</a></li>
+                        <li ng-class="{active: isSet(5) }">
+						<a href ng-click="setTabTreatmentCtc(5)">Treatment</a></li>
+                        </ul>
+          <br>
+          <br>
+                            </div>
+                        <div class="row">
+
+                            <div ng-show="isSet(4)">
+
+
+
+                                <div class="col-md-12">
+                                    <style  type="text/css">
+                                        .chip {
+                                            display: inline-block;
+                                            padding: 0 25px;
+                                            height: 50px;
+                                            font-size: 15px;
+                                            line-height: 50px;
+                                            border-radius: 25px;
+                                            background-color: rgba(3, 12, 9, 0.47);
+                                        }
+                                        .chip img {
+                                            float: left;
+                                            margin: 0 10px 0 -25px;
+                                            height: 50px;
+                                            width: 50px;
+                                            border-radius: 50%;
+                                        }
+                                        .closebtn:hover {
+                                            color: #000;
+                                        }
+                                    </style>
+                                    <div>
+                                        <div class="col-md-12 form-box">
+                                            <div class="input-group">
+                                                <input data-toggle="tooltip" title="Search Patient Names Here by using Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                                                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient_last_name for patient in billsData |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                       typeahead-on-select="getBillModal($item)" class="form-control input-lg">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <br>
+                                            <div ng-repeat="ctcApprovedCustomer in ctcApprovedCustomers">
+                                                <div class="chip col-sm-3" >
+                                                    <div  class="row">
+                                                        <label> <a ng-click="patientAppointment(ctcApprovedCustomer)"><img src="public/uploads/user.png" alt="Person" width="10" height="10">{{ctcApprovedCustomer.first_name | uppercase}} {{ctcApprovedCustomer.last_name | uppercase}}</a></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                        </div>
+
+
+                            <div ng-show="isSet(3)">
+
+                                <div class="col-md-12">
+                                    <style  type="text/css">
+                                        .chip {
+                                            display: inline-block;
+                                            padding: 0 25px;
+                                            height: 50px;
+                                            font-size: 15px;
+                                            line-height: 50px;
+                                            border-radius: 25px;
+                                            background-color: rgba(3, 12, 9, 0.47);
+                                        }
+                                        .chip img {
+                                            float: left;
+                                            margin: 0 10px 0 -25px;
+                                            height: 50px;
+                                            width: 50px;
+                                            border-radius: 50%;
+                                        }
+                                        .closebtn:hover {
+                                            color: #000;
+                                        }
+                                    </style>
+                                    <div>
+                                        <div class="col-md-12 form-box">
+                                            <div class="input-group">
+                                                <input data-toggle="tooltip" title="Search Patient Names Here by using Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                                                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient_last_name for patient in billsData |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                       typeahead-on-select="getBillModal($item)" class="form-control input-lg">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <br>
+                                            <div ng-repeat="ctcApprovedCustomer in ctcApprovedCustomers">
+                                                <div class="chip col-sm-3" >
+                                                    <div  class="row">
+                                                        <label> <a ng-click="patientFamilyInfo(ctcApprovedCustomer)"><img src="public/uploads/user.png" alt="Person" width="10" height="10">{{ctcApprovedCustomer.first_name | uppercase}} {{ctcApprovedCustomer.last_name | uppercase}}</a></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div ng-show="isSet(5)">
+
+
+
+                                <div class="col-md-12">
+                                    <style  type="text/css">
+                                        .chip {
+                                            display: inline-block;
+                                            padding: 0 25px;
+                                            height: 50px;
+                                            font-size: 15px;
+                                            line-height: 50px;
+                                            border-radius: 25px;
+                                            background-color: rgba(3, 12, 9, 0.47);
+                                        }
+                                        .chip img {
+                                            float: left;
+                                            margin: 0 10px 0 -25px;
+                                            height: 50px;
+                                            width: 50px;
+                                            border-radius: 50%;
+                                        }
+                                        .closebtn:hover {
+                                            color: #000;
+                                        }
+                                    </style>
+                                    <div>
+                                        <div class="col-md-12 form-box">
+                                            <div class="input-group">
+                                                <input data-toggle="tooltip" title="Search Patient Names Here by using Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                                                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient_last_name for patient in billsData |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                       typeahead-on-select="getBillModal($item)" class="form-control input-lg">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <br>
+
+                                            <form  role="form">
+                                                <fieldset>
+
+                                                    <div class="form-bottom">
+
+                                                        <div class="row">
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label for="form1">First Name *</label>
+                                                                <div class="md-form form-sm">
+                                                                    <input type="text" id="form1" ng-model="patient.first_name" class="form-control">
+
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Middle Name *</label>
+                                                                <div class="md-form form-sm ">
+
+                                                                    <input type="text" id="form2" ng-model="patient.middle_name" class="form-control" >
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label for="form3">Last Name *</label>
+                                                                <div class="md-form form-sm">
+                                                                    <input type="text" id="form3" ng-model="patient.last_name" class="form-control">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="form-group col-md-4 col-sm-4">
+
+                                                                <div class="md-form form-sm">
+
+                                                                    <select id="form4" ng-model="patient.gender" class="form-control"  >
+                                                                        <option value="" >Please select gender</option>
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                    </select>
+
+                                                                </div></div>
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <div class="md-form form-sm">
+                                                                    <input type="text" ng-model="patient.dob" id="form5" datetime-picker date-only date-format='yyyy-MM-dd' class="form-control" >
+                                                                    <label for="form5">Date of birth *</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <div class="md-form form-sm">
+                                                                    <input type="text" ng-model="patient.resedence_id"  id="form6"  class="form-control"
+
+                                                                           uib-typeahead ="resdata as resdata.residence_name+', '+resdata.council_name+', '+resdata.region_name for resdata in showSearchResidences($viewValue) | filter:$viewValue"
+
+                                                                    >
+                                                                    <label for="form6">Patient Residence *</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label for="mobile_number">Mobile Number</label>
+
+                                                                    <input id="mobile_number" type="text"  ng-model="patient.mobile_number" class="form-control">
+
+
+                                                            </div>
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Marital Status</label>
+                                                                <input type="text" ng-model="patient.marital" class="form-control"
+                                                                       uib-typeahead ="marital as marital.marital_status for marital in showSearchMarital($viewValue) | filter:$viewValue">
+                                                            </div>
+
+
+
+                                                        </div>
+
+
+
+
+                                                        <button id="quick" type="submit" class="btn btn-success" ng-click="patient_quick_registration(patient)"> Register </button>
+                                                     </div>
+                                                </fieldset>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div ng-show="isSet(1)">
+
+                                <div class="col-md-12">
+                                    <style  type="text/css">
+                                        .chip {
+                                            display: inline-block;
+                                            padding: 0 25px;
+                                            height: 50px;
+                                            font-size: 15px;
+                                            line-height: 50px;
+                                            border-radius: 25px;
+                                            background-color: rgba(3, 12, 9, 0.47);
+                                        }
+                                        .chip img {
+                                            float: left;
+                                            margin: 0 10px 0 -25px;
+                                            height: 50px;
+                                            width: 50px;
+                                            border-radius: 50%;
+                                        }
+                                        .closebtn:hover {
+                                            color: #000;
+                                        }
+                                    </style>
+                                    <div ng-controller='paymentsController'>
+                                        <div class="col-md-12 form-box">
+                                            <div class="input-group">
+                                                <input data-toggle="tooltip" title="Search Patient Names Here by using Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                                                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient_last_name for patient in billsData |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                       typeahead-on-select="getBillModal($item)" class="form-control input-lg">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <br>
+                                            <div ng-repeat="ctcPendingCustomer in ctcPendingCustomers">
+                                                <div class="chip col-sm-3" >
+                                                    <div  class="row">
+                                                        <label> <a ng-click="getCTCModalClerksheet(ctcPendingCustomer)"><img src="public/uploads/user.png" alt="Person" width="10" height="10">{{ctcPendingCustomer.first_name | uppercase}} {{ctcPendingCustomer.last_name | uppercase}}</a></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div ng-show="isSet(2)">
+
+                                <div class="col-md-12">
+                                    <style  type="text/css">
+                                        .chip {
+                                            display: inline-block;
+                                            padding: 0 25px;
+                                            height: 50px;
+                                            font-size: 15px;
+                                            line-height: 50px;
+                                            border-radius: 25px;
+                                            background-color: rgba(3, 12, 9, 0.47);
+                                        }
+                                        .chip img {
+                                            float: left;
+                                            margin: 0 10px 0 -25px;
+                                            height: 50px;
+                                            width: 50px;
+                                            border-radius: 50%;
+                                        }
+                                        .closebtn:hover {
+                                            color: #000;
+                                        }
+                                    </style>
+                                    <div>
+                                        <div class="col-md-12 form-box">
+                                            <div class="input-group">
+                                                <input data-toggle="tooltip" title="Search Patient Names Here by using Medical Record Number" type="text" placeholder="Search Patients" name="search"
+                                                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient_last_name for patient in billsData |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                       typeahead-on-select="getBillModal($item)" class="form-control input-lg">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-lg btn-success" type="submit">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <br>
+                                            <div ng-repeat="ctcApprovedCustomer in ctcApprovedCustomers">
+                                                <div class="chip col-sm-3" >
+                                                    <div  class="row">
+                                                        <label> <a ng-click="printVitals(ctcApprovedCustomer)" data-toggle="modal" data-target="#basicExample" class="mdl-js-ripple-effect  pull-right"><img src="public/uploads/user.png" alt="Person" width="10" height="10">{{ctcApprovedCustomer.first_name | uppercase}} {{ctcApprovedCustomer.last_name | uppercase}}</a></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                                                              </div>
+
+
+
+
+
+
+
+                                                    </div>
+
+
+
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+										
+										
+										
+                                    </div>
+
+
+
+
+
+                                </div>
+                </fieldset>
+            </form>
+    <!-- Modal -->
+    <div class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-full-height modal-left modal-notify modal-danger" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 align="center" style="font-size: 12px; font-weight: 100" class="title">
+                                    {{selectedPatient.first_name | uppercase}}  {{selectedPatient.last_name | uppercase}}
+                        ({{selectedPatient.medical_record_number | uppercase}}) ({{selectedPatient.gender | uppercase}}) ({{selectedPatient.age | uppercase}})
+                    </h3>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" ng-repeat="Vital in Vitals">
+                            <div class="md-form form-sm" >
+                                <input type="number" id="{{Vital.vital_name.replace(regex, '_')}}" min="0" class="form-control" style="font-size: 2.8rem;">
+                                <label for="form2">{{Vital.vital_name}}({{Vital.si_unit}})</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a type="button" ng-click="vitalRegister(selectedPatient.visit_id)" class="btn btn-success">SAVE VITALS </i></a>
+                    <a type="button" data-dismiss="modal" class="btn btn-danger">CLOSE </a>
+
+
+                </div>
+
+                <!--Footer-->
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Modal -->
+
+</div>

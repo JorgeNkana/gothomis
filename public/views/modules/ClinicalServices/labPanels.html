@@ -1,0 +1,34 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="opdController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span class="pull-right">{{"Name: " +admissionDetails.first_name}} {{admissionDetails.middle_name}} {{admissionDetails.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+admissionDetails.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+admissionDetails.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+admissionDetails.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+admissionDetails.gender}}</span> </h4>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        Panel Name:{{admissionDetails.item_name}}<br>
+                        <table class="table table-responsive table-bordered table-striped">
+                            <thead>
+                            <th>Component</th>
+                            <th>Status</th>
+                            <th>Department</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="panel in admissionDetails">
+                                <td>{{panel.panel_compoent_name}}</td>
+                                <td>{{panel.status_name}}</td>
+                                <td>{{panel.sub_department_name}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <pre>{{admissionDetails}}</pre>
+                        <span ng-model="checked" ng-change="orders(panel,checked,selectedPatient)" >Order this Test</span>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

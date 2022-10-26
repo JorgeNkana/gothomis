@@ -1,0 +1,93 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1100px;
+    }
+
+</style>
+<div class="app-modal-window wrapper wrapper-content animated fadeInRight" ng-controller="ctcController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p><span class="fa fa-desktop"></span>{{ctcQues.first_name}} {{ctcQues.middle_name}} {{ctcQues.last_name}} ({{ctcQues.medical_record_number}})
+
+                                <span class="pull-right"> DOB: {{ctcQues.dob}} &nbsp;&nbsp; GENDER: {{ctcQues.gender}}  </span>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+
+
+
+                        <div   class="col-md-7">
+                            <div class="panel form-top-left">
+                                <div class="form-top">NEXT CLINIC VISIT DATE</div><br><br>
+
+                                <div class="panel-body">
+                                    <ul class="list-group">
+
+                                        <li ng-repeat="getClinicAttendanceForPatient in getClinicAttendanceForPatients"
+                                            class="list-group-item">
+                                            <span class="fa fa-calendar fa-2x"></span>  <strong>{{getClinicAttendanceForPatient.next_visit}}</strong>   <button class="btn btn-info pull-right" ng-click="deleteClinicDay(getClinicAttendanceForPatient)"><span class="fa fa-edit"> </span>Edit</button>
+                                        </li> </ul>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-5">
+                            <div class="panel panel-primary">
+                                <div class="form-top">SET NEXT CLINIC DAY FROM CALENDER</div><br>
+
+
+
+                                <style>
+                                    .full button span {
+                                        background-color: limegreen;
+                                        border-radius: 32px;
+                                        color: black;
+                                    }
+                                    .partially button span {
+                                        background-color: orange;
+                                        border-radius: 32px;
+                                        color: black;
+                                    }
+                                </style>
+
+                                <div style="display:inline-block;  min-width:110px;">
+                                    <div uib-datepicker ng-model="dt"  class="well col-sm-3" datepicker-options="options" ng-click="giveAppointmentCtc(dt,ctcQues)"></div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+</div>

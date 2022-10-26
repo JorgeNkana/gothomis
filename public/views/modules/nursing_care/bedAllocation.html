@@ -1,0 +1,57 @@
+<md-dialog  ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> PATIENT NAME: {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}}({{patientPaticulars.medical_record_number}}) &nbsp; &nbsp; &nbsp;  WARD:{{admissionInfoData.ward_name}}
+			&nbsp; &nbsp; &nbsp;Gender: {{patientPaticulars.gender}}
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                        <div layout="row">
+
+                         <md-list-item  style="cursor: pointer;" class="md-2-line contact-item"  ng-repeat="bed in beds" ng-click="giveBed(admissionInfoData,patientPaticulars,bed.bed_id,patientPaticulars.last_name,bed.ward_id,
+admissionInfoData.admission_id,bed.bed_available)"  
+
+ng-if="beds.length > 0">
+                             <img ng-src="/img/bed.png" class="md-avatar" alt="{{bed.bed_available}}" />
+                             <div class="md-list-item-text compact">
+                             <h3>{{bed.bed_name}}</h3>
+                             <p>{{bed.bed_type}}</p>
+                             </div>
+                            </md-list-item>
+
+                             <span  ng-if="beds.length ==0">
+                            <h3 align="center">No bed,Create Dummy Bed For for this patient</h3>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Bed Refference name</label>
+                                    <input type="text" ng-model="bedName">
+                                </md-input-container>
+                                   <md-input-container class="md-block" flex-gt-sm>
+                                      <md-button class="md-raised md-primary" ng-click="dummyBed(bedName,patientPaticulars,admissionInfoData)">SAVE</md-button>
+                               </md-input-container>
+                            </div>
+                             </span>
+
+                             </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

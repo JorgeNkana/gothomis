@@ -1,0 +1,541 @@
+<div class="  col-sm-offset-1">
+    <div class="well">
+        <h5 ng-if="authenticated">Welcome, {{currentUser.name}}</h5>
+
+
+
+
+        <div ng-controller="exemptionController">
+            <h3>Exemptions</h3>
+            <form>
+
+                <p></p>
+
+
+
+                <!-- -->
+                 <a href="#!/users"><i class="glyphicon glyphicon-chevron-left " data-toggle="tooltip" title="Back to Home"></i> Back</a>
+            </form>
+<div class="text-center">
+
+    <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" data-toggle="tooltip" title=" Registration of Exemption Types">Exemption Types</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="@fat" data-toggle="tooltip" title=" Registration of Exemption Status ">Exemption Status</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-whatever="@getbootstrap" data-toggle="tooltip" title=" Patients  Exemption Registration "> Exemption Setting</button>
+
+
+</div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> EXEMPTION TYPE SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!--EXEMPTION  TYPE SETTING STARTING-->
+                            <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                            <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control ">{{good}}</i></strong>
+
+                            <div >
+
+                                <p></p>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Name</i></div>
+
+                                        <input type="text" class="form-control" data-toggle="tooltip" title="Enter  Exemption Name" placeholder="Enter  Exemption name" ng-model="exemption_type.exemption_name">
+
+                                    </div>
+                                </div>
+
+
+                                <button class="" ng-click="exemption_type_registration(exemption_type)" >Register</button>
+                                <p></p>
+
+
+
+
+
+
+
+
+                                <table class="table table-bordered table-striped" ing-if="exemption_types" >
+                                    <b>Exemption Type Total:{{exemption_types.length}}</b>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+
+                                            <input type="text" class="form-control" data-toggle="tooltip" title="Filter by Your search index" placeholder="Search...." ng-model="search">
+
+                                        </div>
+                                    </div>
+                                    <thead>
+                                    <tr>
+                                        <td>
+
+                                            No#
+
+                                        </td>
+
+                                        <td>
+
+                                            Exemption Type
+
+
+
+                                        </td>
+
+                                        <td>
+
+                                            Edit
+
+                                        </td> <td  ng-if="!e">
+
+                                        X
+
+                                    </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="exemption_type in exemption_types | filter:search track by $index">
+                                        <td>{{ $index+1 }}</td>
+
+                                        <td><b ng-if="!e">{{ exemption_type.exemption_name }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="exemption_type" ng-model="exemption_type.exemption_name">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+
+                                        <td ng-if="e">
+                                            <h3 >
+
+                                                <div class="form-group">
+
+
+                                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="exemption_type_update(exemption_type)">Update</button>
+
+                                                </div>
+                                            </h3>
+                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                        </td><td  ng-if="!e">
+                                        <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</button>
+                                    </td>
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!--<button type="button" class="btn btn-primary">Send message</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!--model two-->
+
+
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">EXEMPTION STATUS SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                            <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control">{{good}}</i></strong>
+
+                            <!--EXEMPTION  STATUS SETTING STARTING-->
+
+
+                            <div >
+
+                                <p></p>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Status</i></div>
+
+                                        <input type="text" class="form-control" data-toggle="tooltip" title="Enter Exemption Status" placeholder="Enter  Exemption Status" ng-model="exemption_status.exemption_status">
+
+                                    </div>
+                                </div>
+
+
+                                <button class="" ng-click="exemption_status_registration(exemption_status)" >Register</button>
+                                <p></p>
+
+
+
+
+
+
+
+
+                                <table class="table table-bordered table-striped" ing-if="exemption_types" >
+                                    <b>Exemption Status Total:{{exemption_statuses.length}}</b>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+
+                                            <input type="text" class="form-control"  data-toggle="tooltip" title="Filter by your Search index"  placeholder="Search...." ng-model="search">
+
+                                        </div>
+                                    </div>
+                                    <thead>
+                                    <tr>
+                                        <td>
+
+                                            No#
+
+                                        </td>
+
+                                        <td>
+
+                                            Exemption Status
+
+
+
+                                        </td>
+
+                                        <td>
+
+                                            Edit
+
+                                        </td> <td  ng-if="!e">
+
+                                        X
+
+                                    </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="exemption_status in exemption_statuses | filter:search track by $index">
+                                        <td>{{ $index+1 }}</td>
+
+                                        <td><b ng-if="!e">{{ exemption_status.exemption_status }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" data-toggle="tooltip" title="Exemption Status" placeholder="exemption status" ng-model="exemption_status.exemption_status">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+
+                                        <td ng-if="e">
+                                            <h3 >
+
+                                                <div class="form-group">
+
+
+                                                    <button class="btn btn-success"  data-toggle="tooltip" title="Click to Update This Record" ng-click="exemption_status_update(exemption_status)">Update</button>
+
+                                                </div>
+                                            </h3>
+                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                        </td><td  ng-if="!e">
+                                        <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="exemption_status_delete(exemption_status.exemption_status,exemption_status.id)">Delete</button>
+                                    </td>
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+
+
+
+
+                            <!--EXEMPTION TYPE ENDING-->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!--<button type="button" class="btn btn-primary">Send message</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--model three-->
+
+
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel2"> EXEMPTIONS </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                            <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control">{{good}}</i></strong>
+
+                            <!--EXEMPTION SETTING STARTING-->
+
+                            <div >
+
+                                <p></p>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Patient Name</i></div>
+
+                                        <input type="text" data-toggle="tooltip" title="Choose Patient" class="form-control" placeholder="Choose Patient" ng-model="exempt.patient_id">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Number</i></div>
+
+                                        <input type="text" class="form-control" data-toggle="tooltip" title="Enter Exemption Number" placeholder="Enter  exemption Number" ng-model="exempt.exemption_no">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Type</i></div>
+
+                                        <select ng-model="exempt.exemption_type_id" class="form-control" data-toggle="tooltip" title="Choose Exemption type">
+
+                                            <option ng-value="exempt.id" ng-repeat="exemption_type in exemption_types">{{exemption_type.exemption_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Reason</i></div>
+
+                        <textarea ng-model="exempt.exemption_reason" class="form-control" placeholder="exemption reason" data-toggle="tooltip" title="Enter exemption Reasons">
+
+
+                        </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Status</i></div>
+
+                                        <select ng-model="exempt.status_id" class="form-control" data-toggle="tooltip" title="Choose exemption status">
+                                            <option   disabled selected value="selected">---select exemption status---</option>
+                                            <option ng-value="exempt.id" ng-repeat="exemption_status in exemption_statuses">{{exemption_status.exemption_status}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Reason</i></div>
+
+                        <textarea ng-model="exempt.reason_for_revoke" class="form-control" placeholder="reason for revoke" data-toggle="tooltip" title="Write the reason for Exemption Revoke">
+
+
+                        </textarea>
+                                    </div>
+                                </div>
+
+
+                                <button class="" ng-click="exemption_registration(exempt)" >Register</button>
+                                <p></p>
+
+
+
+
+
+
+                                <table class="table table-bordered table-striped"  >
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+
+                                            <input type="text" class="form-control" placeholder="Search...." ng-model="search">
+
+                                        </div>
+                                    </div>
+                                    <thead>
+                                    <tr>
+                                        <td>
+
+                                            No#
+
+                                        </td>
+
+                                        <td>
+
+                                            EXEMPTION Code
+
+
+
+                                        </td>
+                                        <td>
+
+                                            EXEMPTION Name
+
+
+
+                                        </td>
+
+                                        <td>
+
+                                            Edit
+
+                                        </td> <td  ng-if="!e">
+
+                                        X
+
+                                    </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="EXEMPTION in facilities | filter:search track by $index">
+                                        <td>{{ $index+1 }}</td>
+
+                                        <td><b ng-if="!e">{{ EXEMPTION.EXEMPTION_code }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="EXEMPTION" ng-model="EXEMPTION.EXEMPTION_code">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+                                        <td><b ng-if="!e">{{ EXEMPTION.EXEMPTION_name }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="EXEMPTION" ng-model="EXEMPTION.EXEMPTION_name">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+
+                                        <td ng-if="e">
+                                            <h3 >
+
+                                                <div class="form-group">
+
+
+                                                    <button class="btn btn-success" ng-click="EXEMPTION_update(EXEMPTION)">Update</button>
+
+                                                </div>
+                                            </h3>
+                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                        </td><td  ng-if="!e">
+                                        <button class="alert-danger" ng-click="EXEMPTION_delete(EXEMPTION.EXEMPTION_name,EXEMPTION.id)">Delete</button>
+                                    </td>
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!--<button type="button" class="btn btn-primary">Send message</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <!--FACILTY SETTING  ENDING-->
+
+        </div>
+    </div>
+
+
+
+    <!--EXEMPTION setting starting-->
+
+
+
+
+
+
+    <!--EXEMPTION setting ending-->
+
+
+
+
+
+
+</div>

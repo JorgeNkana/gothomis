@@ -1,0 +1,42 @@
+<div id="wrapper" ng-controller='rolesController'>
+
+
+
+
+
+
+
+
+
+
+    <!--  include search box 
+
+-->
+
+
+
+
+
+
+    <div class="row">
+
+        <!--  include registration form -->
+        <div ng-if='menu.length >0'>
+            <ng-include src="'/views/modules/admin/permroles.html'">
+        </div>
+        <div ng-if='menu.length < 1'>
+            <button class='btn btn-danger '>The MENU is Temporarily Unavailable</button>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+</div>

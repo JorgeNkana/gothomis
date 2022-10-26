@@ -1,0 +1,54 @@
+<div ng-controller="MortuaryServiceController"  class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form" class="mortuary-form" action="javascript:void(0);">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3> {{patient_info[0].patient_firstname}} {{patient_info[0].patient_middlename}}
+<span class="pull-right">MORTUARY AND CABINET ALLOCATION </span>
+</h3>
+
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+<div class="form-top">MORTUARY LISTS</div><br>
+<div class="panel-body" ng-if="getMortuarys.length>0">
+<ul class="list-group">
+<li ng-repeat="getMortuary in getMortuarys" 
+ng-click="getMortuarycabinets(getMortuary.mortuary_id)" 
+class="list-group-item form-top"><b>{{getMortuary.mortuary_name}}</b>
+</li>
+
+</ul>
+</div>
+</div>
+
+</div>
+
+<div class="col-md-6">
+<div class="panel panel-primary">
+<div class="form-top">CABINET LISTS AND SPACE AVAILABLE</div><br>
+<ul class="list-group">
+<li ng-repeat="Mortuarycabinet in Mortuarycabinets" 
+ng-click="admitIPDcorpse(Mortuarycabinet,patient_info)" 
+class="list-group-item form-top">
+<b>{{Mortuarycabinet.cabinet_name}} CAPACITY: {{Mortuarycabinet.capacity}}</b>
+</li>
+
+</ul>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</fieldset>          
+</form>
+</div>
+</div>
+</div>

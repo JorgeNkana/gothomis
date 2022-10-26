@@ -1,0 +1,77 @@
+<md-dialog  flex="90" ng-controller="radiologyController">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <p style="text-align: right;" ng-if="selectedPatient.first_name.length >0"><span><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;{{selectedPatient.first_name}}
+                {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+                {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp;
+                {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                {{"Age: "+selectedPatient.age}}</p>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-content class="md-padding">
+            <div layout="row">
+                <div flex="20">
+                    <md-list style="color:white;font-weight:700">
+                        <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getRequestFormData(vt)" class="md-1-line" ng-repeat="vt in patientsVisitsVitals">
+                            {{vt.created_at}}
+                        </md-list-item>
+                    </md-list>
+                </div>
+                <div flex="80">
+                    <md-card>
+                        <md-card-content>
+                            <table class="full-width">
+                                <thead>
+                                <th class="mdl-data-table__cell--non-numeric"></th>
+                                <th class="mdl-data-table__cell--non-numeric full-width"><p>{{selectedPatient.first_name}}
+                                    {{selectedPatient.middle_name}}
+                                    {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+                                    {{"MRN: "+selectedPatient.medical_record_number}}                                                               {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                                    {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                                    {{"Age: "+selectedPatient.age}}</p></th>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="requestRecords.length>0">
+                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                        <p align="center"><strong>Investigations Requested</strong></p></td>
+                                </tr>
+                                <tr ng-repeat="vt in requestRecords" ng-if="requestRecords.length>0">
+                                    <td class="mdl-data-table__cell--non-numeric">{{"Investigation Name: "+vt.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{"Receipt Number: "+vt.receipt_number}} &nbsp; {{"Patient Category: "+vt.sub_category_name}}&nbsp; {{"Requested Date : "+vt.date_attended}}
+                                        &nbsp;&nbsp;&nbsp; <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">&#10003;</span>
+
+                                    </td>
+                                </tr>
+                                <tr ng-if="doctorRequest.length>0">
+                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                        <p align="center"><strong>Radiology Request Form</strong></p></td>
+                                </tr>
+                                <tr ng-repeat="req in doctorRequest" ng-if="doctorRequest.length>0">
+                                    <td class="mdl-data-table__cell--non-numeric"> {{"Requested By : "+req.doctor_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{"Department: "+req.department_name}}&nbsp; {{"Time : "+req.VisitedTime}}
+                                        &nbsp; {{"Investigation Name: "+req.item_name}} &nbsp; {{"Priority : "+req.priority}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+        </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button class="md-raised md-warn" ng-click="cancel()">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,1164 @@
+<md-tabs md-dynamic-height md-border-bottom>
+
+    <md-tab label="Item Issuing">
+        <vertical-tabs>
+            <vertical-tab-pane title="Issuing">
+                <div class="md-block col-md-12">
+                    
+                     
+                    <md-input-container class="md-block   col-md-12 col-sm-8">
+                        <label> Search Item </label>
+
+                        <input type="text" id="item" required class="md-block" typeahead-on-select="LoadBatchbalance(sale.selectedItem)" ng-model="sale.selectedItem"   uib-typeahead ="item as item.item_name  for item in showSearch($viewValue)  | filter:$viewValue">
+
+                    </md-input-container>
+                    <b style="color: red" ng-if="batches.length==0">No balance available with this item</b>
+                    <md-input-container class="md-block   col-md-12 col-sm-8" ng-if="batches.length>0">
+                        <label> Choose Batch </label>
+ 
+                        <md-select    ng-model="sale.selectedBatch" >
+                            <md-option></md-option>
+                            <md-option ng-value="{{batch}}" ng-repeat="batch in batches">{{batch.batch_number}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-12 col-sm-8"   >
+                       
+                        <label ng-if="sale.selectedBatch.balance" style="color: green" >{{sale.selectedBatch.balance | number : fractionSize}}  available</label>
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-12 col-sm-8" ng-keyup="CheckBalance(sale)"  >
+
+                        <input type="text"  required class="md-block" id="quantity" placeholder="Enter  Quantity" ng-model="sale.quantity" onkeyup="money(this, event)">
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-12 col-sm-8"  ng-if="sales.length==0"  >
+
+                        <input type="text"  required class="md-block" id="ReceiverName" placeholder="Enter  Receiver Name  " ng-model="sale.receiver_name" >
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-12 col-sm-8"  ng-if=" batches.length>0" >
+                       
+                    <md-button  ng-click="DrfIssuingItem(sale)" class="   md-raised md-primary">Add To List</md-button>
+                    </md-input-container>
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="stocksissue.length>0" >
+
+                        <thead style="background-color: beige">
+
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BatchNumber  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Quantity  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ReceiverName  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Expiry Date </td>
+                            <td class="mdl-data-table__cell--non-numeric" > * </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in stocksissue | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.receiver_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.expiry_date }}</td>
+
+                            <td class="mdl-data-table__cell--non-numeric" ><button class="glyphicon glyphicon-remove btn btn-danger" ng-click="removeIssuing($index)" title="remove"></button> </td>
+
+                        </tr>
+                        
+
+                        </tbody>
+                        <tr><th colspan="4"><md-button ng-click="DrfIssuing()" class="   md-raised md-primary">SAVE</md-button></th>
+                            <th colspan="6"></th>
+                        </tr>
+                    </table>
+
+                </div>
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title=" RECONCILIATION HISTORY"  >
+
+            <div style="overflow-x:scroll;" >
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+                <div class="pull-right">
+                    <input type="datetime" ng-model="dataf.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="dataf.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+
+                    <md-button   ng-click="getStockReconcilliated(dataf)" class="">Search</md-button>
+
+
+                </div>
+                <p></p>
+
+                <b ng-if="reconsiled_records.length==0">No record found</b>
+                <div  ><input type="text" ng-model="search" placeholder="quick search">        </div>
+            <table border="1" ng-if="reconsiled_records.length>0">
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>BatchNo</th>
+                    <th>OriginalAmount</th>
+                    <th>ChangedAmount</th>
+                     
+                    <th>StaffName</th>
+                    <th>Reasons</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                <tr ng-repeat="recon in reconsiled_records |filter:search track by $index ">
+                    <th>{{$index+1}}</th>
+                    <th>{{recon.item_name}}</th>
+                    <th>{{recon.batch_number}}</th>
+                    <th>{{recon.old_quantity}}</th>
+                    <th>{{recon.current_quantity}}</th>
+                    <th>{{recon.user_name}}</th>
+                    <th>{{recon.reason}}</th>
+                    <th>{{recon.created_at}}</th>
+                    <th> <button ng-click="returnStockReconcilliated(recon)"> reverse </button></th>
+                </tr>
+            </table>
+            </div>
+        </vertical-tab-pane>
+        <vertical-tab-pane title="STOCK RECONCILIATION">
+
+            <!--//------------------ -->
+
+
+            <div >
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <md-input-container class="md-block col-md-6 col-md-4 ">
+                            <label>Search Item Name</label>
+ <input type="text" id="item" required class="md-block" typeahead-on-select="LoadBatchbalance(sale.selectedItem)" ng-model="sale.selectedItem"   uib-typeahead ="item as item.item_name  for item in showSearch($viewValue)  | filter:$viewValue">
+                        </md-input-container>
+
+                        <b style="background-color: red" ng-if="batches.length<1" class="col-md-6 col-md-4"> No Data Record Found For this Item</b>
+
+                        <table     border=1 class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="80%" ng-if="batches.length>0"   >
+
+
+                            <thead   style="background-color: beige">
+
+                            <tr >
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    Item
+
+
+
+                                </td>
+                                
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    Batch No
+
+
+
+                                </td>
+
+
+                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                   Quantity
+
+
+
+                                </td>
+ <td class="mdl-data-table__cell--non-numeric" >
+
+                                  Actual Amount
+
+
+
+                                </td>
+
+
+
+
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="item in batches  track by $index" >
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.item_name}}  </td>
+                                
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.batch_number}}  </td>
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.balance}}  </td>
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    <input type="text"   id="{{item.id.replace(regex, '_')}}" class="form-control reg money" placeholder="Enter Actual Amount" title="Enter item actual amount for {{item.item_name}} " onkeyup="money(this, event)"/>
+                                </td>
+                            </tr>
+
+<tr>
+
+    <td class="mdl-data-table__cell--non-numeric" colspan="6">
+        <md-input-container class="md-block col-md-12">
+        <textarea  ng-model="reason" required  id="reason"  placeholder="Enter Reconciliation Reasons"/>
+        </md-input-container>
+    </td>
+
+</tr>
+                            <tr>
+
+    <td class="mdl-data-table__cell--non-numeric" colspan="6">  <md-button ng-click="SaveReconsilation(reason)" class="md-raised md-primary fa fa-send" title="Update">Save</md-button> </td>
+
+
+</tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--//------------------ -->
+
+
+
+
+        </vertical-tab-pane>
+
+
+
+        </vertical-tabs>
+    </md-tab>
+    <md-tab label="Stock and Reports">
+        <vertical-tabs>
+            <vertical-tab-pane title="Receive Products">
+
+                <div class="md-block col-md-12">
+                    <md-input-container class="md-block   col-md-6 col-sm-4">
+                        <label> Search Item </label>
+
+                        <input type="text" id="itemId" required class="md-block" typeahead-on-select="" ng-model="stock.selectedItem"   uib-typeahead ="item as item.item_name  for item in showSearch($viewValue)  | filter:$viewValue">
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-6 col-sm-4"  >
+
+                        <input type="text"  required class="md-block" id="quantity" placeholder="Enter  Quantity" ng-model="stock.quantity" onkeyup="money(this, event)">
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-6 col-sm-4"  >
+
+                        <input type="text"  required class="md-block" id="unitPrice" placeholder="Enter  Unit Price" ng-model="stock.unit_price" onkeyup="money(this, event)">
+
+                    </md-input-container>
+<md-input-container class="md-block col-md-6 col-sm-4" autocomplete="false"  >
+
+                        <input type="text"  required class="md-block" id="batchNumber" min="0" required placeholder="Enter  Batch Number" ng-model="stock.batch_number" >
+
+                    </md-input-container>
+
+                    <md-input-container class="md-block   col-md-6 col-sm-4">
+
+                        <input type="text" id="expiryDate"  required class="md-block" placeholder="Enter Product  Expiry Date" ng-model="stock.expiry_date"   datetime-picker date-only date-format="yyyy-MM-dd"   >
+
+                    </md-input-container>
+
+                    <md-input-container class="md-block col-md-6 col-sm-4" ng-if="stocks.length ==0">
+
+                        <input type="text"  required class="md-block" id="vendorName" placeholder="Enter  Vendor Name" ng-model="stock.vendor_name" autocomplete="false">
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-6 col-sm-4" autocomplete="false" ng-if="stocks.length ==0" >
+
+                        <input type="text"   required class="md-block" id="invoiceNumber" min="0" required placeholder="Enter  Invoice Number" ng-model="stock.invoice_number" >
+
+                    </md-input-container>
+                    <md-input-container class="md-block   col-md-6 col-sm-4">
+
+                        <input type="text" id="expiryDate"  required class="md-block" placeholder="Enter Product  Receiving Date" ng-model="stock.received_date"   datetime-picker date-only date-format="yyyy-MM-dd"   >
+
+                    </md-input-container>
+                    <md-button ng-click="AddNewStock(stock)" class="   md-raised md-primary">Add To List</md-button>
+
+                </div>
+
+<div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="stocks.length>0" >
+
+                    <thead style="background-color: beige">
+
+                    <tr>
+
+
+                        <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                        <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                        <td class="mdl-data-table__cell--non-numeric" > Vendor  </td>
+                        <td class="mdl-data-table__cell--non-numeric" > Invoice  </td>
+                        <td class="mdl-data-table__cell--non-numeric" > BatchNumber  </td>
+                        <td class="mdl-data-table__cell--non-numeric" > Quantity  </td>
+                        <td class="mdl-data-table__cell--non-numeric" > Unit Price  </td>
+                        <td class="mdl-data-table__cell--non-numeric" > Cost Price  </td>
+                        <td class="mdl-data-table__cell--non-numeric" > Expiry Date </td>
+                        <td class="mdl-data-table__cell--non-numeric" > * </td>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="stock in stocks | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.vendor_name }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity | number : fractionSize}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.unit_price | number : fractionSize }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.cost_price | number : fractionSize}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ stock.expiry_date }}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric" ><button class="glyphicon glyphicon-remove btn btn-danger" ng-click="removeStock($index)" title="remove"></button> </td>
+
+                    </tr>
+                    </tbody>
+<tr><th colspan="4"><md-button ng-click="SaveNewStock(product)" class="   md-raised md-primary">SAVE</md-button></th>
+<th colspan="6"></th>
+</tr>
+                </table>
+
+</div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Stock Balance">
+                <div  >
+                    <button title="Load Balance" ng-click="reloadkbalance()" class="glyphicon glyphicon-refresh " >reload</button>
+                    <button ng-if="stockbalance.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintBalance()"  >print</button>
+
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+<b ng-if="stocklists.length==0 ">No record Found</b>
+                    <md-input-container class="md-block ">
+
+                        <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+<div id="balance_id">
+
+<div class="md-block col-md-6">
+     
+ 
+                    <table border="1"  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="stockbalance.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+                            <th COLSPAN="4">MAIN STORE STOCK BALANCE</th>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                             
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Balance  </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in stockbalance | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td> 
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.stockbalance | number : fractionSize}}</td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+</div>
+
+ 
+<p></p>
+<div class="md-block col-md-6">
+                    <table border="1"  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="stockbalance.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+                            <th COLSPAN="4">DISPENSING STOCK BALANCE</th>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                             
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Balance  </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in dispstockbalance | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td> 
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.stockbalance | number : fractionSize}}</td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+                </div>
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Received Records">
+                <div class="pull-right">
+                    <input type="datetime" ng-model="data.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="data.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+
+                    <md-button   ng-click="LoadStockDetails(data)" class="md-raised md-raised-search ">Search</md-button>
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+<b ng-if="stockdetails.length==0 ">No record Found</b>
+                    <md-input-container class="md-block ">
+
+                        <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+                    <div  >
+
+                        <button ng-if="stockdetails.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintDetailedStock()"  >print</button>
+
+                    </div>
+                    <div id="detail_id">
+
+                    <table border="1"  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="stockdetails.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+                            <th COLSPAN="11">ITEM RECEIVING DETAILS</th>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ItemCode </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > VendorName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > InvoiceNumber </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BatchNumber </td>
+                            <td class="mdl-data-table__cell--non-numeric" > UnitPrice </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Quantity </td>
+                            <td class="mdl-data-table__cell--non-numeric" > CostPrice </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ReceivedBy  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ReceivedDate </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in stockdetails | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_code }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.vendor_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.unit_price }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity  | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity * stock.unit_price | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.user_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.created_at }}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Issued Records">
+
+                <div class="pull-right">
+                    <input type="datetime" ng-model="data.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="data.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+
+                    <md-button   ng-click="StockIssued(data)" class="md-raised md-raised-search ">Search</md-button>
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+                    <b ng-if="stockissued.length==0 ">No record Found</b>
+                    <md-input-container class="md-block ">
+
+                        <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+                    <div  >
+
+                        <button ng-if="stockissued.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintIssuedStock()"  >print</button>
+
+                    </div>
+                    <div id="issued_id">
+                    <table  border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="stockissued.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+                            <th COLSPAN="10">ITEM ISSUED DETAIL</th>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > IssuerName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > InvoiceNumber </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BatchNumber </td>
+                            
+                            <td class="mdl-data-table__cell--non-numeric" > IssuedQuantity </td>
+                             
+                            <td class="mdl-data-table__cell--non-numeric" > IssuedBy  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ReceivedDate </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in stockissued | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.user_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td>
+                            
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.issued_quantity  | number : fractionSize}}</td>
+                            
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.user_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.updated_at }}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Expired Items">
+                <div class="pull-right">
+
+                    <md-button   ng-click="LoadStockExpires(datad)" class="md-raised md-raised-search ">Load data</md-button>
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+                    <b ng-if="expires.length==0 ">No record Found</b>
+                    <md-input-container class="md-block ">
+
+                        <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+                    <div  >
+
+                        <button ng-if="expires.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintDetailedexpired()"  >print</button>
+
+                    </div>
+                    <div id="expired_id">
+
+                        <table border="1"  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="expires.length>0" >
+
+                            <thead style="background-color: beige">
+                            <tr style="align-content: center">
+                                <th COLSPAN="11">ITEM EXPIRED DETAILS</th>
+                            </tr>
+                            <tr>
+
+
+                                <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                                <td class="mdl-data-table__cell--non-numeric" > ItemCode </td>
+                                <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                                <td class="mdl-data-table__cell--non-numeric" > VendorName </td>
+                                <td class="mdl-data-table__cell--non-numeric" > InvoiceNumber </td>
+                                <td class="mdl-data-table__cell--non-numeric" > BatchNumber </td>
+                                <td class="mdl-data-table__cell--non-numeric" > Expiry Date </td>
+                                <td class="mdl-data-table__cell--non-numeric" > Quantity </td>
+                                <td class="mdl-data-table__cell--non-numeric" > CostPrice </td>
+                                <td class="mdl-data-table__cell--non-numeric" > ReceivedBy  </td>
+                                <td class="mdl-data-table__cell--non-numeric" > ReceivedDate </td>
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="stock in expires | filter:search track by $index">
+                                <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_code }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.vendor_name }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.expiry_date }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity  | number : fractionSize}}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity * stock.unit_price | number : fractionSize}}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.user_name }}</td>
+                                <td class="mdl-data-table__cell--non-numeric"> {{ stock.created_at }}</td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </vertical-tab-pane>
+        </vertical-tabs>
+    </md-tab>
+    <md-tab label="Revenue Reports" ng-click="LoadFinanceDetails(dated,false)">
+        <vertical-tabs>
+            <vertical-tab-pane title="Cash Collection">
+                <md-input-container class="md-block   col-md-12 col-sm-8">
+                    <md-radio-group layout="row" ng-model="report_type">
+                        <md-radio-button value="detail" class="md-primary">Detailled Report</md-radio-button>
+                        <md-radio-button value="summary" class="md-primary">Summary Report </md-radio-button>
+                         <md-radio-button value="employee"  active class="md-primary">Employee Summary Report </md-radio-button>
+                        <md-radio-button value="graph" class="md-primary">Graphical View Monthly(Tsh) </md-radio-button>
+                    </md-radio-group>
+                </md-input-container>
+
+                <div class="pull-right">
+                    <input type="datetime" ng-model="dated.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="dated.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+
+                    <md-button   ng-click="LoadFinanceDetails(dated,false)" class="md-raised md-raised-search ">Search</md-button>
+                    <button ng-if="finances.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintFiananceDetail()"  >print</button>
+                    <b ng-if="finances.length==0" style="color: red">No record found</b>
+
+                </div>
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;" ng-if="report_type=='detail'" id="financed_id">
+                    <input type="text" placeholder="Quack filter..." ng-model="search" class="pull-right" >
+                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="finances.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+                            <th COLSPAN="10">FINANCE DETAILED REPORT</th>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BatchNumber  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Quantity  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Unit Price  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Cost Price  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > TransactionID  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BuyerName  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > SellerName </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Date </td>
+
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in finances | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.unit_price | number : fractionSize }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{  stock.unit_price * stock.quantity | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.buyer_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.seller_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.issue_date }}</td>
+                        </tr>
+                        </tbody>
+                        <tr style="font-family: Tahoma;font-size: medium"><th colspan="5">Total  amount</th>
+                            <th  >{{ totalFinanceCost | number : fractionSize}} </th>
+                            <th  colspan="5"> </th>
+                        </tr>
+                    </table>
+
+                </div>
+                <div ng-if="report_type=='summary'" class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;" id="financed_id">
+                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="finances.length>0" >
+
+                        <tr style="align-content: center">
+
+                            <th COLSPAN="8">FINANCE SUMMARY REPORT</th>
+                        </tr>
+
+
+                        <tr style="font-family: Tahoma;font-size: medium"><th colspan="5">Total  amount</th>
+                            <th  >{{ totalFinanceCost | number : fractionSize}} </th>
+                            <th  colspan="3"> </th>
+                        </tr>
+                    </table>
+
+                </div>
+                  <div ng-if="report_type=='employee'" class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;" id="financed_id">
+
+                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"    >
+
+                        <tr style="align-content: center">
+
+                            <th colspan="3">EMPLOYEE FINANCE SUMMARY REPORT</th>
+                        </tr>
+
+                   <tr style="align-content: center">
+
+                           <th  >ID</th>
+                           <th  >Employee Name</th>
+                            <th  >Total  amount</th>
+                        </tr>
+                        <tr style="font-family: Tahoma;font-size: medium" ng-repeat="employee in employees | filter:search track by $index">
+                           
+                            <th  >{{ $index+1}} </th>
+                            <th  >{{ employee.name}} </th>
+                            <th  >{{ employee.total |currency:""}} </th>
+                           
+                             
+                        </tr>
+                        <tr style="font-family: Tahoma;font-size: medium" >
+                           
+                            <th colspan="2" > </th>
+                            
+                            <th  >{{totalEmployee |currency:""}} </th>
+                             
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div ng-if="report_type=='graph'" class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;">
+                    <canvas id="bar" class="chart chart-bar"
+                            chart-data="data" chart-labels="labels">
+                    </canvas>
+
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Reports">
+                <div class="pull-right">
+                    <input type="datetime" ng-model="dated.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="dated.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+                    <select ng-model="dated.category" ng-change="LoadFinanceNHIF(dated)" >
+                        <option disabled selected value="">choose category</option>
+                        <option ng-repeat="category in categories" value={{category.category_name}} ng-if="category.category_name !='COST SHARING' && category.category_name !='WHOLE SALE'" >{{category.category_name}}</option>
+                    </select>
+                    <!--<md-button   ng-click="LoadFinanceNHIF(dated)" class="md-raised md-raised-search ">Search</md-button>-->
+                    <b ng-if="financesNHIF.length==0" style="color: red">No record found</b>
+                    <button ng-if="financesNHIF.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintFiananceDebt()"  >print</button>
+
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;"   id="financedEPT_id">
+                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="financesNHIF.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+
+                            <th COLSPAN="8">{{dated.category}} REPORT</th>
+                            <md-input-container class="md-block ">
+
+                                <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                            </md-input-container>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Patient ID  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Authorization Number  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > InvoiceNUmber  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BuyerName  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Cost </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Due date </td>
+
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in financesNHIF | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.nhif_id }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.auth_no }}</td>
+                            <td class="mdl-data-table__cell--non-numeric" title="click to view details of this invoice"><button ng-click="getMedicenes(stock.invoice_number)">{{ stock.invoice_number }}</button> </td>
+
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.buyer_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.cost | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.created_at }}</td>
+                        </tr>
+                        </tbody>
+                        <tr style="font-family: Tahoma;font-size: medium"><th colspan="5">Total  amount</th>
+                            <th  >{{ totalDebtCost | number : fractionSize}} </th>
+                            <th colspan="1"> </th>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Receipts">
+                <div class="pull-right">
+                    <input type="datetime" ng-model="dated.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="dated.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+                    <md-button   ng-click="LoadFinanceDetails(dated,false)" class="md-raised md-raised-search ">Search</md-button>
+                     <b ng-if="financesReceipts.length==0" style="color: red">No record found</b>
+
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;"   id="financedEPT_id">
+                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"    >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+
+
+                            <md-input-container class="md-block ">
+
+                                <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                            </md-input-container>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ReceiptNumber  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BuyerName  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Due date </td>
+                            <td class="mdl-data-table__cell--non-numeric" >   </td>
+
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in financesReceipts | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.buyer_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.created_at }}</td>
+
+                            <td class="mdl-data-table__cell--non-numeric" title="click to view details of this Receipt"><button ng-click="getReceiptsdata(stock.invoice_number)" class="glyphicon glyphicon-print">Print</button> </td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Debts">
+                <div class="pull-right">
+                    <input type="datetime" ng-model="dated.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+                    <input type="datetime"  ng-model="dated.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+
+                    <md-button   ng-click="LoadFinanceDebts(dated)" class="md-raised md-raised-search ">Search</md-button>
+                    <b ng-if="financesDepts.length==0" style="color: red">No record found</b>
+                    <button ng-if="financesDepts.length>0" class="glyphicon glyphicon-print pull-right" ng-click="PrintFiananceDebt()"  >print</button>
+
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:1000px;"   id="financedEPT_id">
+                    <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="financesDepts.length>0" >
+
+                        <thead style="background-color: beige">
+                        <tr style="align-content: center">
+
+                            <th COLSPAN="8">FINANCE DEBTS REPORT</th>
+                            <md-input-container class="md-block ">
+
+                                <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                            </md-input-container>
+                        </tr>
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > InvoiceNUmber  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > BuyerName  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Cost </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Due date </td>
+
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="stock in financesDepts | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.invoice_number }}</td>
+
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.buyer_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.cost | number : fractionSize}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ stock.created_at }}</td>
+                        </tr>
+                        </tbody>
+                        <tr style="font-family: Tahoma;font-size: medium"><th colspan="3">Total  amount</th>
+                            <th  >{{ totalDebtCost | number : fractionSize}} </th>
+                            <th colspan="1"> </th>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Unpaid Invoices">
+
+
+
+                <div  >
+                    <button title="Load Invoice" ng-click="reloadInvoices()" class="glyphicon glyphicon-refresh " >reload</button>
+
+                </div>
+
+                <div class="md-block col-md-12" style="overflow-x:scroll;max-width:960px;">
+
+                    <b ng-if="invoiceslists.length==0 ">No record Found</b>
+                    <md-input-container class="md-block ">
+
+                        <input type="text"   class="md-block"   placeholder="Search...." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="invoiceslists.length>0"
+                    >
+
+                        <thead style="background-color: beige">
+
+                        <tr>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Invoice Number </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Facility Name </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Invoice Due Date  </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="invoice in invoiceslists | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ invoice.invoice_number }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ invoice.buyer_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ invoice.created_at}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> <md-button ng-click="ViewInvoice(invoice.invoice_number)" class="md-raised md-primary">View Invoice</md-button></td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </vertical-tab-pane>
+
+        </vertical-tabs>
+    </md-tab>
+    <md-tab label="PRODUCT REGISTRATION">
+        <vertical-tabs>
+            <vertical-tab-pane title="Products">
+                <div  >
+<button title="Load Products" ng-click="Products()" class="glyphicon glyphicon-refresh btn btn-success" >Load Products</button>
+<button title="Create New Product" ng-click="CreateNewProduct()" class="glyphicon glyphicon-plus-sign btn btn-info">Create New Product</button>
+
+                </div>
+                <b ng-if="products.length==0" style="background-color: red">No data found</b>
+                <div style="overflow-x:scroll;max-width:960px;" ng-if="products.length>0">
+                    <md-input-container class="md-block col-md-12 col-sm-4">
+
+                        <input type="text"  class="md-block" placeholder="Quick Search.." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="products.length>0"  >
+
+                    <thead style="background-color: beige">
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+
+                            No
+
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" >   ItemCode </td>
+                        <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" >  Category  </td>
+                        <td class="mdl-data-table__cell--non-numeric"> SubCategory </td>
+                        <td class="mdl-data-table__cell--non-numeric"> Unit Of Measure(UoM) </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" colspan="2">    Action  </td>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="product in products | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ product.item_code }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ product.item_name }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ product.item_category }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ product.item_sub_category }}</td>
+                        <td class="mdl-data-table__cell--non-numeric"> {{ product.unit_of_measure }}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ><button class="glyphicon glyphicon-edit btn btn-info" ng-click="EditProduct(product)" title="Edit"></button> </td>
+                        <td class="mdl-data-table__cell--non-numeric" ><button class="glyphicon glyphicon-remove btn btn-danger" ng-click="DeleteProduct(product)" title="Delete"></button> </td>
+
+                    </tr>
+                    </tbody>
+
+                </table>
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Prices">
+                <div  >
+                    <button title="Load Prices" ng-click="ProductPrice()" class="glyphicon glyphicon-refresh btn btn-success" >Load Prices</button>
+                    <button title="Create Price" ng-click="CreatePrice()" class="glyphicon glyphicon-plus-sign btn btn-info">Create Price</button>
+
+                </div>
+
+<b ng-if="prices.length==0" style="background-color: red">No data found</b>
+                <div style="overflow-x:scroll;max-width:960px;" ng-if="prices.length>0">
+                    <md-input-container class="md-block col-md-12 col-sm-4">
+
+                        <input type="text"  class="md-block" placeholder="Quick Search.." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="prices.length>0"  >
+
+                        <thead style="background-color: beige">
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">
+
+                                No
+
+                            </td>
+
+                            <td class="mdl-data-table__cell--non-numeric" >   ItemCode </td>
+                            <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+
+                            <td class="mdl-data-table__cell--non-numeric" > Selling Price  </td>
+                            <td class="mdl-data-table__cell--non-numeric" > Category  </td>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" colspan="2">    Action  </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="price in prices | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ price.item_code }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ price.item_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ price.item_price }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ price.category }}</td>
+
+                            <td class="mdl-data-table__cell--non-numeric" ><button class="glyphicon glyphicon-edit btn btn-info" ng-click="EditPrice(price)" title="Edit"></button> </td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Sales Categories">
+                <div  >
+                    <button title="Load Prices" ng-click="LoadCategories()" class="glyphicon glyphicon-refresh btn btn-success" >Load categories</button>
+                    <button title="Create Price" ng-click="CreateCategories()" class="glyphicon glyphicon-plus-sign btn btn-info">Create categories</button>
+
+                </div>
+
+<b ng-if="categories.length==0" style="background-color: red">No data found</b>
+                <div style="overflow-x:scroll;max-width:960px;" ng-if="categories.length>0">
+                    <md-input-container class="md-block col-md-12 col-sm-4">
+
+                        <input type="text"  class="md-block" placeholder="Quick Search.." ng-model="search" autocomplete="false">
+
+                    </md-input-container>
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="categories.length>0"  >
+
+                        <thead style="background-color: beige">
+
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">
+
+                                No
+
+                            </td>
+
+                            <td class="mdl-data-table__cell--non-numeric" >   Category Name </td>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" colspan="2">    Action  </td>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="price in categories | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                            <td class="mdl-data-table__cell--non-numeric"> {{ price.category_name }}</td>
+
+
+                            <td class="mdl-data-table__cell--non-numeric" ><button class="glyphicon glyphicon-edit btn btn-info" ng-click="EditCategory(price)" title="Edit"></button> </td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </vertical-tab-pane>
+        </vertical-tabs>
+    </md-tab>
+
+</md-tabs>
+<script type="text/Javascript">
+    function flag(element){
+        $('#tr_'+element.id.substring(4)).css('border-color','red');
+    }
+
+    function money(field,event){
+        if(event.which >= 37 && event.which <= 40)
+            return;
+
+// format number
+        $(field).val(function(index, value) {
+            value += '';
+            var dec = '';
+
+            var parts = value.split('.');
+            dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+            return parts[0]
+                .replace(/\D/g, '')
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+        });
+    }
+</script>

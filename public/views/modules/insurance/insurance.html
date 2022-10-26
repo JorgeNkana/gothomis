@@ -1,0 +1,74 @@
+<div ng-cloak="">
+    <md-content>
+        <md-toobar>
+            <div class="md-toolbar-tools">
+                <p>Insurance management</p>
+            </div>
+        </md-toobar>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="claim forms">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="x.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="x.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getDates(x)">Search</md-button>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <div flex="10">
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;" ng-click="getPatients(attend)" class="md-1-line" ng-repeat="attend in insurance_attendence" style="cursor: pointer;">
+                                    {{attend.date_attended}}
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                        <div flex="90">
+                            <table ng-if="insurance_attendence.length>0" class="table table-borderd table-striped" width="100%">
+                                                <thead>
+                                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Authorization No.</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Membership No.</th>
+                                                <th class="mdl-data-table__cell--non-numeric">First Name</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Middle Name</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Last Name</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Gender</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Date of Birth</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Age</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Occupation</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Residence</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Mobile Phone</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Action</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="pt in patients track by $index">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.authorization_number}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.membership_number}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.first_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.middle_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.last_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.gender}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.dob}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.age}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.occupation_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.residence_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pt.mobile_number}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric"><md-button class="md-raised md-primary" ng-click="getClaimForm(pt)">Claim Form</md-button></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Bulk claims"></md-tab>
+        </md-tabs>
+    </md-content>
+</div>

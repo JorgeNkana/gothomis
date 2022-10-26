@@ -1,0 +1,616 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="labController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span></span>LABORATORY SETTING DASHBOARD</h4>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row hidden-print">
+                        <ul class="nav nav-tabs nav-justified" >
+                            <li ng-class="{active: isSet(1) }">
+                                <a href ng-click="setTabSamples(1)">Samples</a></li>
+                        <li ng-class="{active: isSet(2) }">
+						<a href ng-click="setTabLabTests(2)">Lab Tests</a></li>
+                            <li ng-class="{active: isSet(3) }">
+                                <a href ng-click="setTabEquipments(3)"><span >Equipments</span></a></li>
+
+                            <li ng-class="{active: isSet(4) }">
+						<a href ng-click="setTabBloodBank(4)">Blood Bank</a></li>
+                        <li ng-class="{active: isSet(5) }">
+						<a href ng-click="setTab(5)">Reports</a></li>
+                        </ul>
+          <br>
+          <br>
+                            </div>
+                        <div class="row">
+
+                            <div ng-show="isSet(4)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">PATIENT REQUESTED FOR BLOOD</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">JOHN J JARIBIO</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--   NURSING PLANING CARE-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">BLOOD TRANSFUSION REQUEST FORM</div><br>
+
+
+
+
+
+                                        <uib-accordion>
+                                            <div uib-accordion-group class="panel-primary" heading="Request Received">
+                                                <!--chief complaints and HPI starts-->
+                                                <div class="row">
+                                                    <div class="row">
+                                                        <div class="col-xs-4">
+                                                            <input type="text" ng-model="selectedcomplaint" class="form-control" placeholder="Search Chief Complaints" uib-typeahead="complaint as complaint.name for complaint in complaints($viewValue) |filter:$viewValue |limitTo:5">
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <select ng-model="durationqty" class="form-control"><option value="">Duration</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <select ng-model="durationunit" class="form-control"><option value="">Duration Unit</option><option value="Hours">Hours</option><option value="Days">Day(s)</option><option value="Weeks">Weeks</option><option value="Months">Months</option><option value="Years">Years</option></select>
+                                                        </div>
+                                                        <div class="col-xs-2">
+                                                            <button class="btn btn-primary pull-right" ng-click="addComplaint(selectedcomplaint,durationqty,durationunit)">Add</button>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-xs-6"><textarea  cols="30" class="form-control" placeholder="Write other Complaints"  rows="4"></textarea> </div>
+                                                        <div class="col-xs-6"><textarea cols="30" class="form-control" placeholder="History of Presenting Illness" rows="4"></textarea></div>
+                                                    </div>
+                                                    <div class="row"><br>
+                                                        <button class="btn btn-primary pull-right" ng-click="saveComplaints()">Save Complaints</button>
+                                                    </div>
+                                                </div>
+                                                <!--chief complaints and HPI ends-->
+                                                <!--review of systems starts-->
+                                                <div class="row">
+                                                    <h2 style="font-weight: 400">Review of Systems</h2>
+                                                    <div class="col-xs-12">
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Cardiovascular</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedCardio" uib-typeahead="cardio as cardio.name for cardio in showCardio($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Respiratory</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedRespiratory" uib-typeahead="resp as resp.name for resp in showRespiratory($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Gastrointestinal</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedGastro" uib-typeahead="gastro as gastro.name for gastro in showGastro($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Musculoskeletal</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedMusculo" uib-typeahead="musculo as musculo.name for musculo in showMusculo($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Genitourinary</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedGenito" uib-typeahead="genito as genito.name for genito in showGenito($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Central Nervous System</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedCNS" uib-typeahead="cns as cns.name for cns in showCNS($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <h4 style="font-weight: 400">Endocrine</h4>
+                                                            <input type="text" class="form-control" ng-model="selectedEndo" uib-typeahead="endo as endo.name for endo in showEndo($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                            <button class="btn btn-primary pull-right">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--review of systems ends-->
+                                            </div>
+                                            <div uib-accordion-group class="panel-primary" heading="Sample Rejected">
+                                                <!--past medical history starts-->
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Allergy</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedAllergy" uib-typeahead="allergy as allergy.name for allergy in showAllergy($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Medication</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedMedicine" uib-typeahead="med as med.name for med in showMedication($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Illness</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedIllness" uib-typeahead="illness as illness.name for illness in showIllness($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Admission</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedAdmission" uib-typeahead="admisn as admisn.name for admisn in showAdmission($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <h4 style="font-weight: 400">Immunisation</h4>
+                                                        <input type="text" class="form-control" ng-model="selectedImmune" uib-typeahead="immune as immune.name for immune in showImmune($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </div>
+                                                </div>
+                                                <!--past medical history ends-->
+                                            </div>
+
+                                                                  </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+                        </div>
+
+
+                            <div ng-show="isSet(3)">
+
+                                <div   ng-click="getEquipementList()" class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">Equipments Registered</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Search Equipments" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <class="list-group">
+
+                                            <li ng-repeat="equipementList in equipementLists" ng-click="getEquipmentInfo(equipementList)"
+                                                class="list-group-item form-top"><b> <span ng-if="equipementList.on_off==0" class="fa fa-times fa-2x " style="color: red"></span> {{equipementList.equipment_name}} : {{equipementList.sub_department_name}}</b>
+                                            </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">Equipments Registration Form</div><br>
+
+
+
+                                        <div class="panel-body">
+                                            <div class="row">
+
+
+
+                                                <div class="col-xs-5">
+                                                    Equipment Name
+                                                    <input ng-click="getLabDepartments()" type="text" ng-model="device.equip_name" class="form-control" placeholder="Equipment Name" >
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    Equipment status
+                                                    <select  ng-model="device.equip_status" class="form-control">
+                                                        <option  ng-repeat="getEquipementStatus in getEquipementStatuses"    ng-value="getEquipementStatus.id"> {{getEquipementStatus.status_name}} </option>
+                                                    </select>
+                                                </div>
+                                            </div><br>
+                                            <div class="row">
+                                                <div class="col-xs-5">
+                                                    Reagent to be used
+                                                    <input type="text" ng-model="device.reagents" class="form-control" placeholder="Reagent to be used" >
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    Sub departments
+                                                    <select  ng-model="device.subdepartment"  ng-click="getLabDepartments()" class="form-control">
+
+                                                        <option  ng-repeat="labDepartment in labDepartments"    ng-value="labDepartment.id"> {{labDepartment.sub_department_name}} </option>
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                            <BR>       <button type="submit" class="btn btn-success" ng-click="addDevices(device)">SAVE</button>
+                                        </div>
+
+
+
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div ng-show="isSet(5)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">ADMITTED PATIENTS</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">DISCHARGED</div><br>
+
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Cras justo odio</li>
+                                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                <li class="list-group-item">Morbi leo risus</li>
+                                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                                <li class="list-group-item">Vestibulum at eros</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div ng-show="isSet(1)">
+
+                                <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">Collected Samples</div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item" ng-repeat="collectedSample in collectedSamples"><b>{{collectedSample.first_name}}  {{collectedSample.last_name}} ({{collectedSample.medical_record_number}}) ,{{collectedSample.sub_department_name}},Sampl# {{collectedSample.sample_no}} </b> </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--   NURSING PLANING CARE-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <uib-accordion>
+                                            <div uib-accordion-group class="panel-primary" ng-click="getLabTestRequests()" heading="Collect Samples">
+                                                <!--chief complaints and HPI starts-->
+                                                <div class="row">
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+                                                            <form  >
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control input-lg">
+                                                                    <div class="input-group-btn">
+                                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div><br><br>
+                                                        <div class="col-md-12">
+                                                            <div class="panel-body">
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item form-top"   ng-click="getTestRequestAll(LabTestRequests)"  ng-repeat="LabTestRequest in LabTestRequests">{{LabTestRequest.first_name}} {{LabTestRequest.middle_name}} {{LabTestRequest.last_name}}, A/C: {{LabTestRequest.account_number}}, On {{LabTestRequest.created_at}}</li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!--review of systems ends-->
+                                            </div>
+                                            <div uib-accordion-group class="panel-primary" heading="Rejected Samples">
+                                                <!--past medical history starts-->
+                                                <div class="col-xs-12">
+
+                                                    <ul class="list-group">
+                                                        <li title="Click to Re-collect Samples" class="list-group-item form-top"   ng-click="reCollectTestRequests(cancelledSamples)"  ng-repeat="cancelledSample in cancelledSamples">{{cancelledSample.first_name}} {{cancelledSample.middle_name}} {{cancelledSample.last_name}}, A/C: {{cancelledSample.account_number}}, On {{cancelledSample.created_at}}</li>
+
+                                                    </ul>
+                                                </div>
+                                                <!--past medical history ends-->
+                                            </div>
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+
+                            <div ng-show="isSet(2)">
+
+                                <div class="col-md-4">
+                                    <div class="panel form-top-left">
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+          <input placeholder="Search Tests if Not in list or Create " type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+											
+									<li ng-repeat="LabTest in LabTests"
+                                        class="list-group-item"><b> <span ng-if="LabTest.on_off==0" class="fa fa-times fa-2x " style="color: red"></span> {{LabTest.panel_compoent_name}} ,{{LabTest.equipment_name}}
+			 
+			 </b>
+ </li>		
+					
+                                              
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                                    <div class="col-md-8">
+                                                            <uib-accordion>
+                                                                <div uib-accordion-group class="panel-primary" heading="Lab Test Panels Registration">
+
+                                                                    <div class="row">
+                                                                        <div class="col-xs-5">
+                                                                            Test Name
+                                                                            <input ng-click="getEquipementList()" type="text" ng-model="test.name" class="form-control" placeholder="Test Panel Name" >
+                                                                        </div>
+                                                                        <div class="col-xs-5">
+                                                                            Equipment
+                                                                            <select  ng-model="test.equipment_id" ng-click="getEquipementList()" class="form-control">
+
+                                                                                <option  ng-repeat="equipementList in equipementLists"    ng-value="equipementList.id"> {{equipementList.equipment_name}} </option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="col-xs-2"><br>
+                                                                            <button class="btn btn-primary" ng-click="addLabPanel(test)">SAVE</button>
+                                                                        </div>
+
+
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <div uib-accordion-group class="panel-primary" ng-click="getTestPanels()" heading="Panel Components Registration ">
+
+                                                                    <div class="row">
+                                                                        <div class="col-xs-5">
+                                                                            Test Panel
+                                                                            <select  ng-model="testPanel.item_id"  class="form-control">
+
+                                                                                <option  ng-repeat="testPanel in testPanels"    ng-value="testPanel.item_id"> {{testPanel.panel_name}} </option>
+                                                                            </select>
+
+                                                                              </div>
+                                                                        <div class="col-xs-5">
+                                                                            Test Name
+                                                                            <input ng-click="getEquipementList()" type="text" ng-model="testPanel.name" class="form-control" placeholder="Test Name" >
+                                                                        </div>
+
+                                                                    </div><br>
+                                                                    <div class="row">
+
+                                                                        <div class="col-xs-5">
+                                                                            Equipment
+                                                                            <select  ng-model="testPanel.equipment_id" ng-click="getEquipementList()" class="form-control">
+
+                                                                                <option  ng-repeat="equipementList in equipementLists"    ng-value="equipementList.id"> {{equipementList.equipment_name}} </option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div class="col-xs-5">
+                                                                            Minimum
+                                                                            <input type="text" ng-model="testPanel.minimum_limit" class="form-control" placeholder="Minimum Limit" >
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <br>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-6">
+                                                                            Maximum
+                                                                            <input type="text" ng-model="testPanel.maximum_limit" class="form-control" placeholder="Maximum Limit" >
+
+                                                                        </div>
+                                                                        <div class="col-xs-3">
+                                                                            SI Units
+                                                                            <input type="text" ng-model="testPanel.si_units" class="form-control" placeholder="SI Units" >
+                                                                        </div>
+
+                                                                        <div class="col-xs-2"><br>
+                                                                            <button class="btn btn-primary pull-right" ng-click="addLabTestPanel(testPanel)">SAVE</button>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div uib-accordion-group class="panel-primary" heading="Single Test Registration" >
+                                                                    <!--birth history starts-->
+                                                                    <div class="row">
+                                                                        <div class="col-xs-5">
+                                                                            Test Name
+                                                                            <input ng-click="getEquipementList()" type="text" ng-model="test.name" class="form-control" placeholder="Test Name" >
+                                                                        </div>
+                                                                        <div class="col-xs-6">
+                                                                            Equipment
+                                                                            <select  ng-model="test.equipment_id" ng-click="getEquipementList()" class="form-control">
+
+                                                                                <option  ng-repeat="equipementList in equipementLists"    ng-value="equipementList.id"> {{equipementList.equipment_name}} </option>
+                                                                            </select>
+                                                                        </div>
+
+
+
+
+                                                                    </div><br>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-5">
+                                                                            Minimum
+                                                                            <input type="text" ng-model="test.minimum_limit" class="form-control" placeholder="Minimum Limit" >
+                                                                        </div>
+                                                                        <div class="col-xs-6">
+                                                                            Maximum
+                                                                            <input type="text" ng-model="test.maximum_limit" class="form-control" placeholder="Maximum Limit" >
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <br>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-5">
+                                                                            SI Units
+                                                                            <input type="text" ng-model="test.si_units" class="form-control" placeholder="SI Units" >
+                                                                        </div>
+
+                                                                        <div class="col-xs-5"><br>
+                                                                            <button class="btn btn-primary pull-right" ng-click="addLabTest(test)">SAVE TEST</button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    </div>
+                                                                    <!--birth history ends-->
+                                                                </div>
+                                                              </div>
+
+
+
+
+
+
+
+                                                    </div>
+
+
+
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+										
+										
+										
+                                    </div>
+
+
+
+
+
+                                </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

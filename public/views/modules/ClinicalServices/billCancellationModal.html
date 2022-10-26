@@ -1,0 +1,41 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p>{{"Name: " +patientBills[0].name}}&nbsp;&nbsp;&nbsp;{{"Age: "+patientBills[0].age}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+patientBills[0].gender}}</p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td><strong>Item Name</strong></td>
+                    <td class="text-center"><strong>Unit Price</strong></td>
+                    <td class="text-center"><strong>Quantity</strong></td>
+                    <td class="text-center"><strong>Sub Total</strong></td>
+                    <td class="text-right"><strong>Action</strong></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in patientBills">
+                    <td>{{item.item_name}}</td>
+                    <td class="text-center">{{item.price}}</td>
+                    <td class="text-center">{{item.quantity}}</td>
+                    <td class="text-center">{{item.price * item.quantity - item.discount | currency : 'Tshs ' : 2}}</td>
+                    <td class="text-right"><md-button class="md-raised md-primary" ng-click="cancelBill(item)">Cancel this bill</md-button></td>
+                </tr>
+                <tr>
+                    <td class="emptyrow"></td>
+                    <td class="emptyrow"></td>
+                    <td class="emptyrow text-center"><br><strong>Grand Total</strong></td>
+                    <td class="emptyrow text-center"><br><strong>{{toto() | currency : 'Tshs ' : 2}}</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </md-dialog-content>
+    </form>
+</md-dialog>

@@ -1,0 +1,51 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog     class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            <i> NAME:&nbsp;&nbsp; {{SelectedClient.patient_names}}&nbsp;&nbsp;   MRN: &nbsp;&nbsp;{{SelectedClient.medical_record_number}}   &nbsp;&nbsp;MobileNumber: &nbsp;&nbsp;{{SelectedClient.mobile_number}}&nbsp;&nbsp; GENDER:&nbsp;&nbsp;{{SelectedClient.gender}}&nbsp;&nbsp;D.O.B:&nbsp;&nbsp;{{SelectedClient.dob}}&nbsp;&nbsp;<p></p>
+
+            </i>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content   >
+
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+
+            <tbody>
+
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Service Name</td>
+                <td class="mdl-data-table__cell--non-numeric">Department</td>
+                <td class="mdl-data-table__cell--non-numeric">Quantity(Unit)</td>
+                <td class="mdl-data-table__cell--non-numeric">Unit Price</td>
+                <td class="mdl-data-table__cell--non-numeric">Cost Price</td>
+                <td class="mdl-data-table__cell--non-numeric">Provider Name</td>
+                <td class="mdl-data-table__cell--non-numeric">Due Date</td>
+                  </tr>
+            <tr ng-repeat="service in receptions">
+                <td class="mdl-data-table__cell--non-numeric">{{service.item_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{service.department_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{service.quantity |number:fractionSize}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{service.price |number:fractionSize}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{service.quantity * service.price |number:fractionSize}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{service.user_name}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{service.created_at}}</td>
+
+            </tr>
+
+
+
+            </tbody>
+        </table>
+
+    </md-dialog-content>
+
+</md-dialog>

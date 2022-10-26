@@ -1,0 +1,20 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+           
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for patient to write report" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+		
+		
+		<div layout="row">
+                        <md-chips>
+                            <md-chip ng-repeat="pt in theatreQues" ng-click="addSwabsInfo(pt)" style="cursor: pointer">
+                                {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}
+								({{pt.medical_record_number}})-{{pt.item_name}}
+                            </md-chip>
+                        </md-chips>
+                    </div>		        
+   </md-content>
+</div>

@@ -1,0 +1,113 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1300px;
+    }
+
+</style>
+<div class="app-modal-window wrapper wrapper-content animated fadeInRight" ng-controller="ctcController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p><span class="fa fa-desktop"></span>{{ctcQues.first_name}} {{ctcQues.middle_name}} {{ctcQues.last_name}} ({{ctcQues.medical_record_number}})
+
+                                <span class="pull-right"> DOB: {{ctcQues.dob}} &nbsp;&nbsp; GENDER: {{ctcQues.gender}}  </span>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+
+                        <h4 align="center">FAMILY INFORMATION</h4><br>
+
+                        <div class="row">
+                            <div class="form-group col-md-5 col-sm-5">
+                                <label for="form1">NAME</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form1" ng-model="family.name" class="form-control">
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-md-3 col-sm-3">
+                                <label>RELATION</label>
+                                <div class="md-form form-sm ">
+                                    <input type="text" ng-model="family.relation" class="form-control"           uib-typeahead ="relationship as relationship.relationship for relationship in getRelationships($viewValue) | filter:$viewValue"
+                                    >
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2 col-sm-2">
+                                <label for="form3">AGE</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form3" ng-model="family.age" class="form-control">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-3 col-sm-3">
+
+                                <div class="md-form form-sm">
+
+                                    <select id="form4" ng-model="family.hiv_status" class="form-control"  >
+                                        <option value="" >HIV STATUS</option>
+                                        <option value="+">Positive(+)</option>
+                                        <option value="-">Negative(-)</option>
+                                        <option value="Uknown">Uknown</option>
+                                    </select>
+
+                                </div></div>
+
+                            <div class="form-group col-md-3 col-sm-3">
+
+                                <div class="md-form form-sm">
+
+                                    <select  ng-model="family.hiv_care" class="form-control"  >
+                                        <option value="" >HIV CARE</option>
+                                        <option value="Y">Yes(Y)</option>
+                                        <option value="N">No(N)</option>
+                                        </select>
+
+                                </div></div>
+
+                            <div class="form-group col-md-3 col-sm-3">
+                                <div class="md-form form-sm">
+                                    <input type="text" ng-model="family.ctc_id" class="form-control" >
+                                    <label>UNIQUE CTC ID</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3 col-sm-3">
+                                <div class="md-form form-sm">
+                                    <input  type="text"  ng-model="family.health_facility_file" class="form-control">
+                                    <label>HEALTH FACILITY FILE No.</label>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+
+                        <button id="quick" type="submit" class="btn btn-success" ng-click="saveFamilyInfo(family,ctcQues)">SAVE </button>
+                     </div>
+
+
+
+
+    </div>
+
+
+
+
+
+</div>

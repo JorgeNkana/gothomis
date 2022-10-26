@@ -1,0 +1,532 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >ANC HMIS SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+
+
+
+
+            <div layout-gt-sm="row" flex="75">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>FOMU YA TAARIFA YA KITABU CHA 6: REJESTA YA WAJAWAZITO</h5></div>
+
+					<hr>
+
+					<b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					<b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+					<P></P>
+					<P></P>
+					<P></P>
+					<b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					<b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<hr>
+				</b></caption>
+				<tr style="background-color:#c1c1c1">
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">No</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelekezo</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri (<20)</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri(>20)</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+				</tr>
+				<tr >
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">1 </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya Wajawazito Waliotegemewa</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">2 </td>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black; text-align:left;">Hudhurio la kwanza</th>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr>
+				<tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">2a</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri wa mimba chini ya wiki 12 (< 12weeks) </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[0][0].less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[0][0].above_20}}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[0][0].total}} </td>
+
+				</tr>
+				<tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">2b</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri wa mimba wiki 12 au zaidi (12+ weeks) </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[1][0].less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[1][0].above_20}}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[1][0].total}} </td>
+
+				</tr>
+				<tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> <i>Jumla ya hudhurio la Kwanza (2a+2b)</i></td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[2][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[2][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[2][0].total_a_b}} </td>
+				</tr>
+				<tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">2c</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wateja wa marudio</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[12][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[12][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[12][0].total}} </td>
+
+				</tr>
+				<tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">2d</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Hudhurio la nne wajawazito wote </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[13][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[13][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[13][0].total}} </td>
+
+				</tr> <tr>
+				<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"><i>Jumla ya Mahudhurio yote (2c+2d)</i> </td>
+				<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[12][0].total_less_20  -(- antinatal[13][0].total_less_20)}} </td>
+				<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[12][0].total_above_20  -(-  antinatal[13][0].total_above_20) }}</td>
+				<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[12][0].total  -(- antinatal[13][0].total)}}</td>
+
+				</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">2e</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya wajawazito waliopima damu hudhurio la kwanza</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[14][0].total_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[14][0].total_above_20 }}</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[14][0].total}} </td>
+
+					</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">3</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wajawazito waliopata Chanjo ya TT2+ </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[15][0].total_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[15][0].total_above_20 }}</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[15][0].total}} </td>
+
+					</tr>
+					<tr style="background-color:#c1c1c1">
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black; text-align:left;"> Vidokezo vya Hatari</th>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4a</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Mimba zaidi ya 4</td>
+						<td style="background-color:#c1c1c1"> </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[3][0].total}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[3][0].total}}</td>
+
+					</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4b</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Umri chini ya miaka 20</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[4][0].total_less_20}} </td>
+						<td style="background-color:#c1c1c1"> </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[4][0].total_less_20}} </td>
+
+					</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4c</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Umri zaidi ya miaka 35</td>
+					<td style="background-color:#c1c1c1"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[4][0].total_above_35}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[4][0].total_above_35}} </td>
+
+				</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4d</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Upungufu mkubwa wa damu <8.5g/dl – Anaemia hudhurio la
+							kwanza</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[5][0].less_hb_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[5][0].less_hb_above_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[5][0].less_hb_total}} </td>
+
+					</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4e</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Shinikizo la damu (BP =>140/90mm/hg) </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[5][0].less_bp_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[5][0].less_bp_above_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[5][0].less_bp_total}} </td>
+
+					</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4f</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Kifua kikuu</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[6][0].tb_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[6][0].tb_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[6][0].tb_total}} </td>
+
+				</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4g</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Sukari kwenye mkojo</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[7][0].urine_sugar_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[7][0].urine_sugar_above_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[7][0].urine_sugar_total}} </td>
+
+					</tr> <tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4h</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Protein kwenye mkojo </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[7][0].urine_albumin_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[7][0].urine_albumin_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[7][0].urine_albumin_total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4i</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopima Kaswendwe</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].vdrl_rpr_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].vdrl_rpr_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].vdrl_rpr_total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4j</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliogundulika na maambukizi ya Kaswende</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[16][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[16][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[16][0].total}} </td>
+
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4k</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopata matibabu ya Kaswende</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[17][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[17][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[17][0].total}} </td>
+
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4l</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenza/Waume waliopima Kaswende </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[18][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[18][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[18][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4m</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenza/Waume waliogundulika na maambukizi ya kaswende </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[19][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[19][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[19][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4n</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wenza/Waume waliopata matibabu ya kaswende</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[20][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[20][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[20][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4o</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopatikana na magonjwa ya mambukizo ya ngono yasio
+						kaswende</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[21][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[21][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[21][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4p</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopata tiba sahihi ya magonjwa ya mambukizo ya ngono yasio
+						kaswende </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[22][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[22][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[22][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4q</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenza/waume waliopatikana na magonjwa ya mambukizo ya
+						ngono yasio kaswende </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[23][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[23][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[23][0].total}} </td>
+
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">4r</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wenza/waume waliopata tiba sahihi ya magonjwa ya ngono yasio
+						kaswende</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[24][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[24][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[24][0].total}} </td>
+
+				</tr>
+					<tr style="background-color:#c1c1c1">
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black; text-align:left;">PMTCT </th>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+					</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5a</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Tayari wana maambukizi ya VVU kabla ya kuanza kliniki</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[25][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[25][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[25][0].total}} </td>
+
+				</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5b</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wajawazito wote waliopata ushauri nasaha kabla ya kupima
+							VVU kliniki </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[26][0].total_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[26][0].total_above_20 }}</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[26][0].total}} </td>
+
+					</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5c</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wajawazito Waliopima VVU kipimo cha kwanza kliniki </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[27][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[27][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[27][0].total}} </td>
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">8d</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wajawazito Waliokutwa na VVU (positive) kipimo cha
+						kwanza</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[28][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[28][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[28][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5e</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wajawazito Waliokutwa na VVU (positive) kipimo cha
+						kwanza walio chini ya umri wa miaka 25</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[29][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[30][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[30][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5f</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wajawazito waliopata ushauri baada ya kupima </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[31][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[31][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[31][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5g</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wajawazito walipiomwa VVU na wenza wao (Couple) kwa
+						pamoja katika kliniki ya wajawazito</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[32][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[32][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[32][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5h</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wajawazito waliopima VVU kipimo cha pili </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[33][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[33][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[33][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">8i</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wajawazito waliokutwa na maambukizi ya VVU kipimo cha
+						pili</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[34][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[34][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[34][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">8j</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wenza waliopima VVU kipimo cha kwanza Kliniki ya Wajawazito</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[35][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[35][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[35][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5k</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenza waligundulika kuwa na maambukizi ya VVU kipimo cha kwanza Kliniki ya Wajawazito </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[36][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[36][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[36][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5l</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenza waliopima VVU kipimo cha pili Kliniki ya Wajawazito </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[37][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[37][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[37][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5m</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenza waligundulika kuwa na maambukizi ya VVU kipimo cha pili Kliniki ya Wajawazito  </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[38][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[38][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[38][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5n</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Wajawazito na wenza waliopata majibu tofauti(discordant) baada ya kupima VVU Kliniki ya Wajawazito  </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[39][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[39][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[39][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">5o</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopata ushauri juu ya ulishaji wa mtoto</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[40][0].total_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[40][0].total_above_20 }}</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[40][0].total}} </td>
+
+
+				</tr>
+					<tr style="background-color:#c1c1c1">
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">6</td>
+						<th style="border-right: thin dotted black;border-bottom: thin dotted black; text-align:left;">Malaria </th>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[41][0].total_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{antinatal[41][0].total_above_20 }}</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[41][0].total}} </td>
+
+					</tr>
+					<tr>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">6a</td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa vocha ya hati punguzo </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].voucher_no_less_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].voucher_no_above_20}} </td>
+						<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].voucher_no_total}} </td>
+
+					</tr> <tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">6b</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopima Malaria kutumia MRD T</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].mrdt_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].mrdt_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].mrdt_total}} </td>
+
+				</tr> <tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">6c</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopima Malaria positive </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].malaria_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].malaria_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[8][0].malaria_total}} </td>
+
+				</tr> <tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">6d</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa IPT2 </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[9][0].ipt2_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[9][0].ipt2_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[9][0].ipt2_total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">6e</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa IPT4 </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[9][0].ipt4_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[9][0].ipt4_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[9][0].ipt4_total}} </td>
+
+				</tr> <tr style="background-color:#c1c1c1">
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black; text-align:left;">Huduma Nyingine </th>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+
+				</tr> <tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">7</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopewa Iron/Folic Acid (I,F,IFA) vidonge vya kutosha
+						mpaka udhurio linalofuata</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[11][0].folic_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[11][0].folic_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[11][0].folic_total}} </td>
+
+				</tr> <tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">8</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa Dawa za minyoo (Albendazole / Mebendazole ) </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[11][0].deworm_less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[11][0].deworm_above_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[11][0].deworm_total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">9</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopewa rufaa wakati wa ujauzito</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[10][0].less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[10][0].greater_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[10][0].total}} </td>
+
+				</tr><tr>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">10</td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa rufaa kwenda CTC </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[10][0].less_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[10][0].greater_20}} </td>
+					<td  style="border-right: thin dotted black;border-bottom: thin dotted black;">{{antinatal[10][0].total}} </td>
+
+				</tr>
+			</table>
+			<p></p>
+			<div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+			<p></p>
+			<div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+			<p></p>
+			<div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+			<p></p>
+			<div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+		</div>
+		
+		<div class="row no-print">
+			<table width="100%">
+				<tr><td  style="border-right: thin dotted black;border-bottom: thin dotted black;">
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('anc')">
+					SEND TO DHIS
+				</button>
+				</td></tr>
+			</table>
+		</div>
+        </div>
+    </md-content>
+</md-dialog>

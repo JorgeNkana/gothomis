@@ -1,0 +1,925 @@
+<!--/hhhh.......................................-->
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+
+        <div class="col-md-12 form-box">
+            <div class="">
+                <form>
+                    <div class="input-group">
+                        <input type="text"  class="form-control input-lg "    ng-model="search" placeholder="Search"   >
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-lg btn-success" >
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <p></p>
+            <p></p>
+            <form  role="form" class="registration-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left ">
+
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Regions Setting</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="@fat">Council Type Setting</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-whatever="@getbootstrap">Council Setting</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" data-whatever="@getbootstrap">Residence Setting</button>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+
+                        <table class="table table-bordered table-striped"  >
+                            <b>Regions Total:{{regions.length}}</b>
+                            <div class="form-group">
+
+                            </div>
+                            <thead>
+                            <tr>
+                                <td>
+
+                                    No#
+
+                                </td>
+
+                                <td>
+
+                                    Region Code
+
+
+
+                                </td>
+                                <td>
+
+                                    Region Name
+
+
+                                </td>
+                                <td  ng-if="e">
+
+                                    Control
+
+                                </td>  <td>
+
+                                Edit
+
+                            </td> <td  ng-if="!e">
+
+                                X
+
+                            </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="region in regions | filter:search track by $index">
+                                <td>{{ $index+1 }}</td>
+
+                                <td><b ng-if="!e">{{ region.region_code }}</b>
+                                    <h3 ng-if="e">
+
+                                        <div class="form-group">
+                                            <input type="Name" data-toggle="tooltip" title="Region Code" class="form-control" placeholder="Name" ng-model="region.region_code">
+                                        </div>
+
+
+                                    </h3>
+                                </td>
+                                <td><b ng-if="!e">{{ region.region_name }}</b>
+                                    <h3 ng-if="e">
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" data-toggle="tooltip" title="Region Name"  placeholder="region name" ng-model="region.region_name">
+                                        </div>
+
+
+                                    </h3>
+
+                                </td>
+                                <td ng-if="e">
+                                    <h3 >
+
+                                        <div class="form-group">
+
+
+                                            <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="update(region)">Update</button>
+
+                                        </div>
+                                    </h3>
+                                    <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                </td><td  ng-if="!e">
+                                <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="delete(region.region_name,region.id)">Delete</button>
+                            </td>
+                                <!--<td>{{ region.tastiness }}</td>-->
+                            </tr>
+                            </tbody>
+
+                        </table>
+                        </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!--hhh...........................................-->
+
+
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">REGION SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+
+                                    <div class="col-md-12 form-box">
+
+                                        <p></p>
+                                        <p></p>
+                                        <form  role="form" class="registration-form" action="javascript:void(0);">
+                                            <fieldset>
+                                                <div class="form-top">
+                                                    <div class="form-top-left ">
+
+                                                        <div class="text-center">
+                                                           REGIONS
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-bottom">
+
+
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Region Code</i></div>
+
+                                                            <input type="text" class="form-control" data-toggle="tooltip" title="Enter Region code" placeholder="Enter Region Code" ng-model="region.region_code">
+                                                            <i ng-if="region.region_code.length>3 && region.region_code.length !=0">
+                                                                Region Code Should not exceed Three letters
+                                                            </i>
+                                                            <i ng-if="region.region_code.length==null">
+                                                                Region Code Should not exceed Three letters
+                                                            </i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon">Region Name</i></div>
+
+                                                            <input type="text" class="form-control" data-toggle="tooltip" title="Enter Region Name" placeholder="Enter Region Name" ng-model="region.region_name">
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <button ng-if="region.region_code.length <4 && region.region_name.length !=0 " class='btn btn-success' ng-click="region_registration(region)" >Register</button>
+                                                    <p></p>
+
+
+
+
+
+
+
+
+
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!--model two-->
+
+
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">COUNCIL TYPE SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+
+                                    <div class="col-md-12 form-box">
+                                        <div class="">
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text"  class="form-control input-lg "  typeahead-on-select=" " ng-model="search"   placeholder="Search"  >
+
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" >
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+                                        </div>
+
+                                        <p></p>
+                                        <p></p>
+                                        <form  role="form" class="registration-form" action="javascript:void(0);">
+                                            <fieldset>
+                                                <div class="form-top">
+                                                    <div class="form-top-left ">
+
+                                                        <div class="text-center">
+                                                            COUNCIL TYPE SETTING
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-bottom">
+
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Council Type</i></div>
+
+                                                            <input type="text" data-toggle="tooltip" title="Enter Council Type" class="form-control" placeholder="Enter  Council Type" ng-model="council_type.description">
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <button class='btn btn-success' ng-click="council_type_registration(council_type)" >Register</button>
+                                                    <p></p>
+
+
+
+
+
+
+
+
+                                                    <table class="table table-bordered table-striped" ing-if="regions" >
+                                                        <b>Council Type Total:{{council_types.length}}</b>
+                                                        <div class="form-group">
+
+                                                        </div>
+                                                        <thead>
+                                                        <tr>
+                                                            <td>
+
+                                                                No#
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                Council Type
+
+
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                Edit
+
+                                                            </td> <td  ng-if="!e">
+
+                                                            X
+
+                                                        </td>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr ng-repeat="council_type in council_types | filter:search track by $index">
+                                                            <td>{{ $index+1 }}</td>
+
+                                                            <td><b ng-if="!e">{{ council_type.description }}</b>
+                                                                <h3 ng-if="e">
+
+                                                                    <div class="form-group">
+                                                                        <input type="text" data-toggle="tooltip" title="Council Type" class="form-control" placeholder="council_type" ng-model="council_type.description">
+                                                                    </div>
+
+
+                                                                </h3>
+                                                            </td>
+
+                                                            <td ng-if="e">
+                                                                <h3 >
+
+                                                                    <div class="form-group">
+
+
+                                                                        <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="council_type_update(council_type)">Update</button>
+
+                                                                    </div>
+                                                                </h3>
+                                                                <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                            </td><td  ng-if="!e">
+                                                            <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="council_type_delete(council_type.description,council_type.id)">Delete</button>
+                                                        </td>
+                                                            <!--<td>{{ region.tastiness }}</td>-->
+                                                        </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--model three-->
+
+
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel2"> COUNCILS SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+
+                                    <div class="col-md-12 form-box">
+                                        <div class="">
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text"  class="form-control input-lg "    ng-model="search" placeholder="Search"   >
+
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" >
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+                                        </div>
+
+                                        <p></p>
+                                        <p></p>
+                                        <form  role="form" class="registration-form" action="javascript:void(0);">
+                                            <fieldset>
+                                                <div class="form-top">
+                                                    <div class="form-top-left ">
+
+                                                        <div class="text-center">
+                                                            COUNCILS SETTING
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-bottom">
+
+
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Council Code</i></div>
+
+                                                            <input type="text" data-toggle="tooltip" title="Enter Council Code" class="form-control" placeholder="Enter  Council Code" ng-model="council.council_code">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Council Name</i></div>
+
+                                                            <input type="text" class="form-control" data-toggle="tooltip" title="Enter Council Name" placeholder="Enter  Council Name" ng-model="council.council_name">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Council Type</i></div>
+
+                                                            <select ng-model="council.council_types_id" class="form-control" data-toggle="tooltip" title="Choose Council Type">
+
+                                                                <option ng-value="council_type.id" ng-repeat="council_type in council_types">{{council_type.description}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Region</i></div>
+
+                                                            <select ng-model="council.regions_id" class="form-control" data-toggle="tooltip" title="Choose Region">
+
+                                                                <option ng-value="region.id" ng-repeat="region in regions">{{region.region_name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <button class='btn btn-success' ng-click="council_registration(council)" >Register</button>
+                                                    <p></p>
+
+
+
+
+
+
+
+
+                                                    <table class="table table-bordered table-striped" ing-if="councils" >
+                                                        <b>Councils Total:{{councils.length}}</b>
+                                                        <div class="form-group">
+
+                                                        </div>
+                                                        <thead>
+                                                        <tr>
+                                                            <td>
+
+                                                                No#
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                Council Code
+
+
+
+                                                            </td>
+                                                            <td>
+
+                                                                Council Name
+
+
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                Edit
+
+                                                            </td> <td  ng-if="!e">
+
+                                                            X
+
+                                                        </td>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr ng-repeat="council in councils | filter:search track by $index">
+                                                            <td>{{ $index+1 }}</td>
+
+                                                            <td><b ng-if="!e">{{ council.council_code }}</b>
+                                                                <h3 ng-if="e">
+
+                                                                    <div class="form-group">
+                                                                        <input type="text" class="form-control" data-toggle="tooltip" title="Council Code" placeholder="council" ng-model="council.council_code">
+                                                                    </div>
+
+
+                                                                </h3>
+                                                            </td>
+                                                            <td><b ng-if="!e">{{ council.council_name }}</b>
+                                                                <h3 ng-if="e">
+
+                                                                    <div class="form-group">
+                                                                        <input type="text" class="form-control" data-toggle="tooltip" title="Council Name" placeholder="council" ng-model="council.council_name">
+                                                                    </div>
+
+
+                                                                </h3>
+                                                            </td>
+
+                                                            <td ng-if="e">
+                                                                <h3 >
+
+                                                                    <div class="form-group">
+
+
+                                                                        <button class="btn btn-success"data-toggle="tooltip" title="Click To Update This Record" ng-click="council_update(council)">Update</button>
+
+                                                                    </div>
+                                                                </h3>
+                                                                <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                            </td><td  ng-if="!e">
+                                                            <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="council_delete(council.council_name,council.id)">Delete</button>
+                                                        </td>
+                                                            <!--<td>{{ region.tastiness }}</td>-->
+                                                        </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+ <!--model four-->
+
+
+            <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel3"> RESIDENCE SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+
+                                    <div class="col-md-12 form-box">
+                                        <div class="">
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text"  class="form-control input-lg "    ng-model="search" placeholder="Search"   >
+
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" >
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+                                        </div>
+
+                                        <p></p>
+                                        <p></p>
+                                        <form  role="form" class="registration-form" action="javascript:void(0);">
+                                            <fieldset>
+                                                <div class="form-top">
+                                                    <div class="form-top-left ">
+
+                                                        <div class="text-center">
+                                                            RESIDENCE SETTING
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-bottom">
+
+
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Residence name</i></div>
+
+                                                            <input type="text" class="form-control" data-toggle="tooltip" title="Enter Residence name" placeholder="Enter  Residence name" ng-model="residence.residence_name">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="glyphicon ">
+                                                                Council Name</i></div>
+
+                                                            <select ng-model="residence.council_id" class="form-control" data-toggle="tooltip" title="Choose Council">
+
+                                                                <option ng-value="council.id" ng-repeat="council in councils">{{council.council_name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <button class='btn btn-success' ng-click="residence_registration(residence)" >Register</button>
+                                                    <p></p>
+
+
+
+
+
+
+
+
+                                                    <table class="table table-bordered table-striped" ing-if="councils" >
+                                                        <b>Residence Total:{{residences.length}}</b>
+                                                        <div class="form-group">
+
+                                                        </div>
+                                                        <thead>
+                                                        <tr>
+                                                            <td>
+
+                                                                No#
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                Residence
+
+
+
+                                                            </td>
+                                                            <td>
+
+                                                                Council
+
+
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                Edit
+
+                                                            </td> <td  ng-if="!e">
+
+                                                            X
+
+                                                        </td>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <tr ng-repeat="residence in residences | filter:search track by $index">
+                                                            <td>{{ $index+1 }}</td>
+
+                                                            <td><b ng-if="!e">{{ residence.residence_name }}</b>
+                                                                <h3 ng-if="e">
+
+                                                                    <div class="form-group">
+                                                                        <input type="text" data-toggle="tooltip" title=" Residence name" class="form-control" placeholder="residence" ng-model="residence.residence_name">
+                                                                    </div>
+
+
+                                                                </h3>
+                                                            </td>
+                                                            <td><b ng-if="!e">{{ residence.council_name }}</b>
+                                                                <h3 ng-if="e">
+
+                                                                    <div class="form-group">
+
+                                                                        <select ng-model="residence.council_id" class="form-control" data-toggle="tooltip" title="Council name">
+                                                                            <option value="residence.id">{{residence.council_name}}</option>
+                                                                            <option ng-value="council.id" ng-repeat="council in councils">{{council.council_name}}</option>
+                                                                        </select>
+                                                                    </div>
+
+
+                                                                </h3>
+                                                            </td>
+
+                                                            <td ng-if="e">
+                                                                <h3 >
+
+                                                                    <div class="form-group">
+
+
+                                                                        <button class="btn btn-success" data-toggle="tooltip" title="Click To Update This Record" ng-click="residence_update(residence)">Update</button>
+
+                                                                    </div>
+                                                                </h3>
+                                                                <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                            </td><td  ng-if="!e">
+                                                            <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="residence_delete(residence.residence_name,residence.residence_id)">Delete</button>
+                                                        </td>
+                                                            <!--<td>{{ region.tastiness }}</td>-->
+                                                        </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--council setting starting-->
+
+
+
+
+
+
+<!--council setting ending-->
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>

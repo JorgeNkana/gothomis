@@ -1,0 +1,76 @@
+<md-dialog class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>DOCTORS TREATMENT REPORTS </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+
+        <div layout-padding style="width:80%;margin:0 auto;">
+            <div layout="row">
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Start date</label>
+                        <md-datepicker ng-model="dt_start" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                       required></md-datepicker>
+                    </md-input-container>
+
+                    <md-input-container flex="50">
+                        <label>End date</label>
+                        <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                       required></md-datepicker>
+                    </md-input-container>
+
+                </div>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Report
+                    </md-button>
+                </div>
+            </div>
+
+<div   ng-if="DoctorsPerfomaces && DoctorsPerfomaces.length<1">
+  <center><h1 class="md-title ">  No Data Available....</h1></center>
+</div>
+            <table ng-if="DoctorsPerfomaces.length>0" style="width:100%" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                <div  ng-if="DoctorsPerfomaces.length>0" class="text-center"><h5> TAARIFA YA MATIBABU YALIYO FANYWA NA MADAKTARI</h5></div>
+
+                <hr  ng-if="DoctorsPerfomaces.length>0">
+
+                <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+                <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}} </b>
+                <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+
+                <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Kuanzia Tarehe:{{start_date | date:'dd.MM.yyyy'}} </b>
+                <b  ng-if="DoctorsPerfomaces.length>0" class="col-md-4">Hadi Tarehe:{{end_date | date:'dd.MM.yyyy'}} </b>
+
+                </b></caption>
+
+
+                <tr style="background-color:#c1c1c1">
+                    <th class="mdl-data-table__cell--non-numeric">No.</th>
+                    <th class="mdl-data-table__cell--non-numeric">JINA LA DAKTARI</th>
+                    <th class="mdl-data-table__cell--non-numeric">CHEO</th>
+                    <th class="mdl-data-table__cell--non-numeric">WAGONJWA ALIOTIBU</th>
+
+                </tr>
+
+                <tr ng-repeat="DoctorsPerfomace in DoctorsPerfomaces track by $index">
+                    <td class="mdl-data-table__cell--non-numeric"> {{$index+1}}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{DoctorsPerfomace.doctor_name}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{DoctorsPerfomace.prof_name}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{DoctorsPerfomace.total_clerked}}</td>
+                </tr>
+
+
+            </table>
+
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

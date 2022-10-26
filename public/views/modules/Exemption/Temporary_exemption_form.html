@@ -1,0 +1,771 @@
+<md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="IPD bills ">
+ <div class="row">
+                                            <div class="col-xs-12" ><br>
+                                                <div class="col-xs-12">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <p>DISCHARGE LIST</p>
+                                                            <b style="color: red" ng-if ="invoiceadm.length==0">No data found</b>
+                                                            <b style="color: red" ng-if ="pendingDischarged.length==0">No data found</b>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                           <div layout="row">
+                                    <md-input-container >
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <label>Choose End Date</label>
+                                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="getDischargedReport(pef)">Search</md-button>
+                                    </md-input-container>
+                                    <md-input-container >
+                                        <md-button class="md-raised md-primary pull-right" ng-click="PrintDischarged()">Print</md-button>
+                                    </md-input-container>
+                                </div>
+
+
+                                <div layout="row" >
+
+                                    <div flex="85" >
+                                    <div class="row" id="dischargedid">
+                                     <div  class="container-fluid">
+                <div class="col-md-12" style="text-align:center">
+                    <br/>
+                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                        {{menu[0].description}}<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                    {{menu[0].address}}<br/>
+                    {{menu[0].email}}<br>
+                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}<br>
+
+                </div>
+            </div>
+<div id="dischargedid">
+    
+
+
+                                        <table  class="table-responsive"  style="border:thin solid black; width:100%"  >
+                                            <thead style="background-color: beige">
+                                            <tr>
+
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   s/n </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Patient </th>
+                                                 <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Age </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Ward </th>
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Admission Date </th>
+                                                 <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >   Discharge Date </th>
+                                                  <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  Total Days </th>
+
+                                                <!--   <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  Total Bills</th>
+                                                  <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  Amount Paid</th>
+                                                  <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  Discount</th>
+                                                  
+                                                  <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  Due Amount</th> -->
+                                                  <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tr ng-repeat="admitted in  pendingDischarged |filter:selectedPatient track by $index">
+                                                <th style="border-right: thin dotted black;border-bottom: thin dotted black;" >  {{$index+1}} </th>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.fullname}}({{admitted.medical_record_number}}) ,</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.umri}} </td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.ward_name}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.updated_at}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.discharged_date}}</td>
+                                                <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.totaldays}}</td>
+
+                                           <!--  <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.total |currency:""}}</td>
+                                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.paid |currency:""}}</td>
+                                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.discount |currency:""}}</td>
+                                            
+                                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;" >{{admitted.total -(( admitted.discount) - (- admitted.paid) ) |currency:""}}</td> -->
+<td style="border-right: thin dotted black;border-bottom: thin dotted black;" ><md-button ng-click="ipdInvoices(admitted.account_id)">View Invoice</md-button></td>
+
+                                            </tr>
+<!-- <tr style="border-right: thin dotted black;border-bottom: thin dotted black;">
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;"></th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Total</th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">paid</th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Discount</th>
+    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Balance</th>
+</tr> -->
+                                        </table>
+</div>
+                                    </div>
+                                                                    </div>
+
+                                    </div>
+
+  
+                                                    </div>
+                                                </div>
+                                                 
+                                        </div>
+                                       
+                                        </div>
+             
+            </md-tab>
+    <md-tab label="DEBTORS LIST">
+        <md-content class="md-padding">
+
+            <div class=" ">
+                <!--Test-->
+
+                <div class="row">
+
+                    <div class="col-md-12 form-box">
+                        <form >
+
+                            <fieldset>
+
+                                <div class="form-bottom">
+
+                                    <h1 ng-if="tempo_exemptions.length <1">NO DATA SET AVAILABLE</h1>
+
+                                    <a onclick="PrintContent1();" title="Print"  ng-if="tempo_exemptions.length>0"  class="no-print  "><b class="glyphicon glyphicon-print "></b>  </a>
+
+                                    <div id='divtoprint1'>
+
+                                        <input  type="text" class="no-print form-control"   ng-model="search" placeholder="Search or Filtering ">
+
+                                       
+                                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"      >
+
+
+                                            <thead ng-if="tempo_exemptions.length>0">
+
+                                            <tr style="background-color:beige">
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    No#
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    MRN
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    PATIENT NAME
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    GENDER
+
+                                                </td>
+
+
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    EXEMPTED BY
+
+                                                </td>
+                                                <!--<td class="mdl-data-table__cell--non-numeric" >-->
+
+                                                <!--REASON-->
+
+                                                <!--</td>-->
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    DATE OF ISSUE
+
+                                                </td>
+<td class="mdl-data-table__cell--non-numeric" ></td>
+
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr dir-paginate="exemption in tempo_exemptions|itemsPerPage:200 | filter:search track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric" >{{ $index+1 }}</td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    <b  >{{ exemption.medical_record_number }}</b>
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    <b  >{{ exemption.first_name +' '+exemption.middle_name+' '+exemption.last_name}}</b>
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    <b  >{{ exemption.gender }}</b>
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    <b  >{{ exemption.name }}</b>
+                                                </td>
+                                                <!--<td class="mdl-data-table__cell--non-numeric" >-->
+
+                                                <!--<b  >{{ exemption.exemption_reason }}</b>-->
+                                                <!--</td>-->
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    <b  >{{ exemption.created_at }}</b>
+                                                </td>
+
+
+
+                                                <td  >
+                                                    <!--<md-button   class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="temporary_exemption_status_update(exemption)">View</md-button>-->
+                                                    <md-button   class="md-raised md-primary" data-toggle="tooltip" title="Click to View" ng-click="temporary_exemption_view(exemption)">View</md-button>
+
+
+                                                </td>
+                                                <!--<td class="mdl-data-table__cell--non-numeric" >{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+
+                                        <dir-pagination-controls
+                                                max-size="5"
+                                                direction-links="true"
+                                                boundary-links="true" >
+                                        </dir-pagination-controls>
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </md-tab>
+
+
+
+
+
+        <md-tab label="DISCOUNT">
+            <md-content class='md-padding'>
+
+
+                <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+                <div class="wrapper wrapper-content animated fadeInRight"   >
+                    <div class="row">
+
+                        <div class="col-md-12 form-box">
+                            <div class="">
+                                <form>
+                                    <md-input-container class="md-block">
+                                        <input type="text"  class="md-block "  typeahead-on-select="loadBill(selectedPatient)" ng-model="selectedPatient" ng-model="Patient" placeholder="Type medical record number" uib-typeahead ="patient as patient.first_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearch($viewValue) | filter:$viewValue">
+
+
+                                    </md-input-container>
+
+
+                                </form>
+                            </div>
+
+                            <p></p>
+                            <p></p>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left ">
+
+                                        <div ng-if="selectedPatient.patient_id && discounts.length>0">
+
+
+                                            <strong> MRN:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.medical_record_number}}  &nbsp;&nbsp;&nbsp; <strong>NAME:</strong> &nbsp;&nbsp;&nbsp;{{selectedPatient.first_name +' '+ selectedPatient.middle_name+' '+ selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;<strong> GENDER:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                                            <strong>DOB:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                                            <strong>MOB NUMBER:</strong>  &nbsp;&nbsp;&nbsp;{{selectedPatient.mobile_number}}&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                        <b ng-if="selectedPatient.patient_id && discounts.length<1"> No Transactions For Client: <strong> MRN:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.medical_record_number}}  &nbsp;&nbsp;&nbsp; <strong>NAME:</strong> &nbsp;&nbsp;&nbsp;{{selectedPatient.first_name +' '+ selectedPatient.middle_name+' '+ selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;<strong> GENDER:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                                            <strong>DOB:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                                            <strong>MOB NUMBER:</strong>  &nbsp;&nbsp;&nbsp;{{selectedPatient.mobile_number}}&nbsp;&nbsp;&nbsp; </b>
+                                        <div class="text-center">
+                                            <h6 ng-if="selectedPatient.patient_id == nul" >Please Search a client from Search box above to view a list of item for Discount</h6>
+
+                                        </div>
+
+                                        <p></p>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div>
+
+
+
+
+
+                                        <hr>
+
+                                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="selectedPatient.patient_id && discounts.length>0">
+                                            {{reducted | currency:"TZS   "}}
+                                            <tr style="background-color:beige">
+                                                <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Price</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Pev Discount</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Current Discount</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Balance To Pay </th>
+                                                <th class="mdl-data-table__cell--non-numeric">Create Debt </th>
+
+                                            </tr>
+
+                                            <tr ng-repeat="discount in discounts">
+                                                <td class="mdl-data-table__cell--non-numeric" >{{discount.item_name}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric" >{{discount.quantity}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric" >{{discount.price | currency:"TZS "}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric" >{{discount.price * discount.quantity | currency:"TZS "}} </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >{{discount.discount | currency:"TZS "}} </td>
+
+
+                                                <td class="mdl-data-table__cell--non-numeric" ><input type="number" placeholder="discount" class="form-control"  min="0"  ng-blur="discounting(discount)" ng-model="discount.amount">
+                                                    <strong ng-if="discount.amount >  (discount.price * discount.quantity)" class="fa fa-remove " style="color:maroon" role="alert"> Discount Exceeds Price by {{discount.amount - (discount.price * discount.quantity) | currency:"TZS "}}</strong>
+                                                    <h4 ng-if="discount.amount && discount.amount <= (discount.price * discount.quantity)" style="color:maroon" role="info">{{discount.amount/(discount.price * discount.quantity) * 100 | number:2}}%</h4>
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ></td>
+                                                <td class="mdl-data-table__cell--non-numeric" > <md-button  ng-click="Create_debt(discount)" class="md-primary md-raised">Create Debt</md-button></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="mdl-data-table__cell--non-numeric" colspan="3"></td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" ><u>{{jumla | currency:"TZS "}}</u></td>
+                                                <th class="mdl-data-table__cell--non-numeric"> <u>{{previusDiscount | currency:"TZS  "}}</u>
+                                                    <h4   style="color:maroon" role="info">{{(previusDiscount/jumla)*100 | number:2}}%</h4>
+                                                </th> <th class="mdl-data-table__cell--non-numeric"> <u>{{TotalDiscount | currency:"TZS   "}}</u>
+                                                <h4  style="color:maroon" role="info">{{(TotalDiscount/jumla)*100 | number:2}}%</h4>
+                                            </th>
+
+                                                <th class="mdl-data-table__cell--non-numeric" class="">
+                                                    <u ng-if="TotalDiscount <1" >{{jumla - previusDiscount | currency:"TZS " }}</u>
+                                                    <h4 ng-if="TotalDiscount < 1"  style="color:maroon" role="info">{{((jumla - previusDiscount)/jumla)*100 | number:2}}%</h4>
+
+                                                    <u ng-if="TotalDiscount>0" >{{jumla - TotalDiscount | currency:"TZS " }}</u>
+
+                                                    <h4  ng-if="TotalDiscount>0"  style="color:maroon" role="info">{{(jumla - TotalDiscount)/jumla *100 | number:2}}%</h4>
+                                                </th>
+                                                <th colspan="2"></th>
+
+
+
+                                            <tr>
+
+                                                <th colspan="8" class="text-center" ng-if="TotalDiscount && jumla - TotalDiscount >=0 "><md-button class="md-raised md-primary" ng-click="CommitDiscount()"> Commit Discount</md-button></th>
+
+
+                                            </tr>
+
+                                            </tr>
+
+
+                                        </table>
+
+
+                                    </div>
+                            </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </md-content>
+        </md-tab>
+        <md-tab label="CREATE INVOICE">
+            <md-content class='md-padding'>
+                <md-input-container class="md-block">
+                    <input data-toggle="tooltip" title="Click here to search patients" type="text" placeholder="Click here to search patients"
+                           uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearchIvoice($viewValue) |filter:$viewValue |limitTo:10" ng-model="selectedPatient"
+                           autocomplete="off">
+                </md-input-container>
+
+                <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+                <md-content class="md-padding">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm="80">
+                            <input type="text" id="item" placeholder="Search Items" ng-model="selectedItem" typeahead-on-select="quantity = 1"
+                                   uib-typeahead="item as item.item_name+' '+item.price for item in searchItems($viewValue,selectedPatient) | filter:$viewValue | limitTo:100" autocomplete="off">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm="10">
+                            <input type="number" id="qty" ng-model="quantity" placeholder="Quantity" min="0">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm="10">
+                            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="addItem(selectedPatient,selectedItem,quantity)">Add</button>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-sm="column" layout-xs="column">
+                        <md-card flex-gt-sm="80" ng-if="itemData.length>0">
+                            <md-card-content>
+
+                                <table class="mdl-data-table mdl-js-data-table" width="100%" >
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" colspan="5"><h5>{{"Names : "+selectedPatient.first_name+' '+selectedPatient.middle_name+' '+selectedPatient.last_name}}&nbsp;&nbsp;
+                                            {{"Mrn : "+selectedPatient.medical_record_number}}&nbsp;&nbsp; {{"DoB : "+selectedPatient.dob}}&nbsp;&nbsp; {{"Gender : "+selectedPatient.gender}}
+                                        </h5></th>
+                                    </tr>
+                                    </thead>
+                                    <thead>
+                                    <tr>
+                                        <th class="text-left"><strong>Item Name</strong></th>
+                                        <th class="text-center"><strong>Unit Price</strong></th>
+                                        <th class="text-center"><strong>Quantity</strong></th>
+                                        <th class="text-right"><strong>Sub Total</strong></th>
+                                        <th class="text-right"><strong>Action</strong></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in itemData">
+                                        <td>{{item.item_name}}</td>
+                                        <td class="text-center">{{item.price}}</td>
+                                        <td class="text-center">{{item.quantity}}</td>
+                                        <td class="text-right">{{item.sub_total | currency : 'Tshs ' : 2}}</td>
+                                        <td><span ng-click="removeItem(item)" style="cursor: pointer">Remove</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="emptyrow"></td>
+                                        <td class="emptyrow text-center"><strong>Grand Total</strong></td>
+                                        <td class="emptyrow text-right" >{{toto | currency : 'Tshs ' : 2}}</td>
+                                        <td class="emptyrow text-right"> </span></td>
+                                        <td class="emptyrow" style="color: red"> </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="emptyrow"> </td>
+
+                                        <td class="emptyrow text-right">
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button   class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="processSales(paymentMethod,selectedPatient)" ng-if="itemData.length>0">Create Debt</button>
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                    <!--transaction checker starts-->
+                    <div flex-gt-sm="50">
+
+                    </div>
+
+                    <!--transaction checker ends-->
+                </md-content>
+
+
+
+            </md-content>
+        </md-tab>
+    <md-tab label="DEBTS SUMMARY REPORT">
+            <md-content class='md-padding'>
+
+                <div class="pull-right">
+                    <input type="datetime" ng-model="data.start_date" datetime-picker date-only date-format="yyyy-MM-dd hh:mm:ss" placeholder="Start Date">
+                    <input type="datetime"  ng-model="data.end_date" datetime-picker date-only date-format="yyyy-MM-dd hh:mm:ss" placeholder="End Date">
+                    <md-button   ng-click="GetDebts_list_summary(data)" class="md-raised md-raised-search ">Search</md-button>
+
+                    <md-button ng-click="dept_sum_print()" title="Print"  ng-if="debt_lists.length>0"  class="no-print  "> Print  </md-button>
+
+                </div>
+<div id="dept_sum_id">
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" width="100%" ng-if="debt_lists.length>0" style="text-align: center">
+        <thead>
+        <tr style="background-color:beige">
+
+        <th class="mdl-data-table__cell--non-numeric" colspan="3"  >DEBTORS LIST SUMMARY </th>
+
+        </tr>
+
+        <tr>
+
+            <th class="mdl-data-table__cell--non-numeric">#</th>
+            <th class="mdl-data-table__cell--non-numeric">Item</th>
+            <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Discount</th>-->
+            <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Amount</th>-->
+            <th class="mdl-data-table__cell--non-numeric">Grand Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="exemption in debt_lists | filter:search track by $index">
+
+            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{exemption.first_name}} &nbsp;&nbsp; {{exemption.middle_name}}&nbsp;&nbsp;{{exemption.last_name}}&nbsp;&nbsp;({{exemption.medical_record_number}})
+                <p></p>Phone#:&nbsp;&nbsp; {{exemption.mobile_number}}</td>
+            <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{exemption.discount | currency : 'Tshs ' : 2}}</td>-->
+            <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{exemption.debt | currency : 'Tshs ' : 2}}</td>-->
+            <td class="mdl-data-table__cell--non-numeric">{{(exemption.price * exemption.quantity) | currency : 'Tshs ' : 2}}</td>
+
+
+
+        </tr>
+        <tr style="background-color:beige">
+
+        <th class="mdl-data-table__cell--non-numeric text-center" colspan="2">Total </th>
+        <!--<th class="mdl-data-table__cell--non-numeric">{{discount_sum | currency : 'Tshs ' : 2}} </th>-->
+        <!--<th class="mdl-data-table__cell--non-numeric"> {{Total_sum | currency : 'Tshs ' : 2}}</th>-->
+        <th class="mdl-data-table__cell--non-numeric">{{grandTotal_sum | currency : 'Tshs ' : 2}}</th>
+        </tr>
+
+    </table>
+
+</div>
+
+
+
+            </md-content>
+        </md-tab>
+
+    <md-tab label="Pre-paid ACTIVITY">
+
+        <vertical-tabs>
+            <vertical-tab-pane title="Deposit">
+
+                <div class="form-top" ng-if="selectedPatient.id " >
+                    <div class="form-top-left ">
+
+                        <div >
+
+
+                            <strong> MRN:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.medical_record_number}}  &nbsp;&nbsp;&nbsp; <strong>NAME:</strong> &nbsp;&nbsp;&nbsp;{{selectedPatient.first_name +' '+ selectedPatient.middle_name+' '+ selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;<strong> GENDER:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                            <strong>DOB:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                            <strong>MOB NUMBER:</strong>  &nbsp;&nbsp;&nbsp;{{selectedPatient.mobile_number}}&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <b ng-if="selectedPatient.id && discounts.length<1"> No Transactions For Client: <strong> MRN:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.medical_record_number}}  &nbsp;&nbsp;&nbsp; <strong>NAME:</strong> &nbsp;&nbsp;&nbsp;{{selectedPatient.first_name +' '+ selectedPatient.middle_name+' '+ selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;<strong> GENDER:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                            <strong>DOB:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                            <strong>MOB NUMBER:</strong>  &nbsp;&nbsp;&nbsp;{{selectedPatient.mobile_number}}&nbsp;&nbsp;&nbsp; </b>
+                        <div class="text-center">
+                            <h6 ng-if="selectedPatient.id == nul" >Please Search a client from Search box above</h6>
+
+                        </div>
+
+                        <p></p>
+
+
+
+                    </div>
+                </div>
+                <div style="overflow-x:scroll;max-width:960px;" >
+                    <md-input-container class="md-block">
+                        <input type="text"  class="md-block " id="patient_"    ng-model="selectedPatient"   placeholder="Type medical record number" uib-typeahead ="patient as patient.first_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearchFordeposit($viewValue) | filter:$viewValue">
+
+
+                    </md-input-container>
+
+
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+                    <!--<md-radio-group layout="row" ng-model="data.deposit" >-->
+                        <!--<md-radio-button value="deposit" class="md-primary">Deposit</md-radio-button>-->
+                        <!--<md-radio-button value="withdraw" class="md-primary">Withdraw  </md-radio-button>-->
+                    <!--</md-radio-group>-->
+
+<p></p>
+                <div  class="col-md-12">
+                    <md-input-container class="md-block col-md-6">
+                        <input type="text"  class="md-block " id="amount_" autocomplete="off" required ng-model="data.amount"  placeholder="Enter amount to deposit" >
+
+
+                    </md-input-container>
+                    <md-button ng-if="selectedPatient.id && data.amount>0" class="md-primary md-raised col-md-2" ng-click="saveDepositCash(selectedPatient,data)" >SAve Deposit</md-button>
+                {{amount}}
+                </div>
+                <!--<div ng-if="data.deposit=='withdraw'">-->
+
+                    <!--<md-button class="md-primary md-raised">WithDraw</md-button>-->
+                <!--</div>-->
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Pre paid Report" >
+<!--<button ng-click="getDepositing_lists()" class="pull-right glyphicon glyphicon-refresh " > load</button> <p></p>-->
+                <!--<input type="text" ng-model="search" placeholder="search" >-->
+
+                <div style="overflow-x:scroll;max-width:960px;" >
+
+                        <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+
+                    <div class="pull-right">
+                        <input type="datetime" ng-model="data.start_date" datetime-picker   date-format="yyyy-MM-dd HH:mm:ss" placeholder="Start Date">
+                        <input type="datetime"  ng-model="data.end_date" datetime-picker   date-format="yyyy-MM-dd HH:mm:ss" placeholder="End Date">
+
+
+                        <md-button   ng-click="getDepositing_lists(data)" class="">Search</md-button>
+
+                    </div>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" width="100%" ng-if="deposits.length>0">
+
+                    <tr style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric">#</th>
+                        <th class="mdl-data-table__cell--non-numeric">Patient_name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Deposited Amount(Tsh)</th>
+                        <th class="mdl-data-table__cell--non-numeric">Amount used(Tsh)</th>
+                        <th class="mdl-data-table__cell--non-numeric">Balance(Tsh)</th>
+                        <th class="mdl-data-table__cell--non-numeric">Action </th>
+
+
+                    </tr>
+
+                    <tr ng-repeat="deposit in deposits[0] |filter:search  track by $index">
+                        <td class="mdl-data-table__cell--non-numeric" >{{$index+1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{deposit.name}}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric" >{{deposit.amount | currency:"    "}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{deposit.withdraw | currency:"   "}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{deposit.balance | currency:"    "}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >
+
+                            <button ng-click="deposit_summary_view(deposit,search)">detail</button>
+                        </td><td class="mdl-data-table__cell--non-numeric" >
+
+                        <button ng-click="return_change(deposit)">return change?</button>
+                        </td>
+
+                    </tr>
+                    <tr  style="background-color: #f0ad4e">
+                        <td class="mdl-data-table__cell--non-numeric" ></td>
+                        <td class="mdl-data-table__cell--non-numeric" > </td>
+
+                        <td class="mdl-data-table__cell--non-numeric" >{{deposited | currency:"    "}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{ used | currency:"   "}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{ balance | currency:"    "}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >
+
+                        </td>
+
+                    </tr>
+
+
+
+
+                </table>
+
+                </div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Employee Report" >
+<!--<button ng-click="getDepositing_lists()" class="pull-right glyphicon glyphicon-refresh " > load</button> <p></p>-->
+                <!--<input type="text" ng-model="search" placeholder="search" >-->
+
+                <div style="overflow-x:scroll;max-width:960px;" >
+
+                        <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+
+                    <div class="pull-right">
+                        <input type="datetime" ng-model="data.start_date" datetime-picker   date-format="yyyy-MM-dd HH:mm:ss" placeholder="Start Date">
+                        <input type="datetime"  ng-model="data.end_date" datetime-picker   date-format="yyyy-MM-dd HH:mm:ss" placeholder="End Date">
+
+
+                        <md-button   ng-click="getEmployeeDepositing_lists(data)" class="">Search</md-button>
+                        <md-button ng-if="employeedeposits.length>0"  ng-click="PrintEmployeeDepositing_lists()" class="">Print</md-button>
+
+                    </div>
+                    <hr>
+                    <md-radio-group layout="row" ng-model="opt"  >
+                        <md-radio-button value="all" class="md-primary">Show all</md-radio-button>
+                        <md-radio-button value="dep" class="md-primary">Show Deposit only </md-radio-button>
+                        <md-radio-button value="us" class="md-primary">Show Usage only </md-radio-button>
+                    </md-radio-group>
+
+                    <hr>
+                    <div id="deposit_id"  >
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" width="100%" ng-if="!opt ||opt=='all' || opt=='dep'" style="align-content: center">
+    <caption>Total Deposits</caption>
+    <tr style="background-color:beige">
+        <th class="mdl-data-table__cell--non-numeric">#</th>
+
+        <th class="mdl-data-table__cell--non-numeric">Deposited Amount(Tsh)</th>
+
+        <th class="mdl-data-table__cell--non-numeric">Employee Name</th>
+
+    </tr>
+
+    <tr ng-repeat="deposit in employeedeposits[1] |filter:search  track by $index">
+        <td class="mdl-data-table__cell--non-numeric" >{{$index+1}}</td>
+
+
+        <td class="mdl-data-table__cell--non-numeric" >{{deposit.amount | currency:"    "}}</td>
+
+        <td class="mdl-data-table__cell--non-numeric" >{{deposit.name}}</td>
+
+    </tr>
+    <tr  style="background-color: #f0ad4e">
+        <td class="mdl-data-table__cell--non-numeric" colspan="1"> </td>
+
+
+        <td class="mdl-data-table__cell--non-numeric" ><u> <strong>{{ employeedeposits[4][0].makusanyo | currency:"    "}}</strong></u></td>
+        <td class="mdl-data-table__cell--non-numeric" > </td>
+
+
+    </tr>
+
+
+
+
+</table>
+
+
+  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" width="100%" ng-if="!opt || opt=='all' || opt=='us'" style="align-content: center">
+    <caption>Total Usage</caption>
+    <tr style="background-color:beige">
+        <th class="mdl-data-table__cell--non-numeric">#</th>
+
+        <th class="mdl-data-table__cell--non-numeric">  Usage(Tsh)</th>
+
+        <th class="mdl-data-table__cell--non-numeric">Employee Name</th>
+
+    </tr>
+
+    <tr ng-repeat="deposit in employeedeposits[2] |filter:search  track by $index">
+        <td class="mdl-data-table__cell--non-numeric" >{{$index+1}}</td>
+
+
+        <td class="mdl-data-table__cell--non-numeric" >{{deposit.withdraw | currency:"    "}}</td>
+
+        <td class="mdl-data-table__cell--non-numeric" >{{deposit.name}}</td>
+
+    </tr>
+    <tr  style="background-color: #f0ad4e">
+        <td class="mdl-data-table__cell--non-numeric" colspan="1"> </td>
+
+
+        <td class="mdl-data-table__cell--non-numeric" > <u> <strong>{{ employeedeposits[3][0].matumizi | currency:"    "}}</strong></u></td>
+        <td class="mdl-data-table__cell--non-numeric" > </td>
+
+
+    </tr>
+
+
+
+
+</table>
+</div>
+
+                </div>
+            </vertical-tab-pane>
+        </vertical-tabs>
+    </md-tab>
+
+   </md-tabs>

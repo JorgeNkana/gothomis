@@ -1,0 +1,44 @@
+<md-dialog  class="fullscreen-dialog">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p> Registration of Motor and Non Motor Accidents
+                </p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <br>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="MTA AND NON MTA REGISTRATION">
+                <br>
+              <form name="form">
+                  <div class="md-dialog-content">
+                      <div layout-gt-sm="row">
+                          <md-input-container class="md-block" flex-gt-sm>
+                              <label>Type of Emergency</label>
+                              <md-select ng-model="emergency.type">
+                                  <md-option value="motor accident">Motor Accident</md-option>
+                                  <md-option value="non-motor accident">Non Motor Accidents</md-option>
+                              </md-select>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                              <label>Emergency name</label>
+                              <input type="text" name="name" ng-model="emergency.name" >
+                              <div ng-messages="form.name.$error">
+                                  <div ng-message="required">Can not be blank.</div>
+                              </div>
+                          </md-input-container>
+                      </div>
+
+                      <md-button class="md-primary md-raised" ng-disabled="form.$invalid" ng-click="emergency_type(emergency)">
+                          REGISTER
+                      </md-button>
+                  </div>
+              </form>
+            </md-tab>
+        </md-tabs>
+    </form>
+</md-dialog>

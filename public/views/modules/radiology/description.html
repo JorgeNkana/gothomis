@@ -1,0 +1,129 @@
+<md-dialog  class="fullscreen-dialog">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div id="divtoprint1">
+                <table  width="800px" border=0 class="table table-responsive">
+                    <tr>
+                        <td align='center'>
+                            <div>
+                                <div layout="row" layout-align="space-between center">
+                                    <div flex>
+                                        <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                    </div>
+                                    <div flex>
+                                        <center>
+                                            <h3 class="md-title">{{cardTitle.facility_name}}
+                                                {{cardTitle.description}}</h3>
+                                        </center>
+                                        <center>
+                                            <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                        </center>
+                                        <center>
+                                            <h3>IMAGING DEPARTMENT REPORT</h3>
+                                        </center>
+                                        <center>
+                                            <h5>{{patientLoaded.first_name}} {{patientLoaded.middle_name}} {{patientLoaded.last_name}}</h5>
+                                        </center>
+                                    </div>
+                                    <div flex>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table width="800px" border=0 class="table table-responsive">
+                    <tr>
+                        <div flex="100" layout="row" layout-padding>
+                            <div flex="50">
+                                <dt>INVESTIGATION NAME</dt>
+                                <dd>{{patientLoaded.item_name}}</dd>
+                            </div>
+                            <div flex="50">
+                                <dt>CLINICAL NOTE</dt>
+                                <dd>{{patientLoaded.clinical_note}}</dd>
+                            </div>
+                            <div flex="50">
+                                <dt>PRIORITY</dt>
+                                <dd>{{patientLoaded.priority}}</dd>
+                            </div>
+                        </div>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div flex="100" layout="row" layout-padding>
+                                <div flex="50">
+                                    <dt>MEDICAL RECORD NUMBER</dt>
+                                    <dd>{{patientLoaded.medical_record_number}}</dd>
+                                </div>
+                                <div flex="50">
+                                    <dt>MOBILE PHONE</dt>
+                                    <dd>{{patientLoaded.mobile_number}}</dd>
+                                </div>
+                                <div flex="50">
+                                    <dt>REPORTED AT</dt>
+                                    <dd>{{patientLoaded.created_at}}</dd>
+                                </div>
+                                <div flex="50">
+                                    <dt>AGE</dt>
+                                    <dd>{{patientLoaded.Ages}}</dd>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            <!-- the actual content -->
+                            <div flex="100" layout="row" layout-align="space-between center">
+
+
+                                <div>
+                                    <h5>{{patientLoaded.description}}</h5>
+
+                                </div>
+                                <div ng-if="patientLoaded.remarks">
+                                    <h5>{{patientLoaded.remarks}}</h5>
+
+                                </div>
+                                <div ng-if="patientLoaded.attached_image" class="card-image">
+                                    <a><img class="img-responsive" src="/uploads/{{attached_image.attached_image}}" class="zoom"></a>
+                                </div>
+                            </div>
+
+
+
+
+                        </td>
+                    </tr>
+                </table>
+                <table width="800px" border=0 class="table table-responsive">
+                    <tr>
+                        <div flex="100" layout="row" layout-padding>
+                            <div flex="50">
+                                <dt>Printed by</dt>
+                                <dd>{{finderUser}}</dd>
+                            </div>
+                        </div>
+                    </tr>
+                </table>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+            <md-button ng-click="PrintResults()"   style="margin-right:20px;" >
+                PRINT
+            </md-button>
+        </md-dialog-actions>
+
+</md-dialog>

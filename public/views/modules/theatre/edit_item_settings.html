@@ -1,0 +1,62 @@
+<style>
+.md-dialog-content {
+      min-width::1200px;
+     }
+</style>
+
+<md-dialog  class="set-dialog-length">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+        <p style="text-align: right;" ng-if="selectedItem.item_name.length >0">
+		<span><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;Service Name: {{selectedItem.item_name}}
+        &nbsp;&nbsp;&nbsp;
+  Service Type: <span ng-if="selectedItem.service_type ==1">Major</span>
+	            <span ng-if="selectedItem.service_type ==2">Minor</span>
+	            <span ng-if="selectedItem.service_type ==3">Specialized</span>
+	 
+  &nbsp;&nbsp;&nbsp;
+  Category:<span ng-if="selectedItem.procedure_category ==1">Theatre</span>
+	       <span ng-if="selectedItem.procedure_category ==2">Not in Theatre</span>
+	 	   </p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+		<div class="md-dialog-content">
+                   <div layout="row">
+											
+		<md-input-container flex>
+                            <label>Category</label>
+        <md-select ng-model="procedure.category"  required>
+       <md-option value="0" selected><span ng-if="selectedItem.service_type ==1">Major</span>
+	            <span ng-if="selectedItem.service_type ==2">Minor</span>
+	            <span ng-if="selectedItem.service_type ==3">Specialized</span>
+	                   
+	 </md-option>
+                              <md-option value="1">Majour</md-option>
+                              <md-option value="2">Minor</md-option>
+                              <md-option value="3">Specialized</md-option>
+        </md-select>
+        </md-input-container> 
+						 
+		<md-input-container flex>
+                         <label>Location</label>
+                         <md-select ng-model="procedure.location"  required>
+         <md-option value="0" selected><span ng-if="selectedItem.procedure_category ==1">Theatre</span>
+	       <span ng-if="selectedItem.procedure_category ==2">Not in Theatre</span>
+		   
+		   </md-option>
+                           <md-option value="1">Theatre Only</md-option>
+                           <md-option value="2">Any Where</md-option>
+                            </md-select>
+        </md-input-container>
+		 <md-input-container>
+          <md-button class="md-raised md-primary" ng-click="changeProcedures(procedure,selectedItem)">Save Changes</md-button>
+         </md-input-container>
+                                </div>
+  
+        </div>
+
+    </md-dialog>

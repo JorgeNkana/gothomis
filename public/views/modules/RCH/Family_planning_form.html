@@ -1,0 +1,1981 @@
+<div class="form-top" ng-if="selectedPatient.id">
+    <div class="form-top-left">
+
+        <b class="pull-right" ><span><i class="fa fa-list-o " aria-hidden="true" ></i></span><b> Name: {{selectedPatient.client_name}}   D.O.B: {{selectedPatient.dob}}  REG NO: {{selectedPatient.serial_no}}</b></b>
+
+    </div>
+</div>
+<md-tabs md-dynamic-height md-border-bottom >
+<md-tab label="REGISTRATION">
+    <md-content class='md-padding'>
+        <md-input-container class="md-block">
+            <input type="text"  class="md-block "  typeahead-on-select="mother_planning_method_status(selectedPatient.id) " ng-model="selectedPatient"   placeholder="Search Client here" uib-typeahead ="patient as patient.client_name+' '+patient.serial_no  for patient in showSearch($viewValue) | filter:$viewValue">
+
+        </md-input-container>
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+        <div >
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form    >
+                        <fieldset>
+
+                            <div class="form-bottom">
+                                <div class="row">
+                                    <md-input-container class="md-block col-md-3 col-sm-4">
+                                        <label>First Name *</label>
+                                        <input type="text" ng-model="patient.first_name" class="md-block" for="Firstname" id="fname">
+                                    </md-input-container>
+                                    <md-input-container class="md-block col-md-3 col-sm-4">
+                                        <label>Middle Name *</label>
+                                        <input type="text" ng-model="patient.middle_name" class="md-block" for="Lastname" id="mname">
+                                   </md-input-container>
+                                    <md-input-container class="md-block col-md-3 col-sm-4">
+                                        <label>Last Name *</label>
+                                        <input type="text" ng-model="patient.last_name" class="md-block" for="Lastname" id="lname">
+                                   </md-input-container>
+                                    <md-input-container class="md-block col-md-3 col-sm-4">
+                                        <label>Gender *</label>
+                                        <md-select ng-model="patient.gender" class="md-block" id="gender">
+                                            <md-option value="" >Please select gender</md-option>
+                                            <md-option value="Male">Male</md-option>
+                                            <md-option value="Female">Female</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+
+                                <div class="row">
+
+                                    <md-input-container class="md-block col-md-3 col-sm-4" flex-gt-sm >
+                                        <label>Date of birth</label>
+                                        <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="calculateAge(patient,'date')"></md-datepicker>
+
+                                    </md-input-container>
+                                    <md-input-container class="md-block col-md-3 col-sm-4" flex-gt-sm  >
+                                        <label>Age</label>
+                                        <input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge(patient,'age')">
+                                    </md-input-container>
+                                    <md-input-container flex-gt-sm  class="md-block col-md-3 col-sm-4">
+                                        <label>Unit</label>
+                                        <md-select ng-model="patient.age_unit" ng-Change="calculateAge(patient,'age_unit')">
+                                            <md-option value="Years" selected="selected">Year(s)</md-option>
+                                            <md-option value="Months">Month(s)</md-option>
+                                            <md-option value="Days">Day(s)</md-option>
+                                        </md-select>
+                                    </md-input-container>
+
+
+                                    <md-input-container class="md-block col-md-12 col-sm-4">
+                                        <md-autocomplete flex  flex
+                                                         md-search-text="search"
+                                                         md-input-name="patient"
+                                                         md-no-cache="false"
+                                                         md-items="item in getResidence(search)"
+                                                         md-item-text="item.residence_name+' '+item.council_name"
+                                                         md-selected-item-change="selectedResidence(item)"
+                                                         md-floating-label="Search Residence"
+                                                         md-min-length="3" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                            </md-item-template>
+                                        </md-autocomplete>
+                                  </md-input-container>
+
+                                    <md-input-container class="md-block col-md-4 col-sm-4">
+                                        <label>Education:</label>
+                                        <md-select ng-model="patient.education" class="md-block" id="education">
+                                            <md-option value="" >Please select Education Level</md-option>
+                                            <md-option value="None" >None</md-option>
+                                            <md-option value="Primary" >Primary</md-option>
+                                            <md-option value="Secondary" >Secondary</md-option>
+                                            <md-option value="College" >College</md-option>
+                                            <md-option value="University" >University</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container class="md-block col-md-4 col-sm-4">
+                                        <label>Occupation *</label>
+                                        <input type="text" ng-model="patient.occupation" class="md-block" for="Occupation"
+                                               uib-typeahead ="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue"
+                                        >
+                                    </md-input-container>
+                                    <md-input-container class="md-block col-md-4 col-sm-4">
+                                        <label>Mobile Number:(<i>Optional</i>)</label>
+                                        <input   type="text"  ng-model="patient.mobile_number" class="md-block" for="Enter Mobile Number">
+                                   </md-input-container>
+
+ 
+                                </div>
+ 
+                            </div>
+
+ 
+                            <md-button id="quick" type="submit" class="md-raised md-primary" ng-click="family_planning_registration(patient)"> Register </md-button>
+
+
+
+
+
+
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+    </md-content>
+</md-tab>
+
+    <md-tab label="PROFILE">
+    <md-content class='md-padding'>
+        <md-input-container class="md-block">
+            <input type="text"  class="md-block "  typeahead-on-select="mother_planning_method_status(selectedPatient.id) " ng-model="selectedPatient"   placeholder="Search Client here" uib-typeahead ="patient as patient.client_name+' '+patient.serial_no  for patient in showSearch($viewValue) | filter:$viewValue">
+
+        </md-input-container>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="PREVIOUS PREGNANCY RECORDS">
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form ng-controller="patientController"   >
+                                <fieldset>
+
+                                    <div class=" ">
+
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label>Number Of Pregnancy</label>
+                                                    <input type="text" class="md-block" ng-model="birth.pregnancy_number"  >
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Number Of Miscarriage</label>
+                                                    <input type="text" class="md-block" ng-model="birth.miscarriage_number"  >
+
+
+                                                </md-input-container>
+                                            </div>
+
+                                            <div class="row col-md-12" >
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Number Of Maslated Still Birth</label>
+                                                    <input type="text" class="md-block" ng-model="birth.msb_number"  >
+
+</md-input-container>
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Number Of  Alive Born</label>
+                                                    <input type="text" class="md-block" ng-model="birth.alive_born_number"  >
+
+
+                                               </md-input-container>
+
+
+                                            </div>
+                                            <div class="row col-md-12" >
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Number Of Children Alive</label>
+                                                    <input type="text" class="md-block" ng-model="birth.child_alive_number"  >
+
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Date Of Last Delivery</label>
+                                                    <input type="text" class="md-block" ng-model="birth.last_delivery_date"  datetime-picker date-only date-format='yyyy-MM-dd' >
+
+
+                                               </md-input-container>
+
+
+                                            </div>
+                                            <div class="md-block col-md-8 col-sm-4" >
+
+                                                <md-button class="md-raised md-primary" ng-click="faimily_birth_registration(birth,selectedPatient.id)" >Register</md-button>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                </fieldset>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+<ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="PREVIOUS HEALTH RECORDS">
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Headache </label>
+                                                    <md-select type="text" class="md-block" ng-model="health.headache"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Yellow Fever </label>
+                                                    <md-select type="text" class="md-block" ng-model="health.yellow_fever"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Heart Disease</label>
+                                                    <md-select type="text" class="md-block" ng-model="health.heart_disease"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                              </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>BP</label>
+                                                    <md-select type="text" class="md-block" ng-model="health.bp"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                              </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Diabetic</label>
+                                                    <md-select type="text" class="md-block" ng-model="health.diabet"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Bunje in Breast </label>
+                                                    <md-select type="text" class="md-block" ng-model="health.breast_bunje"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Varicose Vein </label>
+                                                    <md-select type="text" class="md-block" ng-model="health.varicose_vein"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Had Used Kifafa Medicine </label>
+                                                    <md-select type="text" class="md-block" ng-model="health.kifafa_medics"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Had Used TB Medicine </label>
+                                                    <md-select type="text" class="md-block" ng-model="health.tb_medics"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label> Other Problems</label>
+                                                    <input type="text" class="md-block" ng-model="health.other_problems"  >
+
+</md-input-container>
+                                                <div class="md-block col-md-6 col-sm-4" >
+
+                                                    <md-button class="md-raised md-primary" ng-click="faimily_health_registration(health,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="PREVIOUS DELIVERY RECORDS">
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+
+                                            <div class="row col-md-12" >
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> YEAR</label>
+                                                    <input type="text" class="md-block" ng-model="delivery.year"  >
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Method Of Delivery</label>
+                                                    <input type="text" class="md-block" ng-model="delivery.delivery_method"  >
+
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Place Of Delivery</label>
+
+                                                    <md-select ng-model="delivery.delivery_place" class="md-block" >
+                                                        <md-option value="HF">HF</md-option>
+                                                        <md-option value="BBA">BBA</md-option>
+                                                        <md-option value="TBA">TBA</md-option>
+                                                        <md-option value="H">H</md-option>
+
+                                                    </md-select>
+
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Delivery Result</label>
+                                                    <input type="text" class="md-block" ng-model="delivery.delivery_results"  >
+</md-input-container>
+ <md-input-container class="md-block col-md-6 col-sm-4">
+                                                <label> Baby Feeding </label>
+                                                <md-select type="text" class="md-block" ng-model="delivery.baby_feeding"  >
+                                                    <md-option value="EBF">EBF</md-option>
+                                                    <md-option value="RF">RF</md-option>
+                                                    <md-option value="MF">MF</md-option>
+                                                    <md-option value="none">none</md-option>
+                                                </md-select>
+
+</md-input-container>
+                                                <div class="md-block col-md-6 col-sm-4" >
+
+                                                    <md-button class="md-raised md-primary" ng-click="faimily_delivery_result_registration(delivery,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="PREVIOUS MENSTRUATION RECORDS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+
+                                            <div class="row col-md-12" >
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> L.N.M.P</label>
+                                                    <input type="text" class="md-block" ng-model="menstral.lnmp" datetime-picker date-only date-format='yyyy-MM-dd' >
+
+</md-input-container>
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Menstruation Day</label>
+                                                    <input type="text" class="md-block" ng-model="menstral.menstral_day"  >
+
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Blood Loss Amount</label>
+                                                    <input type="text" class="md-block" ng-model="menstral.bleeding_quantity"  >
+
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Menstruation Cycle</label>
+                                                    <input type="text" class="md-block" ng-model="menstral.menstral_cycle"  >
+
+</md-input-container>
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Belly Pain During Menstruation </label>
+                                                    <md-select type="text" class="md-block" ng-model="menstral.pain"  >
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+
+                                                    </md-select>
+</md-input-container>
+                                                <div class="md-block col-md-6 col-sm-4" >
+
+                                                    <md-button class="md-raised md-primary" ng-click="faimily_menstral_result_registration(menstral,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+
+
+    </md-content>
+</md-tab>
+
+    <md-tab label="ATTENDANCE">
+    <md-content class='md-padding'>
+        <md-input-container class="md-block">
+            <input type="text"  class="md-block "  typeahead-on-select="mother_planning_method_status(selectedPatient.id) " ng-model="selectedPatient"   placeholder="Search Client here" uib-typeahead ="patient as patient.client_name+' '+patient.serial_no  for patient in showSearch($viewValue) | filter:$viewValue">
+
+        </md-input-container>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="ATTENDANCE RECORDS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form   class=" " >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+
+
+
+                                        <div  ng-if="selectedPatient.id">
+
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Body Weight </label>
+                                                    <input type="text" class="md-block" ng-model="attendance.weight">
+
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> BP </label>
+                                                    <input type="text" class="md-block" ng-model="attendance.bp">
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> L.N.M.P</label>
+                                                    <input type="text" class="md-block" ng-model="attendance.lnmp" datetime-picker date-only date-format='yyyy-MM-dd'>
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Complains</label>
+                                                    <input type="text" class="md-block" ng-model="attendance.complains">
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label>Date Attended</label>
+                                                    <input type="text" class="md-block" ng-model="attendance.followup_date" datetime-picker date-only date-format='yyyy-MM-dd'>
+
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label>Comment /Treatment</label>
+                                                    <input type="text" class="md-block" ng-model="attendance.comment_treatment">
+
+                                                </md-input-container>
+
+
+                                            </div>
+
+
+                                            <div class="row col-md-12" >
+
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="fplanning_attendances(attendance,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+<ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="CLIENT FAMILY PLANNING PROPOSED METHODS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+
+                                        <div ng-if="method_statuses.length<1 && selectedPatient.id">
+                                            <h1> No Family Planning Method record for {{selectedPatient.first_name}} </h1>
+                                        </div>
+
+                                        <div  ng-if="selectedPatient.id">
+
+
+
+
+
+                                            <table class="table table-borderd" ng-if="method_statuses.length>0" >
+                                                <tr>
+                                                    <th>s/n</th>
+                                                    <th>Method</th>
+                                                    <th>Start Date</th>
+                                                    <th>Up To</th>
+                                                    <th>Status</th>
+
+                                                </tr>
+
+                                                <tr ng-repeat="method_status in method_statuses | filter:search track by $index">
+                                                    <td>{{ $index+1 }}</td>
+
+                                                    <td> {{ method_status.planning_method }}</td>
+                                                    <td> {{ method_status.date_attended }}</td>
+                                                    <td>
+                                                        <strong ng-if="method_status.updated_at==method_status.created_at" style="color: blue">Current</strong>
+                                                        <strong ng-if="method_status.updated_at!=method_status.created_at" >{{method_status.updated_at}}</strong>
+
+                                                    </td>
+
+                                                    <td>
+                                                        <strong ng-if="method_status.status==1" style="color: blue">Running</strong>
+                                                        <strong ng-if="method_status.status==0" style="color:red">Stopped</strong>
+
+                                                    </td>
+                                                    <td>
+                                                        <md-button style="color:maroon" title="Click here to stop {{ method_status.planning_method }}" ng-if="method_status.status==1" ng-click="mother_planning_method_status_update(method_status)">Stop</md-button>
+                                                    </td>
+                                                    <!--<td>{{ region.tastiness }}</td>-->
+                                                </tr>
+
+                                            </table>
+
+
+                                        </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+<ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="FAMILY PLANNING METHODS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+
+                                        <div  ng-if="selectedPatient.id">
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label> Choose Method </label>
+                                                    <input type="text" ng-model="method.id" class="md-block" uib-typeahead ="method as method.planning_method for method in methods | filter:$viewValue" for="Enter  Planning Method  name" ng-model="method.method_id" typeahead-template-url="customTemplate.html"
+                                                           class="md-block" typeahead-show-hint="true" typeahead-min-length="0">
+</md-input-container>
+
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label> Date Starting Using {{method.id.planning_method}} </label>
+                                                    <input type="text" class="md-block" ng-model="method.date_attended" datetime-picker date-only date-format='yyyy-MM-dd'>
+
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label> Event Driven To Use {{method.id.planning_method}} </label>
+                                                    <input type="text" ng-model="method.event_driven" class="md-block">
+
+                                               </md-input-container>
+
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Residence</label>
+                                                    <md-select type="text" ng-model="method.place" class="md-block">
+                                                        <md-option ng-value="'1'">In Facility Area</md-option>
+                                                        <md-option ng-value="'2'">Out Of Facility Area</md-option>
+
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+
+                                            <div class="md-block col-md-8 col-sm-4" ng-if="selectedPatient.id">
+
+                                                <md-button class="md-raised md-primary" ng-click="mother_planning_method_registration(method,selectedPatient.id)" >Register</md-button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="CONDOMS USAGE">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+
+
+                                        <div >
+
+                                            <div class="row col-md-12" >
+
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label>Residence</label>
+                                                    <md-select type="text" ng-model="condom.place" class="md-block">
+                                                        <md-option ng-value="'1'">In Facility Area</md-option>
+                                                        <md-option ng-value="'2'">Out Of Facility Area</md-option>
+
+                                                    </md-select>
+                                                </md-input-container>
+
+                                                <md-input-container class="md-block col-md-4 col-sm-4">
+                                                    <label> Quantity(Pcs)</label>
+                                                    <input type="text" ng-model="condom.quantity" class="md-block">
+
+                                                </md-input-container>
+
+
+                                            </div>
+
+
+                                            <div class="md-block col-md-8 col-sm-4" >
+
+                                                <md-button class="md-raised md-primary" ng-click="condom_usage_registration(condom,selectedPatient.id)" >Register</md-button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="FAMILY PLANNING METHODS REGISTER">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+
+
+                                        <div class="row col-md-12"  >
+
+
+                                            <md-input-container class="md-block col-md-6 col-sm-4">
+                                                <label> Method Name</label>
+                                                <input type="text" ng-model="method.planning_method" class="md-block">
+
+                                           </md-input-container>
+
+
+                                            <div class="md-block col-md-6 col-sm-4"  >
+
+                                                <md-button class="md-raised md-primary" ng-click="planning_method_list_registration(method)" >Register</md-button>
+
+                                            </div>
+                                            <table class="table table-bordered table-striped"   >
+
+
+                                                <thead>
+
+                                                <tr>
+                                                    <td>
+
+                                                        No
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        Method
+
+
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        Edit
+
+                                                    </td>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                <tr ng-repeat="meth in methods | filter:search track by $index">
+                                                    <td>{{ $index+1 }}</td>
+
+                                                    <td><b ng-if="!e">{{ meth.planning_method }}</b>
+                                                        <h3 ng-if="e">
+
+                                                            <md-input-container class="md-block">
+                                                                <input type="text" class="md-block" for="" ng-model="meth.planning_method">
+                                                           </md-input-container>
+
+
+                                                        </h3>
+                                                    </td>
+
+
+                                                    <td ng-if="e">
+                                                        <h3 >
+
+                                                            <div class="md-block">
+
+
+                                                                <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="family_planning_method_list_update(meth)">Update</md-button>
+
+                                                            </div>
+                                                        </h3>
+                                                        <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                                                    </td>
+                                                    <td>
+                                                        <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                    </td>
+                                                    <!--<td>{{ region.tastiness }}</td>-->
+                                                </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+
+
+    </md-content>
+</md-tab>
+
+    <md-tab label="INVESTIGATIONS">
+    <md-content class='md-padding'>
+        <md-input-container class="md-block">
+            <input type="text"  class="md-block "  typeahead-on-select="mother_planning_method_status(selectedPatient.id) " ng-model="selectedPatient"   placeholder="Search Client here" uib-typeahead ="patient as patient.client_name+' '+patient.serial_no  for patient in showSearch($viewValue) | filter:$viewValue">
+
+        </md-input-container>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="PITC INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> PITC</label>
+                                                    <md-select type="text" class="md-block" ng-model="pitc.pitc">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label> PITC Result</label>
+                                                    <md-select type="text" class="md-block" ng-model="pitc.pitc_result">
+                                                        <md-option value="POSITIVE">POSITIVE</md-option>
+                                                        <md-option value="NEGATIVE">NEGATIVE</md-option>
+                                                        <md-option value="UNKNOWN">UNKNOWN</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Date Of Result</label>
+                                                    <input type="text" class="md-block" ng-model="pitc.result_date" datetime-picker date-only date-format='yyyy-MM-dd' >
+
+
+                                                </md-input-container>
+
+                                            </div>
+
+                                            <div class="row col-md-12" >
+
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="faimily_iptc_registration(pitc,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="CANCER INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Placenta Status(Test cancer using Acetic Acid) </label>
+                                                    <md-select type="text" class="md-block" ng-model="cancer.placenta_status">
+                                                        <md-option value="POSITIVE">POSITIVE</md-option>
+                                                        <md-option value="NEGATIVE">NEGATIVE</md-option>
+                                                    </md-select>
+
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label>Hypothetically Placenta Cancer Carrier</label>
+                                                    <md-select type="text" class="md-block" ng-model="cancer.suspected_cancer">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label>Cryotherapy Done?</label>
+                                                    <md-select type="text" class="md-block" ng-model="cancer.cryotherapy">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label>Bunje in Breast</label>
+                                                    <md-select type="text" class="md-block" ng-model="cancer.breast_bunje">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                            </div>
+
+
+                                            <div class="row col-md-12" >
+
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="faimily_cancer_registration(cancer,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="LABORATORY INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Liver Inflammation </label>
+                                                    <md-select type="text" class="md-block" ng-model="obser.liver_inflammation">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Legs Inflammation </label>
+                                                    <md-select type="text" class="md-block" ng-model="obser.leg_inflammation">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Vericose Vein </label>
+                                                    <md-select type="text" class="md-block" ng-model="obser.vericose_vein">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Others </label>
+                                                    <input type="text" class="md-block" ng-model="obser.others">
+
+
+                                               </md-input-container>
+
+                                            </div>
+
+
+                                            <div class="row col-md-12" >
+
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="fplanning_stomach_leg_investigation(obser,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>  <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="VAGINAL INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+
+
+
+                        <div class=" form-box">
+                            <form   class=" " >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="col-md-12 form-box">
+
+                                                <div class="col-md-6 form-box form-bottom">
+                                                    <b class="text-center">VAGINAL INVESTIGATION BY SPECULATION</b>
+                                                    <hr>
+                                                    <div class="row col-md-12" >
+
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Placenta Size </label>
+                                                            <input type="text" class="md-block" ng-model="viginal.placenta_size">
+
+</md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Placenta Layout </label>
+                                                            <input type="text" class="md-block" ng-model="viginal.placenta_layout">
+
+
+                                                      </md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Adnexa </label>
+                                                            <input type="text" class="md-block" ng-model="viginal.adnexa">
+</md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Others </label>
+                                                            <input type="text" class="md-block" ng-model="viginal.others">
+
+
+                                                       </md-input-container>
+                                                        <div class="md-block col-md-6 col-sm-4">
+
+                                                            <md-button class="md-raised md-primary" ng-click="fplanning_viginal_by_arm_investigations(viginal,selectedPatient.id)" >Register</md-button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 form-box form-bottom">
+
+                                                    <div class="col-md-12 form-box">
+                                                        <b class="text-center">VAGINAL INVESTIGATION BY ARM</b>
+                                                        <hr>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Viginal wet </label>
+                                                            <md-select type="text" class="md-block" ng-model="spec.viginal_wet">
+                                                                <md-option value="YES">YES</md-option>
+                                                                <md-option value="NO">NO</md-option>
+                                                            </md-select>
+
+                                                       </md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Viginal Dirt </label>
+                                                            <md-select type="text" class="md-block" ng-model="spec.viginal_dirt">
+                                                                <md-option value="YES">YES</md-option>
+                                                                <md-option value="NO">NO</md-option>
+                                                            </md-select>
+
+</md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Cervix Normal </label>
+                                                            <md-select type="text" class="md-block" ng-model="spec.cervix_normal">
+                                                                <md-option value="YES">YES</md-option>
+                                                                <md-option value="NO">NO</md-option>
+                                                            </md-select>
+
+</md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Vaginal Inflammation </label>
+                                                            <md-select type="text" class="md-block" ng-model="spec.viginal_inflammation">
+                                                                <md-option value="YES">YES</md-option>
+                                                                <md-option value="NO">NO</md-option>
+                                                            </md-select>
+
+</md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Vaginal Cancer </label>
+                                                            <md-select type="text" class="md-block" ng-model="spec.cancer">
+                                                                <md-option value="YES">YES</md-option>
+                                                                <md-option value="NO">NO</md-option>
+                                                            </md-select>
+
+</md-input-container>
+                                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                                            <label> Others </label>
+                                                            <input type="text" class="md-block" ng-model="spec.others">
+
+
+
+                                                    </md-input-container>
+
+                                                        <div class="md-block col-md-6 col-sm-4">
+
+                                                            <md-button class="md-raised md-primary" ng-click="fplanning_viginal_by_spec_investigations(spec,selectedPatient.id)" >Register</md-button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="STOMACH & LEGS INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Urine </label>
+                                                    <md-select type="text" class="md-block" ng-model="lab.urine">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Albumin </label>
+                                                    <md-select type="text" class="md-block" ng-model="lab.albumin">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Sugar </label>
+                                                    <md-select type="text" class="md-block" ng-model="lab.sugar">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Others </label>
+                                                    <input type="text" class="md-block" ng-model="lab.others">
+
+
+                                               </md-input-container>
+
+                                            </div>
+
+
+                                            <div class="row col-md-12" >
+
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="faimily_lab_test_registration(lab,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="BREAST INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Bunje</label>
+                                                    <md-select type="text" class="md-block" ng-model="brs.bunje">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label> Wound</label>
+                                                    <md-select type="text" class="md-block" ng-model="brs.wound">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Breast Bleeding</label>
+                                                    <md-select type="text" class="md-block" ng-model="brs.breast_bleeding">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label>Breast Abscess</label>
+                                                    <md-select type="text" class="md-block" ng-model="brs.breast_abscess">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Other Investigations</label>
+                                                                                                            <textarea type="text" cols="2" rows="2" class="md-block" ng-model="brs.others">
+
+                                                                                                            </textarea>
+
+                                               </md-input-container>
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="breast_cancer_registration(brs,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="CERVIX INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Virginal Discharge</label>
+                                                    <md-select type="text" class="md-block" ng-model="cerv.virginal_discharge">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+</md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label> Cervix Scratching</label>
+                                                    <md-select type="text" class="md-block" ng-model="cerv.cervix_scratching">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                              </md-input-container>
+                                            </div>
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Cervix swelling</label>
+                                                    <md-select type="text" class="md-block" ng-model="cerv.cervix_swelling">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+
+                                                </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4" >
+                                                    <label>Virginal Bleeding</label>
+                                                    <md-select type="text" class="md-block" ng-model="cerv.virginal_bleeding">
+                                                        <md-option value="YES">YES</md-option>
+                                                        <md-option value="NO">NO</md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Other Investigations</label>
+                                                                                                            <textarea type="text" cols="2" rows="2" class="md-block" ng-model="cerv.others">
+
+                                                                                                            </textarea>
+
+                                                </md-input-container>
+
+                                                <div class="md-block col-md-6 col-sm-4">
+
+                                                    <md-button class="md-raised md-primary" ng-click="cervix_cancer_registration(cerv,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+ <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="VVU INVESTIGATIONS">
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+                <div >
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form    >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label>Current VVU Status</label>
+                                                    <md-select type="text" class="md-block" ng-model="vvu.current_vvu_status"  >
+                                                        <md-option value="POSITIVE">POSITIVE</md-option>
+                                                        <md-option value="NEGATIVE">NEGATIVE</md-option>
+                                                        <md-option value="UNKNOWN">UNKNOWN</md-option>
+                                                    </md-select>
+                                               </md-input-container>
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label>Mother VVU Status</label>
+                                                    <md-select type="text" class="md-block" ng-model="vvu.mother_vvu_status"  >
+                                                        <md-option value="POSITIVE">POSITIVE</md-option>
+                                                        <md-option value="NEGATIVE">NEGATIVE</md-option>
+
+                                                    </md-select>
+                                               </md-input-container>
+
+
+
+
+                                            </div>
+
+                                            <div class="row col-md-12" >
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label>Partner VVU Status</label>
+                                                    <md-select type="text" class="md-block" ng-model="vvu.partner_vvu_status"  >
+                                                        <md-option value="POSITIVE">POSITIVE</md-option>
+                                                        <md-option value="NEGATIVE">NEGATIVE</md-option>
+                                                        <md-option value="UNKNOWN">UNKNOWN</md-option>
+
+                                                    </md-select>
+                                                </md-input-container>
+
+
+                                                <div class="md-block col-md-6 col-sm-4" >
+
+                                                    <md-button class="md-raised md-primary" ng-click="planning_vvu_registration(vvu,selectedPatient.id)" >Register</md-button>
+
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+            </collapsible-item>
+        </ang-accordion>
+
+
+    </md-content>
+</md-tab>
+
+    <md-tab label="RECOMMENDATIONS">
+        <md-input-container class="md-block">
+            <input type="text"  class="md-block "  typeahead-on-select="mother_planning_method_status(selectedPatient.id) " ng-model="selectedPatient"   placeholder="Search Client here" uib-typeahead ="patient as patient.client_name+' '+patient.serial_no  for patient in showSearch($viewValue) | filter:$viewValue">
+
+        </md-input-container>
+        <p></p>
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+        <div class="">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="">
+
+                                <div ng-if="!selectedPatient.id">
+                                    <h1> Choose client from search box above to continue </h1>
+                                </div>
+                                <div  ng-if="selectedPatient.id">
+                                    <div class="row col-md-12" >
+                                        <md-input-container class="md-block  col-md-6 col-sm-4">
+
+
+                                                                                                            <textarea ng-model="opt.opinion" cols="5" rows="2" md-maxlength="250" class="md-block" for="Write your Recommendations or Opinions or Views Here">
+
+                                                                                                            </textarea>
+
+                                        </md-input-container>
+                                        <div class="md-block  col-md-6 col-sm-4">
+                                            <md-button class="md-raised md-primary" ng-click="RCH_recommendations_registration(opt,selectedPatient.id)" >Register </md-button>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+
+
+        </md-content>
+    </md-tab>
+
+
+    <md-tab label="TRANSFER">
+        <md-input-container class="md-block">
+            <input type="text"  class="md-block "  typeahead-on-select="mother_planning_method_status(selectedPatient.id) " ng-model="selectedPatient"   placeholder="Search Client here" uib-typeahead ="patient as patient.client_name+' '+patient.serial_no  for patient in showSearch($viewValue) | filter:$viewValue">
+
+        </md-input-container>
+        <p></p>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="INCOMING TRANSFER">
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+
+
+                <div class="form-bottom">
+                    <div class="row">
+
+
+                        <div ng-repeat="pt in resdatas">
+                            <div class="chip col-md-3" title="{{pt.first_name | uppercase}} {{pt.medical_record_number | uppercase}}" >
+                                <div  class="row">
+
+                                    <a href=""  ng-click="Anti_natal_in_referral(pt)">
+                                        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+        <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+            <collapsible-item item-title="OUTGOING TRANSFER">
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+
+                <div class="">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  >
+                                <fieldset>
+
+                                    <div class="">
+
+                                        <div ng-if="!selectedPatient.id">
+                                            <h1> Choose client from search box above to continue </h1>
+                                        </div>
+                                        <div  ng-if="selectedPatient.id">
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block  col-md-6 col-sm-4">
+                                                    <label> Transferring to</label>
+
+
+
+                                                    <md-select type="text" ng-model="ref.referral_id" ng-change="Consultation(ref.referral_id)">
+                                                        <md-option value="">----option----</md-option>
+                                                        <md-option  value="{{department.id}}"
+                                                                    ng-repeat="department in departments">
+                                                            {{department.department_name}}
+                                                        </md-option>
+
+
+                                                    </md-select>
+
+                                                </md-input-container>
+                                                <md-input-container class="form-group col-md-6 col-sm-4">
+                                                    <label> Consultation</label>
+                                                    <md-select type="text" ng-model="ref.consultation" >
+
+                                                        <md-option   ng-value="{{item}}"
+                                                                     ng-repeat="item in consultations">
+                                                            {{item.item_name}}
+                                                        </md-option>
+
+
+                                                    </md-select>
+
+                                                </md-input-container>
+
+
+                                            </div>
+
+                                            <div class="row col-md-12" >
+                                                <md-input-container class="md-block  col-md-6 col-sm-4"  ng-if="ref.referral_id" >
+                                                                                                            <textarea ng-model="ref.reason" md-maxlength="250" cols="5" placeholder="Enter reasons for  referring    {{selectedPatient.client_name}}  "  rows="5" class="md-block">
+
+                                                                                                            </textarea>
+
+                                                </md-input-container>
+
+
+
+                                                <div class="md-block  col-md-6 col-sm-4"  >
+                                                    <md-button class="md-raised md-primary" ng-click="child_referral_registration(ref,selectedPatient.id,selectedPatient.id)" >Register </md-button>
+
+                                                </div>
+                                            </div>
+
+
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+
+            </collapsible-item>
+        </ang-accordion>
+
+
+
+
+        </md-content>
+    </md-tab>
+</md-tabs>
+
+
+
+<!--tab 9 ends-->
+
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+
+        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>

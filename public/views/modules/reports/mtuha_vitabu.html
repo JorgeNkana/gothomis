@@ -1,0 +1,233 @@
+<div ng-controller='reportsMtuha'>
+    <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+       <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookTopTen()">
+            <md-grid-tile-header>
+                <h3 align="center">TOP TEN DISEASES</h3>
+            </md-grid-tile-header>
+                <md-grid-tile-content >
+                    <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+                </md-grid-tile-content>
+                <md-grid-tile-footer>
+                    <h3 align="center">TOP TEN DISEASES</h3>
+                </md-grid-tile-footer>
+        </md-grid-tile>
+
+ <!--<md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookFour()">
+            <md-grid-tile-header>
+                <h3 align="center">Rejesta ya Madawa Na Vifaa Tiba</h3>
+            </md-grid-tile-header>
+                <md-grid-tile-content >
+                    <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+                </md-grid-tile-content>
+                <md-grid-tile-footer>
+                    <h3 align="center">KITABU CHA 4</h3>
+                </md-grid-tile-footer>
+        </md-grid-tile>-->
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookFivenmcp()">
+            <md-grid-tile-header>
+                <h3 align="center">NMCP MONTHLY DISPENSING</h3>
+            </md-grid-tile-header>
+                <md-grid-tile-content >
+                    <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+                </md-grid-tile-content>
+                <md-grid-tile-footer>
+                    <h3 align="center">NMCP MONTHLY DISPENSING</h3>
+                </md-grid-tile-footer>
+        </md-grid-tile>
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookFive()">
+            <md-grid-tile-header>
+                <h3 align="center">Rejesta ya Wagonjwa wa nje(OPD)</h3>
+            </md-grid-tile-header>
+                <md-grid-tile-content >
+                    <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+                </md-grid-tile-content>
+                <md-grid-tile-footer>
+                    <h3 align="center">KITABU CHA 5</h3>
+                </md-grid-tile-footer>
+        </md-grid-tile>
+<!--
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookSix()" >
+            <md-grid-tile-header>
+                <h3 align="center">Rejesta ya Wajawazito(ANC)</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 6</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookSeven()" >
+            <md-grid-tile-header>
+                <h3 align="center">Rejesta ya Watoto</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 7</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookEight()" >
+            <md-grid-tile-header>
+                <h3 align="center">Rejesta ya Uzazi wa Mpango</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 8</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+-->
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookNine()" >
+            <md-grid-tile-header>
+                <h3 align="center">Rejesta ya Magonjwa ya kuhara</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 9</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+<!--
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookTen()">
+            <md-grid-tile-header>
+                <h3 align="center">Ripoti ya Kutoka Vituo Vya huduma ya Afya</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 10</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+-->
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookEleven()" >
+            <md-grid-tile-header>
+                <h3 align="center">Rejista ya Magonjwa ya Kinywa na Meno</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 11</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+<!--
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookTwelve()" >
+
+            <md-grid-tile-header>
+                <h3 align="center">Rejista ya Wazazi</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 12</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookThirteen()">
+            <md-grid-tile-header>
+                <h3 align="center">Rejista ya Mtoto na Mama Baada ya Kujifungua</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 13</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+-->
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;"  ng-click="showBookFourteen()" >
+            <md-grid-tile-header>
+                <h3 align="center">Rejista ya Wagonjwa waliolazwa(IPD)</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 14</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;" ng-click="showBookFifteen()">
+            <md-grid-tile-header>
+                <h3 align="center"> Tracer Medicine</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 15</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;"  ng-click="showBookSixteen()" >
+            <md-grid-tile-header>
+                <h3 align="center">Huduma ya macho</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">KITABU CHA 16</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+
+        <md-grid-tile style="background-color:teal;cursor:pointer;"  ng-click="showBedOccupancy()" >
+            <md-grid-tile-header>
+                <h3 align="center">Mwenendo wa Kulaza Wagonjwa</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">BED OCCUPANCY</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+ <md-grid-tile style="background-color:teal;cursor:pointer;"  ng-click="showSti()" >
+            <md-grid-tile-header>
+                <h3 align="center">STI</h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">STI</h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+        <md-grid-tile style="background-color:teal;cursor:pointer;"  ng-click="showIsdr()" >
+            <md-grid-tile-header>
+                <h3 align="center">ISDR HMIS </h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">ISDR HMIS </h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+        <md-grid-tile style="background-color:teal;cursor:pointer;"  ng-click="showDeath()" >
+            <md-grid-tile-header>
+                <h3 align="center">DEATH </h3>
+            </md-grid-tile-header>
+            <md-grid-tile-content>
+                <md-icon style="fill: white; height: 54px; width: 54px;" md-svg-icon="reports"></md-icon>
+            </md-grid-tile-content>
+            <md-grid-tile-footer>
+                <h3 align="center">DEATH </h3>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+
+
+    </md-grid-list>
+</div>

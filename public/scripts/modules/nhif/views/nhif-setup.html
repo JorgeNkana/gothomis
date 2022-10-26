@@ -1,0 +1,184 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+                    <md-content class="md-padding">                     
+
+ <vertical-tabs>
+
+   <vertical-tab-pane title="Services Mapping">
+            
+<div layout="row">
+                          <div flex="40">
+               <div layout-gt-sm="row">           
+                       
+    <md-autocomplete flex  flex
+                            md-search-text="nhif_service"
+                            md-input-name="nhif_service"
+                            md-no-cache="true"
+                            md-items="item in getNhifServices(nhif_service)"
+                            md-item-text="item.item_name+' '+item.item_code"
+                            md-selected-item-change="selectedNhifService(item)"
+                            md-floating-label="Search NHIF service by code or name"
+                            md-min-length="4" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="nhif_service">{{item.item_name}}({{item.item_code}}) </span>
+                            </md-item-template>
+                          </md-autocomplete>
+
+                                     
+                          </div>
+                          </div>
+                    
+              <div flex="40">
+              
+              <div layout-gt-sm="row">
+                       
+                      <md-autocomplete flex  flex
+                            md-search-text="system_service"
+                            md-input-name="system_service"
+                            md-no-cache="true"
+                            md-items="system_item in getSystemService(system_service)"
+                            md-item-text="system_item.item_name"
+                            md-selected-item-change="selectedSystemItem(system_item)"
+                            md-floating-label="Search GoT-HoMIS service by code or name"
+                            md-min-length="4" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="system_service">{{system_item.item_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+                                         
+                          </div>
+              </div>
+
+
+              <div flex="20">
+              
+              <div layout-gt-sm="row">
+               <md-input-container class="md-block" flex-gt-sm>
+                           
+                  <md-button class="md-raised md-primary" ng-click="mapService()">Map</md-button>
+           </md-input-container>
+                           
+                          </div>
+              </div>
+
+
+
+              </div>
+
+
+       </vertical-tab-pane>
+  <vertical-tab-pane title="Services Prices">
+    By clicking this button Below ,imply you are ready to get price lists from NHIF
+         <br>
+          <div layout="row">
+          <md-input-container    flex="40">
+            <label>Action type</label>
+            <md-select ng-model="nhif_price.action_type">
+              <md-option value="">Please Select action type</md-option>
+              <md-option value="1">Load All price package from NHIF</md-option>
+              <md-option value="2">Change price based on the current NHIF Price</md-option>
+              </md-select>
+          </md-input-container>
+          <md-input-container ng-if="nhif_price.action_type==1">
+            <md-button class="md-raised md-primary" ng-click="getNHIFprices()">Get Price Lists</md-button>         
+          </md-input-container>
+
+          <md-input-container ng-if="nhif_price.action_type==2">
+            <md-button class="md-raised md-primary" ng-click="changeNhifPrice()">Change NHIF price</md-button>         
+          </md-input-container>
+        </div>
+
+
+        <table class="table table-bordered table-striped" ng-if="NhifItems[0].ItemCode.length >0">
+                        <thead>
+              <tr>
+              <th><span>ITEM CODE</span></th>               
+              <th><span> ITEM NAME</span></th>
+              <th><span>UNIT PRICE</span></th>
+               <th><span>PACKAGE ID</span></th>                            
+                        </tr>
+                        </thead>
+                        <tbody>
+               <tr ng-repeat="patient in NhifItems  track by $index"> 
+               <td><a ng-click="openDialog(patient)" style="cursor: pointer;" >{{NhifItem.ItemCode}}</a></td>
+               <td>{{NhifItem.ItemName}}</td>
+               
+               <td>{{NhifItem.UnitPrice}}</td>
+         <td>{{NhifItem.PackageID}}</td>
+       </tr></tbody></table>
+        
+       </vertical-tab-pane>
+    
+     <vertical-tab-pane title="Configuration Status">
+      Get Item  lists from NHIF mapped to GoT-HoMIS
+      <br>
+      <md-button class="md-raised md-primary" ng-click="getMappedPrices()">Get Mapped Lists</md-button>
+
+     <table class="table table-bordered table-striped" ng-if="mappedItems[0].item_code.length >0">
+                     <thead>
+           <tr>
+           <th><span>ITEM CODE</span></th>               
+           <th><span> ITEM NAME</span></th>
+           <th><span>UNIT PRICE</span></th>
+            <th><span>PACKAGE ID</span></th>                            
+                     </tr>
+                     </thead>
+                     <tbody>
+            <tr ng-repeat="mappedItem in mappedItems  track by $index"> 
+            <td><a ng-click="openDialog(patient)" style="cursor: pointer;" >{{mappedItem.item_code}}</a></td>
+            <td>{{mappedItem.item_name}}</td>
+            
+            <td>{{mappedItem.unit_price}}</td>
+      <td>{{mappedItem.package_id}}</td>
+    </tr></tbody></table>
+       </vertical-tab-pane>
+
+        <vertical-tab-pane title="Facility Code Mapping">
+            <div layout-gt-sm="row">
+                       
+              <md-input-container flex>
+                <label>Enter NHIF Facility Code</label>
+                <input type="text"
+                  name="facility_code"
+                  ng-model="facilityCode"
+                  required/>
+               
+              </md-input-container>
+                <md-input-container>
+                  <md-button ng-disabled="form.$invalid" ng-click="saveNHIF(facilityCode)" class="md-raised md-primary ">SAVE</md-button>
+              </md-input-container>
+                                         
+                          </div>
+       </vertical-tab-pane>
+
+       <vertical-tab-pane title="API Credentials">
+
+        <div layout="row">
+
+     
+                    <md-input-container class="md-block" flex-gt-sm>
+                         <label>Username</label>
+                         <input type="text" ng-model="api.username">
+                       </md-input-container>
+                     <md-input-container class="md-block" flex-gt-sm>
+                         <label>Password</label>
+                         <input type="password" ng-model="api.password">
+                     </md-input-container>
+                     <md-input-container class="md-block" flex-gt-sm>
+                      <label>Facility Code</label>
+                      <input type="text" ng-model="api.FacilityCode">
+                     </md-input-container>
+                     
+                     <md-input-container class="md-block">
+                     <md-button class="md-raised md-primary" ng-click="saveApiCredential(api)">SAVE</md-button>
+                    </md-input-container>
+
+     </div>
+                         </vertical-tab-pane>
+     
+     </vertical-tabs>
+
+</md-content>
+</md-content>
+</div>

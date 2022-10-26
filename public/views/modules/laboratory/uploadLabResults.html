@@ -1,0 +1,52 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                  <h2>PATIENT NAME: {{patientInfo.first_name}} {{patientInfo.middle_name}} {{patientInfo.last_name}} &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SAMPLE NUMBER: {{patientInfo.sample_no}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row">
+         <md-input-container class="md-block" flex-gt-sm>
+            <input type="file"  id="file1" name="photo"
+                    name="file" multiple
+                   ng-files="getTheFiles($files)"  />
+        </md-input-container>
+       
+                     </div>
+
+
+                        <div layout="row">
+         <md-input-container class="md-block" flex="90">
+            <label>Remarks</label>
+            <input type="text" ng-model="explanation.explanation">
+        </md-input-container>
+                     </div>
+
+                    
+
+
+                </md-content>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary"    ng-click="uploadLabResults(patientInfo,explanation)" class="md-primary">
+                Save Results
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

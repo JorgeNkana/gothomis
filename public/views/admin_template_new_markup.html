@@ -1,0 +1,217 @@
+<div ng-cloak>
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Register User">
+                <md-content class="md-padding">
+                    <form autocomplete="off">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Name</label>
+                                <input type="text" ng-model="user.name">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>E-mail</label>
+                                <input type="email" ng-model="user.email">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Password</label>
+                                <input type="password" ng-model="user.password">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Mobile number</label>
+                                <input type="text" ng-model="user.mobile_number">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Gender</label>
+                                <md-select ng-model="user.gender" ng-click="getFacilities()">
+                                    <md-option value="">Please select gender</md-option>
+                                    <md-option value="Male">Male</md-option>
+                                    <md-option value="Female">Female</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Facility</label>
+                                <md-select ng-model="user.facility_id">
+                                    <md-option value="">Please select facility</md-option>
+                                    <md-option ng-value="facility.id" ng-repeat="facility in facilities">{{facility.facility_name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Professionals</label>
+                                <md-select ng-model="user.proffesionals_id" ng-click="getProffesions()">
+                                    <md-option value="">Please Select Professional</md-option>
+                                    <md-option ng-value="professional.id" ng-repeat="professional in professsionals">{{professional.prof_name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <md-button class="md-raised md-primary" ng-click="user_registration(user)">SAVE</md-button>
+                            </section>
+                        </div>
+                    </form>
+                </md-content>
+            </md-tab>
+            <md-tab label="Permission User" ng-click="setTabPermUser(2)">
+                <md-content class="md-padding" style="padding:2em;">
+                    <div layout="row">
+                        <div flex="40">
+                            <form>
+                                <md-list style="color:white;font-weight:700">
+                                    <md-list-item style="padding:0;background-color:teal;margin:2px;" class="md-1-line">
+                                        REGISTERED USERS
+                                    </md-list-item>
+                                    <md-list-item style="padding:0;margin:2px;background-color:cadetblue" class="md-1-line"
+                                        ng-repeat="user in users | filter:search">
+                                        <md-input>
+                                            <label>
+                                                <input type="radio" name="user" ng-model="user.mobile_number" ng-click="chooseUser(user)">{{user.name}}</input>
+                                            </label>
+                                        </md-input>
+                                    </md-list-item>
+                            </form>
+                            </md-list>
+                        </div>
+                        <div flex="30">
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;" class="md-1-line">
+                                    PERMISSIONS
+                                </md-list-item>
+                                <md-list-item style="padding:0;margin:2px;background-color:cadetblue" class="md-1-line"
+                                    ng-repeat="perm  in perms | filter:search">
+                                    <md-checkbox ng-model="permUserVal" ng-click="checkUserPerms(permUserVal,perm,selectedUser)"
+                                        aria-label="hghgghghh">
+                                    </md-checkbox>
+                                    {{perm.title}}
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                        <div flex="30">
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;" class="md-1-line">
+                                    ACCESS GIVEN
+                                </md-list-item>
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;"
+                                    class="md-1-line" ng-repeat="accessgiven  in savedPerms | filter:search">
+                                    {{accessgiven.title}}
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                        <div flex="10">
+                            <md-list style="color:white;font-weight:700">
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;" class="md-1-line">
+                                    ACTION
+                                </md-list-item>
+                                <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;"
+                                    class="md-1-line" ng-repeat="accessgiven  in savedPerms | filter:search">
+                                    <button class="btn btn-warning" ng-click="removeAccess(accessgiven)"><span class="fa fa-trash"></span>Remove</button>
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            
+            <md-tab label="Permission Role" ng-click="setTabPermRole(3)">
+                <md-content class="md-padding">
+
+                    <div layout="row">
+                        <div flex="30">
+                            <md-list style="color:white;font-weight:900">
+                                <md-list-item style="font-size:13px;font-weight:900;padding:0;background-color:teal;margin:0.1px;cursor: pointer;"
+                                    ng-click="chooseTheRole(systemActivity)" ng-repeat="systemActivity in systemActivities">
+                                    {{systemActivity.title}}-{{systemActivity.parent}}
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                        <div flex="70" layout-padding>
+
+                            <div layout="row" ng-if="!chosenRole" layout-padding>
+                                <center>
+                                    <h4>Choose a Role to add permissions to</h4></center>
+                            </div>
+                            <div ng-if="chosenRole" layout-padding>
+                                <h2 class="md-display-1">{{chosenRole.title}}</h2>
+		            <div layout="row">
+                                <md-input-container flex="50">
+                                    <label>Search a permission to assign to this role</label>
+                                    <md-select ng-model="selectedPerm">
+                                        <md-option ng-value="perm.title" ng-repeat="perm in perms">{{ perm.title }}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                   <md-button class="md-raised md-primary" ng-click="addAPerm(chosenRole)">
+					Add to {{chosenRole.title}} role
+				   </md-button>
+                                </md-input-container>
+                           </div>
+
+                                <div layout="row" layout-padding>
+                                    <div flex="50" >
+                                        <md-list>
+                                            <md-list-item style="color:white;font-weight:600padding:0;background-color:teal;" class="md-1-line">
+                                                ACCESS GIVEN
+                                            </md-list-item>
+                                            <md-list-item 
+                                                ng-repeat="accessgiven  in savedRolePerms">
+                                                {{accessgiven.title}}
+                                            </md-list-item>
+                                        </md-list>
+                                    </div>
+                                    <div flex="50" >
+                                        <md-list >
+                                            <md-list-item style="color:white;font-weight:600padding:0;background-color:teal;" class="md-1-line">
+                                                ACTION
+                                            </md-list-item>
+                                            <md-list-item class="md-1-line"
+                                                ng-repeat="accessgiven  in savedRolePerms">
+                                           
+						<md-button ng-click="removeRoleAccess(accessgiven)" 
+						class="md-raised md-warn">Remove</md-button>
+                                            </md-list-item>
+                                        </md-list>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </md-content>
+            </md-tab>
+
+            <md-tab label="System Activation">
+                <md-content class="md-padding">
+                    <div class="col-md-12">
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-12 form-box">
+                                            <div class="form-top">
+                                                <div class="form-top-left">
+                                                    <h3><span><i class="fa fa-plus" aria-hidden="true"></i></span> ACTIVATE SYSTEM DATABASE</h3>
+                                                </div>
+                                            </div>
+                                            <div class="form-bottom">
+                                                <div class="row">
+                                                    <div class="form-group  col-sm-12">
+                                                        <label>NOTES: *</label>
+                                                        <p>BY CLICKING THE BUTTON
+                                                            BELOW ,YOU ARE GOING
+                                                            TO ENABLE ITEMS SALES
+                                                            AND USER DETAILS ACCOUNT
+                                                            TO BE ACTIVATED</p>
+                                                    </div>
+                                                </div>
+                                                <md-button style="width: 15%;" class="md-raised md-primary" ng-click="runViews()">ACTIVATE VIEWS</md-button>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    </div>

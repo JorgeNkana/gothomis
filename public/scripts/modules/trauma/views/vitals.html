@@ -1,0 +1,71 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row"  layout-align="space-between center">
+				<h2 class="md-display-1">Names: {{selectedPatient.surname+', '+selectedPatient.first_name}}&nbsp;&nbsp;</h2>
+				<span class="md-subhead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gender: {{selectedPatient.gender}}, Age: {{selectedPatient.age}}</span>
+			</div>
+		<md-button class="md-icon-button" ng-click="cancel()">
+			<md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+		</md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+                <div layout-gt-sm="row">
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Acuity</label>
+						<md-select ng-model="triage_category">
+                            <md-option>--choose--</md-option>
+                            <md-option ng-repeat="category in triage_categories" value="{{category.id}}">
+								{{category.category}}
+							</md-option>
+						</md-select>
+					</md-input-container>
+				</div>
+                <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                          <label>Temperature (&deg;C)</label>
+                          <input type="number" ng-model="vitals.temp" required min="10" max="49">
+                        </md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+                            <label>Bp (Sy/Di)</label>
+							<input type="text" ng-model="vitals.bp" required >
+						</md-input-container>
+				</div>
+                <div layout-gt-sm="row">
+                       <md-input-container class="md-block" flex-gt-sm>
+                          <label>Heart Rate (bits/min)</label>
+                          <input type="number" ng-model="vitals.hr" required>
+                        </md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+                            <label>Respiratory Rate (breathes/min)</label>
+							<input type="text" ng-model="vitals.rr" required>
+						</md-input-container>
+				</div>
+                <div layout-gt-sm="row">
+                       <md-input-container class="md-block" flex-gt-sm>
+                          <label>SpO<sub>2</sub> (&percnt; on L)</label>
+                          <input type="number" ng-model="vitals.spo2" required>
+                        </md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+                            <label>Pain Score (1 - 10)</label>
+							<input type="number" ng-model="vitals.ps" min="1">
+						</md-input-container>
+				</div>
+                <div layout-gt-sm="row">
+                       <md-input-container class="md-block" flex-gt-sm>
+                          <label>Weight (cm)</label>
+                          <input type="number" ng-model="vitals.weight">
+                        </md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+                            <label>Height (cm)</label>
+							<input type="number" ng-model="vitals.height">
+						</md-input-container>
+				</div>
+				<section layout="row" layout-sm="column"  class="pull-right" layout-wrap>
+					<md-button class="md-raised md-primary" ng-click="registerVitals(vitals, triage_category)">RECORD</md-button>
+				</section>
+            </div>
+            </md-dialog-content>
+            </md-dialog>

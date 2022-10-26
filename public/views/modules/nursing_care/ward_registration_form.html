@@ -1,0 +1,50 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> WARD REGISTRATION FORM
+			&nbsp; &nbsp; &nbsp;
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                        <div layout="row">
+     <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD NAME</label>
+                                    <input type="text" ng-model="wards.ward_name">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD TYPES</label>
+                                    <input type="text" ng-model="wards.ward_type" uib-typeahead ="ward_type as ward_type.ward_type_name for ward_type in showSearchWardTypes($viewValue) | filter:$viewValue">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD CLASS</label>
+                                    <input type="text" ng-model="ward_class.ward_class_id" uib-typeahead ="ward_class as ward_class.item_name for ward_class in showSearchWardClass($viewValue) | filter:$viewValue">
+                                </md-input-container>
+                        
+
+                         
+
+                                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary"   ng-click="addWard(wards,ward_class)" class="md-primary">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

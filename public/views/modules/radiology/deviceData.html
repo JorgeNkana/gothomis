@@ -1,0 +1,46 @@
+<md-dialog flex="80">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span flex></span>
+                <span ng-if="device.on_off==1" class="mdl-chip__contact mdl-color--primary mdl-color-text--white">&#10003;</span>
+                <span ng-if="device.on_off==0" class="mdl-chip__contact mdl-color--red-400 mdl-color-text--white">&#10008;</span>
+                <h3 align="left">{{device.equipment_name | uppercase}}</h3>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <form name="form">
+                <div class="md-dialog-content">
+                    <h3>{{device.status_name | uppercase}}</h3>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex="100">
+                            <label>Status name</label>
+                            <input type="text" name="name" autocomplete="off" ng-model="equipment.status_name"
+                                   uib-typeahead ="equipment as equipment.status_name
+                    for equipment in equipments | limitTo:8 | filter:$viewValue" required>
+                            <div ng-messages="form.name.$error">
+                                <div ng-message="required">Can not be blank.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+                    <md-button ng-if="equipment.status_name" class="md-primary md-raised"  ng-click="equipmentOnOff(equipment,device.equipment_id)">
+                        SAVE CHANGES
+                    </md-button>
+
+                </div>
+
+            </form>
+        </md-dialog-content>
+
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()" class="md-primary">
+                close
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

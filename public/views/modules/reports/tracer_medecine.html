@@ -1,0 +1,172 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >TRACER MEDICINE REPORT</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+		<div layout-gt-sm="row" flex="75" class="no-print">
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Tarehe ya kuanza</label>
+				<md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+							   required></md-datepicker>
+			</md-input-container>
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Tarehe ya kumaliza</label>
+				<md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+							   required></md-datepicker>
+			</md-input-container>
+			<div>
+				<md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+					Load
+				</md-button>
+				 <md-button class="md-primary md-raised" ng-click="print()">
+					Print
+				</md-button>
+			</div>
+		</div>
+
+		<div class="to-print">
+			<style type="text/css">
+				.not_applicable {
+						background-color:#c1c1c1;
+					}
+				tr.captions{
+						border-top: thin solid black;
+						background-color:#c1c1c1;
+				}
+				#data{
+					text-align:right;
+				}
+				#last_data{
+					border-right: none;
+					text-align:right;
+				}
+				#title{
+					text-align:center;
+				}
+				table{
+					border:thin solid black;
+				}
+				th{
+					border-right: thin solid black;
+					border-bottom: thin solid black;
+				}
+				td{
+					border-right: thin solid black;
+					border-bottom: thin solid black;
+				}
+				
+				@media print { 
+					.not_applicable {
+						background-color:#c1c1c1;
+					}
+					tr.captions{
+						border-top: thin solid black;
+						background-color:#c1c1c1;
+					}
+					#data{
+						text-align:right;
+					}
+					#last_data{
+						border-right: none;
+					}
+					#title{
+						text-align:center;
+					}
+					table{
+						border:thin solid black;
+					}
+					th{
+						border-right: thin solid black;
+						border-bottom: thin solid black;
+					}
+					td{
+						border-right: thin solid black;
+						border-bottom: thin solid black;
+					}
+				}
+			</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<tr class = ""><td colspan="5">
+					<b id="">
+						<div id="title"> <h8>'SIRI'</h8></div>
+						<div  id="title"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+						<div  id="title"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+						<div  id="title"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+						<div  id="title"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+						<div  id="title"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+						<div  id="title"> <h5>  FOMU YA TAARIFA YA KITABU CHA 15: TRACER MEDICINE</h5></div>
+
+						<hr>
+						<b>Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+						&nbsp;&nbsp;&nbsp;<b>Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+						<P></P><P></P>
+						<b>Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+						&nbsp;&nbsp;&nbsp;<b>Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+						<P></P><P></P><P></P><P></P>
+					</b>
+				</td></tr>
+
+				<tr class = "captions">
+
+					<th> Na.</th>
+					<th >Maelezo</th>
+					<th >Je Kituo
+						kinatoa
+						huduma hii?<p>
+							1=ndio
+							0=hapana</th>
+
+					<th >Hali ya
+						kiashiria/dawa
+						ipo/haipo?<p>
+							1=ndio
+							0=hapana</th>
+					<th>Kama haipo
+						<p>A: Chini ya wiki moja<br />
+							B: Wiki 1-4 <br />
+							C:Zaidi ya mwezi mzima</p></th>
+				</tr>
+
+				<tr style="" ng-repeat="tracer in tracer_items track by $index">
+
+					<td id = "data" >{{$index + 1}}.</td>
+					<td style="text-align:left;">{{tracer.item_name}}</td>
+					<td style=" text-align:center">{{tracer.service_provision}}</td>
+					<td style=" text-align:center">{{tracer.status}}</td>
+					<td style=" text-align:center">{{tracer.stock_out_flag}}</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="row no-print">
+			<table width="100%">
+				<tr><td>
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('tracer_medicine')">
+					SEND TO DHIS
+				</button>
+				</td></tr>
+			</table>
+		</div>	
+	</md-dialog-content>
+</md-dialog>

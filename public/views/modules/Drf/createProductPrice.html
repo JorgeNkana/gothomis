@@ -1,0 +1,97 @@
+<!--<md-dialog  >-->
+<md-dialog   class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools text-center">
+            <h3 ng-if="products.length>0">   CREATE   PRICES</h3>
+            <h3 ng-if="products.length==0">   Ooooop!!!!</h3>
+
+
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div style="overflow-x:scroll;max-width:960px;" ng-if="products.length>0">
+            <md-input-container class="md-block   col-md-12 col-sm-8">
+                <md-radio-group layout="row" ng-model="product.category">
+                    <md-radio-button ng-repeat="category in categories" value={{category.category_name}} class="md-primary">{{category.category_name}} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+            <input type="text" ng-model="search" placeholder="quick search..." class="pull-right">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="products.length>0"  >
+                <tr ng-if="products.length>15">
+                    <th colspan="4">
+                        <md-button ng-click="SavePrice(product)" class="md-raised md-primary">Save</md-button>
+                    </th>
+                </tr>
+                <thead style="background-color: beige">
+
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">
+
+                        No
+
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric" >   ItemCode </td>
+                    <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                    <td class="mdl-data-table__cell--non-numeric" > Price </td>
+
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="product in products | filter:search track by $index">
+                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{ product.item_code }}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{ product.item_name }}</td>
+
+                    <td class="mdl-data-table__cell--non-numeric"> <md-input-container class="md-block col-md-6 col-sm-4">
+
+                    <input type="text"   id="{{product.id}}" class="md-block" placeholder="Enter Price"  title="Enter Price" onkeyup="money(this, event)"/>
+                    </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                        <input type="text"   id="status_{{product.id}}" class="hidden" value="active" />
+                        </md-input-container>
+                    </td>
+
+                </tr>
+                </tbody>
+<tr>
+    <th colspan="4">
+            <md-button ng-click="SavePrice(product)" class="md-raised md-primary">Save</md-button>
+    </th>
+</tr>
+            </table>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>
+<script type="text/Javascript">
+    function flag(element){
+        $('#tr_'+element.id.substring(4)).css('border-color','red');
+    }
+
+    function money(field,event){
+        if(event.which >= 37 && event.which <= 40)
+            return;
+
+// format number
+        $(field).val(function(index, value) {
+            value += '';
+            var dec = '';
+
+            var parts = value.split('.');
+            dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+            return parts[0]
+                .replace(/\D/g, '')
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+        });
+    }
+</script>

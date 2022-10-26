@@ -1,0 +1,106 @@
+<!--<md-dialog  >-->
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools text-center">
+            <center> BIN CARD</center>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-button ng-click="PrintContent_single_voucher()" title="Print"
+                   class="no-print pull-right md-raised md-default"><b class="glyphicon glyphicon-print pull-right ">Print</b></md-button>
+        <hr>
+        <div id='single_voucher' >
+
+
+<!--{{single_item_vocher}}-->
+            <center>
+
+                <table style="font-family: 'Times New Roman';font-size: 12px">
+                    <tr>
+                        <th colspan="3" style="color:black;background-color: silver"><center>MINISTRY OF HEALTH <p></p>BIN CARD</center></th>
+
+                    </tr>
+                    <tr>
+                        <th>Hospital: {{loginUserFacilityDetails[0].facility_name}}&nbsp;</th>
+                        <th> </th>
+                        <th>Item Code: {{item_code}}</th>
+                    </tr>
+
+                    <tr>
+                        <th>Name Of item:{{item_name}}</th>
+                        <th> </th>
+                        <th>Year..........................</th>
+                    </tr>
+                    <tr>
+                        <th>Unit of issue.......................</th>
+                        <th>Strength.......................... </th>
+                        <th>Dosage from..........................</th>
+                    </tr>
+                    <tr>
+                        <th>Maximum stock level....................</th>
+                        <th>  </th>
+                        <th>Minimum stock level.................</th>
+                    </tr>
+                    <tr>
+                        <th>Average monthly consuption..................</th>
+                        <th>  </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>Legder folio..................</th>
+                        <th>  </th>
+                        <th>Re-order level..................</th>
+                    </tr>
+                </table>
+            </center>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1" style="align-content: center" >
+                <tr style='font-size:12px;font-family:"Tahoma" '>
+                    <th class="mdl-data-table__cell--non-numeric  " rowspan="2">Date</th>
+                    <th class="mdl-data-table__cell--non-numeric  " rowspan="2">Receipt/Issue Voucher</th>
+                    <th class="mdl-data-table__cell--non-numeric  " rowspan="2">Expiry Date</th>
+                    <th class="mdl-data-table__cell--non-numeric  " colspan="3" style="align-content: center">Quantity</th>
+                    <th class="mdl-data-table__cell--non-numeric  " rowspan="2">Signature</th>
+
+                </tr>
+                <tr style='font-size:12px;font-family:"serif"'>
+
+
+                    <th class="mdl-data-table__cell--non-numeric  ">Received</th>
+                    <th class="mdl-data-table__cell--non-numeric  ">Issued</th>
+                    <th class="mdl-data-table__cell--non-numeric  ">Balance</th>
+
+                </tr>
+                <tr ng-repeat="voucher_detail in single_item_vocher track by $index" style='font-size:12px;font-family:"Times New Roman"'>
+                    <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.date}}</th>
+                    <th class="mdl-data-table__cell--non-numeric  ">{{item_name |limitTo:4}}{{ voucher_detail.date.split(['-'])[0]}}{{  voucher_detail.date.split(['-'])[1]}}</th>
+
+                    <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.expiry_date}}</th>
+
+                    <th class="mdl-data-table__cell--non-numeric  " ng-if="voucher_detail.control_in !='r'"></th>
+                    <th class="mdl-data-table__cell--non-numeric  " ng-if="voucher_detail.control_in=='r'">{{voucher_detail.received | currency:" "}}</th>
+                    <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.issued | currency:" "}}</th>
+                    <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.balance | currency:" "}}</th>
+                    <th class="mdl-data-table__cell--non-numeric  " ></th>
+
+                </tr>
+
+                <tr style='font-size:12px;font-family:"tahoma";size: 12px;background-color: silver' title='Currently available stock  for {{item_name}} is {{balanced | currency:" "}} Only'>
+
+
+                    <th class="mdl-data-table__cell--non-numeric  " colspan="5">Currently available item stock </th>
+                    <th class="mdl-data-table__cell--non-numeric  ">{{balanced | currency:" "}} </th>
+                    <th class="mdl-data-table__cell--non-numeric  "></th>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+    </md-dialog-content>
+</md-dialog>

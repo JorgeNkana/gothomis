@@ -1,0 +1,3034 @@
+<style>
+    .std{
+        padding:20px;
+    }
+    @media print {
+        .no-print{
+            display:none;
+        }
+    }
+   </style>
+
+
+<md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="REGISTRATION">
+        <md-content class="md-padding">
+            <md-input-container class="md-block">
+                <md-autocomplete flex required flex
+                                 md-search-text="searchText"
+                                 md-input-name="patients"
+                                 md-no-cache="true"
+                                 md-clear-button="true"
+                                 md-items="selectedPatient in getAllPatient(searchText)"
+                                 md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                                 md-selected-item-change="openDialogForServices(selectedPatient)"
+                                 md-floating-label="Search Patient "
+                                 md-min-length="4" md-autofocus>
+                    <md-item-template>
+                        <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+                    </md-item-template>
+                </md-autocomplete>
+
+
+            </md-input-container>
+
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>First name</label>
+                    <input type="text" ng-model="patient.first_name">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Middle Name</label>
+                    <input type="text" ng-model="patient.middle_name">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Last Name</label>
+                    <input type="text" ng-model="patient.last_name">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Gender</label>
+                    <md-select ng-model="patient.gender">
+                        <md-option value="">Please select gender</md-option>
+                        <md-option value="Male">Male</md-option>
+                        <md-option value="Female">Female</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class='md-block' flex-gt-sm>
+                    <label>Date of birth</label>
+                    <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="exemption_calculateAge(patient,'date')"></md-datepicker>
+                </md-input-container>
+                <md-input-container flex-gt-sm class="md-block">
+                    <label>Age</label>
+                    <input type="number" min='0' ng-model="patient.age" ng-Blur="exemption_calculateAge(patient,'age')">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Unit</label>
+                    <md-select ng-model="patient.age_unit" ng-Blur="exemption_calculateAge(patient,'unit')">
+                        <md-option value="Years" selected="selected">Year(s)</md-option>
+                        <md-option value="Months">Month(s)</md-option>
+                        <md-option value="Days">Day(s)</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+
+                <md-autocomplete flex  flex
+                                 md-search-text="search"
+                                 md-input-name="patient"
+                                 md-no-cache="false"
+                                 md-items="item in getResidence(search)"
+                                 md-item-text="item.residence_name+' '+item.council_name"
+                                 md-selected-item-change="selectedResidence(item)"
+                                 md-floating-label="Search Residence"
+                                 md-min-length="3" md-autofocus>
+                    <md-item-template>
+                        <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                    </md-item-template>
+                </md-autocomplete>
+
+                <md-input-container flex-gt-sm>
+                    <label for="mobile_number">Mobile Number</label>
+                    <input id="mobile_number" type="text" ng-model="patient.mobile_number">
+                </md-input-container>
+            </div>
+
+
+            <div layout-gt-sm="row">
+                <md-input-container flex-gt-sm>
+                    <label>Marital Status*</label>
+
+                    <md-select ng-model="others.marital">
+                        <md-option value=""></md-option>
+                        <md-option ng-repeat="marital in maritals" value={{marital.id}}>{{marital.marital_status}}</md-option>
+                    </md-select> </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Occupation *</label>
+                    <input type="text" ng-model="others.occupation"  class="md-block" flex-gt-sm
+                           autocomplete="off"
+                           uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue"
+                    >
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Tribe*</label>
+                    <input type="text" ng-model="others.tribe"  class="md-block" flex-gt-sm
+                           id="Tribe" autocomplete="off"
+                           uib-typeahead="tribe as tribe.tribe_name for tribe in showSearchTribe($viewValue) | filter:$viewValue"
+                    >
+                </md-input-container>
+            </div>
+
+            <div layout-gt-sm="row">
+                <md-input-container flex-gt-sm>
+                    <label>Country*</label>
+                    <input type="text" ng-model="others.country"  class="md-block" flex-gt-sm
+                           id="Country" autocomplete="off"
+                           uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Next of Kin Name *</label>
+                    <input type="text" ng-model="others.next_of_kin_name"  class="md-block" flex-gt-sm
+                           id="next_kin_name"   autocomplete="off"
+
+                           id="Kin">
+                </md-input-container>
+
+                <!--<md-input-container flex-gt-sm>-->
+                    <!--<label>Resedence of Next of Kin:</label>-->
+                    <!--<input type="text" ng-model="others.next_kin_residence"-->
+                           <!--id="next_kin_residence"  class="md-block" flex-gt-sm-->
+                           <!--autocomplete="off"-->
+                           <!--uib-typeahead="nextresdata as nextresdata.residence_name+', '+nextresdata.council_name+', '+nextresdata.region_name for nextresdata in showSearchResidences($viewValue) | filter:$viewValue"-->
+
+                    <!--&gt;-->
+                <!--</md-input-container>-->
+
+
+                <md-input-container flex-gt-sm>
+                    <label>Relationship:</label>
+                    <md-select ng-model="others.relationship">
+                        <md-option value=""></md-option>
+                        <md-option ng-repeat="relationship in relationships" value={{relationship.id}}>{{relationship.relationship	}}</md-option>
+                    </md-select> </md-input-container>
+                </md-input-container>
+
+                <md-input-container flex-gt-sm>
+                    <label>Enter Mobile Number for Next of Kin:(<i>Optional</i>)</label>
+                    <input   type="text" autocomplete="off"
+                             ng-model="others.mobile_number_next_kin"  class="md-block" flex-gt-sm
+                    >
+                </md-input-container>
+
+
+            </div>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="fullRegistration(patient,others,residence_id)">  Register</md-button>
+                <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+            </section>
+
+        </md-content>
+    </md-tab>
+    <md-tab label="CHANGE PATIENT CATEGORY">
+        <md-content class="md-padding">
+            <!--<md-input-container class="md-block">
+                <input type="text"   typeahead-on-select="" ng-model="selectedPatient"
+                       placeholder="Type medical record number"
+                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearch($viewValue) | limitTo:8 | filter:$viewValue">
+            </md-input-container>-->
+			<md-autocomplete flex required flex
+                                 md-search-text="searchText"
+                                 md-input-name="patients"
+                                 md-no-cache="true"
+                                 md-clear-button="true"
+                                 md-items="selectedPatient in getAllPatient(searchText)"
+                                 md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                                 md-selected-item-change="DisplayInfors1(selectedPatient)"
+                                 md-floating-label="Search Patient "
+                                 md-min-length="4" md-autofocus>
+                    <md-item-template>
+                        <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+                    </md-item-template>
+                </md-autocomplete>
+			 
+            <div ng-if="selectedPatientInf.patient_id">
+                <div >
+                    <div class="form-top-left">
+                        <b><span><i class=" " aria-hidden="true"></i></span> NAME:
+                            {{selectedPatientInf.first_name}} {{selectedPatientInf.middle_name}}
+                            {{selectedPatientInf.last_name}} ({{selectedPatientInf.medical_record_number}}) D.O.B:
+                            {{selectedPatientInf.dob}} Gender: {{selectedPatientInf.gender}}<p></p>
+
+                        </b>
+
+                    </div>
+                    <hr>
+                </div>
+
+                <!--EXEMPTION SETTING STARTING-->
+
+                <div class="row">
+                    <md-input-container class="md-block   col-md-4 col-sm-4">
+                        <label> Exemption Type</label>
+
+                        <input type="text" ng-model="exempt.exemption_type_id" typeahead-on-select=""
+                               uib-typeahead=" category as category.exemption_name   for  category in exemption_types | filter:$viewValue"
+                               >
+
+
+                    </md-input-container>
+
+
+                    <md-input-container class="md-block   col-md-4 col-sm-4">
+
+                                        <textarea ng-model="exempt.exemption_reason" class="md-block  "
+                                                  placeholder="exemption reason" data-toggle="tooltip"
+                                                  title="Enter exemption Reasons">
+
+
+</textarea>
+                    </md-input-container>
+
+
+                    <div class="md-block   col-md-4 col-sm-6">
+
+                        <label >Upload</label>
+
+                        <input type="file" id="file1" class="md-input" name="file" multiple
+                               ng-files="getTheFiles($files)" title="Upload any Document to Support"/>
+                        <!--<input type="file"  id="file1" name="photo"  onchange="loadFile(event)"-->
+                        <!--class="md-block" name="file" multiple-->
+                        <!--ng-files="getTheFiles($files)"/>-->
+                    </div>
+
+
+                    <div class="  col-md-4 col-sm-4">
+                        <md-button class="md-raised md-primary"
+                                   ng-click="exemption_registration_update_s(exempt,selectedPatientInf)">Register
+                        </md-button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </md-content>
+    </md-tab>
+    <md-tab label="GBV/VAC">
+        <md-content class="md-padding">
+
+           <!-- <md-input-container class="md-block">
+                <input type="text" typeahead-on-select=""
+                       ng-model="selectedPatient" placeholder="Type medical record number"
+                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearch($viewValue) | limitTo:8 | filter:$viewValue"/>
+            </md-input-container>-->
+			<md-autocomplete flex required flex
+                                 md-search-text="searchText"
+                                 md-input-name="patients"
+                                 md-no-cache="true"
+                                 md-clear-button="true"
+                                 md-items="selectedPatient in getAllPatient(searchText)"
+                                 md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                                 md-selected-item-change="DisplayInfors(selectedPatient)"
+                                 md-floating-label="Search Patient "
+                                 md-min-length="4" md-autofocus>
+                    <md-item-template>
+                        <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+                    </md-item-template>
+                </md-autocomplete>
+
+            <style>
+                md-tab {
+                    padding-bottom:4em;
+                }
+            </style>
+
+        </md-content>
+        <vertical-tabs>
+            <!--<vertical-tab-pane title="VIOLENCE">-->
+                <!--<script type="text/ng-template" id="customTemplate.html">-->
+                    <!--<a>-->
+
+                        <!--<span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>-->
+                    <!--</a>-->
+                <!--</script>-->
+
+                <!--<div class="wrapper wrapper-content animated fadeInRight">-->
+                    <!--<div class="row">-->
+
+
+                        <!--<p></p>-->
+                        <!--<p></p>-->
+                        <!--<div class="col-md-12 form-box">-->
+                            <!--<form >-->
+                                <!--<fieldset>-->
+
+                                    <!--<div class="">-->
+
+                                        <!--<div ng-if="!selectedPatientInf.patient_id">-->
+                                            <!--Please Select Client from Search Box above using client's-->
+                                            <!--MRN or Mobile Number in order To Proceed-->
+
+                                        <!--</div>-->
+                                        <!--<div ng-if=" selectedPatientInf.patient_id">-->
+
+                                            <!--<div class="row">-->
+                                                <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+
+
+                                                    <!--<input type="text"-->
+                                                           <!--typeahead-on-select=""-->
+                                                           <!--ng-model="violence.violence_type_id"-->
+                                                           <!--placeholder="Search violence_types "-->
+                                                           <!--uib-typeahead="violence_type as violence_type.violence_type_name  for violence_type in violence_types | limitTo:8 | filter:$viewValue"-->
+                                                           <!--typeahead-template-url="customTemplate.html"-->
+                                                           <!--typeahead-show-hint="true"-->
+                                                           <!--typeahead-min-length="0">-->
+                                                <!--</md-input-container>-->
+                                                <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+                                                    <!--<label>Enter  Date of event occurred</label>-->
+                                                    <!--<input type="text"  datetime-picker date-format="yyyy-MM-dd HH:mm:ss"-->
+                                                                   <!--ng-model="violence.event_date"></input>-->
+
+                                                <!--</md-input-container>-->
+
+                                                <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+
+                                                    <!--<input type="text"-->
+                                                           <!--typeahead-on-select="get_violence_sub_category(violence.violence_category_id.id)"-->
+                                                           <!--ng-model="violence.violence_category_id"-->
+                                                           <!--placeholder="Search Violence Category "-->
+                                                           <!--uib-typeahead="violence_cat as violence_cat.violence_type_category  for violence_cat in violence_cats | limitTo:8 | filter:$viewValue"-->
+                                                           <!--typeahead-template-url="customTemplate.html"-->
+                                                           <!--typeahead-show-hint="true"-->
+                                                           <!--typeahead-min-length="0">-->
+
+                                                <!--</md-input-container>-->
+
+
+                                                <!--<label ng-repeat="sub_violences in sub_violence_list"-->
+                                                       <!--title=" {{sub_violences.sub_violence}}"-->
+                                                       <!--class="md-block col-md-3 col-sm-4"-->
+                                                       <!--ng-if="violence.violence_category_id">-->
+
+                                                    <!--<input type="checkbox"-->
+                                                           <!--ng-model="sub_violences.sub_id"-->
+                                                           <!--ng-value="{{sub_violences}}"-->
+                                                           <!--ng-click="getViolence_id(sub_violences,violence,selectedPatientInf.patient_id)">-->
+                                                    <!--{{sub_violences.sub_violence}}-->
+
+                                                <!--</label>-->
+
+
+                                            <!--</div>-->
+                                            <!--<table ng-if="getViolence_ids.length>0">-->
+                                                <!--<tr>-->
+                                                    <!--<th>Violence</th>-->
+                                                    <!--<th>Type</th>-->
+                                                <!--</tr>-->
+                                                <!--<tr ng-repeat="getViolence_id in getViolence_ids">-->
+                                                    <!--<td>{{getViolence_id.violence_type_category}}</td>-->
+                                                    <!--<td>{{getViolence_id.sub_violence}}</td>-->
+                                                    <!--<td>-->
+                                                        <!--<a ng-click="removeItemArray_violence($index)"-->
+                                                           <!--style="color:maroon"-->
+                                                           <!--title="Remove from list">Remove</a></td>-->
+                                                <!--</tr>-->
+                                            <!--</table>-->
+
+                                            <!--<div class=" col-md-6 col-sm-4"-->
+                                                 <!--ng-if="getViolence_ids.length>0">-->
+                                                <!--<md-button class="md-raised md-primary"-->
+                                                           <!--ng-click="violence_client_registration()">save-->
+                                                <!--</md-button>-->
+                                            <!--</div>-->
+
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</fieldset>-->
+                            <!--</form>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;-->
+
+            <!--</vertical-tab-pane>-->
+            <!--<vertical-tab-pane title="NEGLECT or FOLLOW-UP or VULNERABLITY">-->
+
+                <!--<div ng-if="!selectedPatientInf.patient_id">-->
+                    <!--Please Select Client from Search Box above using client's-->
+                    <!--MRN or Mobile Number in order To Proceed-->
+
+                <!--</div>-->
+                <!--<div ng-if=" selectedPatientInf.patient_id">-->
+
+                <!--<md-input-container class="md-block   col-md-12 col-sm-4">-->
+                        <!--<md-radio-group layout="row" ng-model="record.receive_r">-->
+                            <!--<md-radio-button value="neglect" class="md-primary">NEGLECT</md-radio-button>-->
+                            <!--<md-radio-button value="followup" class="md-primary">FOLLOW-UP </md-radio-button>-->
+                            <!--<md-radio-button value="vulnerable" class="md-primary">VULNERABLITY </md-radio-button>-->
+                        <!--</md-radio-group>-->
+
+                    <!--</md-input-container>-->
+                    <!--<md-input-container class="md-block   col-md-12 col-sm-4" >-->
+                            <!--<textarea  ng-model="record.remarks" placeholder="Enter Description or remarks here (Optional)" >-->
+
+                <!--</textarea>-->
+
+                    <!--</md-input-container >-->
+
+                    <!--<div class="md-block   col-md-12 col-sm-4">-->
+
+                        <!--<md-button class="md-raised md-primary"  ng-click="vulnerable_followup_neglect(record,selectedPatientInf.patient_id)" >Save</md-button>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+
+
+            <!--</vertical-tab-pane>-->
+
+            <!--<vertical-tab-pane title="SERVICES GIVEN">-->
+                <!--<div class="wrapper wrapper-content animated fadeInRight">-->
+                    <!--<div class="row">-->
+
+
+                        <!--<p></p>-->
+                        <!--<p></p>-->
+                        <!--<div class="col-md-12 form-box">-->
+                            <!--<form >-->
+                                <!--<fieldset>-->
+
+                                    <!--<div class="">-->
+
+                                        <!--<div ng-if="!selectedPatientInf.patient_id">-->
+                                            <!--Please Select Client from Search Box above using client's-->
+                                            <!--MRN or Mobile Number in order To Proceed-->
+
+                                        <!--</div>-->
+                                        <!--<div ng-if="selectedPatientInf.patient_id">-->
+
+                                            <!--<div class="row">-->
+                                                <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+
+                                                    <!--<input-->
+                                                            <!--typeahead-on-select="services_given_array(service.service_id,selectedPatientInf.patient_id)"-->
+                                                            <!--ng-model="service.service_id"-->
+                                                            <!--placeholder="Search Services "-->
+                                                            <!--uib-typeahead="service as service.service_name  for service in services | limitTo:8 | filter:$viewValue"-->
+                                                            <!--typeahead-template-url="customTemplate.html"-->
+                                                            <!--typeahead-show-hint="true"-->
+                                                            <!--typeahead-min-length="0">-->
+                                                <!--</md-input-container>-->
+
+
+                                            <!--</div>-->
+
+                                            <!--<table ng-if="getservices.length>0">-->
+                                                <!--<tr>-->
+                                                    <!--<th>Service</th>-->
+                                                <!--</tr>-->
+                                                <!--<tr ng-repeat="getservice in getservices">-->
+                                                    <!--<td>{{getservice.service_name}}</td>-->
+
+                                                    <!--<td>-->
+                                                        <!--<a ng-click="removeItemArray_service($index)"-->
+                                                           <!--style="color:maroon"-->
+                                                           <!--title="Remove from list">Remove</a></td>-->
+                                                <!--</tr>-->
+                                            <!--</table>-->
+
+                                            <!--<div class="  col-md-6 col-sm-4"-->
+                                                 <!--ng-if="getservices.length>0">-->
+                                                <!--<md-button class="md-raised md-primary"-->
+                                                           <!--ng-click="violence_client_service_registration()">-->
+                                                    <!--save-->
+                                                <!--</md-button>-->
+                                            <!--</div>-->
+
+                                            <!--<div>-->
+
+                                            <!--</div>-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</fieldset>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</vertical-tab-pane>-->
+
+            <!--<vertical-tab-pane title="CLIENT VIOLENCE EFFECT">-->
+                <!--<div class="wrapper wrapper-content animated fadeInRight">-->
+                    <!--<div class="row">-->
+                        <!--<p></p>-->
+                        <!--<p></p>-->
+                        <!--<div class="col-md-12 form-box">-->
+                            <!--<form >-->
+                                <!--<fieldset>-->
+
+                                    <!--<div class="">-->
+
+                                        <!--<div ng-if="!selectedPatientInf.patient_id">-->
+                                            <!--Please Select Client from Search Box above using client's-->
+                                            <!--MRN or Mobile Number in order To Proceed-->
+
+                                        <!--</div>-->
+                                        <!--<div ng-if="selectedPatientInf.patient_id">-->
+
+                                            <!--<div class="row">-->
+                                                <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+
+
+                                                    <!--<input type="text"-->
+                                                           <!--typeahead-on-select="outputs_given_array(output.output_id, selectedPatientInf.patient_id)"-->
+                                                           <!--ng-model="output.output_id"-->
+                                                           <!--placeholder="Search output "-->
+                                                           <!--uib-typeahead="output as output.output  for output in outputs | limitTo:8 | filter:$viewValue"-->
+                                                           <!--typeahead-template-url="customTemplate.html"-->
+                                                           <!--typeahead-show-hint="true"-->
+                                                           <!--typeahead-min-length="0">-->
+                                                <!--</md-input-container>-->
+
+
+                                            <!--</div>-->
+
+                                            <!--<table ng-if="getoutputs.length>0">-->
+                                                <!--<tr>-->
+                                                    <!--<th>Service</th>-->
+                                                <!--</tr>-->
+                                                <!--<tr ng-repeat="getoutput in getoutputs">-->
+                                                    <!--<td>{{getoutput.output}}</td>-->
+
+                                                    <!--<td>-->
+                                                        <!--<a ng-click="removeItemArray_output($index)"-->
+                                                           <!--style="color:maroon"-->
+                                                           <!--title="Remove from list">Remove</a></td>-->
+                                                <!--</tr>-->
+                                            <!--</table>-->
+
+                                            <!--<div class="form-group col-md-6 col-sm-4"-->
+                                                 <!--ng-if="getoutputs.length>0">-->
+                                                <!--<md-button class="md-raised md-primary"-->
+                                                           <!--ng-click="violence_client_output_registration()">-->
+                                                    <!--save-->
+                                                <!--</md-button>-->
+                                            <!--</div>-->
+
+                                            <!--<div>-->
+
+
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</fieldset>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</vertical-tab-pane>-->
+            <!--<vertical-tab-pane title="INFORMANT">-->
+                <!--<div class="wrapper wrapper-content animated fadeInRight">-->
+                    <!--<div ng-if="!selectedPatientInf.patient_id" class="">-->
+                        <!--Please Select Client from Search Box above using client's MRN or Mobile Number-->
+                        <!--in order To Proceed-->
+
+                    <!--</div>-->
+                    <!--<div ng-if="selectedPatientInf.patient_id" >-->
+                        <!--<div class="">-->
+                            <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+                                <!--<label>Informant Relationship with Client</label>-->
+                                <!--<md-select ng-model="inform.relationship">-->
+                                    <!--<option></option>-->
+                                    <!--<md-option ng-value='relationship.id'-->
+                                               <!--ng-repeat="relationship in relationships">-->
+                                        <!--{{relationship.relationship}}-->
+                                    <!--</md-option>-->
+                                <!--</md-select>-->
+
+                            <!--</md-input-container>-->
+
+                            <!--<md-input-container class="md-block col-md-4 col-sm-4">-->
+
+                                                <!--<textarea ng-model="inform.description" id="desc" cols="3" rows="3"-->
+                                                          <!--md-maxlength="255" rows="5"  md-select-on-focus-->
+                                                          <!--placeholder="Enter your Descriptions here"></textarea>-->
+
+                            <!--</md-input-container>-->
+                            <!--<div class="form-group col-md-4 col-sm-4">-->
+                                <!--<md-button class="btn btn-success"-->
+                                           <!--ng-click="violence_client_informant_registration(inform,selectedPatientInf.patient_id)">-->
+                                    <!--save-->
+                                <!--</md-button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+            <!--</vertical-tab-pane>-->
+
+            <!--<vertical-tab-pane title="ATTACHMENT">-->
+                <!--<div class="wrapper wrapper-content animated fadeInRight">-->
+                    <!--<div ng-if="!selectedPatientInf.patient_id" class="">-->
+                        <!--Please Select Client from Search Box above using client's MRN or Mobile Number-->
+                        <!--in order To Proceed-->
+
+                    <!--</div>-->
+                    <!--<div ng-if="selectedPatientInf.patient_id">-->
+
+                        <!--<md-input-container class="md-block ">-->
+
+                            <!--<input type="file" id="file"   name="file"-->
+                                   <!--multiple-->
+                                   <!--ng-files="getTheFiles($files)" placeholder="Attachment"-->
+                                   <!--title="Upload any Document to Support this event"/>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container class="md-block ">-->
+
+                                            <!--<textarea ng-model="attach.description" id="descs" cols="3" rows="3"-->
+                                                      <!--md-maxlength="255" rows="5"  md-select-on-focus-->
+                                                      <!--placeholder="Enter your Descriptions here"></textarea>-->
+
+                        <!--</md-input-container>-->
+                        <!--<div class="form-group col-md-6 col-sm-4">-->
+                            <!--<md-button class="md-raised md-primary"-->
+                                       <!--ng-click="violence_registration(attach,selectedPatientInf.patient_id)">-->
+                                <!--Register-->
+                            <!--</md-button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                <!--</div>-->
+            <!--</vertical-tab-pane>-->
+
+    <vertical-tab-pane title="MARRIAGE ISSUES">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div ng-if="!selectedPatientInf.patient_id" class="">
+                        Please Select Client from Search Box above using client's MRN or Mobile Number
+                        in order To Proceed
+
+                    </div>
+                    <div ng-if="selectedPatientInf.patient_id">
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <textarea ng-model="marriage.complainer_description" id="complainer_description" cols="3" rows="3"
+                                                      md-maxlength="255" rows="5"  md-select-on-focus
+                                                      placeholder="Enter Complainer Descriptions here" required></textarea>
+
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <textarea ng-model="marriage.social_description" id="social_description" cols="3" rows="3"
+                                                      md-maxlength="255" rows="5"  md-select-on-focus
+                                                      placeholder="Enter your Descriptions here" required></textarea>
+
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+                            <label>Enter  Date of event occurred</label>
+                            <input type="text"  datetime-picker date-format="yyyy-MM-dd"
+                                   ng-model="marriage.event_date" required>
+
+                        </md-input-container>
+                        <div class="form-group col-md-6 col-sm-4">
+                            <md-button class="md-raised md-primary"
+                                       ng-click="marriage_issues_register(marriage,selectedPatientInf.patient_id)">
+                                Register
+                            </md-button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </vertical-tab-pane>
+
+
+
+        </vertical-tabs>
+
+
+
+
+
+    </md-tab>
+    <md-tab label="REFERRAL ISSUES">
+        <md-autocomplete flex required flex
+                         md-search-text="searchText"
+                         md-input-name="patients"
+                         md-no-cache="true"
+                         md-clear-button="true"
+                         md-items="selectedPatient in getAllPatient(searchText)"
+                         md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                         md-selected-item-change="DisplayInfors(selectedPatient)"
+                         md-floating-label="Search Patient "
+                         md-min-length="4" md-autofocus>
+            <md-item-template>
+                <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+            </md-item-template>
+        </md-autocomplete>
+
+
+        <vertical-tabs>
+            <vertical-tab-pane title="Incoming/Outgoing Referrals">
+                <md-input-container class="md-block col-md-6 col-sm-4">
+                    <label> Referral Type</label>
+
+                    <md-select   class="md-block"
+                           data-toggle="tooltip"
+                           ng-model="out_in.ref_type">
+                        <md-option value="INN">Incoming Referral</md-option>
+                        <md-option value="OUT">Outgoing Referral</md-option>
+</md-select>
+                </md-input-container>
+                <md-input-container class="md-block col-md-6 col-sm-4">
+                    <label ng-if="out_in.ref_type=='INN'">Name of Facility where Referral Is Coming From </label>
+                    <label ng-if="out_in.ref_type=='OUT'">Name of Facility where Referral Is Going  </label>
+
+                    <input type="text"
+                           data-toggle="tooltip"
+                           ng-model="out_in.facility_name">
+
+                </md-input-container>
+                <div class="  col-md-6 col-sm-4">
+
+                    <md-button class="md-raised md-primary"
+                               ng-click="social_referral_registry(out_in,selectedPatientInf.patient_id)">
+                        Save
+                    </md-button>
+                    </div>
+                </vertical-tab-pane>
+
+
+
+            <vertical-tab-pane title="Internal Transfer">
+                <div>
+
+
+                    <label><input type="radio" name="m" ng-model="refer"
+                                                    value="out">Out Going Referral</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label><input type="radio" name="m" ng-model="refer"
+                                                   value="in">Incoming Referral</label>
+
+
+                    <div class="" ng-if="refer=='in'">
+                        <strong ng-if="resdatas.length<1"> No Incoming referral records</strong>
+                        <div class="row">
+
+                            <div ng-repeat="pt in resdatas">
+                                <div class="chip col-md-3"
+                                     title="{{pt.first_name | uppercase}} {{pt.medical_record_number | uppercase}}">
+                                    <div class="row">
+
+                                        <a href="" ng-click="Anti_natal_in_referral(pt)">
+                                            <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                            <span class="mdl-chip__text">{{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}} </span>
+                                            <a class="mdl-chip__action"></a>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="wrapper wrapper-content animated fadeInRight" ng-if="refer=='out'">
+                        <div class="row ">
+
+                            <div ng-if="!selectedPatientInf.patient_id">
+                                Please Select Client from Search Box above using client's MRN or Mobile
+                                Number in order To Proceed
+
+                            </div>
+                            <div ng-if="selectedPatientInf.patient_id && refer=='out'">
+                                <div class="row col-md-12">
+                                    <md-input-container class="form-group col-md-6 col-sm-4">
+                                        <label> Referring to</label>
+
+
+                                        <md-select type="text" ng-model="ref.referral_id" ng-change="Consultation(ref.referral_id)">
+                                            <md-option value="">----option----</md-option>
+                                            <md-option  value="{{department.id}}"
+                                                       ng-repeat="department in departments">
+                                                {{department.department_name}}
+                                            </md-option>
+
+
+                                        </md-select>
+
+                                    </md-input-container>
+                                    <md-input-container class="form-group col-md-6 col-sm-4">
+                                        <label> Consultation</label>
+                                        <md-select type="text" ng-model="ref.consultation" >
+
+                                            <md-option   ng-value="{{item}}"
+                                                       ng-repeat="item in consultations">
+                                                {{item.item_name}}
+                                            </md-option>
+
+
+                                        </md-select>
+
+                                    </md-input-container>
+
+
+
+                                </div>
+
+
+                                <div class="row col-md-12">
+                                    <md-input-container class="md-block " ng-if="ref.referral_id">
+                         <textarea
+                                 ng-model="ref.reason"
+                                 cols="3" rows="3"
+                                 placeholder="Enter reasons for  referring    {{selectedPatientInf.client_name}}  "
+                                 rows="5"  md-maxlength="255">
+
+                         </textarea>
+
+                                    </md-input-container>
+
+                                    <md-button class="col-md-6 col-sm-4">
+                                        <md-button class="md-raised md-primary"
+                                                   ng-click="child_referral_registration(ref,selectedPatientInf.patient_id)">
+                                            Register
+                                        </md-button>
+
+                                    </md-button>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+</vertical-tab-pane>
+            </vertical-tabs>
+
+
+
+    </md-tab>
+    <md-tab label="OTHERS">
+        <md-content class="md-padding">
+
+          <!--  <md-input-container class="md-block">
+                <input type="text" typeahead-on-select=""
+                       ng-model="exempt.selectedPatient" placeholder="Type medical record number"
+                       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearch($viewValue) | limitTo:8 | filter:$viewValue"/>
+            </md-input-container>-->
+			<md-input-container class="md-block">
+			<md-autocomplete flex required flex
+                                 md-search-text="searchText"
+                                 md-input-name="patients"
+                                 md-no-cache="true"
+                                 md-clear-button="true"
+                                 md-items="selectedPatient in getAllPatient(searchText)"
+                                 md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                                 md-selected-item-change="DisplayInfors(selectedPatient)"
+                                 md-floating-label="Search Patient "
+                                 md-min-length="4" md-autofocus>
+                      
+					<md-item-template>
+                        <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+                    </md-item-template>
+                </md-autocomplete>
+					</md-input-container>
+
+        </md-content>
+        <vertical-tabs>
+            <vertical-tab-pane title="COMPLAINS REGISTER">
+                <div class="">
+                    <div class="row">
+                        <md-input-container class="col-md-12 form-box">
+
+
+                            <md-input-container class="col-md-12">
+
+                                <md-input-container class=" md-block col-md-6 col-sm-4">
+                                    <label>Area of Complain</label>
+
+                                    <md-select type="text" ng-model="complain.complain_area_id"
+                                    <md-option value="">----option----</md-option>
+                                    <md-option value="{{department.id}}"
+                                               ng-repeat="department in departments">
+                                        {{department.department_name}}
+                                    </md-option>
+                                    </md-select>
+                                </md-input-container>
+
+
+                                <md-input-container class="col-md-6 col-sm-4">
+                                    <label> Complain </label>
+
+                                                                <textarea type="text" class="md-block" rows="2"
+                                                                          cols="2"
+                                                                          ng-model="complain.complain"></textarea>
+                                </md-input-container>
+
+                                <md-input-container class="col-md-6 col-sm-4">
+                                    <label> Immediate Measure Taken</label>
+
+                                    <input type="text" class="md-block"
+                                           data-toggle="tooltip"
+                                           ng-model="complain.immediate_measure">
+
+                                </md-input-container>
+                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                    <label> Solution</label>
+
+                                    <input type="text" class="md-block"
+                                           data-toggle="tooltip"
+                                           ng-model="complain.solution">
+
+                                </md-input-container>
+                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                    <label> Feedback </label>
+
+                                    <input type="text"
+                                           data-toggle="tooltip"
+                                           ng-model="complain.remarks">
+
+                                </md-input-container>
+                                <div class="  col-md-6 col-sm-4">
+
+                                    <md-button class="md-raised md-primary"
+                                               ng-click="client_complains_register(complain,selectedPatientInf.patient_id)">
+                                        Save
+                                    </md-button>
+                                </div>
+                            </md-input-container>
+                        </md-input-container>
+                    </div>
+                </div>
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="WARDS ROUND REGISTER">
+                <div class="col-md-12">
+
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <label>Issue</label>
+
+                        <md-select type="text" ng-model="round.issue_id"
+                                   class="md-block">
+                            <md-option value="">----option----</md-option>
+                            <md-option value="{{issues_list.id}}"
+                                       ng-repeat="issues_list in issues_lists">
+                                {{issues_list.issue_name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <label> Enter Your Plan </label>
+
+                                                                <textarea type="text" class="md-block" rows="2"
+                                                                          cols="2"
+                                                                          ng-model="round.plan"></textarea>
+                    </md-input-container>
+
+
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <label> Output</label>
+
+                        <input type="text" class="md-block"
+                               data-toggle="tooltip"
+                               ng-model="round.output">
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <label> Remarks </label>
+
+                        <input type="text" class="md-block"
+                               data-toggle="tooltip"
+                               ng-model="round.remarks">
+
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+
+                        <md-button class="md-raised md-primary"
+                                   ng-click="ward_round_register(round,selectedPatientInf.patient_id)">
+                            SAVE
+                        </md-button>
+                    </md-input-container>
+
+                </div>
+                </div>
+            </vertical-tab-pane>
+        </vertical-tabs>
+
+
+    </md-tab>
+
+    <md-tab label="REPORTS">
+
+        <vertical-tabs>
+            <vertical-tab-pane title="EXEMPTION LIST">
+                <md-input-container class="md-block">
+                    <input type="text" class="no-print md-block  " ng-model="search" placeholder="Search or Filtering ">
+                </md-input-container>
+                <div class="pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-button   ng-click="exemption_list(data)" class="md-raised md-primary ">Search</md-button>
+                </div>
+
+                <b>EXEMPTION LISTS Total:{{exemptions.length}}</b>
+                From:{{data.start_date  }} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+                <p></p>
+<div class="table table-responsive">
+    <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+        {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+        <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+        <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+        <hr></center>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="exemptions.length>0">
+                    <thead style="background-color:beige">
+                    <th class="mdl-data-table__cell--non-numeric"> No#</th>
+                    <th class="mdl-data-table__cell--non-numeric">MRN</th>
+                    <th class="mdl-data-table__cell--non-numeric"> PATIENT NAME</th>
+                    <th class="mdl-data-table__cell--non-numeric">  GENDER</th>
+                    <th class="mdl-data-table__cell--non-numeric">   DOB</th>
+                    <th class="mdl-data-table__cell--non-numeric">    EXEMPTION TYPE</th>
+                    <th class="mdl-data-table__cell--non-numeric">  EXEMPTED BY</th>
+                    <th class="mdl-data-table__cell--non-numeric"> REASON</th>
+                    <th class="mdl-data-table__cell--non-numeric">  Attachment</th>
+                    <th class="mdl-data-table__cell--non-numeric">DATE OF ISSUE</th>
+                    <th class="mdl-data-table__cell--non-numeric"> Edit</th>
+                    </thead>
+
+                    <tbody>
+
+
+                    <tr dir-paginate="exemption in exemptions |itemsPerPage:50 | filter:search track by $index">
+                        <td>{{ $index+1 }}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.medical_record_number }}</b>
+                            <b ng-if="e">{{ exemption.medical_record_number }}</b>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.first_name +'
+                                '+exemption.middle_name+' '+exemption.last_name}}</b>
+                            <b ng-if="e">{{ exemption.first_name +'
+                                '+exemption.middle_name+' '+exemption.last_name}}</b>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.gender }}</b>
+                            <b ng-if="e">{{ exemption.gender }}</b>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.dob }}</b>
+                            <b ng-if="e">{{ exemption.dob }}</b>
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.sub_category_name }}</b>
+
+                            <input ng-if="e" type="text" ng-model="change_category"
+                                   typeahead-on-select="patient_exemption_status_update(change_category,exemption)"
+                                   uib-typeahead=" category as category.sub_category_name   for  category in cat_categories | filter:$viewValue"
+                                   typeahead-template-url="customTemplate.html"
+                                   class="md-block" typeahead-show-hint="true"
+                                   typeahead-min-length="0">
+
+
+                        </td>
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.name }}</b>
+                            <b ng-if="e">{{ exemption.name }}</b>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.exemption_reason }}</b>
+                            <b ng-if="e">{{ exemption.exemption_reason }}</b>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+
+
+                            <a   ng-click="Attachment(exemption)"
+                                 class="fa fa-file fa-3x" data-toggle="modal"
+                                 data-target="#exampleModal2" data-whatever="@mdo"
+                                 data-toggle="tooltip" title=" Documents">Attachment</a>
+
+                            <!--<md-button ng-if="exemption.file_path.length >0" type="button" ng-if="!e" class="btn btn-primary " ng-click="pdf(exemption.file_path)"  data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo" data-toggle="tooltip" title=" Documents">{{ exemption.file_path }}</md-button>-->
+
+
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <b ng-if="!e">{{ exemption.created_at }}</b>
+                            <b ng-if="e">{{ exemption.created_at }}</b>
+                        </td>
+
+
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <input type="checkbox" class="  no-print" ng-model="e">Edit
+                        </td>
+
+                        <!--<td>{{ region.tastiness }}</td>-->
+                    </tr>
+                    </tbody>
+
+                </table>
+    </div>
+                <dir-pagination-controls
+                        max-size="5"
+                        direction-links="true"
+                        boundary-links="true" >
+                </dir-pagination-controls>
+
+                </fieldset>
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="EXEMPTION SUMMARY">
+                <fieldset>
+
+                    <div class="">
+                        <div class="pull-right no-print">
+                            <md-input-container >
+                                <label>Choose Start Date</label>
+                                <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-input-container >
+                                <label>Choose End Date</label>
+                                <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-button ng-click="exemption_filter(data)"
+                                       class="md-raised md-primary ">Search
+                            </md-button>
+                        </div>
+                        <div id='divtoprint8'>
+                            <a ng-click="Exemption_summary()" title="Print" ng-if="exemption_by_genders"
+                               class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                            <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                                <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                                <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                                <hr></center>
+                            <table  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"  ng-if="exemption_by_genders.length>0">
+                                <h4 ng-if="exemption_by_genders.length>0">EXEMPTION SUMMARY</h4>From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+
+                                <thead style="background-color:beige">
+
+                                <th  class="mdl-data-table__cell--non-numeric">Gender</th>
+                                <th  class="mdl-data-table__cell--non-numeric">Exemption Type</th>
+                                <th  class="mdl-data-table__cell--non-numeric">Total</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="exemptions in exemption_by_genders | filter:search">
+                                    <td  class="mdl-data-table__cell--non-numeric">{{exemptions.gender}}</td>
+                                    <td  class="mdl-data-table__cell--non-numeric">{{exemptions.exemption_name}}</td>
+                                    <td  class="mdl-data-table__cell--non-numeric">{{exemptions.total}}</td>
+                                </tr>
+                                </tbody>
+                                <tbody style="background-color:beige">
+
+                                <th class="mdl-data-table__cell--non-numeric" colspan="2">Total</th>
+
+                                <th class="mdl-data-table__cell--non-numeric"><u>{{totalex}}</u></th>
+
+                                </tbody>
+
+                            </table>
+
+                            <!--<canvas id="bar" class="chart chart-bar"-->
+                            <!--chart-data="data" chart-labels="labels" chart-series="series">-->
+                            <!--</canvas>-->
+                        </div>
+
+
+                    </div>
+                </fieldset>
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="EMPLOYEE SUMMARY">
+                <fieldset>
+
+                    <div class="">
+                        <div class="pull-right no-print">
+                            <md-input-container >
+                                <label>Choose Start Date</label>
+                                <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-input-container >
+                                <label>Choose End Date</label>
+                                <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-button   ng-click="exemption_filter_by_employee(data)" class="md-raised md-primary ">Search</md-button>
+                        </div>
+                        <div id='divtoprint9'>
+                            <a ng-click="Exemption_employee();" title="Print"  ng-if="exemption_by_employees"  class="no-print "><b class="glyphicon glyphicon-print "></b>  </a>
+                            <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                                <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                                <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                                <hr></center>
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="exemption_by_employees.length>0" >
+                                <h4  ng-if="exemption_by_employees.length>0" >EMPLOYEE EXEMPTION SUMMARY</h4>From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                <th class="mdl-data-table__cell--non-numeric">Employee</th>
+                                <th class="mdl-data-table__cell--non-numeric">Count</th>
+
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="employee in exemption_by_employees | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{employee.name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{employee.count}}</td>
+
+                                </tr>
+                                <tr style="background-color:beige">
+
+                                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Total</th>
+
+                                    <th class="mdl-data-table__cell--non-numeric"> <u>{{total_employee}}</u></th>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!--<canvas id="bar" class="chart chart-bar"-->
+                            <!--chart-data="data" chart-labels="labels" chart-series="series">-->
+                            <!--</canvas>-->
+                        </div>
+
+
+                    </div>
+                </fieldset>
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="FINANCE SUMMARY">
+                <fieldset>
+
+                    <div class="">
+                        <div class="pull-right no-print">
+                            <md-input-container    >
+                                <label class="no-print ">Choose Start Date</label>
+                                <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>
+                            </md-input-container>
+                            <md-input-container  >
+                                <label class="no-print ">Choose End Date</label>
+                                <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>
+                            </md-input-container>
+                            <md-button ng-click="exemption_finance_depts(data)"
+                                       class="md-raised md-primary no-print">Search
+                            </md-button>
+                        </div>
+                        <div id='divtoprint90'>
+                            <a ng-click="exempted_department()" title="Print" ng-if="exempted_departments"
+                               class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                            <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                                <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                                <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                                <hr></center>
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="exempted_departments.length>0">
+                                <h4 ng-if="exempted_departments.length>0">EXEMPTION FINANCE</h4>From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                <th class="mdl-data-table__cell--non-numeric">Department</th>
+                                <th class="mdl-data-table__cell--non-numeric">Exemptions</th>
+                                <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Number exemptions</th>-->
+                                <th class="mdl-data-table__cell--non-numeric">Amount Exempted</th>
+
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="exempted_department in exempted_departments | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index +1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{exempted_department.department_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{exempted_department.idadi}}</td>
+                                    <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{finance.freq}}</td>-->
+                                    <td class="mdl-data-table__cell--non-numeric">{{exempted_department.total | currency:" " }}</td>
+
+                                </tr>
+                                <tr style="background-color:beige">
+
+                                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Total</th>
+                                    <th class="mdl-data-table__cell--non-numeric"><u> </u></th>
+                                    <th class="mdl-data-table__cell--non-numeric"><u>{{totalexempted | currency:" " }}</u></th>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!--<canvas id="bar" class="chart chart-bar"-->
+                            <!--chart-data="data" chart-labels="labels" chart-series="series">-->
+                            <!--</canvas>-->
+                        </div>
+
+
+                    </div>
+                </fieldset>
+            </vertical-tab-pane>
+  <!--<vertical-tab-pane title="FINANCE">-->
+                <!--<fieldset>-->
+
+                    <!--<div class="">-->
+                        <!--<div class="pull-right no-print">-->
+                            <!--<md-input-container    >-->
+                                <!--<label class="no-print ">Choose Start Date</label>-->
+                                <!--<input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>-->
+                            <!--</md-input-container>-->
+                            <!--<md-input-container  >-->
+                                <!--<label class="no-print ">Choose End Date</label>-->
+                                <!--<input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>-->
+                            <!--</md-input-container>-->
+                            <!--<md-button ng-click="exemption_finance(data)"-->
+                                       <!--class="md-raised md-primary no-print">Search-->
+                            <!--</md-button>-->
+                        <!--</div>-->
+                        <!--<div id='divtoprint7'>-->
+                            <!--<a ng-click="Exemption_finance()" title="Print" ng-if="finances"-->
+                               <!--class="no-print "><b class="glyphicon glyphicon-print "></b> </a>-->
+                            <!--<center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;-->
+                                <!--{{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>-->
+                                <!--<b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>-->
+                                <!--<b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>-->
+
+                                <!--<hr></center>-->
+                            <!--<table class="mdl-data-table mdl-js-data-table mdl-data-table&#45;&#45;selectable mdl-shadow&#45;&#45;2dp" width="100%" ng-if="finances.length>0">-->
+                                <!--<h4 ng-if="finances.length>0">EXEMPTION FINANCE</h4>From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}-->
+
+                                <!--<thead style="background-color:beige">-->
+                                <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">#</th>-->
+                                <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Department</th>-->
+                                <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Type</th>-->
+                                <!--&lt;!&ndash;<th class="mdl-data-table__cell&#45;&#45;non-numeric">Number exemptions</th>&ndash;&gt;-->
+                                <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Total amount Exempted</th>-->
+
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                <!--<tr ng-repeat="finance in finances | filter:search track by $index">-->
+                                    <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{$index +1}}</td>-->
+                                    <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{finance.department_name}}</td>-->
+                                    <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{finance.sub_category_name}}</td>-->
+                                    <!--&lt;!&ndash;<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{finance.freq}}</td>&ndash;&gt;-->
+                                    <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">{{finance.total | currency:" " }}</td>-->
+
+                                <!--</tr>-->
+                                <!--<tr style="background-color:beige">-->
+
+                                    <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric" colspan="2">Total</th>-->
+                                    <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric"><u> </u></th>-->
+                                    <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric"><u>{{totalexfinance | currency:" " }}</u></th>-->
+
+
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+
+                            <!--&lt;!&ndash;<canvas id="bar" class="chart chart-bar"&ndash;&gt;-->
+                            <!--&lt;!&ndash;chart-data="data" chart-labels="labels" chart-series="series">&ndash;&gt;-->
+                            <!--&lt;!&ndash;</canvas>&ndash;&gt;-->
+                        <!--</div>-->
+
+
+                    <!--</div>-->
+                <!--</fieldset>-->
+            <!--</vertical-tab-pane>-->
+  <vertical-tab-pane title="SUB DEPARTMENT FINANCE">
+                <fieldset>
+
+                    <div class="">
+                        <div class="pull-right no-print">
+                            <md-input-container    >
+                                <label class="no-print ">Choose Start Date</label>
+                                <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>
+                            </md-input-container>
+                            <md-input-container  >
+                                <label class="no-print ">Choose End Date</label>
+                                <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>
+                            </md-input-container>
+                            <md-button ng-click="exemption_sub_dept_finance(data)"
+                                       class="md-raised md-primary no-print">Search
+                            </md-button>
+                        </div>
+                        <div id='divtoprint009'>
+
+                            <a ng-click="Exemption_sub_finance()" title="Print" ng-if="subdepartments"
+                               class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                            <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                                <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                                <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                                <hr></center>
+<center ng-if="subdepartments">EXEMPTION SUB DEPARTMENT FINANCE</center>
+                            <table class="table table-bordered"
+                                   width="100%" ng-if="subdepartments.length>0">
+                                <thead>
+                                <th class="mdl-data-table__cell--non-numeric">Sub department</th>
+                                <th class="mdl-data-table__cell--non-numeric">Exemption Type</th>
+                                <th class="mdl-data-table__cell--non-numeric">Transactions</th>
+
+                                <th class="mdl-data-table__cell--non-numeric">Sub Total</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="dpt in subdepartments">
+                                    <td class="mdl-data-table__cell--non-numeric">{{dpt.sub_department_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dpt.sub_category_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{dpt.transactions}}</td>
+
+                                    <td class="mdl-data-table__cell--non-numeric">{{dpt.total | currency: 'Tshs. ' :2}}</td>
+                                </tr>
+                                <tr style="background-color: bisque">
+                                    <td class="mdl-data-table__cell--non-numeric " colspan="3"> </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric">{{subDepGrandTotal | currency: 'Tshs. ' :2}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                    </div>
+                </fieldset>
+            </vertical-tab-pane>
+
+ <vertical-tab-pane title="DETAILED FINANCE ">
+                <fieldset>
+
+                    <div class="">
+                        <div class="pull-right no-print">
+                            <md-input-container    >
+                                <label class="no-print ">Choose Start Date</label>
+                                <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>
+                            </md-input-container>
+                            <md-input-container  >
+                                <label class="no-print ">Choose End Date</label>
+                                <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"  class="no-print "/>
+                            </md-input-container>
+                            <md-button ng-click="exemption_finance_detailed(data)"
+                                       class="md-raised md-primary no-print">Search
+                            </md-button>
+                            <div ng-if="exemption_finance_detail && exemption_finance_detail.length<1">
+                                No Data Found.....
+                            </div>
+                        </div>
+                        <div id='divtoprint_detail' ng-if="exemption_finance_detail.length>0">
+                            <a ng-click="Exemption_finance_detail()" title="Print" class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+<div class="table-responsive " style="width: 100%">
+ <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+        {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+    <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+    <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+    <hr></center>
+                            <table datatable="" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1" ng-if="finances.length>0">
+                                <h4 ng-if="finances.length>0">EXEMPTION DETAILED FINANCE</h4>From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}} &nbsp;&nbsp;&nbsp;Total:&nbsp;&nbsp;&nbsp;{{totalexfinance | currency:" " }}
+                                <input type="text" ng-model="search" class="form-control no-print" >
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">#</th>
+                                <th class="mdl-data-table__cell--non-numeric">NAME</th>
+                                <th class="mdl-data-table__cell--non-numeric">CATEGORY</th>
+                                <th class="mdl-data-table__cell--non-numeric">VALIDATION</th>
+                                <th class="mdl-data-table__cell--non-numeric">SERVICE</th>
+                                <th class="mdl-data-table__cell--non-numeric">DEPT</th>
+                                <th class="mdl-data-table__cell--non-numeric">PRICE</th>
+                                <th class="mdl-data-table__cell--non-numeric">CONTACT</th>
+                                <th class="mdl-data-table__cell--non-numeric">DATE</th>
+
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="finance in exemption_finance_detail | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index +1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.first_name}} &nbsp;{{finance.middle_name}}&nbsp;{{finance.last_name}}&nbsp;{{finance.medical_record_number}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.sub_category_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.exemption_reason}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.department_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.price*finance.quantity | currency:" "}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.mobile_number}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{finance.created_at}}</td>
+
+
+                                </tr>
+                                <tr style="background-color:beige">
+                                    <th class="mdl-data-table__cell--non-numeric" colspan="6">Total</th>
+
+                                    <th class="mdl-data-table__cell--non-numeric"><u>{{totalexfinance | currency:" " }}</u></th>
+
+
+                                </tr>
+                                </tbody>
+                            </table>
+</div>
+                            <!--<canvas id="bar" class="chart chart-bar"-->
+                            <!--chart-data="data" chart-labels="labels" chart-series="series">-->
+                            <!--</canvas>-->
+                        </div>
+
+
+                    </div>
+                </fieldset>
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="COMPLAINS">
+                <div class="pull-right no-print">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-button ng-click="complain_report(data)" class="md-raised md-primary ">Search
+                    </md-button>
+                </div>
+                <h4>COMPLAINS REPORT</h4>From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+                </div>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="complains.length>0">
+
+                    <thead style="background-color:beige">
+                    <td class="mdl-data-table__cell--non-numeric">#</td>
+                    <td class="mdl-data-table__cell--non-numeric">Department</td>
+                    <td class="mdl-data-table__cell--non-numeric"colspan="2">Number of Complains</td>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="complain in complains | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{complain.department_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{complain.count}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"><a ng-click="complain_view(complain.complain_area_id)"
+                                                                         class="fa fa-eye fa-6x" data-toggle="modal"
+                                                                         data-target="#exampleModal3" data-whatever="@mdo"
+                                                                         data-toggle="tooltip" title="View Complains">View</a>
+                        </td>
+
+                    <tr>
+
+                    <tr style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric" colspan="2">Total</th>
+                        <th class="mdl-data-table__cell--non-numeric" colspan="2">{{total}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </vertical-tab-pane>
+ <vertical-tab-pane title="MARRIAGE CONFLICTS">
+                <div class="pull-right no-print">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-button ng-click="marriage_issues_list(data)" class="md-raised md-primary ">Search
+                    </md-button>
+                </div>
+                From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+                </div>
+    <!-- <hr>
+     Summary:&nbsp;&nbsp; Incomplete &nbsp;&nbsp;  {{stauses[0].Incomplete}}   &nbsp;&nbsp;   Complete: &nbsp;&nbsp;  {{stauses[0].Complete}}     &nbsp;&nbsp;  In Court&nbsp;&nbsp;{{stauses[0].Incourt}}
+     <hr>-->
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="marriages.length>0">
+
+                    <thead style="background-color:beige">
+                    <td class="mdl-data-table__cell--non-numeric">#</td>
+                    <td class="mdl-data-table__cell--non-numeric">Client Name</td>
+                    <td class="mdl-data-table__cell--non-numeric" >Status</td>
+                    <td class="mdl-data-table__cell--non-numeric" >Date of Issue Occured</td>
+                    <td class="mdl-data-table__cell--non-numeric" >Date of Issue Presented</td>
+                    <td class="mdl-data-table__cell--non-numeric" >Action</td>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="marriage in marriages | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{marriage.first_name}}&nbsp;&nbsp;{{marriage.middle_name}}&nbsp;&nbsp;{{marriage.last_name}}&nbsp;&nbsp;({{marriage.medical_record_number}})</td>
+                        <td class="mdl-data-table__cell--non-numeric"> <b ng-if="marriage.status==1">Completed</b><b ng-if="marriage.status==0">InComplete</b><b ng-if="marriage.status==2">In Court</b></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{marriage.event_date}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{marriage.created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"><a ng-click="marriage_conflict_view(marriage)"
+                                                                         class="fa fa-eye fa-6x" data-toggle="modal"
+                                                                         data-target="#exampleModal3" data-whatever="@mdo"
+                                                                         data-toggle="tooltip" title="View Conflict Details">View</a>
+                        </td>
+
+                    <tr>
+
+                    <tr style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric" colspan="2">Total</th>
+                        <th class="mdl-data-table__cell--non-numeric" colspan="2">{{total}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="WARD ROUND">
+
+                <div class="pull-right no-print">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-button ng-click="ward_round(data)"
+                               class="md-raised md-primary ">Search
+                    </md-button>
+                </div>
+                <h4>WARD ROUND REPORT &nbsp;&nbsp;&nbsp Total:{{rounds.length}}</h4>
+                &nbsp;&nbsp;&nbspFrom:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}
+
+
+
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="rounds.length>0">
+
+                    <thead style="background-color:beige">
+                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                    <th class="mdl-data-table__cell--non-numeric">Issue Discoverd</th>
+                    <th class="mdl-data-table__cell--non-numeric">Plan</th>
+                    <th class="mdl-data-table__cell--non-numeric">Output</th>
+                    <th class="mdl-data-table__cell--non-numeric">Remarks</th>
+                    <th class="mdl-data-table__cell--non-numeric">Date</th>
+                    <th class="mdl-data-table__cell--non-numeric" ng-if="ed"></th>
+                    <th class="mdl-data-table__cell--non-numeric" ng-if="ed"></th>
+
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="round in rounds |itemsPerPage:10  | filter:search track by $index">
+                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{round.issue_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{round.plan}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="!ed">{{round.output}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="!ed">{{round.remarks}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="!ed">{{round.created_at}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="ed"><input type="text" ng-model="round.output"></td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="ed"><input type="text" ng-model="round.remarks"></td>
+                        <td class="mdl-data-table__cell--non-numeric" ng-if="ed"><a ng-click="Update_ward_round_content(round)"
+                                                                                    class="fa fa-save" title="Save Changes">SAVE</a>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric"><input type="checkbox" ng-model="ed"
+                                                                             class="fa fa-pencil no-print" title="Edit"></td>
+
+                    <tr>
+                    </tbody>
+
+                </table>
+                <dir-pagination-controls
+                        max-size="5"
+                        direction-links="true"
+                        boundary-links="true" >
+                </dir-pagination-controls>
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="MTUHA">
+                <fieldset>
+
+                    <div class="">
+
+                        <div class="pull-right no-print">
+                            <md-input-container >
+                                <label>Choose Start Date</label>
+                                <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-input-container >
+                                <label>Choose End Date</label>
+                                <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                            </md-input-container>
+                            <md-button ng-click="violances(data)"
+                                       class="md-raised md-primary ">Search
+                            </md-button>
+                        </div>
+                        <div id='divtoprint_mtuha' ng-if="attendance">
+
+                            <table border="1" class="table table-bordered" >
+                                <a ng-click="PrintContent_mtuha()" title="Print" class="no-print  "><b
+                                        class="glyphicon glyphicon-print "></b> </a>
+
+                              <center>  <div class="text-center">
+
+                                    <div class="text-center"><h6>'SIRI'</h6></div>
+                                    <div class="text-center">
+                                        <h8>JAMHURI YA MUUNGANO WA TANZANIA</h8>
+                                    </div>
+                                    <div class="text-center"><h6> WIZARA YA AFYA MAENDELEO YA JAMII
+                                        JINSIA, WAZEE NA WATOTO</h6></div>
+
+                                    <div class="text-center"><img alt="image" class="img-circle"
+                                                                  src="/img/arm.png" width="60px"
+                                                                  height="60px"/></div>
+
+                                    <div class="text-center"><h6> MFUMO WA TAARIFA ZA UENDESHAJI WA
+                                        HUDUMA ZA AFYA</h6></div>
+                                    <div class="text-center"><i> MTUHA TOLEO LA TATU: MWAKA 2014</i>
+                                    </div>
+                                    <div class="text-center"><h6>TAARIFA YA MWEZI YA UKATILI WA KIJINSIA
+                                        NA UKATILI DHINI YA WATOTO</h6></div>
+                                    <hr>
+                                    <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                                        {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                                    <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                                    <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                                    <hr>
+                                </div>
+                                From:{{data.start_date}} &nbsp;&nbsp;&nbsp;To:{{data.end_date}}</center>
+
+                                <tr style="background-color:#c1c1c1">
+                                    <th rowspan="2">na:</th>
+                                    <th>Aina Ya Huduma</th>
+                                    <th class="text-center" colspan="6">Makundi Ya Wateja Kwa Umri</th>
+
+                                    <th>Jumla</th>
+
+                                </tr>
+                                <tr style="background-color:#c1c1c1">
+                                    <th></th>
+                                    <th>Miezi 0-59</th>
+                                    <th>Miaka 5-9</th>
+                                    <th>Miaka 10-14</th>
+                                    <th>Miaka 15-17</th>
+                                    <th>Miaka 18-24</th>
+                                    <th>Miaka 25 na zaidi</th>
+                                    <th> </th>
+
+                                </tr>
+                                <tr>
+                                    <th>1a</th>
+                                    <th>Idadi ya wateja wote KE</th>
+                                 
+                                    <th>{{attendance[0][0].female_0_59_month}}</th>
+                                    <th>{{attendance[0][0].female_5_9_year}}</th>
+                                    <th>{{attendance[0][0].female_10_14_year}}</th>
+                                    <th>{{attendance[0][0].female_15_17_year}}</th>
+                                    <th>{{attendance[0][0].female_18_24_year}}</th>
+                                    <th>{{attendance[0][0].female_above_24_year}}</th>
+                                    <th>{{attendance[0][0].female_total_attendance}}</th>
+
+                                </tr>
+                                <tr>
+                                    <th>1b</th>
+                                    <th>Idadi ya wateja wote ME</th>
+                                    <th>{{attendance[0][0].male_0_59_month}}</th>
+                                    <th>{{attendance[0][0].male_5_9_year}}</th>
+                                    <th>{{attendance[0][0].male_10_14_year}}</th>
+                                    <th>{{attendance[0][0].male_15_17_year}}</th>
+                                    <th>{{attendance[0][0].male_18_24_year}}</th>
+                                    <th>{{attendance[0][0].male_above_24_year}}</th>
+                                    <th>{{attendance[0][0].male_total_attendance}}</th>
+
+                                </tr>
+                                <tr>
+                                    <th>2a</th>
+                                    <th>Idadi ya wateja Wapya KE</th>
+                                    <th>{{attendance[1][0].female_0_59_month}}</th>
+                                    <th>{{attendance[1][0].female_5_9_year}}</th>
+                                    <th>{{attendance[1][0].female_10_14_year}}</th>
+                                    <th>{{attendance[1][0].female_15_17_year}}</th>
+                                    <th>{{attendance[1][0].female_18_24_year}}</th>
+                                    <th>{{attendance[1][0].female_above_24_year}}</th>
+                                    <th>{{attendance[1][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>2b</th>
+                                    <th>Idadi ya wateja Wapya ME</th>
+                                    <th>{{attendance[1][0].male_0_59_month}}</th>
+                                    <th>{{attendance[1][0].male_5_9_year}}</th>
+                                    <th>{{attendance[1][0].male_10_14_year}}</th>
+                                    <th>{{attendance[1][0].male_15_17_year}}</th>
+                                    <th>{{attendance[1][0].male_18_24_year}}</th>
+                                    <th>{{attendance[1][0].male_above_24_year}}</th>
+                                    <th>{{attendance[1][0].male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>2c</th>
+                                    <th>Wateja waliokuja kwa Ufuatiliaji(Folloup Visit) KE</th>
+                                   <th>{{attendance[2][0].female_0_59_month}}</th>
+                                    <th>{{attendance[2][0].female_5_9_year}}</th>
+                                    <th>{{attendance[2][0].female_10_14_year}}</th>
+                                    <th>{{attendance[2][0].female_15_17_year}}</th>
+                                    <th>{{attendance[2][0].female_18_24_year}}</th>
+                                    <th>{{attendance[2][0].female_above_24_year}}</th>
+                                    <th>{{attendance[2][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>3a</th>
+                                    <th>Idadi ya watoto waliopo katika mazingira Hatarishi KE</th>
+                                     <th>{{attendance[3][0].female_0_59_month}}</th>
+                                    <th>{{attendance[3][0].female_5_9_year}}</th>
+                                    <th>{{attendance[3][0].female_10_14_year}}</th>
+                                    <th>{{attendance[3][0].female_15_17_year}}</th>
+                                    <th>{{attendance[3][0].female_18_24_year}}</th>
+                                    <th>{{attendance[3][0].female_above_24_year}}</th>
+                                    <th>{{attendance[3][0].female_total_attendance}}</th>
+
+                                </tr>
+                                <tr>
+                                    <th>3b</th>
+                                    <th>Wateja waliokuja kwa Ufuatiliaji(Folloup Visit) ME</th>
+                                    <th>{{attendance[2][0].male_0_59_month}}</th>
+                                    <th>{{attendance[2][0].male_5_9_year}}</th>
+                                    <th>{{attendance[2][0].male_10_14_year}}</th>
+                                    <th>{{attendance[2][0].male_15_17_year}}</th>
+                                    <th>{{attendance[2][0].male_18_24_year}}</th>
+                                    <th>{{attendance[2][0].male_above_24_year}}</th>
+                                    <th>{{attendance[2][0].male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>4a</th>
+                                    <th>Wateja walioulizwa maswali ya utambuzi(Screening) KE</th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                   <th>{{attendance[4][0].female_10_14_year}}</th>
+                                    <th>{{attendance[4][0].female_15_17_year}}</th>
+                                    <th>{{attendance[4][0].female_18_24_year}}</th>
+                                    <th>{{attendance[4][0].female_above_24_year}}</th>
+                                    <th>{{attendance[4][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>4b</th>
+                                    <th>Wateja walioulizwa maswali ya utambuzi (Screening) ME</th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                    <th>{{attendance[4][0].male_10_14_year}}</th>
+                                    <th>{{attendance[4][0].male_15_17_year}}</th>
+                                    <th>{{attendance[4][0].male_18_24_year}}</th>
+                                    <th>{{attendance[4][0].male_above_24_year}}</th>
+                                    <th>{{attendance[4][0].male_total_attendance}}</th>
+
+                                </tr>
+                                <tr>
+                                    <th>4c</th>
+                                    <th>Wazazi/Walezi walioulizwa maswali ya utambuzi kwaniaba ya watoto
+                                        (Screening) KE
+                                    </th>
+                                   <th>{{attendance[5][0].female_0_59_month}}</th>
+                                    <th>{{attendance[5][0].female_5_9_year}}</th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                   <th>{{attendance[5][0].female_18_24_year}}</th>
+                                    <th>{{attendance[5][0].female_above_24_year}}</th>
+                                    <th>{{attendance[5][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>4d</th>
+                                    <th>Wazazi/Walezi walioulizwa maswali ya utambuzi kwaniaba ya watoto
+                                        (Screening) ME
+                                    </th>
+                                   <th>{{attendance[5][0].male_0_59_month}}</th>
+                                    <th>{{attendance[5][0].male_5_9_year}}</th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                    <th style="background-color:#c1c1c1"></th>
+                                    <th>{{attendance[5][0].male_18_24_year}}</th>
+                                    <th>{{attendance[5][0].male_above_24_year}}</th>
+                                    <th>{{attendance[5][0].male_total_attendance}}</th>
+ 
+                                </tr>
+                                <tr>
+                                    <th>5a</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kimwili(Physical Violence)
+                                        KE
+                                    </th>
+                                    <th>{{attendance[6][0].female_0_59_month}}</th>
+                                    <th>{{attendance[6][0].female_5_9_year}}</th>
+                                    <th>{{attendance[6][0].female_10_14_year}}</th>
+                                    <th>{{attendance[6][0].female_15_17_year}}</th>
+                                    <th>{{attendance[6][0].female_18_24_year}}</th>
+                                    <th>{{attendance[6][0].female_above_24_year}}</th>
+                                    <th>{{attendance[6][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                </tr>
+                                <tr>
+                                    <th>5b</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kimwili(Physical Violence)
+                                        ME
+                                    </th>
+                                     <th>{{attendance[6][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[6][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[6][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[6][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[6][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[6][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[6][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                </tr>
+                                <tr>
+                                    <th>6a</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kingono wa kubakwa/kulawitiwa
+                                        KE
+                                    </th>
+                                     <th>{{attendance[7][0].female_0_59_month}}</th>
+                                    <th>{{attendance[7][0].female_5_9_year}}</th>
+                                    <th>{{attendance[7][0].female_10_14_year}}</th>
+                                    <th>{{attendance[7][0].female_15_17_year}}</th>
+                                    <th>{{attendance[7][0].female_18_24_year}}</th>
+                                    <th>{{attendance[7][0].female_above_24_year}}</th>
+                                    <th>{{attendance[7][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>6b</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kingono wa kulawitiwa ME</th>
+                                     <th>{{attendance[7][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[7][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[7][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[7][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[7][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[7][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[7][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>6b</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kingono(Sexual Violence) wa
+                                        kubakwa ambao wamepimwa ujauzito ndani ya masaa 72 baada ya
+                                        tukio na kukutwa hawana ujauzito KE
+                                    </th>
+                                     <th>{{attendance[20][0].female_0_59_month}}</th>
+                                    <th>{{attendance[20][0].female_5_9_year}}</th>
+                                    <th>{{attendance[20][0].female_10_14_year}}</th>
+                                    <th>{{attendance[20][0].female_15_17_year}}</th>
+                                    <th>{{attendance[20][0].female_18_24_year}}</th>
+                                    <th>{{attendance[20][0].female_above_24_year}}</th>
+                                    <th>{{attendance[20][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>7a</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kihisia (Emotional Violence)
+                                        KE
+                                    </th>
+                                      <th>{{attendance[8][0].female_0_59_month}}</th>
+                                    <th>{{attendance[8][0].female_5_9_year}}</th>
+                                    <th>{{attendance[8][0].female_10_14_year}}</th>
+                                    <th>{{attendance[8][0].female_15_17_year}}</th>
+                                    <th>{{attendance[8][0].female_18_24_year}}</th>
+                                    <th>{{attendance[8][0].female_above_24_year}}</th>
+                                    <th>{{attendance[8][0].female_total_attendance}}</th>
+
+                                </tr>
+                                <tr>
+                                    <th>7b</th>
+                                    <th>Idadi ya waliopatwa na ukatili wa Kihisia (Emotional Violence)
+                                        ME
+                                    </th>
+                                      <th>{{attendance[8][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[8][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[8][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[8][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[8][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[8][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[8][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>8a</th>
+                                    <th>Idadi ya Watoto waliotelekezwa(Neglect) KE</th>
+                                     <th>{{attendance[9][0].female_0_59_month}}</th>
+                                    <th>{{attendance[9][0].female_5_9_year}}</th>
+                                    <th>{{attendance[9][0].female_10_14_year}}</th>
+                                    <th>{{attendance[9][0].female_15_17_year}}</th>
+                                    <th>{{attendance[9][0].female_18_24_year}}</th>
+                                    <th>{{attendance[9][0].female_above_24_year}}</th>
+                                    <th>{{attendance[9][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>8b</th>
+                                    <th>Idadi ya Watoto waliotelekezwa(Neglect) ME</th>
+                                      <th>{{attendance[9][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[9][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[9][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[9][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[9][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[9][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[9][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>9a</th>
+                                    <th>Idadi ya waliofika kituoni ndani ya masaa 72 baada ya tukio KE
+                                    </th>
+                                     <th>{{attendance[19][0].female_0_59_month}}</th>
+                                    <th>{{attendance[19][0].female_5_9_year}}</th>
+                                    <th>{{attendance[19][0].female_10_14_year}}</th>
+                                    <th>{{attendance[19][0].female_15_17_year}}</th>
+                                    <th>{{attendance[19][0].female_18_24_year}}</th>
+                                    <th>{{attendance[19][0].female_above_24_year}}</th>
+                                    <th>{{attendance[19][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>9b</th>
+                                    <th>Idadi ya waliofika kituoni ndani ya masaa 72 baada ya tukio ME
+                                    </th>
+                                    <th>{{attendance[19][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[19][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[19][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[19][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[19][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[19][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[19][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>10a</th>
+                                    <th>Waliofanyiwa uchunguzi wa ushahidi wa kisheria(Forensic
+                                        Investigation) KE
+                                    </th>
+                                    <th>{{attendance[10][0].female_0_59_month}}</th>
+                                    <th>{{attendance[10][0].female_5_9_year}}</th>
+                                    <th>{{attendance[10][0].female_10_14_year}}</th>
+                                    <th>{{attendance[10][0].female_15_17_year}}</th>
+                                    <th>{{attendance[10][0].female_18_24_year}}</th>
+                                    <th>{{attendance[10][0].female_above_24_year}}</th>
+                                    <th>{{attendance[10][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>10b</th>
+                                    <th>Waliofanyiwa uchunguzi wa ushahidi wa kisheria(Forensic
+                                        Investigation) ME
+                                    </th>
+                                    <th>{{attendance[11][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[11][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[11][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[11][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[11][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[11][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[11][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>11a</th>
+                                    <th>Wateja waliofanyiwa unasihi(Counselling) KE</th>
+                                    <th>{{attendance[11][0].female_0_59_month}}</th>
+                                    <th>{{attendance[11][0].female_5_9_year}}</th>
+                                    <th>{{attendance[11][0].female_10_14_year}}</th>
+                                    <th>{{attendance[11][0].female_15_17_year}}</th>
+                                    <th>{{attendance[11][0].female_18_24_year}}</th>
+                                    <th>{{attendance[11][0].female_above_24_year}}</th>
+                                    <th>{{attendance[11][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>11b</th>
+                                    <th>Wateja waliofanyiwa unasihi(Counselling) ME</th>
+                                     <th>{{attendance[11][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[11][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[11][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[11][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[11][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[11][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[11][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>11c</th>
+                                    <th>Wazazi/Walezi waliofanyiwa unasihi kwa niaba ya
+                                        Watoto(Counselling) KE
+                                    </th>
+                                    <th>{{attendance[12][0].female_0_59_month}}</th>
+                                    <th>{{attendance[12][0].female_5_9_year}}</th>
+                                    <th>{{attendance[12][0].female_10_14_year}}</th>
+                                    <th>{{attendance[12][0].female_15_17_year}}</th>
+                                    <th>{{attendance[12][0].female_18_24_year}}</th>
+                                    <th>{{attendance[12][0].female_above_24_year}}</th>
+                                    <th>{{attendance[12][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>11d</th>
+                                    <th>Wazazi/Walezi waliofanyiwa unasihi kwa niaba ya
+                                        Watoto(Counselling) ME
+                                    </th>
+                                     <th>{{attendance[12][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[12][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[12][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[12][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[12][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[12][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[12][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>12a</th>
+                                    <th>Waliopimwa Virusi vyaUkimwi(HIV Testing) KE</th>
+                                   <th>{{attendance[13][0].female_0_59_month}}</th>
+                                    <th>{{attendance[13][0].female_5_9_year}}</th>
+                                    <th>{{attendance[13][0].female_10_14_year}}</th>
+                                    <th>{{attendance[13][0].female_15_17_year}}</th>
+                                    <th>{{attendance[13][0].female_18_24_year}}</th>
+                                    <th>{{attendance[13][0].female_above_24_year}}</th>
+                                    <th>{{attendance[13][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>12b</th>
+                                    <th>Waliopimwa Virusi vyaUkimwi(HIV Testing) ME</th>
+                                    <th>{{attendance[13][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[13][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[13][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[13][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[13][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[13][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[13][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>13a</th>
+                                    <th>Waliopewa matibabu ya kinga(Post Exposure Propylaxis)KE</th>
+                                    <th>{{attendance[14][0].female_0_59_month}}</th>
+                                    <th>{{attendance[14][0].female_5_9_year}}</th>
+                                    <th>{{attendance[14][0].female_10_14_year}}</th>
+                                    <th>{{attendance[14][0].female_15_17_year}}</th>
+                                    <th>{{attendance[14][0].female_18_24_year}}</th>
+                                    <th>{{attendance[14][0].female_above_24_year}}</th>
+                                    <th>{{attendance[14][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>13b</th>
+                                    <th>Waliopewa matibabu ya kinga(Post Exposure Propylaxis)ME</th>
+                                   <th>{{attendance[14][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[14][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[14][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[14][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[14][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[14][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[14][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>14a</th>
+                                    <th>Waliopewa Matibabu ya magonjwa yatokanayo na ngono(Sexual
+                                        Transmitted Disease) KE
+                                    </th>
+                                    <th>{{attendance[15][0].female_0_59_month}}</th>
+                                    <th>{{attendance[15][0].female_5_9_year}}</th>
+                                    <th>{{attendance[15][0].female_10_14_year}}</th>
+                                    <th>{{attendance[15][0].female_15_17_year}}</th>
+                                    <th>{{attendance[15][0].female_18_24_year}}</th>
+                                    <th>{{attendance[15][0].female_above_24_year}}</th>
+                                    <th>{{attendance[15][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>14b</th>
+                                    <th>Waliopewa Matibabu ya magonjwa yatokanayo na ngono(Sexual
+                                        Transmitted Disease) ME
+                                    </th>
+                                    <th>{{attendance[15][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[15][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[15][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[15][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[15][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[15][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[15][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>15</th>
+                                    <th>Waliopewa Njia ya Uzazi wa Mpango wa Dharura(Emergency
+                                        Contraceptive) KE
+                                    </th>
+                                    <th>{{attendance[16][0].female_0_59_month}}</th>
+                                    <th>{{attendance[16][0].female_5_9_year}}</th>
+                                    <th>{{attendance[16][0].female_10_14_year}}</th>
+                                    <th>{{attendance[16][0].female_15_17_year}}</th>
+                                    <th>{{attendance[16][0].female_18_24_year}}</th>
+                                    <th>{{attendance[16][0].female_above_24_year}}</th>
+                                    <th>{{attendance[16][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>16a</th>
+                                    <th>Waliopewa Huduma ya Kipolisi KE</th>
+                                    <th>{{attendance[17][0].female_0_59_month}}</th>
+                                    <th>{{attendance[17][0].female_5_9_year}}</th>
+                                    <th>{{attendance[17][0].female_10_14_year}}</th>
+                                    <th>{{attendance[17][0].female_15_17_year}}</th>
+                                    <th>{{attendance[17][0].female_18_24_year}}</th>
+                                    <th>{{attendance[17][0].female_above_24_year}}</th>
+                                    <th>{{attendance[17][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>17a</th>
+                                    <th>Waliopewa Msaada wakisheria (legal Aid) KE</th>
+                                    <th>{{attendance[11][0].female_0_59_month}}</th>
+                                    <th>{{attendance[11][0].female_5_9_year}}</th>
+                                    <th>{{attendance[11][0].female_10_14_year}}</th>
+                                    <th>{{attendance[11][0].female_15_17_year}}</th>
+                                    <th>{{attendance[11][0].female_18_24_year}}</th>
+                                    <th>{{attendance[11][0].female_above_24_year}}</th>
+                                    <th>{{attendance[11][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>17b</th>
+                                    <th>Waliopewa Msaada wakisheria (legal Aid) ME</th>
+                                    <th>{{attendance[11][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[11][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[11][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[11][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[11][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[11][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[11][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>18a</th>
+                                    <th>Waliopata Ulemavu wa kimwili wa kudumu KE</th>
+                                    <th>{{attendance[18][0].female_0_59_month}}</th>
+                                    <th>{{attendance[18][0].female_5_9_year}}</th>
+                                    <th>{{attendance[18][0].female_10_14_year}}</th>
+                                    <th>{{attendance[18][0].female_15_17_year}}</th>
+                                    <th>{{attendance[18][0].female_18_24_year}}</th>
+                                    <th>{{attendance[18][0].female_above_24_year}}</th>
+                                    <th>{{attendance[18][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>18b</th>
+                                    <th>Waliopata Ulemavu wa kimwili wa kudumu ME</th>
+                                   <th>{{attendance[18][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[18][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[18][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[18][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[18][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[18][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[18][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>19a</th>
+                                    <th>Wateja Waliopata rufaa kuja kituoni (Referral In) KE</th>
+                                    <th>{{attendance[21][0].female_0_59_month}}</th>
+                                    <th>{{attendance[21][0].female_5_9_year}}</th>
+                                    <th>{{attendance[21][0].female_10_14_year}}</th>
+                                    <th>{{attendance[21][0].female_15_17_year}}</th>
+                                    <th>{{attendance[21][0].female_18_24_year}}</th>
+                                    <th>{{attendance[21][0].female_above_24_year}}</th>
+                                    <th>{{attendance[21][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>19b</th>
+                                    <th>Wateja Waliopata rufaa kuja kituoni (Referral In) ME</th>
+                                    <th>{{attendance[21][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[21][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[21][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[21][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[21][0]. male_18_24_year}}</th>
+                                    <th>{{attendance[21][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[21][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>20a</th>
+                                    <th>Wateja Waliopata rufaa ndani ya kituo (Internal Referral) KE
+                                    </th>
+                                    <th>{{attendance[22][0].female_0_59_month}}</th>
+                                    <th>{{attendance[22][0].female_5_9_year}}</th>
+                                    <th>{{attendance[22][0].female_10_14_year}}</th>
+                                    <th>{{attendance[22][0].female_15_17_year}}</th>
+                                    <th>{{attendance[22][0].female_18_24_year}}</th>
+                                    <th>{{attendance[22][0].female_above_24_year}}</th>
+                                    <th>{{attendance[22][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>20b</th>
+                                    <th>Wateja Waliopata rufaa ndani ya kituo (Internal Referral) ME
+                                    </th>
+                                    <th>{{attendance[22][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[22][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[22][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[22][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[22][0].male_18_24_year}}</th>
+                                    <th>{{attendance[22][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[22][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>21a</th>
+                                    <th>Wateja Waliopata rufaa kwenda nje ya kituo ( Referral Out) KE
+                                    </th>
+                                    <th>{{attendance[23][0].female_0_59_month}}</th>
+                                    <th>{{attendance[23][0].female_5_9_year}}</th>
+                                    <th>{{attendance[23][0].female_10_14_year}}</th>
+                                    <th>{{attendance[23][0].female_15_17_year}}</th>
+                                    <th>{{attendance[23][0].female_18_24_year}}</th>
+                                    <th>{{attendance[23][0].female_above_24_year}}</th>
+                                    <th>{{attendance[23][0].female_total_attendance}}</th>
+
+
+                                </tr>
+                                <tr>
+                                    <th>21b</th>
+                                    <th>Wateja Waliopata rufaa kwenda nje ya kituo ( Referral Out) ME
+                                    </th>
+                                     <th>{{attendance[23][0]. male_0_59_month}}</th>
+                                    <th>{{attendance[23][0]. male_5_9_year}}</th>
+                                    <th>{{attendance[23][0]. male_10_14_year}}</th>
+                                    <th>{{attendance[23][0]. male_15_17_year}}</th>
+                                    <th>{{attendance[23][0].male_18_24_year}}</th>
+                                    <th>{{attendance[23][0]. male_above_24_year}}</th>
+                                    <th>{{attendance[23][0]. male_total_attendance}}</th>
+
+
+                                </tr>
+
+
+                            </table>
+
+                            <div class="text-center"><b> Jina la Mtayarishaji wa Ripoti&nbsp;&nbsp;&nbsp;
+                                {{currentUser.name}} &nbsp;&nbsp;&nbsp;Cheo&nbsp;&nbsp;&nbsp;{{currentUser.name}}
+                                Sahihi..............................</b></div>
+                            <p></p>
+                            <div class="text-center"><b> Tarehe ------/-----/----- Imepitiwa na
+                                ................................,
+                                ...............................................,
+                                ..........................</b></div>
+                            <p></p>
+                            <div class="text-center"><b> Namba ya simu ya
+                                Kituo......................................................................................................................................</b>
+                            </div>
+                            <p></p>
+                            <div class="text-center"><b> Imepokelewa wilayani
+                                tarehe................./..................../.............................</b>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </fieldset>
+
+            </vertical-tab-pane>
+
+        </vertical-tabs>
+         </md-tab>
+
+        <md-tab label="SET UP">
+
+            <vertical-tabs>
+            <vertical-tab-pane title="EXEMPTION ACCESS">
+
+                <md-input-container class="md-block">
+                    <input type="text"
+                           ng-model="selectedUser" typeahead-on-select="SelectedUserWithExemptionAccess(selectedUser.id)"
+                           uib-typeahead="user as user.name +''+user.mobile_number+' '+user.email for user in SearchUser($viewValue) | limitTo:8 | filter:$viewValue"
+                           placeholder="Search User to assign Exemption to Deal with">
+
+
+                </md-input-container>
+
+
+                <div class=" ">
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <div class="col-md-6">
+                                <form >
+                                    <fieldset>
+                                        <div >
+                                            <div class="form-top-left">
+                                                <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>EXEMPTION
+                                                    PER USER ACCESS</h3>
+
+                                            </div>
+                                        </div>
+                                        <div >
+
+
+
+
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" >
+
+
+                                                <thead>
+
+                                                <tr>
+                                                    <td  class="mdl-data-table__cell--non-numeric">
+
+                                                        No
+
+                                                    </td>
+
+                                                    <td  class="mdl-data-table__cell--non-numeric">
+
+                                                        Exemption Type
+
+
+                                                    </td>
+
+
+                                                    <td  class="mdl-data-table__cell--non-numeric">
+
+                                                        Check/Tick
+
+                                                    </td>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <tr ng-repeat="cat_gory in exemption_s   | filter:search track by $index">
+                                                    <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                                    <td  class="mdl-data-table__cell--non-numeric"><b>{{ cat_gory.exemption_name }}</b>
+
+                                                    </td>
+
+
+                                                    <td  class="mdl-data-table__cell--non-numeric">
+                                                        <form><input type="checkbox"
+                                                                     ng-click="populateInArray(cat_gory,selectedUser)"
+                                                                     ng-model="cat_gory.value1"><span></span>
+                                                        </form>
+
+                                                    </td>
+
+                                                    <!--<td>{{ region.tastiness }}</td>-->
+                                                </tr>
+                                                <tr>
+                                                    <th  class="mdl-data-table__cell--non-numeric" colspan="4">
+                                                        <md-button class="md-raised md-primary" data-toggle="tooltip"
+                                                                   title="Click to save"
+                                                                   ng-click="exemption_user_configure()">Save
+                                                        </md-button>
+
+                                                    </th>
+                                                </tr>
+                                                </tbody>
+
+                                            </table>
+
+
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" >
+                                                <thead>
+                                                <tr ng-if="User_exemption_populate.length >0">
+                                                    <th class="mdl-data-table__cell--non-numeric">Exemption</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="User in User_exemption_populate">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{User.exemption_name}}</td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric"><a ng-click="removeItem($index)">X</a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </fieldset>
+                                </form>
+
+                            </div>
+
+                            <div class="col-md-6" ng-if="access_givens.length>0" >
+                                <div class=" ">
+                                    <div class="form-top-left">
+                                        <b><span><i class="fa fa-gear" aria-hidden="true"></i></span>EXEMPTIONS ACCESS GIVEN</b>
+
+                                    </div>
+                                </div>
+                                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"  >
+
+
+
+                                    <thead>
+
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                            No
+
+                                        </td>
+
+                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                            Exemption Name
+
+
+
+                                        </td>
+
+                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                            Remove
+
+                                        </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    <tr dir-paginate="access_given in access_givens  | itemsPerPage:30 | filter:search track by $index">
+                                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                        <td class="mdl-data-table__cell--non-numeric"><b  >{{ access_given.exemption_name }}</b>
+
+                                        </td>
+
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            <md-button class="md-block" ng-click="Remove_user_Exemption_access(access_given.access_id)"     ><span></span> Remove </md-button>
+
+                                        </td>
+
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+                </div>
+
+            </vertical-tab-pane>
+
+                <vertical-tab-pane title="GBV/VAC TYPES">
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-12 ">
+
+                                <div class="">
+                                    <!--EXEMPTION  TYPE SETTING STARTING-->
+
+
+                                    <md-input-container class="md-block col-md-6 col-sm-4">
+                                        <input type="text"
+                                               data-toggle="tooltip"
+                                               title="Enter  Violence name"
+                                               placeholder="Enter Violence name"
+                                               ng-model="violence_cat.violence_type_category">
+                                    </md-input-container>
+
+                                    <md-button class="md-primary md-raised"
+                                               ng-click="violence_cat_registration(violence_cat)">
+                                        Register
+                                    </md-button>
+                                    <p></p>
+
+
+                                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"
+                                           ing-if="exemption_types">
+                                        <b>violence_category Total:{{violence_cats.length}}</b>
+
+
+                                        <thead>
+                                        <tr>
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                No#
+
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                Violence category
+
+
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                Edit
+
+                                            </td>
+                                            <td  class="mdl-data-table__cell--non-numeric" ng-if="!e">
+
+                                                X
+
+                                            </td>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr ng-repeat="violence_cat in violence_cats | filter:search track by $index">
+                                            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{
+                                                violence_cat.violence_type_category }}</b>
+                                                <h3 ng-if="e">
+
+                                                    <md-input-container class="md-block">
+                                                        <input type="text" class="md-block"
+                                                               placeholder="violence category name"
+                                                               ng-model="violence_cat.violence_type_category">
+                                                    </md-input-container>
+
+
+                                                </h3>
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+
+                                                <div class=" ">
+
+
+                                                    <md-button class="md-primary md-raised"
+                                                               data-toggle="tooltip"
+                                                               title="Click to Update This Record"
+                                                               ng-click="violence_cat_update(violence_cat)">
+                                                        Update
+                                                    </md-button>
+
+                                                </div>
+                                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+                                            </td>
+                                            <td  class="mdl-data-table__cell--non-numeric">
+                                                <input type="checkbox" class="md-block"
+                                                       ng-model="e">Edit
+                                            </td>
+                                            <td ng-if="!e">
+                                                <!--<md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</md-button>-->
+                                            </td>
+                                            <!--<td>{{ region.tastiness }}</td>-->
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+            </vertical-tab-pane>
+
+                <vertical-tab-pane title="VIOLENCE TYPES">
+
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+                    <div class="">
+                        <div class="row">
+                            <div>
+                                <form >
+                                    <fieldset>
+
+                                        <div class="">
+                                            <!--EXEMPTION  TYPE SETTING STARTING-->
+
+                                            <div>
+
+
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4"">
+                                                <label> Violence Name</label>
+                                                <input type="text"
+                                                       typeahead-on-select=""
+                                                       ng-model="violence_sub.violence_category_id"
+
+                                                       uib-typeahead="violence_cat as violence_cat.violence_type_category  for violence_cat in violence_cats | limitTo:8 | filter:$viewValue"
+                                                       typeahead-template-url="customTemplate.html" typeahead-show-hint="true"
+                                                       typeahead-min-length="0">
+
+
+                                                </md-input-container>
+
+                                                <div layout="row">
+                                                    <md-input-container>
+                                                        <label> Violence Type name </label>
+
+
+                                                        <input type="text"
+                                                               title="Enter  Violence category"
+                                                               class="md-block"
+                                                               ng-model="violence_sub.sub_violence">
+
+
+                                                    </md-input-container>
+
+
+                                                    <div >
+
+                                                        <md-button class="md-primary md-raised"
+                                                                   ng-click="violence_sub_array(violence_sub)">Add
+                                                            to List
+                                                        </md-button>
+                                                    </div>
+                                                </div>
+
+                                                <table ng-if="sub_violences.length>0">
+                                                    <tr>
+                                                        <th>Violence</th>
+                                                        <th>Category</th>
+                                                    </tr>
+
+                                                    <tr ng-repeat="sub_violence in sub_violences">
+                                                        <td>{{sub_violence.violence}}</td>
+                                                        <td>{{sub_violence.sub_violence}}</td>
+                                                        <td><a ng-click="removeItemArray($index)"
+                                                               style="color:maroon"
+                                                               title="Remove from list">Remove</a></td>
+
+                                                    </tr>
+                                                </table>
+                                                <div class="form-group col-md-6 col-sm-4"
+                                                     ng-if="sub_violences.length>0">
+
+                                                    <md-button class="md-raised md-primary"
+                                                               ng-click="violence_sub_registration()">SAVE
+                                                    </md-button>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </vertical-tab-pane>
+
+                <vertical-tab-pane title="SOCIAL ISSUES REGISTER">
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+                    <div class=" ">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <form >
+                                    <fieldset>
+
+                                        <div class="">
+                                            <!--EXEMPTION  TYPE SETTING STARTING-->
+
+                                            <div>
+
+
+                                                <md-input-container class="md-block col-md-6 col-sm-4">
+                                                    <label> Enter Name of Issues  </label>
+
+                                                    <input type="text"  title="Enter  Issues name"
+
+                                                           ng-model="issue_name.issue_name">
+
+
+                                                </md-input-container>
+
+
+                                                <div>
+
+                                                    <md-button class="md-primary md-raised"
+                                                               ng-click="social_issue_register(issue_name)">
+                                                        Save
+                                                    </md-button>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+            </vertical-tab-pane>
+
+                <vertical-tab-pane title="VIOLENCE SERVICES">
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <form >
+                                    <fieldset>
+
+                                        <div class="">
+
+                                            <div>
+
+
+                                                <div class="col-md-12">
+
+
+                                                    <md-input-container class="  col-md-6 col-sm-4">
+                                                        <label> Service name </label>
+
+
+                                                        <input type="text" class="md-block"
+                                                               data-toggle="tooltip" title="Enter  service name"
+
+                                                               ng-model="violence_service.service_name">
+
+
+                                                    </md-input-container>
+
+
+                                                    <div class="md-block col-md-6 col-sm-4">
+
+                                                        <md-button class="md-raised md-primary"
+                                                                   ng-click="violence_service_array(violence_service)">
+                                                            Add to List
+                                                        </md-button>
+                                                    </div>
+
+                                                    <table ng-if="violence_services.length>0">
+                                                        <tr>
+                                                            <th>service</th>
+
+                                                        </tr>
+
+                                                        <tr ng-repeat="violence_service in violence_services">
+                                                            <td>{{violence_service.service_name}}</td>
+                                                            <td><a ng-click="removeItemArray_service($index)"
+                                                                   style="color:maroon"
+                                                                   title="Remove from list">Remove</a></td>
+
+                                                        </tr>
+                                                    </table>
+                                                    <div class="md-block col-md-6 col-sm-4"
+                                                         ng-if="violence_services.length>0">
+
+                                                        <md-button class="md-raised md-primary"
+                                                                   ng-click="violence_service_registration()">SAVE
+                                                        </md-button>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+            </vertical-tab-pane>
+                <vertical-tab-pane title="VIOLENCE OUTPUT">
+
+                    <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <form >
+                                    <fieldset>
+
+                                        <div class="">
+
+                                            <div>
+
+
+                                                <div class="col-md-12">
+
+
+                                                    <md-input-container class="md-block col-md-6 col-sm-4">
+                                                        <label> Violence Output </label>
+
+
+                                                        <input type="text" class="md-block"
+                                                               data-toggle="tooltip"
+                                                               title="Enter  violence output"
+                                                               ng-model="violence_output.output">
+
+
+                                                    </md-input-container>
+
+
+                                                    <div class="form-group col-md-6 col-sm-4">
+
+                                                        <md-button class="md-raised md-primary"
+                                                                   ng-click="violence_output_array(violence_output)">
+                                                            Add to List
+                                                        </md-button>
+                                                    </div>
+
+                                                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="violence_outputs.length>0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="mdl-data-table__cell--non-numeric">service</th>
+
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>                                                            <tr ng-repeat="violence_output in violence_outputs">
+                                                            <td class="mdl-data-table__cell--non-numeric">{{violence_output.output}}</td>
+                                                            <td class="mdl-data-table__cell--non-numeric"><a ng-click="removeItemArray_output($index)"
+                                                                                                             style="color:maroon"
+                                                                                                             title="Remove from list">Remove</a></td>
+
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="form-group col-md-6 col-sm-4"
+                                                         ng-if="violence_outputs.length>0">
+
+                                                        <md-button class="btn btn-success"
+                                                                   ng-click="violence_output_registration()">SAVE
+                                                        </md-button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </vertical-tab-pane>
+           </vertical-tabs>
+            </md-tab>
+
+
+
+
+        </md-tab>
+        </md-content>
+</md-tabs>

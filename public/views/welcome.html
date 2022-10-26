@@ -1,0 +1,38 @@
+<style>
+  .gridListdemoBasicUsage md-grid-list {
+    margin: 8px;
+  }
+
+  a.menu_title_a {
+    color: white;
+    font-weight: 700;
+  }
+</style>
+<div ng-controller="UserController as user_c">
+  <md-grid-list
+    md-cols-xs="1"
+    md-cols-sm="2"
+    md-cols-md="3"
+    md-cols-gt-md="6"
+    md-row-height-gt-md="1:1"
+    md-row-height="2:2"
+    md-gutter="12px"
+    md-gutter-gt-sm="8px"
+  >
+    <md-grid-tile
+      ng-repeat="menu in menu"
+      style="background-color:teal;cursor:pointer;"
+      ng-click="user_c.dash_go_to(menu.state_p)"
+    >
+      <md-grid-tile-content>
+        <md-icon
+          style="fill: white; height: 54px; width: 54px;"
+          md-svg-icon="{{ menu.state_p }}"
+        ></md-icon>
+      </md-grid-tile-content>
+      <md-grid-tile-footer>
+        <h3 align="center">{{ menu.descr }}</h3>
+      </md-grid-tile-footer>
+    </md-grid-tile>
+  </md-grid-list>
+</div>

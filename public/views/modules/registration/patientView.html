@@ -1,0 +1,239 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+
+<div class=""><form>
+        <div class="input-group">
+<input data-toggle="tooltip" type="text" placeholder="Search Patients" name="search"
+                uib-typeahead="patient as patient.fullname+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+				typeahead-on-select="openDialogForServices(selectedPatient)"
+                class="form-control input-lg">
+            <div class="input-group-btn">
+                <button class="btn btn-lg btn-success" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div></form>
+</div><br><br>
+  <div class="row">
+    <div class="col-md-12 form-box">
+      <form ng-controller="patientController" role="form" class="registration-form" action="javascript:void(0);">
+        <fieldset>
+          <div class="form-top">
+            <div class="form-top-left">
+              <h3><span><i class="fa fa-user-md" aria-hidden="true"></i></span>Patient Registration</h3>
+
+            </div>
+          </div>
+          <div class="form-bottom">
+              <div class="row">
+                  <div class="col-md-4">
+                      <label>Select Insurance Card </label>
+                      <select class="form-control">
+
+                          <option ng-repeat="insurance in insurances">{{insurance.sub_category_name}}</option>
+
+                      </select>
+                  </div>
+                  <div class="col-md-4">
+                      <label>Insert Card Number </label>
+                      <input type="text" class="form-control" ng-model="nhif_card" ng-Blur="verification(nhif_card)">
+
+                  </div>
+
+                  <div ng-if="dataLoading">
+                      <span  class="fa fa-refresh fa-spin fa-4x " title="If the time is too long check your connection" > </span>
+                      Connecting to NHIF SERVER to verify card number...
+                  </div>
+
+              </div>
+            <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>First Name *</label>
+                <input type="text" ng-model="patient.first_name" class="form-control" placeholder="Firstname"  >
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Middle Name *</label>
+                <input type="text" ng-model="patient.middle_name" class="form-control" placeholder="Lastname" >
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Last Name *</label>
+                <input type="text" ng-model="patient.last_name" class="form-control" placeholder="Lastname" >
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Gender *</label>
+                <select ng-model="patient.gender" class="form-control"  >
+				  <option value="" >Please select gender</option>
+				  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Date of birth *</label>
+                <input type="text" ng-model="patient.dob" id="dob" datetime-picker date-only date-format='yyyy-MM-dd' class="form-control" placeholder="Date of birth"  >
+              </div>
+			  
+			   <div class="form-group col-md-4 col-sm-4">
+				<label>Resedence:</label>
+				<input type="text" ng-model="patient.resedence_id"   class="form-control"
+				
+				uib-typeahead ="resdata as resdata.residence_name+', '+resdata.council_name+', '+resdata.region_name for resdata in showSearchResidences($viewValue) | filter:$viewValue"
+				
+				>		
+              </div>
+			  
+              <div class="form-group col-md-4 col-sm-4">
+				<label>Mobile Number:(<i>Optional</i>)</label>
+				<input id="mobile_number" type="text"  ng-model="patient.mobile_number" class="form-control" placeholder="Enter Mobile Number">				
+              </div>
+			  
+			 
+			  
+			  
+			  
+            </div>
+
+
+
+
+<button id="quick" type="submit" class="btn btn-success" ng-click="patient_quick_registration(patient)">Quick Register </button>
+            <button type="button" class="btn btn-next">Next</button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-top">
+            <div class="form-top-left">
+              <h3><span><i class="fa fa-user" aria-hidden="true"></i></span> Other Patient Information</h3>
+
+            </div>
+          </div>
+          <div class="form-bottom">
+               <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Marital Status*</label>
+                <input type="text" ng-model="others.marital" class="form-control" placeholder="Marital Status" id="Marital"
+				uib-typeahead ="marital as marital.marital_status for marital in showSearchMarital($viewValue) | filter:$viewValue">
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Occupation *</label>
+                <input type="text" ng-model="others.occupation" class="form-control" placeholder="Occupation" id="Occupation"
+				uib-typeahead ="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue"
+				>
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Tribe*</label>
+                <input type="text" ng-model="others.tribe" class="form-control" placeholder="Tribe" id="Tribe"
+				uib-typeahead ="tribe as tribe.tribe_name for tribe in showSearchTribe($viewValue) | filter:$viewValue"
+				>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Country*</label>
+                <input type="text" ng-model="others.country" class="form-control" id="Country"
+				 uib-typeahead ="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+              </div>
+              <div class="form-group col-md-4 col-sm-4">
+                <label>Next of Kin Name *</label>
+                <input type="text" ng-model="others.next_of_kin_name" id="next_kin_name"  class="form-control" placeholder="Name of the Relative, Guardian or Partiner" id="Kin">
+              </div>
+			  
+			   <div class="form-group col-md-4 col-sm-4">
+				<label>Resedence of Next of Kin:</label>
+				<input type="text" ng-model="others.next_kin_residence" id="next_kin_residence" class="form-control"
+				
+				uib-typeahead ="nextresdata as nextresdata.residence_name+', '+nextresdata.council_name+', '+nextresdata.region_name for nextresdata in showSearchNextResidences($viewValue) | filter:$viewValue"
+				
+				>		
+              </div>
+			  
+             
+			   <div class="form-group col-md-4 col-sm-4">
+				<label>Relationship:</label>
+				<input type="text" ng-model="others.relationship" id="Relationship" class="form-control"
+				
+				uib-typeahead ="relationship as relationship.relationship for relationship in getRelationships($viewValue) | filter:$viewValue"
+				
+				>		
+              </div>
+			  
+              <div class="form-group col-md-4 col-sm-4">
+				<label>Mobile Number:(<i>Optional</i>)</label>
+				<input id="mobile_number" type="text"  ng-model="others.mobile_number_next_kin" class="form-control" placeholder="Enter Mobile Number for Next of Kin">				
+              </div>
+			  
+			  
+            </div>
+
+
+            <button type="button" class="btn btn-previous">Previous</button>
+ <button  type="submit" class="full btn btn-success" ng-click="fullRegistration(patient,others)">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+parent_fieldset.find('#fname,#mname,#lname,#residence,#dob,#gender').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+					sweetAlert("Please fill  All fields as it was marked in Red before Next Step", "", "error");
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form .full').on('submit', function (e) {
+
+   $(this).find('#Marital,#Occupation,#Tribe,#Country,#next_kin_name,#next_kin_residence,#Relationship').each(function () {
+                if ($(this).val() == "") {
+				sweetAlert("Please fill  All fields as it was marked in Red before Submit", "", "error");
+                    //e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+</script>

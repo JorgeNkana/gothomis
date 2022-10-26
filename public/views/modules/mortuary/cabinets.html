@@ -1,0 +1,107 @@
+<md-dialog  class="md-block">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> MORTUARY ROOM NAME: {{mortuary_name}} &nbsp; &nbsp; &nbsp;{{facility_address.facility_name}} {{facility_address.description}}  
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                        <div layout="row">
+
+                                                          
+
+                                   
+
+                                     <div flex="40" class="md-block">       
+                                          <md-input-container flex-gt>
+                                    <label>CABINET NAME</label>
+                                    <input type="text"  ng-model="cabinets.cabinet_number">
+                                </md-input-container>
+                              
+                                    </div>
+
+
+                                     <div flex="40">       
+                                          <md-input-container flex-gt>
+                                    <label>CABINET CAPACITY</label>
+                                    <input type="number" min='1'  ng-model="cabinets.capacity" >
+                                </md-input-container>
+                              
+                                    </div>
+
+
+
+                                     <div flex="40">       
+                                          <md-button  class="md-raised md-primary"    ng-click="addCabinet(cabinets,mortuary_id)" class="md-primary">
+                Save
+            </md-button>
+                              
+                                    </div>
+
+
+
+                                     
+                                </div>
+								
+								
+					 <h2 ng-if="cabinetsLists.length==0" align="center">NO REGISTERED CABINET IN {{mortuary_name}}.</h2>
+
+ <table class="table table-bordered table-striped" ng-if="cabinetsLists.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             CABINET NAME/NUMBER 
+                            </th>
+                            
+                            <th sortable='total.value' class="sortable">
+                               CAPACITY
+                            </th> 
+							
+							<th sortable='total.value' class="sortable">
+                             CORPSES STORED
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                  <tr  ng-repeat="cabinetsList in cabinetsLists track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td>{{cabinetsList.cabinet_name}} </td>                        
+                             <td>
+	{{cabinetsList.capacity}}
+							</td> 
+							
+							<td>
+	{{cabinetsList.corpses_number}}
+							</td>
+
+                               </tr>
+                        </tbody>
+                    </table>			
+								
+								
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            
+        </md-dialog-actions>
+    </form>
+</md-dialog>

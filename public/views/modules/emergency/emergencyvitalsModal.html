@@ -1,0 +1,173 @@
+<div ng-controller="emergencyController"  class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3><span><i class="fa fa-male" aria-hidden="true"></i></span> NAME: {{quick_registration.first_name}} {{quick_registration.middle_name}} {{quick_registration.last_name}} ({{quick_registration.medical_record_number}})<p></p>
+                                <span class="pull-left">{{patient_last_visit.registration_title}}</span>
+                            </h3>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <table  class="table table-bordered">
+                            <thead>
+                            <tr style="border: solid thin #ddeecc">
+                                <th>Measure</th>
+                                <th>Recorded</th>
+                                <th>Unit</th>
+                                <th>Indication</th>
+                            </tr>
+                            </thead>
+                            <tr><td> Body Weight</td><td> <input name="mass" type="number" ng-model="vitals.bodyweight" class="form-control reg"
+                                                                 min=0 onchange="range(bmi,(this.form.height.value ? this.value*10000/
+                                                                                                 (this.form.height.value*this.form.height.value) : undefined))"></td>
+                                <td style="font-weight:bold">Kg</td >
+                                <td class="block-center" rowspan=2 style="vertical-align:middle">
+                                    <div class="progress">
+                                        <div id="bmi_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                        </div>
+                                        <div id="bmi_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                        </div>
+                                        <div id="bmi_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                        </div>
+                                    </div>
+                                </td></tr>
+                            <tr><td> Height/Length</td><td> <input name="height" type="number" ng-model="vitals.bodylength" class="form-control reg"
+                                                                   min=0 onchange="range(bmi,(this.form.mass.value ? this.form.mass.value*10000/
+                                                                                                   (this.form.height.value*this.form.height.value) : undefined))">
+                            </td><td style="font-weight:bold">cm</td></tr>
+                            <tr><td> Body Temperature</td><td> <input type="number"  ng-model="vitals.bodyTemperature" class="form-control reg"
+                                                                      min=0 onchange="range(temperature,this.value)">
+                            </td><td style="font-weight:bold"><sup>0</sup>C</td>
+                                <td style="text-align:left"><div class="progress">
+                                    <div id="temperature_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                    </div>
+                                    <div id="temperature_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                    </div>
+                                    <div id="temperature_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                    </div>
+                                </div></td></tr>
+                            <tr><td> Systolic Pressure</td><td> <input type="number" ng-model="vitals.Systolic" class="form-control reg"
+                                                                       min=0 onchange="range(systolic,this.value)"></td>
+                                <td style="font-weight:bold">mmHg</td><td style="text-align:left"><div class="progress">
+                                    <div id="systolic_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                    </div>
+                                    <div id="systolic_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                    </div>
+                                    <div id="systolic_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                    </div>
+                                </div></td></tr>
+                            <tr><td> Diastolic Pressure</td><td> <input type="number" ng-model="vitals.Diastolic" class="form-control reg" min=0 onchange="range(diastolic,this.value)"></td><td style="font-weight:bold">mmHg</td><td style="text-align:left"><div class="progress">
+                                <div id="diastolic_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="diastolic_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="diastolic_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                </div>
+                            </div></td></tr>
+                            <tr><td> Respiratory Rate</td><td> <input type="number" ng-model="vitals.Respiratory" class="form-control reg" min=0 onchange="range(respiratory,this.value)"></td><td style="font-weight:bold">Breaths/Min</td><td style="text-align:left"><div class="progress">
+                                <div id="respiratory_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="respiratory_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="respiratory_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                </div>
+                            </div></td></tr>
+                            <tr><td> Pulse Rate</td><td> <input type="number" ng-model="vitals.Heart" class="form-control reg" min=0 onchange="range(pulse,this.value)"></td><td style="font-weight:bold">Beats/Min</td><td style="text-align:left"><div class="progress">
+                                <div id="pulse_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="pulse_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="pulse_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                </div>
+                            </div></td></tr>
+                            <tr><td> Oxygen Saturation</td><td> <input type="number" ng-model="vitals.Oxygen" class="form-control reg" min=0 max=100 onchange="range(oxygen,this.value)"></td><td style="font-weight:bold">%</td><td style="text-align:left"><div class="progress">
+                                <div id="oxygen_progress_normal" class="progress-bar progress-bar-success" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="oxygen_progress_warning" class="progress-bar progress-bar-warning" role="progressbar" style="width:0%">
+                                </div>
+                                <div id="oxygen_progress_danger" class="progress-bar progress-bar-danger" role="progressbar" style="width:0%">
+                                </div>
+                            </div></td></tr>
+
+
+                        </table>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+</script>
+
+
+
+<uib-accordion close-others="oneAtATime" >
+
+
+
+
+
+
+
+
+
+    <div uib-accordion-group  heading="View Temperature">
+
+        <div class="row">
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <div uib-accordion-group  heading="View Systolic Pressure">
+
+        <div class="row">
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <div uib-accordion-group  heading="View Systolic Pressure">
+
+        <div class="row">
+
+        </div>
+
+
+
+        <br>
+
+
+    </div>
+    <div uib-accordion-group  heading="View Diastolic Pressure">
+
+        <div class="row">
+
+        </div>
+
+
+
+        <br>
+
+
+    </div>
+
+</uib-accordion>

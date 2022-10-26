@@ -1,0 +1,228 @@
+<md-dialog   class="fullscreen-dialog"  >
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <b> {{tbs.first_name}} {{tbs.middle_name}} {{tbs.last_name}} &nbsp;&nbsp;&nbsp;  {{"MRN: "+tbs.medical_record_number}}&nbsp;&nbsp;&nbsp;   {{"DoB: "+tbs.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+tbs.gender}} <p></p>
+
+            </b>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div  ng-controller='VctController'>
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form  >
+                        <fieldset>
+
+                            <div class="form-bottom">
+                                <div class="row hidden-print">
+                                    <!--<ul class="nav nav-tabs nav-justified" >-->
+                                    <!--<li ng-class="{active: isSet(8) }"><a href ng-click="setTab(8)">Pre-record</a></li>-->
+
+                                    <!--</ul>-->
+                                    <br>
+
+
+                                </div>
+                                <div class="row">
+
+                                    <div >
+                                        <div >
+                                            <div class="row">
+                                                <div class="col-md-12 form-box">
+                                                    <form   >
+                                                        <fieldset>
+
+
+                                                            <div class="form-bottom">
+                                                                <div class="row">
+
+
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Client Attendance Type </label>
+                                                                        <md-select type="text" ng-model="vct.attendance_type" class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="MP">New Client</md-option>
+                                                                            <md-option value="HM">Re-attendance</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6" ng-if=" year >9 && tbs.gender=='FEMALE'">
+                                                                        <label> Pregnancy Record </label>
+                                                                        <md-select type="text" ng-model="vct.pregnancy_record" class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="MO">Pregnant</md-option>
+                                                                            <md-option value="SM">Not Pregnant</md-option>
+                                                                            <md-option value="HA">Unknown</md-option>
+                                                                            <md-option value="HH">Irrelevant</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Client From </label>
+                                                                        <md-select type="text" ng-model="vct.client_from" class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="{{department.id}}" ng-repeat="department in departments">{{department.department_name}}</md-option>
+                                                                            <md-option value="other">Other Place</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6" ng-if="vct.client_from=='other'">
+                                                                        <label> Client From Other Places </label>
+                                                                        <input type="text" ng-model="vct.client_from_other" class="md-block">
+
+                                                                    </md-input-container>
+
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Counselling Type</label>
+                                                                        <md-select type="text" ng-model="vct.counselling_type" class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="MY">Client/Client Alone</md-option>
+                                                                            <md-option value="MM">Client and Partner</md-option>
+                                                                            <md-option value="KU">Group</md-option>
+                                                                            <md-option value="MZ">Client and Parent/Guardian</md-option>
+
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Agreed VVU Test </label>
+                                                                        <md-select type="text" ng-model="vct.agreed_vvu_test " class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="YES">YES</md-option>
+                                                                            <md-option value="NO">NO</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Counselling After Test </label>
+                                                                        <md-select type="text" ng-model="vct.counselling_after_test " class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="YES">YES</md-option>
+                                                                            <md-option value="NO">NO</md-option>
+
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> VVU Test Tesult </label>
+                                                                        <md-select type="text" ng-model="vct.vvu_test_result " class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="POSITIVE" >POSITIVE</md-option>
+                                                                            <md-option value="NEGATIVE">NEGATIVE</md-option>
+                                                                            <md-option value="HAS NOT TEST" >HAS NOT TEST</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Participatory Test Tesult </label>
+                                                                        <md-select type="text" ng-model="vct.participatory_test_result " class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="ME">HUSBAND</md-option>
+                                                                            <md-option value="MK">WIFE</md-option>
+                                                                            <md-option value="MW">PARTNER</md-option>
+                                                                            <md-option value="ND">RELATIVE</md-option>
+                                                                            <md-option value="RF">FRIEND</md-option>
+                                                                            <md-option value="KD">RELIGION LEADER</md-option>
+                                                                            <md-option value="NONE" >NONE</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> TB Test    </label>
+                                                                        <md-select type="text" ng-model="vct.tb_test " class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="YES">YES</md-option>
+                                                                            <md-option value="NO">NO</md-option>
+
+
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> TB Test Result   </label>
+                                                                        <md-select type="text" ng-model="vct.tb_test_result " class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="KU">TB CARRIER</md-option>
+                                                                            <md-option value="HL">NO TB SYMPTOMS/SIGNS</md-option>
+                                                                            <md-option value="AK">CONFIRMED HAS TB </md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Client Referred to   </label>
+                                                                        <md-select type="text" ng-model="vct.referral_to" class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="{{department.id}}" ng-repeat="department in departments">{{department.department_name}}</md-option>
+                                                                            <md-option value="other">Other Place</md-option>
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6" ng-if="vct.referral_to=='other'">
+                                                                        <label> Client Referring To Other Places </label>
+                                                                        <input type="text" ng-model="vct.referral_to_other" class="md-block">
+
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Condom Given  </label>
+                                                                        <md-select type="text" ng-model="vct.condom_given" class="md-block">
+                                                                            <md-option value="">----option----</md-option>
+                                                                            <md-option value="YES">YES</md-option>
+                                                                            <md-option value="NO">NO</md-option>
+
+
+
+                                                                        </md-select>
+                                                                    </md-input-container>
+                                                                    <md-input-container class="md-block col-md-3 col-sm-6">
+                                                                        <label> Comments  </label>
+                                                                <textarea rows="2" cols="1" ng-model="vct.comment" md-maxlength="250" class="md-block">
+
+
+                                                                </textarea>
+                                                                    </md-input-container>
+
+
+
+
+
+                                                                    <md-button  type="submit" class="md-raised md-primary" ng-click="vct_registration(vct,tbs)"> Save </md-button>
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </fieldset>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </md-dialog-content>
+</md-dialog>

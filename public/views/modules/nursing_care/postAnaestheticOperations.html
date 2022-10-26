@@ -1,0 +1,105 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> PATIENT NAME: {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}}({{patientPaticulars.medical_record_number}}) &nbsp; OPERATION DAY:{{patientPaticulars.operation_date}}  BED:{{admissionInfoData.bed_name}}
+						  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+            <md-content class="md-padding">
+            <div layout="row">
+
+ <md-list flex>
+   	 	
+	  <md-list-item ng-click="toggle.list7 = !toggle.list7">
+         <md-icon>explore</md-icon>
+         <span flex>OPERATION FINDINGS </span>
+         <md-icon ng-show="!toggle.list7">expand_more</md-icon>
+         <md-icon ng-show="toggle.list7">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list7">
+                                <div class="row">
+                                <md-input-container class="md-block">
+                     <label>OPERATION FINDINGS</label>
+					<input type="text" ng-model="nursingcare.operation_findings" >
+                                </md-input-container>
+                              
+                           <md-input-container class="md-block">
+      <md-button  class="md-raised md-primary"    ng-click="saveOPFindings(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+								
+													
+								
+     </span>    
+	 
+	 <md-list-item ng-click="toggle.list9 = !toggle.list9">
+         <md-icon>explore</md-icon>
+         <span flex>ANAESTHETIC COMPLICATIONS </span>
+         <md-icon ng-show="!toggle.list9">expand_more</md-icon>
+         <md-icon ng-show="toggle.list9">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list9">
+                                <div class="row">
+                                <md-input-container class="md-block">
+                     <label>COMPLICATIONS</label>
+							<input type="text" ng-model="nursingcare.anaethetic_complication" >
+                                </md-input-container>
+                              
+                                 <md-input-container>
+                                   <md-button  class="md-raised md-primary"    ng-click="saveAnaestheticCompliations(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+								
+													
+								
+     </span>  
+	 
+	 <md-list-item ng-click="toggle.list8 = !toggle.list8">
+         <md-icon>explore</md-icon>
+         <span flex>END SESSION</span>
+         <md-icon ng-show="!toggle.list8">expand_more</md-icon>
+         <md-icon ng-show="toggle.list8">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list8">
+                                <div class="row">
+                                <md-input-container class="md-block">
+                                    <label>Verify Discarge of {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}} from Post Operation findings</label>
+             <input type="text" ng-model="nursingcare.discharge_theatre" >
+                                </md-input-container>
+                               
+                                 <md-input-container >
+                                   <md-button  class="md-raised md-primary"    ng-click="endSessionPostFindings(patientPaticulars,nursingcare)" class="md-primary">
+                                    VERIFY
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+														
+     </span>
+
+</md-list>
+</div>
+   </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

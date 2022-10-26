@@ -1,0 +1,112 @@
+<div class="col-xs-12" ng-if="invoiceadm.length>0">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <p>INVOICE DETAILS</p>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                          <b style="color: red" ng-if ="invoiceadm.length==0">No data found</b>
+<div id='divtoprint_detail' ng-if ="invoiceadm.length>0" >
+                            <a ng-click="Exemption_finance_detail()" title="Print" class="no-print pull-right"><b class="glyphicon glyphicon-print "></b> Print</a>
+ 
+
+<table border="1" class="table table-striped" ng-if ="invoiceadm.length>0">
+    <tr >
+        <th colspan="8">
+            MINISTRY OF HEALTH,COMMUNITY DEVELOPMENT,GENDER,ELDERLY AND CHILDREN
+            <hr>
+            {{cardTitle.description}}
+ 
+            <p></p>
+            Medical Invoice
+        </th>
+       
+         
+    </tr>
+
+     <tr>
+        <th colspan="4">
+        Patient: &nbsp;&nbsp;&nbsp;{{invoices[0].first_name}}&nbsp;{{invoices[0].middle_name}}&nbsp;{{invoices[0].last_name}} &nbsp;({{invoices[0].medical_record_number}})<p></p>
+        HospitalNo: &nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_code}}<p></p>
+       Address:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_address}} <p></p>
+        City:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].council_name}} <p></p>
+        Phone#:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].mobile_number}} <p></p>
+        Email#:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_email}} <p></p>
+    </th>
+        <th colspan="4">
+        Age:&nbsp;&nbsp;&nbsp;{{invoices[0].age}} <p></p>
+        Ward: &nbsp;&nbsp;&nbsp;{{invoiceadm [0].ward_name}}<p></p>
+        BedNo:&nbsp;&nbsp;&nbsp;{{invoiceadm [0].bed_number}} <p></p>
+        AdmissionDate: &nbsp;&nbsp;&nbsp;{{invoiceadm [0].admission_date}}<p></p>
+        DischargeDate: &nbsp;&nbsp;&nbsp;
+        {{invoiceadm [0].admission_date}}({{invoiceadm [0].admission_status}})
+        
+        
+        <p></p>
+        
+    </th>
+    </tr>
+
+    <tr>
+        <th>Sn</th>
+        <th>serviceDate</th>
+        <th>Particulars</th>
+        <th>Quantity</th>
+        <th>Rate</th>
+        <th>Discount</th>
+        <th>Amount</th>
+        <th>Status</th>
+         
+    </tr>
+
+ <tr ng-repeat="invoice in invoices |filter:search track by $index">
+        <th >{{$index+1}}</th>
+        <th >{{invoice.created_at}}</th>
+        <th >{{invoice.item_name}}</th>
+        <th>{{invoice.quantity |currency:""}}</th>
+        <th>{{invoice.price|currency:""}}</th>
+        <th>{{invoice.discount |currency:""}}</th>
+        <th>{{(invoice.price-invoice.discount) * invoice.quantity |currency:""}}</th>
+        <th>{{invoice.payment_status}}</th>
+        
+         
+    </tr>
+
+   
+     <tr style="text-align: : right">
+        <th colspan="5"></th>
+        <th>-</th>
+        <th></th>
+        <th></th>
+         
+    </tr>
+
+    <tr style="text-align: right">
+        <th colspan="6">TOTAL</th>
+        <th>{{total |currency:""}}</th>
+        <th></th>
+        
+    </tr >
+     <tr style="text-align: right">
+        <th colspan="6">DISCOUNT</th>
+        <th>{{discount |currency:""}}</th>
+        <th></th>
+    </tr>
+    <tr style="text-align: right">
+        <th colspan="6">PAID</th>
+        <th>{{paid |currency:""}}</th>
+        <th></th>
+        
+    </tr>
+    <tr style="text-align: right">
+        <th colspan="6">TOTAL DUE</th>
+        <th>{{total - discount - paid |currency:""}}</th>
+        <th></th>
+        
+        
+    </tr>
+</table>
+                        </div>  
+                                                    </div>
+                                                </div>
+                                                 
+                                        </div>

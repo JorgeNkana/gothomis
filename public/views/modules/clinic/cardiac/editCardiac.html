@@ -1,0 +1,39 @@
+<md-dialog flex="80">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>UPDATE CARDIAC APPOINTMENT CAPACITY</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-content class="md-padding">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex="50">
+                            <label>Clinic Name</label>
+                            <md-select placeholder="Select Clinic" ng-model="setup.department" md-on-open="loadEmergency()" style="min-width: 200px;">
+                                <md-option ng-value="user" ng-repeat="user in cardio">{{user.department}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Clinic Capacity</label>
+                            <input type="number" name="name" ng-model="setup.capacity">
+                        </md-input-container>
+                    </div>
+                <md-button style="width: 15%;" class="md-raised md-primary"  ng-click="updateCapacity(setup)">
+                    UPDATE CAPACITY
+                </md-button>
+            </md-content>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

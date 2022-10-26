@@ -1,0 +1,864 @@
+<md-tabs md-dynamic-height md-border-bottom>
+<md-tab label="REQUISITION">
+    <vertical-tabs>
+    <vertical-tab-pane title="INCOMING REQUISITION">
+
+        <div class="pull-right" ng-if="item_orders.length >0" >
+            <form>
+
+                Orders<sup class="badge"> {{item_orders.length}} </sup>
+
+            </form>
+        </div>
+        <div class="" ng-if="item_orders.length >0">
+
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+
+
+
+                    <div flex="80" >
+                        <fieldset>
+                            <md-input-container class="md-block">
+                                <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+                            </md-input-container>
+                            <div class="form-top" ng-if="Vieworders.id">
+                                <div class="form-top-left"  >
+
+                                    <h6><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> PROCESSING REQUISITION FOR {{Vieworders.requesting_store_name}}</h6>
+
+                                </div>
+                            </div>
+
+
+                            <div ng-if="item_orders.length <1">
+                                NO Order or Requistion placed yet.......
+                            </div>
+
+                            <table  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="!Vieworders.id"  >
+
+
+                                <thead ng-if="item_orders.length != 0" style="background-color: beige">
+
+                                <tr >
+                                    <td class="mdl-data-table__cell--non-numeric" >
+
+                                        No
+
+                                    </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric" >
+
+                                        Item Code
+
+
+
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" >
+
+                                        Item
+
+
+
+                                    </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric" ng-click="sort('requesting_store_name')">
+
+                                        From
+
+
+
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" >
+
+                                        Quantity
+
+
+
+                                    </td>
+
+
+
+
+                                    <td class="mdl-data-table__cell--non-numeric" ng-click="sort('created_at')">
+
+                                        Order Date
+
+                                    </td>
+
+
+
+
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr dir-paginate="item in item_orders|itemsPerPage:100 |orderBy:sortKey:reverse  | filter:search track by $index" >
+                                    <td class="mdl-data-table__cell--non-numeric" >{{ $index+1 }}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" >  {{item.item_code}}  </td>
+                                    <td class="mdl-data-table__cell--non-numeric" >  {{item.item_name}}  </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric" >  {{item.requesting_store_name}}  </td>
+                                    <td class="mdl-data-table__cell--non-numeric" >  {{item.request_amount}}  </td>
+
+
+                                    <td class="mdl-data-table__cell--non-numeric" >  {{item.created_at}}  </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric" >  <button ng-click="Vieworder(item)" class="btn btn-info md-raised md-raised-send" title="Issue">Issue</button> </td>
+
+
+
+
+                                </tbody>
+
+                            </table>
+
+
+                            <div ng-if="!Vieworders.id">
+                                <dir-pagination-controls
+                                        max-size="5"
+                                        direction-links="true"
+                                        boundary-links="true" >
+                                </dir-pagination-controls>
+                            </div>
+                            <div ng-if="Vieworders.id">
+
+
+
+
+                                <!--issuing order part-->
+
+
+                                <div class="form-bottom">
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                            <label> Item Name</label>
+
+                                            <input type="text"  title="{{Vieworders.item_name}}"  class="md-block" disabled typeahead-on-select="loadBatch(item_issue.selectedItem.item_id)" ng-model="item_issue.selectedItem" ng-value="Vieworders.item_name"   uib-typeahead ="item as item.item_name  for item in showItem($viewValue)  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                                   typeahead-show-hint="true" typeahead-min-length="0">
+
+                                        </md-input-container>
+                                        <md-input-container class="md-block  col-md-6 col-sm-4" >
+
+                                            <label>Batch Number</label>
+
+                                            <input type="text"  class="md-block" typeahead-on-select="loadBatchBalance(item_issue.selectedBatch.batch_no,item_issue.selectedBatch.store_id)" ng-model="item_issue.selectedBatch"   uib-typeahead ="batch as batch.batch_no +' ' +'Store' +' '+batch.store_name   for batch in batches  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                                   typeahead-show-hint="true" typeahead-min-length="0">
+                                            <b ng-if="!batchesbalances" style="color: maroon;" >Choose Batch Number</b>
+                                            <b style="color:navy" role="info"ng-if="item_issue.selectedBatch"> <b >BALANCE:  &nbsp;&nbsp;&nbsp;</b>
+                                                <b ng-if="item_receive.selectedInvoice && item_receive.selectedInvoice.length >=4 && !item_receive.selectedInvoice.id"></b>
+                                                {{batchesbalances[0].quantity}} &nbsp;&nbsp;&nbsp; {{item_issue.selectedBatch.store_name}}
+                                            </b>
+
+
+                                        </md-input-container>
+                                    </div>
+                                    <div class="row">
+                                        <md-input-container class="md-block  col-md-6 col-sm-4">
+                                            <label>Requested Quantity</label>
+                                            <input disabled type="text" class="md-block" min="0" title="{{Vieworders.requesting_store_name}} Requesting Quantity [{{Vieworders.request_amount}}]" ng-value="Vieworders.request_amount"   ng-model="item_issue.quantity2">
+                                            <b ng-if="item_issue.quantity<0" style="color:maroon" role="remove"> Issuing Quantity Can not Be Negative value</b>
+                                        </md-input-container>
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                            <label>Issued Quantity</label>
+                                            <input type="number" class="md-block" min="0"     ng-model="item_issue.quantity">
+                                            <b ng-if="item_issue.quantity<0" style="color:maroon" role="remove"> Issuing Quantity Can not Be Negative value</b>
+                                        </md-input-container>
+
+
+
+                                    </div>
+
+                                    <div class="row">
+
+
+
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+
+                                            <label> Requesting Store</label>
+                                            <input type="text"  class="md-block" title="Requesting Store[{{Vieworders.requesting_store_name}}]" disabled ng-value="Vieworders.requesting_store_name" typeahead-on-select="" ng-model="item_issue.selectedStore"   uib-typeahead ="store as store.store_name  for store in stores  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                                   typeahead-show-hint="true" typeahead-min-length="0">
+
+
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block col-md-6 col-sm-4">
+                                            <label> Transaction Type</label>
+                                            <md-select ng-model="item_issue.transaction_type_id" class="md-block" >
+                                                <md-option ng-repeat="transtype in transtypes" ng-value="transtype.id">{{transtype.transaction_type}}</md-option>
+                                            </md-select>
+                                        </md-input-container>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-4">
+                                            <b  style="color:maroon" role="info"  ng-if="batchesbalances[0].quantity && batchesbalances[0].quantity - item_issue.quantity < 0 "> No enough quantity for the selected item batch number or Choose another item batch number </b>
+                                            <b  style="color:maroon" role="info"  ng-if="item_issue.selectedStore.id && item_issue.selectedBatch.store_id == item_issue.selectedStore.id"> Oops!!! You can not Issue item within a same store.... </b>
+                                            <md-button  class="md-raised md-primary " ng-click="order_issuing(item_issue,Vieworders)" ng-if="item_issue.quantity && item_issue.selectedBatch.store_id != item_issue.selectedStore.id && batchesbalances[0].quantity - item_issue.quantity >=0">Save</md-button>
+
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4">
+                                            <b ng-click="Cancelorder() " > <md-button class="">Cancel</md-button>  </b>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+        </div>
+
+    </vertical-tab-pane>
+
+
+    <vertical-tab-pane title="CREATE REQUISITION">
+        <div class="">
+
+            <md-input-container class="md-block col-md-3 col-sm-4">
+                <label> Item Name</label>
+
+                <input type="text" id="itm3"  class="md-block" typeahead-on-select="" ng-model="order.selectedItem"  uib-typeahead ="item as item.item_name  for item in showSearch($viewValue)  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                       typeahead-show-hint="true" typeahead-min-length="0">
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-3 col-sm-4">
+                <label> Quantity Requesting</label>
+                <input type="number"  id="itm4"  class="md-block" min="0"   ng-model="order.quantity">
+                <b ng-if="order.quantity<0" style="color:maroon" role="remove"> Issuing Quantity Can not Be Negative value</b>
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-3 col-sm-4">
+                <label> Request To</label>
+                <input type="text"  class="md-block" typeahead-on-select="" ng-model="order.selectedStoreRequestReceiver"   uib-typeahead ="store as store.store_name  for store in Sub_Main_stores  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                       typeahead-show-hint="true" typeahead-min-length="0">
+
+            </md-input-container>
+
+            <md-input-container class="md-block  col-md-3 col-sm-4">
+                <label> Request From</label>
+                <input type="text"  class="md-block" typeahead-on-select="" ng-model="order.selectedStoreRequestSender"  uib-typeahead ="store as store.store_name  for store in Sub_stores  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                       typeahead-show-hint="true" typeahead-min-length="0">
+                <b  style="color:maroon" role="info"  ng-if="order.selectedStoreRequesting.store_id && order.selectedStoreRequesting.id == order.selectedStoreRequested.id"> Oops!!! You can not Issue item within a same store.... </b>
+
+                <b style="color:maroon" role="remove" ng-if=" order.selectedStoreRequestReceiver.id && order.selectedStoreRequestSender.id == order.selectedStoreRequestReceiver.id">
+                    You can not Request item From similar Store..
+                </b>
+            </md-input-container>
+
+            <div class="md-block col-md-6 col-sm-4">
+                <md-button class="md-raised md-primary" ng-click="SubStore_item_list_requisition(order)"  ng-if="order.quantity"  >ADD TO LIST</md-button>
+            </div>
+
+            <div>
+
+                <table ng-if="items_array_requisitions.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <thead style="background-color: beige">
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric" >#</th>
+                        <th class="mdl-data-table__cell--non-numeric" >Name</th>
+                        <th class="mdl-data-table__cell--non-numeric" >Form</th>
+                        <th class="mdl-data-table__cell--non-numeric" >To</th>
+                        <th class="mdl-data-table__cell--non-numeric" >Quantity</th>
+
+                        <th class="mdl-data-table__cell--non-numeric" > </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="array in items_array_requisitions track by $index">
+                        <td class="mdl-data-table__cell--non-numeric" >{{$index + 1}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{array.item_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{array.from}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{array.store_name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric" >{{array.quantity}}</td>
+
+                        <td ><a   ng-click="removeItemArray($index)" style="color:maroon" title="Remove from list">Remove</a></td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+            <md-button class="md-raised md-primary" ng-if="items_array_requisitions.length>0" ng-click="substore_item_ordering()" >SAVE</md-button>
+
+        </div>
+
+    </vertical-tab-pane>
+
+        <vertical-tab-pane title="STOCK RECONCILIATION">
+
+            <!--//------------------ -->
+
+
+            <div >
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <md-input-container class="md-block col-md-6 col-md-4 ">
+                            <label>Search Item Name</label>
+
+                            <input type="text" id="itm" class="md-block" autocomplete="off" typeahead-on-select="reconsiliatedBatch(item_issue.selectedItem.item_id)" ng-model="item_issue.selectedItem"  uib-typeahead ="item as item.item_name  for item in showSearch($viewValue)  | filter:$viewValue">
+
+                        </md-input-container>
+
+                        <b style="background-color: red" ng-if="item_consiliates.length<1" class="col-md-6 col-md-4"> No Data Record Found For this Item</b>
+
+                        <table     border=1 class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="80%" ng-if="item_consiliates.length>0"   >
+
+
+                            <thead   style="background-color: beige">
+
+                            <tr >
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    Item
+
+
+
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    Store
+
+
+
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    Batch No
+
+
+
+                                </td>
+
+
+                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                    Quantity
+
+
+
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                    Actual Amount
+
+
+
+                                </td>
+
+
+
+
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="item in item_consiliates  track by $index" >
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.item_name}}  </td>
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.store_name}}  </td>
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.batch_no}}  </td>
+                                <td class="mdl-data-table__cell--non-numeric">  {{item.quantity}}  </td>
+                                <td class="mdl-data-table__cell--non-numeric">
+
+                                    <input type="text"   id="{{item.id.replace(regex, '_')}}" class="form-control reg money" placeholder="Enter Actual Amount" title="Enter item actual amount for {{item.item_name}} " onkeyup="money(this)"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td class="mdl-data-table__cell--non-numeric" colspan="6">
+                                    <md-input-container class="md-block col-md-12">
+                                        <textarea  ng-model="reason" required  id="reason"  placeholder="Enter Reconciliation Reasons"/>
+                                    </md-input-container>
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td class="mdl-data-table__cell--non-numeric" colspan="6">  <md-button ng-click="SaveReconsilation(reason)" class="md-raised md-primary fa fa-send" title="Update">Save</md-button> </td>
+
+
+                            </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--//------------------ -->
+
+
+
+
+        </vertical-tab-pane>
+</vertical-tabs>
+
+
+    </md-content>
+</md-tab>
+
+
+<md-tab label="ITEMS" ng-click="substore_item_receiving_list()">
+    <md-content class='md-padding'>
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+        <md-input-container class="md-block">
+            <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+        </md-input-container>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+
+
+                            <div flex="80">
+
+                                <a onclick="PrintContent();" ng-if="items" title="Print" class="no-print   pull-right"><b class="md-raised md-raised-print "></b>  </a>
+
+                                <div id='divtoprint' ng-if="items">
+                                    <p></p>
+                                    <h3 ng-if="report.id" class="text-center  form-control" style="border-radius: 50px;color:green "> {{report.balance}}</h3>
+                                    <div class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                        <md-input-container>
+                                        <input type="text"  class=" no-print  pull-right" typeahead-on-select="pharmacy_report(report.id)" ng-model="report" placeholder="Search report Options " uib-typeahead ="report as report.balance  for report in reports  | filter:$viewValue" typeahead-template-url="customTemplate.html"
+                                               typeahead-show-hint="true" typeahead-min-length="0"></md-input-container>
+                                        <!--<md-select ng-model="">-->
+                                            <!--<md-option>&#45;&#45;Report Option-&#45;&#45;&#45;&#45;</md-option>-->
+                                            <!--<md-option value={{report.id}} ng-click="pharmacy_report(report.id)" ng-repeat="report in reports" >-->
+                                                <!--{{report.balance}}-->
+                                            <!--</md-option>-->
+                                        <!--</md-select>-->
+                                       
+
+                                        <table   width="800px" border=1 class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"  >
+
+
+                                            <thead style="background-color: beige">
+
+                                            <tr>
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    No
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    Item Code
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-click="sort('item_name')">
+
+                                                    Item
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    Batch_no
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >
+
+                                                    Quantity
+
+
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" ng-click="sort('sub_store_name')">
+
+                                                    Store
+
+
+
+                                                </td>
+
+
+
+
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="report.id !=1">
+
+                                                    Remark
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="report.id !=1">
+
+                                                    Requesting_Store
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="report.id !=1">
+
+                                                    Requesting
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="report.id !=1">
+
+                                                    Issued
+
+
+
+                                                </td> <td class="mdl-data-table__cell--non-numeric" ng-if="report.id !=1" ng-click="sort('updated_at')">
+
+                                                Date
+
+
+
+                                            </td>
+
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr dir-paginate="item in items  |itemsPerPage:100 |orderBy:sortKey:reverse  | filter:search track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric" >{{ $index+1 }}</td>
+                                                <td class="mdl-data-table__cell--non-numeric" >  {{item.item_code}}  </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >  {{item.item_name}}  </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >  {{item.batch_no}}  </td>
+                                                <td class="mdl-data-table__cell--non-numeric" >  {{item.quantity}}  </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" >  {{item.sub_store_name}}  </td>
+
+
+                                                <td ng-if="report.id !=1">  {{item.transaction_type}}  </td>
+
+                                                <td ng-if="report.id !=1">  {{item.issued_store_name}}  </td>
+                                                <td ng-if="report.id !=1">  {{item.request_amount}}  </td>
+                                                <td ng-if="report.id !=1">  {{item.quantity_issued}}  </td>
+                                                <td ng-if="report.id !=1">  {{item.updated_at}}  </td>
+</tr>
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+                                    <!--<div ng-if="report.id ==1">-->
+                                        <!--<hr>-->
+                                        <!--<canvas id="bar" class="chart chart-bar"-->
+                                                <!--chart-data="data" chart-labels="labels" >-->
+                                        <!--</canvas>-->
+                                    <!--</div>-->
+                                    <dir-pagination-controls
+                                            max-size="5"
+                                            direction-links="true"
+                                            boundary-links="true" >
+                                    </dir-pagination-controls>
+                                </div>
+                            </div>
+
+                </div>
+            </div>
+
+            <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+</div>
+    </md-content>
+</md-tab>
+    <md-tab label="ITEM ISSUING">
+    <md-content class='md-padding'>
+
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <form >
+                        <fieldset>
+
+
+
+                            <md-input-container class="md-block  col-md-4 col-sm-4">
+                                <label> Item Name</label>
+
+                                <input type="text" id="item" class="md-block" typeahead-on-select="loadBatch(item_issue.selectedItem.item_id)" ng-model="item_issue.selectedItem" placeholder="Search Item " uib-typeahead ="item as item.item_name  for item in showItem($viewValue)  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                         typeahead-show-hint="true" typeahead-min-length="0">
+                                <div style="color: green;" ng-if="!item_issue.selectedItem.id" >Choose item you want to issue</div>
+                            </md-input-container>
+                            <md-input-container class="md-block  col-md-2 col-sm-4" ng-if="item_issue.selectedItem.id &&  batches.length > 0">
+
+                                <label  ng-if="batches.length > 0">Batch Number</label>
+                                <input type="text"  id="btch" class="md-block" typeahead-on-select="loadBatchBalance(item_issue.selectedBatch.batch_no,item_issue.selectedBatch.store_id)" ng-model="item_issue.selectedBatch"  uib-typeahead ="batch as batch.batch_no +' ' +'' +' '+batch.store_name   for batch in batches  | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
+
+                                <div style="color: maroon;" ng-if="batchesbalances && batchesbalances.length <1" >No balance for this Batch..</div>
+                                <div style="color: maroon;" ng-if="batches.length > 0" >
+
+
+                                </div>
+
+                           </md-input-container>
+
+                            <md-input-container class="md-block  col-md-2 col-sm-4" ng-if="batches.length > 0">
+                                <label>Issuing Quantity</label>
+                                <input type="number" id="itm2" class="md-block" min="1"  ng-model="item_issue.quantity">
+                                <b ng-if="item_issue.quantity<0" style="color:maroon" role="remove"> Issuing Quantity Can not Be Negative value</b>
+
+                            </md-input-container>
+
+
+                            <md-input-container class="md-block  col-md-3 col-sm-4" ng-if="batches.length > 0">
+                                <label> Transaction Type</label>
+
+                                <input type="text"  class="md-block" typeahead-on-select="" ng-model="item_issue.transaction_type_id"   uib-typeahead ="transtype as transtype.transaction_type  for transtype in transtypes | limitTo:20 | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                         typeahead-show-hint="true" typeahead-min-length="0">
+
+
+                            </md-input-container>
+
+
+                            <md-input-container class="md-block col-md-6 col-md-4 " ng-if="item_issue.transaction_type_id.adjustment=='plus'">
+
+                                <label> Issuing To</label>
+                                <input type="text"  class="md-block " typeahead-on-select="TargetedStoreUserToReceive(item_issue.selectedStore.id)" ng-model="item_issue.selectedStore"   uib-typeahead ="store as store.store_name  for store in stores | limitTo:20 | filter:$viewValue"  typeahead-template-url="customTemplate.html"
+                                       class="md-block" typeahead-show-hint="true" typeahead-min-length="0">
+
+
+                            </md-input-container>
+
+                            <md-input-container class="md-block col-md-6 col-md-4 " ng-if="item_issue.selectedStore.id">
+
+                                <label>Choose Targeted User To Received</label>
+                                <md-select ng-model="item_issue.user_targeted_id" md-block>
+                                    <md-option value="{{target_store_user.user_targeted_id}}" ng-repeat="target_store_user in target_store_users">{{target_store_user.name}}  </md-option>
+                                </md-select>
+
+                            </md-input-container>
+                            <div class="md-block col-md-4 col-sm-4" ng-if="item_issue.selectedItem">
+                                <md-button class="md-raised md-primary" ng-click="Substore_item_list_issue(item_issue)" ng-if="item_issue.quantity && item_issue.selectedBatch.store_id != item_issue.selectedStore.id && batchesbalances[0].quantity - item_issue.quantity >=0"  >ADD TO LIST</md-button>
+                            </div>
+
+                            <div>
+                                <p style="color: maroon;" ng-if="item_issue.selectedItem.id && batches.length < 1" >No balance in your store for this item </p>
+                                <b  style="color:maroon" role="info"  ng-if="batchesbalances[0].quantity && batchesbalances[0].quantity - item_issue.quantity < 0 ">  Only {{batchesbalances[0].quantity}} item(s)  available </b>
+                                <b  style="color:maroon" role="info"  ng-if="item_issue.selectedStore.id && item_issue.selectedBatch.store_id == item_issue.selectedStore.id"> Oops!!! You can not Issue item within a same store.... </b>
+
+
+                                <table ng-if="items_array_issue.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                    <tr style="background-color: beige">
+                                        <th class="mdl-data-table__cell--non-numeric" >#</th>
+                                        <th class="mdl-data-table__cell--non-numeric" >Name</th>
+                                        <th class="mdl-data-table__cell--non-numeric" >Form</th>
+                                        <th class="mdl-data-table__cell--non-numeric" >To</th>
+                                        <th class="mdl-data-table__cell--non-numeric" >Batch_#</th>
+                                        <th class="mdl-data-table__cell--non-numeric" >Quantity</th>
+
+                                        <th class="mdl-data-table__cell--non-numeric" > </th>
+
+                                    </tr>
+                                    <tr ng-repeat="array in items_array_issue track by $index">
+                                        <td class="mdl-data-table__cell--non-numeric" >{{$index + 1}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" >{{array.item_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" >{{array.from}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" >{{array.store_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" >{{array.batch_no}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" >{{array.quantity_issued}}</td>
+
+                                        <td ><a   ng-click="removeItemArray_issue($index)" style="color:maroon" title="Remove from list">Remove</a></td>
+
+
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                            <div class="md-block col-md-6 col-sm-4">
+
+
+                                <md-button  class="md-raised md-primary " ng-click="substore_item_issuing()" ng-if="items_array_issue.length>0">SAVE</md-button>
+
+                            </div>
+
+
+
+
+
+
+
+
+                </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; -->
+            <script type="text/ng-template" id="customTemplate.html">
+                <a>
+
+                    <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                </a>
+            </script>
+
+</div>
+
+
+    </md-content>
+</md-tab>
+
+
+
+
+</md-tabs>
+
+
+
+
+
+
+
+ 
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+
+
+
+
+    function PrintContent()
+    {
+//location.reload();
+        var DocumentContainer = document.getElementById('divtoprint');
+        var WindowObject = window.open("", "PrintWindow",
+                "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.title = "PRINT PATIENT CARD: GoT-HOMIS";
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+
+        setTimeout(function(){
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        },2000);
+
+
+
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('input.number').keyup(function(event) {
+            // skip for arrow keys
+            if(event.which >= 37 && event.which <= 40) return;
+
+            // format number
+            $(this).val(function(index, value) {
+                return value
+                    .replace(/\D/g, "")
+                    //.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    ;
+            });
+        });
+
+    });
+    function money(field, event){
+        // format number
+        $(field).val(function(index, value) {
+            return value
+                .replace(/\D/g, "")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                ;
+        });
+    }
+
+    function flag(element){
+        $('#tr_'+element.id.substring(4)).css('border-color','red');
+    }
+</script>

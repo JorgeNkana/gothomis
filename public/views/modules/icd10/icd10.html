@@ -1,0 +1,66 @@
+<style>
+    .rwd-table tr{border-top:1px solid #ddd;border-bottom:1px solid #ddd;border-color:#46637f}.rwd-table th{display:none}.rwd-table td{display:block}.rwd-table td:first-child{padding-top:.5em}.rwd-table td:last-child{padding-bottom:.5em}.rwd-table td:before{content:attr(data-th) ": ";font-weight:700;width:6.5em;display:inline-block}@media (min-width:480px){.rwd-table td:before{display:none}.rwd-table td,.rwd-table th{display:table-cell;padding:.25em .5em}.rwd-table td:first-child,.rwd-table th:first-child{padding-left:0}.rwd-table td:last-child,.rwd-table th:last-child{padding-right:0}}body{padding:0 2em;font-family:Montserrat,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:#444;background:#eee}h3{font-weight:400;letter-spacing:-1px;color:#34495E}.rwd-table{margin:0;min-width:300px;background:#34495E;color:#fff;border-radius:.4em;overflow:hidden}.rwd-table td,.rwd-table th{text-align:left;margin:.5em 1em}@media (min-width:480px){.rwd-table td,.rwd-table th{padding:1em!important}}.rwd-table td:before,.rwd-table th{color:#dd5}
+</style>
+<div>
+    <div style="padding-right: 5px;">
+        <md-content>
+            <md-card style="border-radius: 0px;background-color:white;border-top: 3px solid #009688;border-bottom: 3px solid #009688;">
+                <div>
+                    <h3 style="margin-top: 21px;" align="center"> International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10)</h3>
+                </div>
+                <md-content class="md-padding">
+                    <br>
+                    <md-content class="md-no-momentum">
+                        <form  name="searchForm">
+                            <form  name="searchForm">
+                                <div layout-gt-sm="row">
+                                    <md-autocomplete flex  flex
+                                                     md-search-text="searchText"
+                                                     md-input-name="patients"
+                                                     md-no-cache="false"
+                                                     md-items="item in icdSearch(searchText)"
+                                                     md-item-text="item.description+' '+item.code"
+                                                     md-selected-item-change="getRadiologyModal(item)"
+                                                     md-floating-label="Search Diagnosis"
+                                                     md-min-length="4" md-autofocus>
+                                        <md-item-template>
+                                            <span md-highlight-text="searchText">{{item.description}} {{item.code}} </span>
+                                        </md-item-template>
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+                        </form>
+                        <table style="
+
+    width: 100%;
+    background: #009688;
+
+" class="rwd-table">
+                            <tr>
+                                <th>Diagnosis Name</th>
+                                <th>Diagnosis Code</th>
+
+                            </tr>
+                            <tr dir-paginate="icdcode in icd10  |itemsPerPage:30">
+                                <td data-th="Movie Title"><strong>{{icdcode.description}}</strong> </td>
+                                <td data-th="Genre"><strong>{{icdcode.code}}</strong></td>
+
+                            </tr>
+
+                        </table>
+                        <dir-pagination-controls
+                                max-size="5"
+                                direction-links="true"
+                                boundary-links="true" >
+                        </dir-pagination-controls>
+
+
+
+                    </md-content>
+                    <br><br>
+
+                </md-content>
+            </md-card>
+        </md-content>
+    </div>
+</div>

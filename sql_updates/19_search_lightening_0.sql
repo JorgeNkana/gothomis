@@ -1,0 +1,3 @@
+DROP TRIGGER IF EXISTS `opd_patients`;
+DROP TRIGGER IF EXISTS `update_searchable_bill_details`;
+update tbl_accounts_numbers set paid_attendance = true where id in (select tbl_encounter_invoices.account_number_id from tbl_encounter_invoices join tbl_invoice_lines on tbl_encounter_invoices.id = tbl_invoice_lines.invoice_id join tbl_item_prices on tbl_invoice_lines.item_price_id = tbl_item_prices.id join tbl_registrar_services on tbl_item_prices.item_id =tbl_registrar_services.service_id where tbl_encounter_invoices.account_number_id = tbl_accounts_numbers.id);

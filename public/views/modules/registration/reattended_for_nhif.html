@@ -1,0 +1,139 @@
+<md-dialog ng-controller="patientController" class="fullscreen-dialog">
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row"  layout-align="space-between center">
+    <h2 class="md-display-1">{{patientData.first_name| uppercase}}&nbsp;{{patientData.middle_name| uppercase}}&nbsp;{{patientData.last_name| uppercase}}</h2>
+
+    <h3 class="md-title">{{patientData.medical_record_number}}</h3>
+
+    <span class="md-subhead">{{getLastVisit}}</span>
+</div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+
+            <div layout="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Insuarance </label>
+                    <md-select ng-model="insuarance">
+                        <md-option value="NHIF" selected="selected">NHIF</md-option>
+                        <md-option value="CHF">CHF</md-option>
+                        <md-option value="NSSF">NSSF</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Membership Number </label>
+                    <input type="text" ng-model="nhif_card">
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <md-button class="md-raised md-primary" ng-click="verification(nhif_card)">Verify</md-button>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex="50">
+                    <div ng-if="dataLoading">
+                        <img src="/img/wait.gif" width="80px" height="80px"> </img>
+                        Connecting to NHIF SERVER...
+                    </div>
+                </md-input-container>
+
+            </div>
+
+
+            <md-tabs md-dynamic-height md-border-bottom ng-if="verificationFalse">
+                <md-tab label="Billing">
+                    <md-content class="md-padding">
+                        <div style="min-height:400px;">
+                                                       <div layout="row">
+                                <md-input-container flex="50">
+                                    <label>Payment Category</label>
+
+
+                                    <md-select ng-model="encounter.payment_category"
+                                               ng-change="getPricedItems(encounter.payment_category)">
+
+                                        <md-option value=""></md-option>
+                                        <md-option ng-repeat="patientCat in patientCategory"
+                                                   value="{{patientCat.patient_category}}">
+                                            {{patientCat.patient_category}}
+                                        </md-option>
+                                    </md-select>
+
+                                </md-input-container>
+
+                                <md-input-container flex="50">
+                                    <label>Services</label>
+                                    <input autocomplete="off" required name="clientName"
+                                           ng-model="encounter.payment_services"
+                                           uib-typeahead=" patientCat as patientCat.item_name +' '+ patientCat.price for  patientCat in services | filter:$viewValue">
+                                    <div ng-messages="projectForm.payment_services.$error">
+                                        <div ng-message="required">This is required.</div>
+                                    </div>
+                                </md-input-container>
+
+
+                            </div>
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+                                <md-button ng-click="cancel()">
+                                    Cancel
+                                </md-button>
+                                <md-button class="md-raised md-primary"
+                                           ng-click="showGridBottomSheet(patientData,residences,encounter,patient)">
+                                    Save
+                                </md-button>
+                            </section>
+
+                        </div>
+
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="Exemption">
+                    <md-content class="md-padding">
+
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Exemption Type</label>
+                                <md-select ng-model="exempt.exemption_type_id">
+                                    <md-option ng-value={{exemption_type}}
+                                               ng-repeat="exemption_type in exemption_types">
+                                        {{exemption_type.exemption_name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Services</label>
+                                <input type="text" ng-model="exempt.service" class="md-block" autocomplete="off"
+                                       uib-typeahead=" exemption_service as exemption_service.item_name   for  exemption_service in exemption_services | filter:$viewValue">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+
+                            <md-input-container class="md-block" flex="50">
+                                <label>Exemption Reason</label>
+                                <input type="text" autocomplete="off" ng-model="exempt.exemption_reason"
+                                >
+                            </md-input-container>
+                        </div>
+                        <md-button class="md-primary md-raised" ng-click="exemption_registration(exempt,patientData)">
+                            ENTER ENCOUNTER
+                        </md-button>
+
+
+                    </md-content>
+                </md-tab>
+
+            </md-tabs>
+
+
+        </div>
+    </md-dialog-content>
+
+</md-dialog>

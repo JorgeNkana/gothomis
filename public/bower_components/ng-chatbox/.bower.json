@@ -1,0 +1,13 @@
+{
+  "name": "ng-chatbox",
+  "homepage": "https://github.com/Liksu/ng-chatbox",
+  "_release": "ec917dce29",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ec917dce292ad965818b99a89fd19eae59e68229"
+  },
+  "_source": "https://github.com/Liksu/ng-chatbox.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/Liksu/ng-chatbox.git"
+}

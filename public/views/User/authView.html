@@ -1,0 +1,129 @@
+<div class="push-bottom bg-login">
+  <div class="container">
+  <div class="row">
+    <div class=" col-xs-6 col-sm-offset-3">
+      
+      <div class="login-wrapper">
+        <div class="logo-container">
+         <img src="public/images/thumb_gov_tanzania_logo.png" alt="" class="img-responsive center-block">
+         <div class="logo-text">
+           <h2 style="font-size:18px; font-weight:600;">GoT - HoMIS <small> 3.0 </small></h2>
+         </div>
+        </div>
+       <script type="text/javascript">
+	   function ifTimeIsTooLong() {
+       $('#load').hide();
+	   //alert('Network issue...');
+}
+	   
+var ray={
+ajax:function(st)
+	{
+		this.show('load');
+		//this.setTimeout(this.hide('load'), 3000);
+	},
+show:function(el)
+	{
+		this.getID(el).style.display='';
+	},
+getID:function(el)
+	{
+		return document.getElementById(el);
+	}
+	
+	//setTimeout(ifTimeIsTooLong, 3000);
+}
+
+
+</script>
+<style type="text/css">
+#my_form_l{
+position:relative;
+  top:-10px;
+  right:-260px;
+
+
+}
+
+#load{
+/*position:absolute;
+z-index:1;
+//border:3px double #999;
+background:#ffffff;
+width:600px;
+height:350px;
+text-decoration: white;
+margin-top:-150px;
+margin-left:-80px;
+top:60%;
+left:15%*/;
+text-align:center;
+line-height:300px;
+font-family:"Trebuchet MS", verdana, arial,tahoma;
+font-size:18pt;
+}
+</style>
+
+<div id="load" style="display:none;background-repeat: no-repeat;">Login Authetication... Please wait</div>
+		
+		
+		<form ng-submit="auth.login()" >
+	   
+  <script>
+    
+    $( ".input" ).focusin(function() {
+  $( this ).find( "span" ).animate({"opacity":"0"}, 200);
+});
+
+$( ".input" ).focusout(function() {
+  $( this ).find( "span" ).animate({"opacity":"1"}, 300);
+});
+
+  </script>
+    
+   
+    
+   
+    
+
+    <div class="input">
+     <input type="email" class="form-control" placeholder="Email" ng-model="auth.email">
+    
+    </div>
+    
+    <div class="input">
+     <input type="password" class="form-control" placeholder="Password" ng-model="auth.password">
+     
+    </div>
+   
+    
+    
+  
+        <div class="xs-md-12">
+          <div class="form-group">
+            <button class="btn btn btn-success btn-lg btn-block" ng-click="auth.login()">Sign In</button>
+            
+          </div>
+        </div>
+        <div class="xs-md-12">
+          <div class="form-group" >
+
+          </div>
+        </div>
+        
+       <!-- Modal -->
+
+
+        
+      </form>
+     
+
+      </div>
+
+      
+    </div>
+    
+  </div>
+</div>
+
+</div>

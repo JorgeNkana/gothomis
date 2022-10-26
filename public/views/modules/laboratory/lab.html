@@ -1,0 +1,491 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form" class="">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3><span><i class="fa fa-user-md" aria-hidden="true"></i></span>&nbsp;LABORATORY DASHBOARD</h3>
+</div>
+</div>
+<br>
+<p><h3><b>Today's Status::>>&nbsp;Sample to Collect: {{lab_orders.length}} &nbsp; Sample Collected: {{lab_order_collected.length}} &nbsp; Awaiting Test: {{laborderperdepartment.length}} &nbsp; Awaiting Validation: {{getlaborapproved.length}} &nbsp; Test Validated: {{laborapproved.length}} &nbsp; Total Patients Today: {{labrequest.length}}</h3></p>
+
+<br>
+
+<uib-accordion close-others="oneAtATime">
+
+<div uib-accordion-group heading="LABORATORY SAMPLE COLLECTION" panel-class="panel-danger">
+
+<h3>
+<ul class="nav nav-tabs nav-justified">
+<li ng-class="{active: isSet(1)}" ng-click="get_lab_order()"><a href ng-click="setTab(1)">Sample to Collect</a></li>
+<li ng-class="{active: isSet(2)}" ng-click="get_lab_order_collected()"><a href ng-click="setTab(2)">Sample Collected</a></li>
+<li ng-class="{active: isSet(7)}" ng-click="getlaborapproveds()"><a href ng-click="setTab(7)">Approved Laboratory Test</a></li>
+</ul>
+</h3>
+
+<div class="row">
+<div ng-show="isSet(1)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<div class="col-xs-4" ng-if="!e">
+ <input type="text" class="form-control" disabled ng-model="order_numbers" ng-value="order_number" placeholder="Number of the Sample that you want to collect">
+</div>
+</table>
+<hr>
+<table class="table table-bordered table-striped" style="width:100%" >
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+PATIENT ID
+</td>
+<td class="text-navy">
+PATIETN NAME
+</td>
+<td class="text-navy">
+REQUEST FROM
+</td>
+<td class="text-navy">
+REQUESTED TO
+</td>
+<td class="text-navy">
+TEST REQUESTED
+</td>
+<td class="text-navy" width="20%">
+SAMPLE TO COLLECT
+</td>
+<td colspan="3" align="center">
+<h3 class="text-navy">
+ACTION
+</h3>
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="laborder in lab_orders | filter:search track by $index">
+<td>{{laborder.medical_record_number}} </td>
+<td>{{laborder.first_name}}&nbsp;
+{{laborder.middle_name}}&nbsp;
+{{laborder.last_name}}
+</td>
+<td>xxx</td>
+<td>{{laborder.sub_department_name}}</td>
+<td>{{laborder.item_name}}</td>
+<td>{{laborder.sample_to_collect}}</td>
+
+<td ng-if="order_number">
+<button class="btn btn-success" ng-click="savepatientlaborder(order_number,laborder)">Save Sample</button>
+</td>
+<td ng-if="order_number">
+<button type="button" ng-click="cancelsample(order_number)" class="btn btn-primary">Cancel Samples</button>
+</td>
+<td>
+<button class="btn btn-success" ng-click="createLabsOrderNo(laborder)" >Collect Sample</button>
+</td>
+</tr>
+</tbody>
+
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="row">
+<div ng-show="isSet(2)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<table class="table table-bordered table-striped" style="width:100%" >
+<b>Sample Collected</b>&nbsp;
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+ORDER ID
+</td>
+<td class="text-navy">
+PATIENT ID
+</td>
+<td class="text-navy">
+PATIETN NAME
+</td>
+<td class="text-navy">
+BELONGS TO
+</td>
+<td class="text-navy">
+TEST REQUESTED
+</td>
+<td class="text-navy">
+SAMPLE COLLECTED
+</td>
+<td class="text-navy">
+SAMPLE NO
+</td>
+<td class="text-navy">
+COLLECTED TIME
+</td>
+<td class="text-navy">
+COLLECTED BY
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="ordercollected in lab_order_collected | filter:search track by $index">
+<td> {{ordercollected.tbl_order_id}}</td>
+<td>{{ordercollected.medical_record_number}} </td>
+<td>{{ordercollected.first_name}}&nbsp;{{ordercollected.middle_name}}&nbsp;{{ordercollected.last_name}}</td>
+<td>{{ordercollected.sub_department_name}}</td>
+<td>{{ordercollected.item_name}}</td>
+<td>{{ordercollected.sample_to_collect}}</td>
+<td>{{ordercollected.sample_no}}</td>
+<td>{{ordercollected.time_received}}</td>
+<td>{{ordercollected.name}}</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div ng-show="isSet(7)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<table class="table table-bordered table-striped" style="width:100%" >
+<b>LABORATORY TEST APPROVED</b>&nbsp;
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+ORDER ID
+</td>
+<td class="text-navy">
+PATIENT ID
+</td>
+<td class="text-navy">
+PATIENT DETAILS
+</td>
+<td class="text-navy">
+TO DEPARTMENT
+</td>
+<td class="text-navy">
+SAMPLE COLLECTED
+</td>
+<td class="text-navy">
+SAMPLE NO
+</td>
+<td class="text-navy">
+CLINICAL NOTE
+</td>
+<td class="text-navy">
+TIME COLLECTED
+</td>
+<td class="text-navy">
+COLLECTED BY
+</td>
+<td class="text-navy">
+TIME APPROVED
+</td>
+<td class="text-navy">
+APPROVED BY
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="labresultapproved in laborapproved | filter:search track by $index">
+
+<td>{{labresultapproved.laborderid}} </td>
+<td>{{labresultapproved.medical_record_number}} </td>
+<td>{{labresultapproved.first_name}}&nbsp;{{labresultapproved.middle_name}}&nbsp;{{labresultapproved.last_name}}</td>
+<td>{{labresultapproved.sub_department_name}}</td>
+<td>{{labresultapproved.item_name}}</td>
+<td>
+{{labresultapproved.sample_no}}
+</td>
+<td>
+{{labresultapproved.clinical_note}}
+</td>
+<td>
+{{labresultapproved.verified_time}}
+</td>
+<td>
+{{labresultapproved.name}}
+</td>
+<td>
+{{labresultapproved.approved_time}}
+</td>
+<td>
+{{labresultapproved.name}}
+</td>
+</tr>
+</tbody>
+
+</table>
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+</div>
+<!-- END OF FIRST uib-accordion -->
+
+<div ng-repeat='subdepartment in subdepartment' ng-click="getlaborderperdepartment(subdepartment)" uib-accordion-group heading={{subdepartment.sub_department_name}} panel-class="panel-danger">
+
+<h3>
+<ul class="nav nav-tabs nav-justified">
+<li ng-class="{active: isSet(3)}" ng-click="getmicrobiologyrequest()"><a href ng-click="setTab(3)">Awaiting Test</a></li>
+<li ng-class="{active: isSet(4)}" ng-click="getlaborapproves(subdepartment)"><a href ng-click="setTab(4)">Awaiting Validation</a></li>
+</ul>
+</h3>
+
+
+<div class="row">
+<div ng-show="isSet(3)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<table class="table table-bordered table-striped" style="width:100%" >
+<b>Awaiting Test</b>&nbsp;
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+ORDER ID
+</td>
+<td class="text-navy">
+PATIENT ID
+</td>
+<td class="text-navy">
+PATIENT DETAILS
+</td>
+<td class="text-navy">
+SOURCE
+</td>
+<td class="text-navy">
+TO DEPARTMENT
+</td>
+<td class="text-navy">
+SAMPLE COLLECTED
+</td>
+<td class="text-navy">
+SAMPLE NO
+</td>
+<td class="text-navy">
+CLINICAL NOTE
+</td>
+<td class="text-navy">
+ACTION
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="ordercollected in laborderperdepartment | filter:search track by $index">
+
+<td>{{ordercollected.laborderid}} </td>
+<td>{{ordercollected.medical_record_number}} </td>
+<td>{{ordercollected.first_name}}&nbsp;{{ordercollected.middle_name}}&nbsp;{{ordercollected.last_name}}</td>
+<td></td>
+<td>{{ordercollected.sub_department_name}}</td>
+<td>{{ordercollected.item_name}}</td>
+<td>
+{{ordercollected.sample_no}}
+</td>
+<td>
+{{ordercollected.clinical_note}}
+</td>
+<td>
+<button class="btn btn-success" ng-Click="postpatientlaborder(ordercollected)">Post Results</button>
+</td>
+
+</tr>
+</tbody>
+
+</table>
+</div>
+<br><br>
+
+<div class="form-bottom" >
+<div class="row">
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+<div ng-show="isSet(4)">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+
+<div class="col-md-12">
+<table class="table table-bordered table-striped" style="width:100%" >
+<b>Awaiting Validation</b>&nbsp;
+<div class="form-group">
+<div class="input-group">
+</div>
+</div>
+<thead>
+<tr>
+<td class="text-navy">
+ORDER ID
+</td>
+<td class="text-navy">
+PATIENT ID
+</td>
+<td class="text-navy">
+PATIENT DETAILS
+</td>
+<td class="text-navy">
+TO DEPARTMENT
+</td>
+<td class="text-navy">
+SAMPLE COLLECTED
+</td>
+<td class="text-navy">
+SAMPLE NO
+</td>
+<td class="text-navy">
+CLINICAL NOTE
+</td>
+<td class="text-navy">
+RESULT
+</td>
+<td class="text-navy">
+ACTION
+</td>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="getlaborapprov in getlaborapproved | filter:search track by $index">
+
+<td>{{getlaborapprov.laborderid}} </td>
+<td>{{getlaborapprov.medical_record_number}} </td>
+<td>{{getlaborapprov.first_name}}&nbsp;{{getlaborapprov.middle_name}}&nbsp;{{getlaborapprov.last_name}}</td>
+<td>{{getlaborapprov.sub_department_name}}</td>
+<td>{{getlaborapprov.item_name}}</td>
+<td>
+{{getlaborapprov.sample_no}}
+</td>
+<td>
+{{getlaborapprov.clinical_note}}
+</td>
+<td>
+{{getlaborapprov.result}}
+</td>
+<td>
+<button class="btn btn-success" ng-Click="approveresult(getlaborapprov)">APPROVE</button>
+</td>
+
+</tr>
+</tbody>
+
+</table>
+</div>
+<br><br>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
+
+</uib-accordion>
+
+</fieldset>
+</form>
+</div>
+</div>
+</div>

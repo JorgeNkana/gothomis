@@ -1,0 +1,321 @@
+<style>
+    .horizontal-collapse {
+        height: 70px;
+    }
+    .navbar-collapse.in {
+        overflow-y: hidden;
+    }
+
+
+    label input[type=checkbox]:checked ~ span {
+
+        background: url('/img/checked.png');
+
+        background-size: 100%;
+    }
+
+
+
+    .card .card-image{
+        overflow: hidden;
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+        -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .card .card-image img{
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -ms-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    /*.card .card-image:hover img{*/
+        /*-webkit-transform: scale(1.2) rotate(-7deg);*/
+        /*-moz-transform: scale(1.2) rotate(-7deg);*/
+        /*-ms-transform: scale(1.2) rotate(-7deg);*/
+        /*-o-transform: scale(1.2) rotate(-7deg);*/
+        /*transform: scale(1.2) rotate(-7deg);*/
+    /*}*/
+
+    .card{
+        font-family: 'Roboto', sans-serif;
+        margin-top: 10px;
+        position: relative;
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 4 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .card .card-content {
+        padding: 10px;
+    }
+
+    .card .card-content .card-title, .card-reveal .card-title{
+        font-size: 24px;
+        font-weight: 200;
+    }
+
+    .card .card-action{
+        padding: 20px;
+        border-top: 1px solid rgba(160, 160, 160, 0.2);
+    }
+    .card .card-action a{
+        font-size: 15px;
+        color: #ffab40;
+        text-transform:uppercase;
+        margin-right: 20px;
+        -webkit-transition: color 0.3s ease;
+        -moz-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        -ms-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+    .card .card-action a:hover{
+        color:#ffd8a6;
+        text-decoration:none;
+    }
+
+    .card .card-reveal{
+        padding: 20px;
+        position: absolute;
+        background-color: #FFF;
+        width: 100%;
+        overflow-y: auto;
+        /*top: 0;*/
+        left:0;
+        bottom:0;
+        height: 100%;
+        z-index: 1;
+        display: none;
+    }
+
+    .card .card-reveal p{
+        color: rgba(0, 0, 0, 0.71);
+        margin:20px ;
+    }
+
+    .btn-custom{
+        background-color: transparent;
+        font-size:12px;
+    }
+
+
+
+
+</style>
+<div ng-controller='radiologyViewController'>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form">
+                <fieldset>
+
+
+
+
+
+
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-12 form-box">
+                                    <form  role="form" class="">
+                                        <fieldset>
+                                            <div class="form-top">
+                                                <div class="form-top-left">
+
+                                                    <h3><span><i class="fa fa-user-md"  aria-hidden="true"></i></span > Imaging management</h3>
+
+                                                    <div class="pull-right">
+
+                                                        <button type="button" class="btn btn-primary btn-rounded" ng-click="isCollapsed = !isCollapsed">Patient Queue
+                                                            <sup style="background-color: #ed5666;color: white;"  data-toggle="tooltip"
+                                                                 class="badge badge-danger">{{Xrays.length}}</sup>
+                                                        </button>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-bottom">
+                                                <div class="row">
+
+                                                    <div uib-collapse="isCollapsed">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <tr>
+
+                                                                <th>No</th>
+                                                                <th>Patient Name</th>
+                                                                <th>Medical Record Number</th>
+                                                                <th>Verify</th>
+
+
+
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr ng-repeat="xray in Xrays | filter:search track by $index">
+                                                                <td>{{$index+1}}</td>
+                                                                <td><p ng-if="!statuses">{{xray.first_name | uppercase}} {{xray.middle_name| uppercase}} {{xray.last_name| uppercase}}</p>
+
+                                                                </td>
+                                                                <td class="text-navy"><p ng-if="!statuses">{{xray.medical_record_number}} </p>
+
+
+
+                                                                </td>
+
+
+                                                                <td>
+
+                                                                    <div>
+                                                                        <button data-toggle="modal"
+                                                                                data-target="#exampleModal1" data-whatever="@mdo" data-toggle="tooltip"
+                                                                                 class="btn btn-warning" ng-click="imageStatus(xray.patient_id)">VERIFY</button>
+                                                                    </div>
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                </fieldset>
+            </form>
+        </div>
+        <div class="row">
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--Modal for Verification-->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-desktop " aria-hidden="true"></i></span> Imaging Verification</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+
+                                        <div class="container" ng-repeat="patient_order in patient_orders | filter:search track by $index" >
+                                            <div class="row">
+                                                <div class="col-sm-8 col-sm-offset-2">
+                                                    <div class="card">
+                                                        <div class="card-image">
+                                                            <a><img class="img-responsive" ng-src="public/uploads/{{patient_order.attached_image}}"></a>
+
+
+                                                        </div><!-- card image -->
+                                                        <pre>{{patient_order}}</pre>
+
+                                                        <div class="card-content">
+                                                            <span class="card-title">{{patient_order.first_name | uppercase}} {{patient_order.middle_name | uppercase}} {{patient_order.last_name | uppercase}} {{patient_order.last_name | uppercase}}
+
+                                                            </span>
+
+
+                                                        </div><!-- card content -->
+                                                        <div class="card-action">
+
+                                                            <div class="form-group">
+                                                <textarea disabled rows="5" cols="5" class="form-control" ng-model="patient_order.description"
+                                                          ></textarea>
+                                                            </div>
+
+
+
+
+
+                                                                <button class="btn btn-success" ng-click="VerifyXray(patient_order.resulted)">VERIFY</button>
+                                                                <button class="btn btn-danger">DELETE</button>
+
+                                                        </div>
+
+
+                                                        <!-- card actions -->
+                                                        <!--<div class="card-reveal">-->
+                                                            <!--<span class="card-title">Radiological findings</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>-->
+                                                            <!--<p>Here is some more information about this product that is only revealed once clicked on.</p>-->
+                                                        <!--</div>&lt;!&ndash; card reveal &ndash;&gt;-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+<script>
+    $(function(){
+
+        $('#show').on('click',function(){
+            $('.card-reveal').slideToggle('slow');
+        });
+
+        $('.card-reveal .close').on('click',function(){
+            $('.card-reveal').slideToggle('slow');
+        });
+    });
+</script>

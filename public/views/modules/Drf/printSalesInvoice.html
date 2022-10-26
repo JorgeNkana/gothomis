@@ -1,0 +1,103 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog   flex="80" class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            No #: &nbsp;   {{invoice_number}}
+            <span flex></span>
+            <!--<a href="javascript:window.print()" class="no-print btn btn-success pull-right">Print Card</a>-->
+
+            <span flex></span>
+            <!--<a href="javascript:window.print()" class="no-print btn btn-success pull-right">Print Card</a>-->
+            <md-button class="md-primary md-raised pull-right" ng-click="PrintContent()">
+                Print
+            </md-button>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div id="invoice_id">
+
+            <div class="col-md-12" style="text-align:center">
+                <br/>
+                {{menu[0].facility_name}}&nbsp;&nbsp;
+                {{menu[0].description}}<br/>
+                <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+
+                DUKA LA DAWA<br>
+
+            </div>
+
+            <table border="1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"   ng-if="saleses.length>0" >
+
+                <thead style="background-color: beige">
+<tr>
+    <th colspan="4">
+
+        FacilitySellerName:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp;<p></p>
+        FacilitySellerContact:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_mobile_number}}&nbsp;&nbsp;&nbsp;<p></p>
+        FacilitySellerAddress:&nbsp;&nbsp;&nbsp;{{loginUserFacilityDetails[0].facility_address}}&nbsp;&nbsp;&nbsp;<p></p>
+
+    </th>
+    <th colspan="4">
+       ..................  No #: &nbsp;   {{invoice_number}}.......................... <p></p>
+        BuyerName:&nbsp;&nbsp;&nbsp;{{saleses[0].buyer_name}}&nbsp;&nbsp;&nbsp;<p></p>
+        Date of issue:   {{date | date:'yyyy-MM-dd HH:mm:ss'}}
+
+    </th>
+</tr>
+                <tr>
+
+
+                    <td class="mdl-data-table__cell--non-numeric" >   s/n </td>
+                    <td class="mdl-data-table__cell--non-numeric" > ItemName </td>
+                    <!-- <td class="mdl-data-table__cell--non-numeric" > BatchNumber  </td> -->
+                    <td class="mdl-data-table__cell--non-numeric" > Quantity  </td>
+                    <td class="mdl-data-table__cell--non-numeric" > Unit Price  </td>
+                    <td class="mdl-data-table__cell--non-numeric" > Cost Price  </td>
+                    <!-- <td class="mdl-data-table__cell--non-numeric" > BuyerName  </td>
+                    <td class="mdl-data-table__cell--non-numeric" > Expiry Date </td> -->
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="stock in saleses | filter:search track by $index">
+                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{ stock.item_name }}</td>
+                    <!-- <td class="mdl-data-table__cell--non-numeric"> {{ stock.batch_number }}</td> -->
+                    <td class="mdl-data-table__cell--non-numeric"> {{ stock.quantity | number : fractionSize}}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{ stock.unit_price | number : fractionSize }}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{  stock.unit_price * stock.quantity*mult| number : fractionSize}}</td>
+                    <!-- <td class="mdl-data-table__cell--non-numeric"> {{ stock.buyer_name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric"> {{ stock.expiry_date }}</td> -->
+                </tr>
+                </tbody>
+                <tr style="font-family: Tahoma;font-size: medium"><th colspan="4">{{statement}}</th>
+                    <th  >{{ totalSalesCost*mult | number : fractionSize}} </th>
+                    <th  colspan="3"> issued by: {{user_name}}</th>
+                </tr>
+            </table>
+		
+        <hr>
+          
+        SellerName/Designation:....{{user_name}}....................................................................................&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Signature:......................
+   <p></p>
+        BuyerName/Designation:...{{invoiceDetails[0].buyer_name}}.....................................................................................&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Signature:......................
+</div>
+
+        </div>
+    </md-dialog-content>
+</md-dialog>

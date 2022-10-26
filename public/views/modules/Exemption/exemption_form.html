@@ -1,0 +1,768 @@
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2"> GBV/VAC </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>GBV/VAC Categories</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+                                        <!--EXEMPTION  TYPE SETTING STARTING-->
+                                        <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                                        <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control ">{{good}}</i></strong>
+
+                                        <div >
+
+                                            <p></p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="glyphicon ">
+                                                       Violence category name</i></div>
+
+                                                    <input type="text" class="form-control" data-toggle="tooltip" title="Enter  Violence name" placeholder="Enter Violence name" ng-model="violence_cat.violence_type_category">
+
+                                                </div>
+                                            </div>
+
+
+                                            <button class="btn btn-success" ng-click="violence_cat_registration(violence_cat)" >Register</button>
+                                            <p></p>
+
+
+
+
+
+
+
+
+                                            <table class="table table-bordered table-striped" ing-if="exemption_types" >
+                                                <b>violence_category Total:{{violence_cats.length}}</b>
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <!--<div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>-->
+
+                                                        <!--<input type="text" class="form-control" data-toggle="tooltip" title="Filter by Your search index" placeholder="Search...." ng-model="search">-->
+
+                                                        <!--</div>-->
+                                                    </div>
+                                                    <thead>
+                                                    <tr>
+                                                        <td>
+
+                                                            No#
+
+                                                        </td>
+
+                                                        <td>
+
+                                                            Violence category
+
+
+
+                                                        </td>
+
+                                                        <td>
+
+                                                            Edit
+
+                                                        </td> <td  ng-if="!e">
+
+                                                        X
+
+                                                    </td>
+                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                    <tr ng-repeat="violence_cat in violence_cats | filter:search track by $index">
+                                                        <td>{{ $index+1 }}</td>
+
+                                                        <td><b ng-if="!e">{{ violence_cat.violence_type_category }}</b>
+                                                            <h3 ng-if="e">
+
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" placeholder="violence category name" ng-model="violence_cat.violence_type_category">
+                                                                </div>
+
+
+                                                            </h3>
+                                                        </td>
+
+                                                        <td ng-if="e">
+                                                            <h3 >
+
+                                                                <div class="form-group">
+
+
+                                                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="violence_cat_update(violence_cat)">Update</button>
+
+                                                                </div>
+                                                            </h3>
+                                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                        </td><td  ng-if="!e">
+                                                        <!--<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</button>-->
+                                                    </td>
+                                                        <!--<td>{{ region.tastiness }}</td>-->
+                                                    </tr>
+                                                    </tbody>
+
+                                            </table>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3"> REFERRAL INSTITUTIONS </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <form  role="form" class="registration-form" action="javascript:void(0);">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span> REFERRAL INSTITUTIONS</h3>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+                                        <!--EXEMPTION  TYPE SETTING STARTING-->
+                                        <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                                        <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control ">{{good}}</i></strong>
+
+                                        <div >
+
+                                            <p></p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="glyphicon ">
+                                                       Institution name</i></div>
+
+                                                    <input type="text" class="form-control" data-toggle="tooltip" title="Enter  Institution name" placeholder="Enter Institution name" ng-model="institute.institution_name">
+
+                                                </div>
+                                                </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="glyphicon ">
+                                                       Institution Type</i></div>
+
+                                                    <input type="text" class="form-control" data-toggle="tooltip" title="Enter  Institution Type" placeholder="Enter Institution Type" ng-model="institute.institution_type">
+
+                                                </div>
+                                            </div>
+
+
+                                            <button class="btn btn-success" ng-click="institution_registration(institute)" >Register</button>
+                                            <p></p>
+
+
+
+
+
+
+
+
+                                            <table class="table table-bordered table-striped" ing-if="exemption_types" >
+                                                <b>violence_category Total:{{violence_cats.length}}</b>
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <!--<div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>-->
+
+                                                        <!--<input type="text" class="form-control" data-toggle="tooltip" title="Filter by Your search index" placeholder="Search...." ng-model="search">-->
+
+                                                        <!--</div>-->
+                                                    </div>
+                                                    <thead>
+                                                    <tr>
+                                                        <td>
+
+                                                            No#
+
+                                                        </td>
+
+                                                        <td>
+
+                                                          Institution Name
+
+
+
+                                                        </td> <td>
+
+                                                          Institution Type
+
+
+
+                                                        </td>
+
+                                                        <td>
+
+                                                            Edit
+
+                                                        </td> <td  ng-if="!e">
+
+                                                        X
+
+                                                    </td>
+                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                    <tr ng-repeat="institute in institutes | filter:search track by $index">
+                                                        <td>{{ $index+1 }}</td>
+
+                                                        <td><b ng-if="!e">{{ institute.institution_name }}</b>
+                                                            <h3 ng-if="e">
+
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" placeholder="institution name" ng-model="institute.institution_name">
+                                                                </div>
+
+
+                                                            </h3>
+                                                        </td>
+                                                        <td><b ng-if="!e">{{ institute.institution_type }}</b>
+                                                            <h3 ng-if="e">
+
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" placeholder="institution type" ng-model="institute.institution_type">
+                                                                </div>
+
+
+                                                            </h3>
+                                                        </td>
+
+                                                        <td ng-if="e">
+                                                            <h3 >
+
+                                                                <div class="form-group">
+
+
+                                                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="institution_update(institute)">Update</button>
+
+                                                                </div>
+                                                            </h3>
+                                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                                        </td><td  ng-if="!e">
+                                                        <!--<button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</button>-->
+                                                    </td>
+                                                        <!--<td>{{ region.tastiness }}</td>-->
+                                                    </tr>
+                                                    </tbody>
+
+                                            </table>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Send message</button>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12 form-box">
+
+                    <div class="">
+                        <form>
+                            <div class="input-group">
+                                <input type="text"  class="form-control input-lg" typeahead-on-select="" ng-model="exempt.selectedPatient" placeholder="Type medical record number" uib-typeahead ="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name+' '+patient.medical_record_number for patient in patients | limitTo:8 | filter:$viewValue">
+
+                                <div class="input-group-btn">
+                                    <button class="btn btn-lg btn-success" >
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <p></p>
+                    <p></p>
+                    <form  role="form" class="registration-form" action="javascript:void(0);">
+                        <fieldset>
+                            <div class="form-top">
+                                <div class="form-top-left">
+
+
+
+                                        EXEMPTION
+                                        <p></p>
+                                        <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" data-toggle="tooltip" title=" Registration of Exemption Types">Exemption Types</button>
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="@fat" data-toggle="tooltip" title=" Registration of Exemption Status ">Exemption Status</button>
+                                    <button type="button" class="btn btn-primary" ng-click="violence_cat_list()" data-toggle="modal" data-target="#exampleModal2" data-whatever="@fat" data-toggle="tooltip" title=" Registration of   GBV/VAC Categories ">Add GBV/VAC Categories </button>
+                                    <button type="button" class="btn btn-primary" ng-click="institution_list()" data-toggle="modal" data-target="#exampleModal3" data-whatever="@fat" data-toggle="tooltip" title=" Registration of   Referral Institutions ">Add Referral Institutions </button>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> EXEMPTION TYPES </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+                                    <div class="col-md-12 form-box">
+                                        <form  role="form" class="registration-form" action="javascript:void(0);">
+                                            <fieldset>
+                                                <div class="form-top">
+                                                    <div class="form-top-left">
+                                                        <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>EXEMPTION TYPES</h3>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-bottom">
+                            <!--EXEMPTION  TYPE SETTING STARTING-->
+                            <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                            <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control ">{{good}}</i></strong>
+
+                            <div >
+
+                                <p></p>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Name</i></div>
+
+                                        <input type="text" class="form-control" data-toggle="tooltip" title="Enter  Exemption Name" placeholder="Enter  Exemption name" ng-model="exemption_type.exemption_name">
+
+                                    </div>
+                                </div>
+
+
+                                <button class="btn btn-success" ng-click="exemption_type_registration(exemption_type)" >Register</button>
+                                <p></p>
+
+
+
+
+
+
+
+
+                                <table class="table table-bordered table-striped" ing-if="exemption_types" >
+                                    <b>Exemption Type Total:{{exemption_types.length}}</b>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <!--<div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>-->
+
+                                            <!--<input type="text" class="form-control" data-toggle="tooltip" title="Filter by Your search index" placeholder="Search...." ng-model="search">-->
+
+                                        <!--</div>-->
+                                    </div>
+                                    <thead>
+                                    <tr>
+                                        <td>
+
+                                            No#
+
+                                        </td>
+
+                                        <td>
+
+                                            Exemption Type
+
+
+
+                                        </td>
+
+                                        <td>
+
+                                            Edit
+
+                                        </td> <td  ng-if="!e">
+
+                                        X
+
+                                    </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="exemption_type in exemption_types | filter:search track by $index">
+                                        <td>{{ $index+1 }}</td>
+
+                                        <td><b ng-if="!e">{{ exemption_type.exemption_name }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="exemption_type" ng-model="exemption_type.exemption_name">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+
+                                        <td ng-if="e">
+                                            <h3 >
+
+                                                <div class="form-group">
+
+
+                                                    <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="exemption_type_update(exemption_type)">Update</button>
+
+                                                </div>
+                                            </h3>
+                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                        </td><td  ng-if="!e">
+                                        <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</button>
+                                    </td>
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!--<button type="button" class="btn btn-primary">Send message</button>-->
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+            <!--model two-->
+
+
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">EXEMPTION STATUS SETTING</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+                                    <div class="col-md-12 form-box">
+                                        <form  role="form" class="registration-form" action="javascript:void(0);">
+                                            <fieldset>
+                                                <div class="form-top">
+                                                    <div class="form-top-left">
+                                                        <h3><span><i class="fa fa-gear" aria-hidden="true"></i></span>EXEMPTION STATUS SETTING</h3>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-bottom">
+                            <strong direction="right"   ng-if="del"><i     class="btn btn-danger form-control">{{deleted}}</i></strong>
+                            <strong direction="left"    ng-if="kol"><i    class="btn btn-success form-control">{{good}}</i></strong>
+
+                            <!--EXEMPTION  STATUS SETTING STARTING-->
+
+
+                            <div >
+
+                                <p></p>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="glyphicon ">
+                                            Exemption Status</i></div>
+
+                                        <input type="text" class="form-control" data-toggle="tooltip" title="Enter Exemption Status" placeholder="Enter  Exemption Status" ng-model="exemption_status.exemption_status">
+
+                                    </div>
+                                </div>
+
+
+                                <button class="btn btn-success" ng-click="exemption_status_registration(exemption_status)" >Register</button>
+                                <p></p>
+
+
+
+
+
+
+
+
+                                <table class="table table-bordered table-striped" ing-if="exemption_types" >
+                                    <b>Exemption Status Total:{{exemption_statuses.length}}</b>
+                                    <div class="form-group">
+                                        <div class="input-group">
+
+
+                                        </div>
+                                    </div>
+                                    <thead>
+                                    <tr>
+                                        <td>
+
+                                            No#
+
+                                        </td>
+
+                                        <td>
+
+                                            Exemption Status
+
+
+
+                                        </td>
+
+                                        <td>
+
+                                            Edit
+
+                                        </td> <td  ng-if="!e">
+
+                                        X
+
+                                    </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="exemption_status in exemption_statuses | filter:search track by $index">
+                                        <td>{{ $index+1 }}</td>
+
+                                        <td><b ng-if="!e">{{ exemption_status.exemption_status }}</b>
+                                            <h3 ng-if="e">
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" data-toggle="tooltip" title="Exemption Status" placeholder="exemption status" ng-model="exemption_status.exemption_status">
+                                                </div>
+
+
+                                            </h3>
+                                        </td>
+
+                                        <td ng-if="e">
+                                            <h3 >
+
+                                                <div class="form-group">
+
+
+                                                    <button class="btn btn-success"  data-toggle="tooltip" title="Click to Update This Record" ng-click="exemption_status_update(exemption_status)">Update</button>
+
+                                                </div>
+                                            </h3>
+                                            <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                                        </td><td  ng-if="!e">
+                                        <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="exemption_status_delete(exemption_status.exemption_status,exemption_status.id)">Delete</button>
+                                    </td>
+                                        <!--<td>{{ region.tastiness }}</td>-->
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+
+
+
+
+                            <!--EXEMPTION TYPE ENDING-->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!--<button type="button" class="btn btn-primary">Send message</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--model three-->
+
+
+
+
+
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.registration-form fieldset:first-child').fadeIn('slow');
+
+                $('.registration-form input[type="text"]').on('focus', function () {
+                    $(this).removeClass('input-error');
+                });
+
+                // next step
+                $('.registration-form .btn-next').on('click', function () {
+                    var parent_fieldset = $(this).parents('fieldset');
+                    var next_step = true;
+
+                    parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                        if ($(this).val() == "") {
+                            $(this).addClass('input-error');
+                            next_step = false;
+                        } else {
+                            $(this).removeClass('input-error');
+                        }
+                    });
+
+                    if (next_step) {
+                        parent_fieldset.fadeOut(400, function () {
+                            $(this).next().fadeIn();
+                        });
+                    }
+
+                });
+
+                // previous step
+                $('.registration-form .btn-previous').on('click', function () {
+                    $(this).parents('fieldset').fadeOut(400, function () {
+                        $(this).prev().fadeIn();
+                    });
+                });
+
+                // submit
+                $('.registration-form').on('submit', function (e) {
+
+                    $(this).find('input[type="text"],input[type="email"]').each(function () {
+                        if ($(this).val() == "") {
+                            e.preventDefault();
+                            $(this).addClass('input-error');
+                        } else {
+                            $(this).removeClass('input-error');
+                        }
+                    });
+
+                });
+
+
+            });
+        </script>

@@ -1,0 +1,28 @@
+<!--<md-dialog  >-->
+<md-dialog  >
+    <md-toolbar>
+        <div class="md-toolbar-tools text-center">
+            CREATE NEW CATEGORY
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div class="md-block col-md-12">
+            <md-input-container class="md-block col-md-6 col-sm-4">
+
+                <input type="text" required class="md-block" id="categoryName" placeholder="Enter  Category Name" ng-model="category.category_name" autocomplete="false">
+
+            </md-input-container>
+
+
+            <md-button ng-click="SaveNewCategory(category)" class="   md-raised md-primary">SAVE</md-button>
+        </div>
+
+
+
+    </md-dialog-content>
+</md-dialog>

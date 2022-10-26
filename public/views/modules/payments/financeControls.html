@@ -1,0 +1,119 @@
+<!--tabs start-->
+<div ng-cloak>
+
+    <md-content>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <style media="print">
+                #printbutton, #quicksearcher {
+                    display: none;
+                }
+
+                .dontprint {
+                    display: none;
+                }
+
+            </style>
+            <md-tab label="Cancelled Bills">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container>
+                            <label>Choose Start Date</label>
+                            <input ng-model="search.start" datetime-picker date-format="yyyy-MM-dd"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Choose End Date</label>
+                            <input ng-model="search.end" datetime-picker date-format="yyyy-MM-dd"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getCancelledBills(search)">Search</md-button>
+                            <md-button class="md-raised md-primary pull-right dontprint" id="printbutton" ng-click="printReport('cancellations')"
+                                       ng-if="cancellations.length>0">
+                                Print
+                            </md-button>
+
+                        </md-input-container>
+                    </div>
+  		    <div id="cancellations">
+		    <table  class="table table-responsive"  style="border:thin solid black; width:100%" >
+				<tr style="background-color:white">
+					<td align='center' style="border-right: thin dotted black;border-bottom: thin dotted black;">
+						<div>
+							<div layout="row" layout-align="space-between center">
+								<div flex>
+									<img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+								</div>
+								<div flex>
+									<center>
+										<h3 class="md-title">{{cardTitle.facility_name}}
+											{{cardTitle.description}}</h3>
+									</center>
+									<center>
+										<h4 class="md-subhead">{{cardTitle.address}}</h4>
+									</center>
+									<center>
+										<h3>BILLS CANCELLATION REPORT</h3>
+									</center>
+								</div>
+								<div flex>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr style="background-color:white">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+						<div flex="100" layout="row" layout-padding>
+							<div flex="50">
+								<dt>Beginning:{{search.start}}</dt>
+							</div>
+							<div flex="50">
+								<dt>Ending:{{search.end}}</dt>
+							</div>
+						</div>
+					</td>
+				</tr>
+			   <tr style="background-color:white">
+					<td>
+						<div flex="100" layout="row" layout-align="space-between center">
+							<h4> Total Value : {{totalCancelledValue | currency: 'Tshs. ' :2}}</h4>
+						</div>
+						<table class="table-responsive"  style="border:thin solid black; width:100%"
+				           width="100%"">
+							<thead style="background-color:white">
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Sno</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Customer</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Bill Amount</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cancelled By</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Reason</th>
+								<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Date</th>
+							</thead>
+							<tbody>
+							<tr ng-repeat="item in cancellations track by $index">
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{($index+1)}}.</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.customer}}</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.item_name}}</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right">{{item.quantity| currency: '' :0}}</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:right">{{item.amount | currency: 'Tshs. ' :2}}</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.user}}</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.cancelling_reason}}</td>
+								<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{item.date}}</td>
+							</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</table>
+			  </div>
+
+                </md-content>
+            </md-tab>
+            <md-tab label="Payment Type">
+                <button class="btn btn-large btn-default" ng-click="changePayOption()">CHANGE MODE OF PAYMENT<button>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>
+<!--tabs end-->

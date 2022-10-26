@@ -1,0 +1,452 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >POSTNATAL HMIS SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>FOMU YA TAARIFA YA KITABU CHA 13: REJESTA YA MTOTO NA MAMA BAADA YA KUJIFUNGUA</h5></div>
+
+					<hr>
+
+					<b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					<b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+					<P></P>
+					<P></P>
+					<P></P>
+					<b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					<b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<hr>
+				</b></caption>
+				<tr style="">
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">No</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelekezo</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri (<20)</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Umri(>20)</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</th>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliohudhuria Ndani ya saa 48</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_less_20_range_48hr}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_above_20_range_48hr}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_range_48hr}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliohudhuria kati ya siku ya 3-7</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_less_20_range_3_7day}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_above_20_range_3_7day}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_range_3_7day}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla Waliohudhuria ndani ya siku 7 (1a+1b)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_less_20_48_3_7}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_above_20_48_3_7}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_48_3_7}}</td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliomaliza mahudhurio yote ( saa 48, siku 3-7, siku 8-28, siku 29-
+						42)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_less_20_all_range}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_above_20_all_range}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_all_range}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wenye upungufu mkubwa wa damu (Hb < 8.5 g/dl)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_less_20_hb}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_above_20_hb}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[0][0].total_hb}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopata matatizo ya akili</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_less_20_mental}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_above_20_mental}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_mental}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliopata Vit.A</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[2][0].total_less_20_vitamin_a}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[2][0].total_above_20_vitamin_a}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[2][0].total_vitamin_a}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wenye msamba ulioambukizwa/Ulioachia</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_less_20_msamba}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_above_20_msamba}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_msamba}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Wenye fistula</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_less_20_fistula}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_above_20_fistula}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[1][0].total_fistula}}</td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliojifungulia Nje ya kituo cha
+						kutolea huduma za afya</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_less_20_HF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_above_20_HF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_HF}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungua kabla ya
+						kufika kituo cha kutolea
+						huduma za afya (BBA)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_less_20_BBA}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_above_20_BBA}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_BBA}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungulia kwa wakunga
+						wa jadi (TBA)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_less_20_TBA}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_above_20_TBA}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_TBA}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliojifungulia
+						nyumbani</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_less_20_H}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_above_20_H}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[3][0].total_H}}</td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Uzazi wa Mpango</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya wateja waliopata ushauri nasaha mara moja</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[4][0].total_less_20_counsel_once}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[4][0].total_above_20_counsel_once}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[4][0].total_counsel_once}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Amepata njia ya uzazi wa mpango wakati wa hudhurio ya
+						Postnatal</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[5][0].total_less_20_f_p_postinatal}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[5][0].total_above_20_f_p_postinatal}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[5][0].total_f_p_postinatal}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopata   njia ya uzazi wa mpango baada ya mimba kuharibika</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[5][0].total_less_20_f_p_miscariage}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[5][0].total_above_20_f_p_miscariage}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[5][0].total_f_p_miscariage}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopata rufaa kupata njia ya uzazi wa mpango</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[4][0].total_less_20_ref}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[4][0].total_above_20_ref}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[4][0].total_ref}}</td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">PMTCT</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliokuja Postinatal wakiwa Positive</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_less_20_post_natal_positive}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_above_20_post_natal_positive}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_post_natal_positive}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopima VVU wakati wa postnatal ( ndani ya siku 42 tangu ya
+						kujifungua)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_less_20_post_natal_vvu_test_42}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_above_20_post_natal_vvu_test_42}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_post_natal_positive_vvu_test_42}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliogundulika wana VVU wakati wa postnatal (ndani ya siku 42
+						tangu ya kujifungua</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_less_20_post_natal_positive_42}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_above_20_post_natal_positive_42}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[9][0].total_post_natal_positive_42}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenye VVU waliochagua kunyonyesha maziwa ya mama pekee
+						(EBF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[10][0].total_less_20_post_natal_positive_EBF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[10][0].total_above_20_post_natal_positive_EBF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[10][0].total_post_natal_positive_EBF}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">10e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Wenye VVU waliochagua kunywesha maziwa mbadala (RF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[10][0].total_less_20_post_natal_positive_RF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[10][0].total_above_20_post_natal_positive_RF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[10][0].total_post_natal_positive_RF}}</td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> MTOTO</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliohudhuria Ndani ya saa 48</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_less_20_range_48hr}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_above_20_range_48hr}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_range_48hr}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliohudhuria kati ya siku ya 3-7</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_less_20_range_3_7day}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_above_20_range_3_7day}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_range_3_7day}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla Waliohudhuria ndani ya siku 7 (1a+1b)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_less_20_48_3_7}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_above_20_48_3_7}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_48_3_7}}</td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">11c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Waliomaliza mahudhurio yote ( saa 48, siku 3-7, siku 8-28, siku 29-
+						42)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_less_20_all_range}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_above_20_all_range}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_all_range}}</td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> HUDUMA KWA MTOTO</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto waliopewa BCG</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto waliopewa OPV 0</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto waliozaliwa na uzito wa <2.5kg wakapatiwa KMC</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto waliozaliwa nyumbani chini ya 2.5kg</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto waliozaliwa nyumbani walioanzishiwa huduma ya
+						kangaroo (KMC)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">12f</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto wenye upungufu mkubwa wa damu (Hb < 10 g/dl
+						au viganja vyeupe sana)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_less_20_hb}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_above_20_hb}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[6][0].total_hb}}</td>
+				</tr>
+
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">13</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> UAMBUKIZO WA MTOTO</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">13a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto wenye uambukizo mkali (septicaemia) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_male_makali}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_female_makali}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_makali}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">13b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Idadi ya watoto wenye uambukizo kwenye kitovu</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_male_kitovu}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_female_kitovu}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_kitovu}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">13c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto wenye uambukizo kwenye ngozi </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_male_ngozi}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_female_ngozi}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_ngozi}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">13d</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto wenye jaundice </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_male_jaundice}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_female_jaundice}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[8][0].total_jaundice}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">14</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Vifo vya watoto wachanga waliozaliwa nyumbani (perinatal);
+						neonatal</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">15</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliopewa dawa ya ARV</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">16</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">ULISHAJI WA MTOTO</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">16a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto wachanga wanaonyonya maziwa ya mama pekee (EBF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_less_20_EBF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_above_20_EBF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_EBF}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">16b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto wachanga wanaonyweshwa maziwa mbadala (RF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_less_20_RF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_above_20_RF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_RF}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">16c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto wachanga wanaonyweshwa maziwa ya mama na kupatiwa
+						chakula kingine (MF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_less_20_MF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_above_20_MF}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{postna[7][0].total_MF}}</td>
+				</tr>
+			</table>
+			<p></p>
+			<div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+			<p></p>
+			<div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+			<p></p>
+			<div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+			<p></p>
+			<div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+		</div>
+		<div class="row no-print">
+			<table width="100%">
+				<tr><td>
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('postnatal')">
+						SEND TO DHIS
+					</button>
+				</td></tr>
+			</table>
+		</div>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,109 @@
+<md-dialog flex="90" ng-controller="radiologyController">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p style="font-size: 18px;"><span ></span>NAME:&nbsp;
+                    {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;  {{"DoB: "+selectedPatient.dob}}  {{"GENDER: "+selectedPatient.gender}}&nbsp;  {{"AGE: "+selectedPatient.age}}
+                </p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+<md-content flex layout-padding>
+
+    <table class="table table-bordered">
+        <thead>
+        <thead>
+        <tr>
+            <th class="text-navy">Requested date</th>
+            <th class="text-navy">Requested by</th>
+            <th class="text-navy">Firm/Department</th>
+            <th class="text-navy">Urgent/Routine</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>{{selectedPatient.visit_date | date: 'dd/MM/yyyy'}}</td>
+            <td>{{selectedPatient.doctor_name}}</td>
+            <td><b ng-if="selectedPatient.admission_id <1">OPD</b>
+                <b ng-if="selectedPatient.admission_id >0">IPD</b>
+            </td>
+            <td> {{selectedPatient.priority  | uppercase}} <span class="fa fa-check fa-lg" ></span></td>
+        </tr>
+        <tr>
+            <th class="text-navy text-center" colspan="4">
+                <b align="center">
+                    <h4>Clinical Notes Relevant for investigation requested</h4>
+                </b>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="4">
+                <div class="form-group">
+                    {{selectedPatient.clinical_note  | uppercase}}
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="4">
+                <div class="form-group">
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th class="text-navy text-center" colspan="4">
+                <b align="center">
+                    <h4>Investigation Requested</h4>
+                </b>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="4">
+                <div class="form-group">
+                    {{selectedPatient.item_name  | uppercase}}
+                </div>
+            </th>
+        </tr>
+
+    </table>
+    <h3>Radiology Uploads and Findings</h3>
+    <div layout-gt-sm="row">
+        <md-checkbox style="padding-top: 8px;" ng-model="noImage">
+            <p>Findings Only</p>
+        </md-checkbox>
+    </div>
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+            <input type="file"  id="file1" name="photo"  onchange="loadFile(event)"
+                   class="btn btn-success btn-file" name="file" multiple
+                   ng-files="getTheFiles($files)"  />
+        </md-input-container>
+        <md-input-container class="md-block" flex="90">
+            <label>Radiological Findings</label>
+            <input type="text" ng-model="explanation.explanation">
+        </md-input-container>
+
+    </div>
+
+</md-content>
+           <div>
+               <md-button style="width: 15%;" class="md-raised md-primary" ng-if="explanation.explanation && !noImage" ng-click="xrayImage(explanation,selectedPatient.OrderId,selectedPatient.medical_record_number,selectedPatient.patient_id)">
+                   SAVE FINDINGS
+               </md-button>
+           </div>
+            <div>
+               <md-button style="width: 15%;" class="md-raised md-primary" ng-show="noImage" ng-click="SaveImages(explanation.explanation,selectedPatient.OrderId,selectedPatient.medical_record_number,selectedPatient.id)">
+                   SAVE FINDINGS
+               </md-button>
+           </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()" class="md-primary">
+                close
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

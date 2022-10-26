@@ -1,0 +1,138 @@
+<div>
+    <div style="padding-right: 50px;">
+        <md-content>
+            <md-card>
+                <md-toolbar class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size: 124%" align="center" flex md-truncate>Imaging Department</h2>
+                    </div>
+                </md-toolbar>
+                <br>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab ng-click="serviceonnoff()" label="DEPARTMENT EQUIPMENTS">
+                        <md-content class="md-padding">
+                            <md-input-container layout-gt-sm="row">
+                            </md-input-container>
+                            <md-grid-list  md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <md-grid-tile ng-repeat="onnoffs in onnoff" style="background-color:teal;cursor:pointer;">
+                                    <a class="menu_title_a">
+                                    <md-grid-tile-header>
+                                    </md-grid-tile-header>
+                                        <md-grid-tile-content>
+                                            <span ng-if="onnoffs.on_off==1" class="mdl-chip__contact mdl-color--teal mdl-color-text--white">&#10003;</span>
+                                            <span ng-if="onnoffs.on_off==0" class="mdl-chip__contact mdl-color--red-400 mdl-color-text--white">&#10008;</span>
+                                        </md-grid-tile-content>
+                                        <md-grid-tile-footer ng-click="showDevices(onnoffs)">
+                                            <h3 align="center">{{onnoffs.item_name | uppercase}} {{onnoffs.equipment_name| uppercase}}</h3>
+                                        </md-grid-tile-footer>
+                                    </a>
+                                </md-grid-tile>
+                            </md-grid-list>
+                        </md-content>
+                    </md-tab>
+                    <md-tab ng-click="device_services()" label="SERVICES REGISTERED">
+                        <md-content class="md-padding">
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   >
+                                <thead style="background-color: beige">
+                                <tr>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        NO
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        SERVICE NAME
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        SERVICE STATUS
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                       EQUIPMENT STATUS
+
+                                    </td> <td class="mdl-data-table__cell--non-numeric">
+                                        DEPARTMENT NAME
+
+                                    </td> <!-- <td class="mdl-data-table__cell--non-numeric">
+                                       UPDATE SERVICE
+
+                                    </td> -->
+
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr dir-paginate="ServedDevices in ServedDevice  |itemsPerPage:10 | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+                                    <td class="mdl-data-table__cell--non-numeric"><h5>{{ServedDevices.item_name}}</h5>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <span ng-if="ServedDevices.service_Deleted==1" class="mdl-chip__contact mdl-color--teal mdl-color-text--white">&#10003;</span>
+                                        <span ng-if="ServedDevices.service_Deleted==0" class="mdl-chip__contact mdl-color--red-400 mdl-color-text--white">&#10008;</span>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <h5>{{ServedDevices.status_name}}</h5>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <h5>{{ServedDevices.sub_department_name}}</h5>
+                                    </td>
+                                    <!-- <td>   <md-button class="md-raised md-warn" ng-click="ServiceDelete(ServedDevices.testID)">UPDATE</md-button>
+                                    </td> -->
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <dir-pagination-controls
+                                    max-size="5"
+                                    direction-links="true"
+                                    boundary-links="true" >
+                            </dir-pagination-controls>
+
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="DEPARTMENT REPORTS">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2"></h1>
+
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="USER ACCESS">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2"></h1>
+                            <div flex="20">
+                                <md-list style="color:white;font-weight:700">
+                                    <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="userRadiology(department)" class="md-1-line" ng-repeat="department in departments" >
+                                     {{department.sub_department_name}}
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+        </md-content>
+    </div>
+    <div class="new-button md-fab lock-size"
+         layout="row"
+         layout-align="center center"
+         ng-cloak class="md-padding actionButtons" layout="column">
+        <md-fab-speed-dial style="position: fixed; right: 12px; bottom: 100px;"  md-open="isOpen" md-direction="up" ng-class="selectedMode"
+                           class="md-fling md-fab-bottom-right md-hover-full speed-dial">
+            <md-fab-trigger>
+                <md-button aria-label="Menu" class="md-fab md-warn">
+                    <md-icon class="menu-icon" md-svg-src="/svg/radiologyDepartment.svg"></md-icon>
+                    <md-tooltip md-direction="down" md-visible="tooltipVisible">Imaging Setup</md-tooltip>
+
+                </md-button>
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button class="md-fab md-raised md-mini md-primary"
+                           ng-click="equipment_registration($event)">
+                    <md-icon class="menu-icon" md-svg-src="/svg/radiopatients.svg"></md-icon>
+                    <md-tooltip md-direction="left" md-visible="tooltipVisible">Equipment Registration</md-tooltip>
+                </md-button>
+                <md-button class="md-fab md-raised md-mini md-primary"  ng-click="radiology($event)">
+                    <md-icon class="menu-icon" md-svg-src="/svg/radiology.svg"></md-icon>
+                    <md-tooltip md-direction="left" md-visible="tooltipVisible">Departments</md-tooltip>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+    </div>
+</div>

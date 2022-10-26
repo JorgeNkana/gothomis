@@ -1,0 +1,1962 @@
+<md-tabs md-dynamic-height md-border-bottom >
+    <md-tab ng-if="recent_notifiables.length>0" label=" Weekly Notifiable Disease">
+
+        <div id='divtoprint_weekly'>
+            <a ng-click="print_weekly_out_b()" title="Print"
+               class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+            <strong  ><center>WEEKLY DISEASE OUTBREAK SUMMARY</center></strong>
+            <center> <md-button class="mdl-data-table__cell--non-numeric">   From:&nbsp;&nbsp;&nbsp;&nbsp;{{recent_notifiables[0].created_at}} &nbsp;&nbsp;&nbsp;&nbsp; To:&nbsp;&nbsp;&nbsp;&nbsp;{{recent_notifiables[recent_notifiables.length-1].created_at}}</md-button></center>
+        <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+            <thead>
+            <tr>
+                <td  class="mdl-data-table__cell--non-numeric">
+
+                    No#
+
+                </td>
+
+                <td  class="mdl-data-table__cell--non-numeric">
+
+                    Disease
+
+
+                </td>
+                <td  class="mdl-data-table__cell--non-numeric">
+
+                    Patient
+
+
+                </td>
+                <td  class="mdl-data-table__cell--non-numeric">
+
+                    Gender
+
+
+                </td>  <td  class="mdl-data-table__cell--non-numeric">
+                Notified By
+
+
+            </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                Date
+
+
+            </td>
+
+
+            </tr>
+            </thead>
+
+            <tr ng-repeat="prov in recent_notifiables track by $index">
+                <td  class="mdl-data-table__cell--non-numeric">
+
+                    {{$index+1}}
+
+                </td>
+
+                <td  class="mdl-data-table__cell--non-numeric">
+
+                    {{prov.description}}
+
+
+                </td> <td  class="mdl-data-table__cell--non-numeric" title='Click To View Admission Status'>
+
+                <a ng-click="patient_notified_admision_status(prov.visit_date_id)">{{prov.names}}</a>
+
+
+            </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                {{prov.gender}}
+
+
+            </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                {{prov.name}}
+
+
+            </td><td  class="mdl-data-table__cell--non-numeric">
+
+                {{prov.created_at}}
+
+
+            </td>
+
+            </tr>
+
+        </table>
+</div>
+    </md-tab>
+    <md-tab label="Diseases/Outbreak">
+
+        <vertical-tabs>
+            <vertical-tab-pane title=" Summary Report"  >
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="summary_out_break_disease_deaths(data)">Search</md-button>
+                    </md-input-container>
+                    <strong ng-if="patient_notified && patient_notified.length<1">No Notifiable Diseases Detected....</strong>
+                </div>
+                <md-content class='md-padding'>
+                    <div id='divtoprint_summary_out_break'>
+                        <a ng-click="summary_out_break_disease_death()" title="Print"
+                           class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                        <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                            {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                            <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                            <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                        </center>
+                        <hr>
+                        <strong ng-if="notifiable_disease_death"><center> DISEASE OUTBREAK SUMMARY</center></strong>
+<md-button class="md-raised md-warn" ng-if="notifiable_disease_death && notifiable_disease_death.length<1">Ooops!!!NO DATA FOUND</md-button>
+
+                       <center>
+                        <table ng-if="notifiable_disease_death && notifiable_disease_death.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" text="center">
+                            <tr style="background-color: beige" text="center">
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="3">s/n</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="3">DISEASES</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="4"><5 YEARS</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="4"> >5 YEARS</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2" colspan="2">TOTAL</th>
+
+
+                            </tr>
+                            <tr>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="2">C</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="2">D</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="2">C</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="2">D</th>
+
+
+
+
+                            </tr>
+                            <tr>
+
+
+                                <th  class="mdl-data-table__cell--non-numeric">M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">M</th>
+                                <th  class="mdl-data-table__cell--non-numeric">F</th>
+                                <th  class="mdl-data-table__cell--non-numeric">C</th>
+                                <th  class="mdl-data-table__cell--non-numeric">D</th>
+
+                            </tr>
+                            <tr ng-repeat="death in notifiable_disease_death track by $index">
+                                <th  class="mdl-data-table__cell--non-numeric">{{$index+1}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.description}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.c_total_male_u_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.c_total_female_u_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.d_total_male_u_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.d_total_female_u_5}}</th>
+
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.c_total_male_a_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.c_total_female_a_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.d_total_male_a_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.d_total_female_a_5}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.c_total}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric">{{death.d_total}}</th>
+                            </tr>
+                        </table>
+                       </center>
+                    </div>
+                    </md-content>
+
+                </vertical-tab-pane>
+            <vertical-tab-pane title=" Patients List"  >
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="patient_notifed_Diagnosis_list(data)">Search</md-button>
+                    </md-input-container>
+                    <strong ng-if="patient_notified && patient_notified.length<1">No Notifiable Diseases Detected....</strong>
+                </div>
+                <md-content class='md-padding'>
+                    <div id='divtoprint_pat'>
+                        <a ng-click="print_patient_notified_feq()" title="Print" ng-if="patient_notified"
+                           class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                        <strong ng-if="patient_notified"><center> DISEASE OUTBREAK </center></strong>
+                        <table ng-if="patient_notified.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                            <thead>
+                            <tr>
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    No#
+
+                                </td>
+
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    Disease
+
+
+                                </td>
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    Patient
+
+
+                                </td>
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    Gender
+
+
+                                </td>  <td  class="mdl-data-table__cell--non-numeric">
+                                Notified By
+
+
+                            </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                                Date
+
+
+                            </td>
+
+
+                            </tr>
+                            </thead>
+
+                            <tr ng-repeat="prov in patient_notified track by $index">
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    {{$index+1}}
+
+                                </td>
+
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    {{prov.description}}
+
+
+                                </td> <td  class="mdl-data-table__cell--non-numeric" title='Click To View Admission Status'>
+
+                                <a ng-click="patient_notified_admision_status(prov.visit_date_id)">{{prov.names}}</a>
+
+
+                            </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                                {{prov.gender}}
+
+
+                            </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                                {{prov.name}}
+
+
+                            </td><td  class="mdl-data-table__cell--non-numeric">
+
+                                {{prov.created_at}}
+
+
+                            </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+
+                </md-content>
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="Outbreak Summary "  >
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="patient_notifed_Diagnosis_freq(data)">Search</md-button>
+                    </md-input-container>
+                    <strong ng-if="notified_feq && notified_feq.length<1">No Notifiable Diseases Detected....</strong>
+                </div>
+                <div id='divtoprint_feq'>
+                    <a ng-click="print_notified_feq()" title="Print" ng-if="notified_feq"
+                       class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                    <strong ng-if="notified_feq"><center> DISEASE OUTBREAK SUMMARY</center></strong>
+                    <table  ng-if="notified_feq && notified_feq.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                        <thead>
+                        <tr>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                No#
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Disease
+
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Gender
+
+
+                            </td>  <td  class="mdl-data-table__cell--non-numeric">
+                            Quantity
+
+
+                        </td>
+
+
+
+                        </tr>
+                        </thead>
+
+                        <tr ng-repeat="prov in notified_feq track by $index">
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                {{$index+1}}
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                {{prov.description}}
+
+
+                            </td>  <td  class="mdl-data-table__cell--non-numeric">
+
+                            {{prov.gender}}
+
+
+                        </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                            {{prov.total}}
+
+
+                        </td>
+
+                        </tr>
+                        <tr style="background-color: beige">
+                            <td  class="mdl-data-table__cell--non-numeric" colspan="3">
+
+                                Total
+
+
+                            </td> <td  class="mdl-data-table__cell--non-numeric" colspan="4">
+
+                            {{total_notified}}
+
+
+                        </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </vertical-tab-pane>
+
+        </vertical-tabs>
+
+    </md-tab>
+    <md-tab label="vaccination">
+        <vertical-tabs>
+            <vertical-tab-pane title="Ant Rabies"  >
+                <div ng-if="selectedPatientInf.id" >
+                    <div class="form-top-left">
+                        <b><span><i class=" " aria-hidden="true"></i></span> NAME:
+                            {{selectedPatientInf.first_name}} {{selectedPatientInf.middle_name}}
+                            {{selectedPatientInf.last_name}} ({{selectedPatientInf.medical_record_number}}) D.O.B:
+                            {{selectedPatientInf.dob}} Gender: {{selectedPatientInf.gender}}<p></p>
+
+                        </b>
+
+                    </div>
+                    <hr>
+                </div>
+                <md-input-container class="md-block">
+                    <md-autocomplete flex required flex
+                                     md-search-text="searchText"
+                                     md-input-name="patients"
+                                     md-no-cache="true"
+                                     md-clear-button="true"
+                                     md-items="selectedPatient in getAllPatient(searchText)"
+                                     md-item-text="selectedPatient.first_name+' '+selectedPatient.middle_name+' ' +selectedPatient.middle_name+' '+selectedPatient.medical_record_number"
+                                     md-selected-item-change="DisplayInfors(selectedPatient)"
+                                     md-floating-label="Search Patient "
+                                     md-min-length="4" md-autofocus>
+                        <md-item-template>
+                            <span md-highlight-text="searchText">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} {{selectedPatient.medical_record_number}} {{selectedPatient.mobile_number}} </span>
+                        </md-item-template>
+                    </md-autocomplete>
+
+
+                </md-input-container>
+                <md-input-container class="md-block col-md-6 col-sm-4">
+                    <label >Choose Vaccination Batch Number</label>
+                    <md-select ng-model="vacc.vaccination_id" required id="vaccination_id">
+                        <md-option value={{equipment.id}} ng-repeat="equipment in ant_use">{{equipment.batch_no}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block col-md-3 col-sm-4">
+                    <label >Choose Injection Type</label>
+                    <md-select ng-model="vacc.vacc_type" required id="type">
+                        <md-option value="i_v"  >I/V</md-option>
+                        <md-option value="i_m"  >I/M</md-option>
+
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block col-md-3 col-sm-4">
+                    <label >Choose Dose Type</label>
+                    <md-select ng-model="vacc.dose_type" required id="type1">
+                        <md-option value="1st"  >First Dose</md-option>
+                        <md-option value="2nd"  >Second Dose</md-option>
+                        <md-option value="3rd"  >Third Dose</md-option>
+                        <md-option value="4th"  >Fourth Dose</md-option>
+                        <md-option value="5th"  >Fifth Dose</md-option>
+
+
+                    </md-select>
+                </md-input-container>
+
+
+
+                <md-button class="md-primary md-raised"
+                           ng-click="patient_antrabies_vaccination(vacc,selectedPatientInf)">
+                    Register
+                </md-button>
+
+
+                </vertical-tab-pane>
+            <vertical-tab-pane title="Summary Report"  >
+                <div class="md-block col-md-12 col-sm-4 pull-right">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="ant_rabies_monitoring(data)">Search</md-button>
+                    </md-input-container>
+                    <strong ng-if="patient_rabies && patient_rabies.length<1">No Data</strong>
+                </div>
+                <div id='rabi'>
+                    <a ng-click="rubies_summary()" title="Print"
+                       class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                    <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                        {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                        <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                        <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+
+                    </center>
+                    <hr>
+                    <strong ng-if="patient_rabies"><center>ANTRABIES MONITORING FORM</center></strong>
+                    <md-button class="md-raised md-warn" ng-if="patient_rabies && patient_rabies.length<1">Ooops!!!NO DATA FOUND</md-button>
+                    <input   ng-model="search" placeholder="filter data or search.." class="form-control no-print "  >
+
+                    <center>
+
+                        <table ng-if="patient_rabies && patient_rabies.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1" text="center">
+                            <tr style="background-color: beige" text="center">
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">s/n</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">ARV BN</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">PERSON SUSPECTED</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="5" rowspan="2">DOSE SCHEDULE </th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">LAST DOSE(DATE)</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">ADDRESS</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">OFFICER&TITTLE</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">VACCINATION </th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="2">SIGNATURE</th>
+
+
+                            </tr>
+                            <tr style="background-color: bisque" text="center">
+
+
+
+                            </tr>
+                            <tr style="background-color: beige" text="center" ng-repeat="rab in patient_rabies | filter:search track by $index">
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{$index+1}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{rab.batch_no}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{rab.first_name}}&nbsp;&nbsp;{{rab.middle_name}}&nbsp;&nbsp;{{rab.last_name}}&nbsp;&nbsp;{{rab.medical_record_number}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" colspan="5">{{rab.dose_type}}</th>
+
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{rab.created_at}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{rab.mobile_number}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{rab.name}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan="">{{rab.ant_rabies_name}}</th>
+                                <th  class="mdl-data-table__cell--non-numeric" rowspan=""></th>
+
+
+                            </tr>
+                            </table>
+                        </center>
+                    </div>
+
+
+                </vertical-tab-pane>
+            </vertical-tabs>
+        </md-tab>
+    <md-tab label="Receiving">
+        <md-content class='md-padding'>
+            <vertical-tabs>
+            <vertical-tab-pane title="Ant Rabies Receiving"  >
+                <md-checkbox  ng-model="inv" aria-label="" class="pull-right" >
+                    Receive Item
+                </md-checkbox>
+                <i ng-if="inv">
+                    <hr>
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+
+                        <input type="text" id="batch_no" autocomplete="off"
+                               data-toggle="tooltip"
+
+                               placeholder="Enter Batch Number Received"
+                               ng-model="antrab.batch_no" required>
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-3 col-sm-4">
+                        <input type="number" id="quantity" autocomplete="off"
+                               data-toggle="tooltip" min="1"
+                               title="Quantity "
+                               placeholder="Enter Quantity Of Vaccination  Received"
+                               ng-model="antrab.quantity" required>
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-3 col-sm-4">
+                        <input type="text" id="ant_rabies_name" autocomplete="off"
+                               data-toggle="tooltip" min="1"
+
+                               placeholder="Enter Name Of Vaccination  Received"
+                               ng-model="antrab.ant_rabies_name" required>
+                    </md-input-container>
+
+
+
+                    <md-button class="md-primary md-raised"
+                               ng-click="ant_rabies_vaccination_registry(antrab)">
+                        Register
+                    </md-button>
+                </i>
+
+                <!--<div class="md-block col-md-12 col-sm-4"  ng-if="!inv">-->
+                    <!--<md-input-container >-->
+                        <!--<label>Choose Start Date</label>-->
+                        <!--<input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />-->
+
+                    <!--</md-input-container>-->
+                    <!--<md-input-container >-->
+                        <!--<label>Choose End Date</label>-->
+                        <!--<input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />-->
+                    <!--</md-input-container>-->
+                    <!--<md-input-container>-->
+                        <!--<md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="ant_rabies_vaccination_lists(data)">Search</md-button>-->
+                    <!--</md-input-container>-->
+                    <!--<div ng-if="ant_rabies && ant_rabies.length<1">-->
+                        <!--No Data Found.....-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div id='rabies_p'>
+                    <a ng-click="anti_rabies_print()" title="Print" ng-if="ant_rabies"
+                       class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                    <center>   <b class="col-md-4">Jina la Kituo:&nbsp;&nbsp;&nbsp;
+                        {{loginUserFacilityDetails[0].facility_name}}&nbsp;&nbsp;&nbsp; </b>
+                        <b class="col-md-4">Wilaya :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].council_name}} &nbsp;&nbsp;&nbsp;</b>
+                        <b class="col-md-4">Mkoa :&nbsp;&nbsp;&nbsp; {{loginUserFacilityDetails[0].region_name}} </b>
+                        <hr>
+                    </center>
+
+                    <strong ng-if="ant_rabies"><center>ANTI RABIES RECEIVING NOTE</center></strong>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="ant_rabies.length>0">
+
+
+                    <thead>
+                    <tr>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            No#
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            Batch Number
+
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric">
+                            Vaccination Name
+
+
+                        </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                            Quantity
+
+
+                        </td>
+ <td  class="mdl-data-table__cell--non-numeric">
+
+                            Date
+
+
+                        </td><td  class="mdl-data-table__cell--non-numeric">
+
+                           Status
+
+
+                        </td>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="ant_rabies in ant_rabies | filter:search track by $index">
+                        <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{ant_rabies.batch_no }}</b>
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{ant_rabies.ant_rabies_name }}</b></td>
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{ant_rabies.quantity }}</b></td>
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{ant_rabies.created_at }}</b></td>
+                        <td  class="mdl-data-table__cell--non-numeric" ng-if="ant_rabies.status==1"><md-button ng-click="ant_rabies_vaccination_update(ant_rabies.id)" >Available </md-button></td>
+                        <td  class="mdl-data-table__cell--non-numeric" ng-if="ant_rabies.status==0"><b  > </b></td>
+
+
+
+
+                    </tbody>
+
+                </table>
+</div>
+            </vertical-tab-pane>
+            <vertical-tab-pane title="Equipment Receiving"  >
+                <md-checkbox  ng-model="inv" aria-label="" class="pull-right" >
+                    Receive Item
+                </md-checkbox>
+                <i ng-if="inv">
+                    <hr>
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <label >Choose Equipment Type</label>
+                        <md-select ng-model="equipment.equipment" required id="equip1">
+                            <md-option value={{equipment.id}} ng-repeat="equipment in equipments">{{equipment.equipment_name}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block col-md-3 col-sm-4">
+                        <input type="number" id="quantity" autocomplete="off"
+                               data-toggle="tooltip" min="1"
+                               title="Quantity "
+                               placeholder="Enter Quantity Of Equipment Received"
+                               ng-model="equipment.quantity" required>
+                    </md-input-container>
+
+
+
+                    <md-button class="md-primary md-raised"
+                               ng-click="environment_equipment_receiving(equipment)">
+                        Register
+                    </md-button>
+                </i>
+
+                <div class="md-block col-md-12 col-sm-4"  ng-if="!inv">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="equipment_received_list(data)">Search</md-button>
+                    </md-input-container>
+                    <div ng-if="balances && balances.length<1">
+                        No Data Found.....
+                    </div>
+                </div>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="receives.length>0">
+
+
+                    <thead>
+                    <tr>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            No#
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            Equipment Name
+
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            Quantity
+
+
+                        </td> <td  class="mdl-data-table__cell--non-numeric">
+
+                            Date
+
+
+                        </td>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="equipment in receives | filter:search track by $index">
+                        <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{equipment.equipment_name }}</b>
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{equipment.quantity }}</b></td>
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{equipment.created_at }}</b></td>
+
+
+
+
+                    </tbody>
+
+                </table>
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="ITEM BALANCE">
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="balances.length>0">
+
+
+                    <thead>
+                    <tr>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            No#
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            Equipment Name
+
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric">
+
+                            Balance
+
+
+                        </td>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr ng-repeat="balance in balances | filter:search track by $index">
+                        <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{balance.equipment_name }}</b>
+
+                        </td>
+                        <td  class="mdl-data-table__cell--non-numeric"><b  >{{balance.balance }}</b></td>
+
+
+                    </tbody>
+
+                </table>
+
+
+            </vertical-tab-pane>
+
+ <vertical-tab-pane title="ITEM ISSUING">
+     <md-checkbox  ng-model="inv" aria-label="" class="pull-right" >
+         Issue Item
+     </md-checkbox>
+     <i ng-if="inv">
+         <hr>
+     <md-input-container class="md-block col-md-6 col-sm-4">
+         <label >Choose Equipment Type</label>
+         <md-select ng-model="issue.equipment" required id="equip1">
+             <md-option value={{equipment.id}} ng-repeat="equipment in equipments">{{equipment.equipment_name}}</md-option>
+         </md-select>
+     </md-input-container>
+     <md-input-container class="md-block col-md-3 col-sm-4">
+         <input type="number" id="issued_quantity" autocomplete="off"
+                data-toggle="tooltip" min="1"
+                title="Quantity Issued "
+                placeholder="Enter Quantity Of Equipment Issued"
+                ng-model="issue.issued_quantity" required>
+     </md-input-container>
+
+
+
+     <md-button class="md-primary md-raised"
+                ng-click="environment_equipment_issuing(issue)">
+         Issue
+     </md-button>
+</i>
+     <div class="md-block col-md-12 col-sm-4"  ng-if="!inv">
+         <md-input-container >
+             <label>Choose Start Date</label>
+             <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+         </md-input-container>
+         <md-input-container >
+             <label>Choose End Date</label>
+             <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+         </md-input-container>
+         <md-input-container>
+             <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="equipment_issued_list(data)">Search</md-button>
+         </md-input-container>
+         <div ng-if="issued && issues.length<1">
+             No Data Found.....
+         </div>
+     </div>
+
+     <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="issues.length>0">
+
+
+         <thead>
+         <tr>
+             <td  class="mdl-data-table__cell--non-numeric">
+
+                 No#
+
+             </td>
+             <td  class="mdl-data-table__cell--non-numeric">
+
+                 Equipment Name
+
+
+             </td>
+             <td  class="mdl-data-table__cell--non-numeric">
+
+                 Quantity Issued
+
+
+             </td> <td  class="mdl-data-table__cell--non-numeric">
+
+             Date
+
+
+         </td>
+
+         </tr>
+         </thead>
+
+         <tbody>
+         <tr ng-repeat="issued in issues | filter:search track by $index">
+             <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+             <td  class="mdl-data-table__cell--non-numeric"><b  >{{issued.equipment_name }}</b>
+
+             </td>
+             <td  class="mdl-data-table__cell--non-numeric"><b  >{{issued.issued_quantity }}</b></td>
+             <td  class="mdl-data-table__cell--non-numeric"><b  >{{issued.created_at }}</b></td>
+
+
+
+
+         </tbody>
+
+     </table>
+
+
+
+
+ </vertical-tab-pane>
+<vertical-tab-pane title="SUMMARY REPORT">
+    <div flex="40">
+
+        <md-radio-group layout="row" ng-model="item">
+            <md-radio-button value="rec" md-checked class="md-primary">Received</md-radio-button>
+            <md-radio-button value="issue" class="md-primary">Issued </md-radio-button>
+        </md-radio-group>
+    </div>
+    <h5 ng-if="item=='issue'"> <center>ITEMS ISSUED</center></h5>
+    <h5 ng-if="item=='rec'"> <center>ITEMS RECEIVED</center></h5>
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="item=='rec'">
+
+
+        <thead>
+        <tr>
+            <td  class="mdl-data-table__cell--non-numeric">
+
+                No#
+
+            </td>
+            <td  class="mdl-data-table__cell--non-numeric">
+
+                Equipment Name
+
+
+            </td>
+            <td  class="mdl-data-table__cell--non-numeric">
+
+                Balance
+
+
+            </td>
+
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr ng-repeat="summary_received in summary_received | filter:search track by $index">
+            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+            <td  class="mdl-data-table__cell--non-numeric"><b  >{{summary_received.equipment_name }}</b>
+
+            </td>
+            <td  class="mdl-data-table__cell--non-numeric"><b  >{{summary_received.balance }}</b></td>
+
+
+        </tbody>
+
+    </table>
+
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="item=='issue'">
+
+
+        <thead>
+        <tr>
+            <td  class="mdl-data-table__cell--non-numeric">
+
+                No#
+
+            </td>
+            <td  class="mdl-data-table__cell--non-numeric">
+
+                Equipment Name
+
+
+            </td>
+            <td  class="mdl-data-table__cell--non-numeric">
+
+                Issued Unit
+
+
+            </td>
+
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr ng-repeat="summary_issued in summary_issued | filter:search track by $index">
+            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+            <td  class="mdl-data-table__cell--non-numeric"><b  >{{summary_issued.equipment_name }}</b>
+
+            </td>
+            <td  class="mdl-data-table__cell--non-numeric"><b  >{{summary_issued.issued_quantity }}</b></td>
+
+
+        </tbody>
+
+    </table>
+
+
+            </vertical-tab-pane>
+
+            </vertical-tabs>
+
+        </md-content>
+    </md-tab>
+
+
+    <md-tab label="treatment/waste">
+        <md-content class='md-padding'>
+            <vertical-tabs>
+                <vertical-tab-pane title="Waste Collection"  >
+
+
+                        <hr>
+                        <md-input-container class="md-block col-md-6 col-sm-4">
+                            <label >Choose Waste Type</label>
+                            <md-select ng-model="waste_list.waste_type" required>
+                                <md-option value={{waste_type.id}} ng-repeat="waste_type in waste_types">{{waste_type.waste_type}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-3 col-sm-4">
+                            <input type="number" min="1" id="wastes" autocomplete="off"
+                                   data-toggle="tooltip"
+                                   title="Waste Amount Collected "
+                                   placeholder="Enter Waste Amount Collected "
+                                   ng-model="waste_list.waste_collected" required>
+                        </md-input-container>
+
+                        <md-input-container class="md-block col-md-3 col-sm-4">
+                            <label >Choose Equipment Type Used</label>
+                            <md-select ng-model="waste_list.equipment" required>
+                                <md-option value={{equipment.id}} ng-repeat="equipment in equipments">{{equipment.equipment_name}}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-button class="md-primary md-raised"
+                                   ng-click="environment_waste_collection(waste_list)">
+                            Register
+                        </md-button>
+
+                </vertical-tab-pane>
+                <vertical-tab-pane title="Waste Dispose"  >
+
+
+                        <hr>
+                        <md-input-container class="md-block col-md-6 col-sm-4">
+                            <label >Choose Waste Type</label>
+                            <md-select ng-model="waste_dispose.waste_type" required>
+                                <md-option value={{waste_type.id}} ng-repeat="waste_type in waste_types">{{waste_type.waste_type}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-3 col-sm-4">
+                            <input type="number" id="dispose" autocomplete="off"
+                                   data-toggle="tooltip" min="1"
+                                   title="Waste Amount Disposed "
+                                   placeholder="Enter Waste Amount Disposed "
+                                   ng-model="waste_dispose.waste_disposed" required>
+                        </md-input-container>
+
+                        <md-input-container class="md-block col-md-3 col-sm-4">
+                            <label >Choose Waste Disposal Method used</label>
+                            <md-select ng-model="waste_dispose.waste_disposal_type" required>
+                                <md-option value={{waste_dispose.id}} ng-repeat="waste_dispose in waste_disposes">{{waste_dispose.waste_dispose}}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-button class="md-primary md-raised"
+                                   ng-click="environment_waste_disposal(waste_dispose)">
+                            Register
+                        </md-button>
+
+                </vertical-tab-pane>
+            </vertical-tabs>
+
+
+        </md-content>
+    </md-tab>
+
+ <md-tab label="nuisance">
+
+        <md-content class='md-padding'>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+                <label for="">Choose Nuisance Type</label>
+<md-select ng-model="nuisance_reg.nuisance_type" required>
+    <md-option value={{nuisance.id}} ng-repeat="nuisance in nuisances">{{nuisance.nuisance}}</md-option>
+</md-select>
+
+         </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+                <input type="text" id="cause" autocomplete="off"
+                       data-toggle="tooltip"
+                       placeholder="Enter  Nuisance Cause"
+                       ng-model="nuisance_reg.cause" required>
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+                <input type="text" id="location" autocomplete="off"
+                       data-toggle="tooltip"
+                       title="Enter Location"
+                       placeholder="Enter  Location"
+                       ng-model="nuisance_reg.location" required>
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+                <input type="text" id="abatement" autocomplete="off"
+                       data-toggle="tooltip"
+                       title="Enter Abatement"
+                       placeholder="Enter Abatement"
+                       ng-model="nuisance_reg.abatement" >
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4" >
+                <label>Choose Date Occured</label>
+                <input ng-model="nuisance_reg.event_date"   datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-button class="md-primary md-raised"
+                       ng-click="nuisance_composition(nuisance_reg)">
+                Register
+            </md-button>
+
+        </md-content>
+    </md-tab>
+    <md-tab label="REPORTS">
+        <md-content class='md-padding'>
+
+            <vertical-tabs>
+                <vertical-tab-pane title="Waste Collected"  >
+
+
+
+                    <div layout="row" >
+                        <div flex="80"></div>
+                        <md-checkbox   ng-model="inv" aria-label="Graphy" >
+                            Graphical View?
+                        </md-checkbox>
+                    </div>
+                    <!--invoices-->
+
+
+                    <div class="md-block col-md-12 col-sm-4"  ng-if="!inv">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="wastes_collected(data)">Search</md-button>
+                        </md-input-container>
+                        <div ng-if="wastes_collections && wastes_collections.length<1">
+                            No Data Found.....
+                        </div>
+                    </div>
+                    <div id='divtoprint_waste_col'>
+                        <a ng-click="print_wastes_collections()" title="Print" ng-if="wastes_collections"
+                           class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                        <strong ng-if="wastes_collections"><center>WASTE COLLECTED SUMMARY</center></strong>
+                        <div ng-if="inv">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data" chart-labels="labels">
+                            </canvas>
+                        </div>
+                    <table ng-if="wastes_collections.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                        <thead style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric">s/n</th>
+                        <th class="mdl-data-table__cell--non-numeric">Waste Type</th>
+                        <th class="mdl-data-table__cell--non-numeric">Tool used</th>
+                        <th class="mdl-data-table__cell--non-numeric">Waste Collected</th>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="wastes_collection in wastes_collections track by $index">
+
+                            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{wastes_collection.waste_type}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{wastes_collection.equipment_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{wastes_collection.waste_collected}}</td>
+
+                        </tr>
+                        <tr title="" style="background-color:beige">
+
+                            <td class="mdl-data-table__cell--non-numeric" class="badge" colspan="3">Total Waste Collected </td>
+                            <td class="mdl-data-table__cell--non-numeric" class="badge" colspan="2">{{total_waste_collected}} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+</div>
+                </vertical-tab-pane>
+
+                <vertical-tab-pane title="Waste Disposed" >
+
+                    <div layout="row" >
+                        <div flex="80"></div>
+                        <md-checkbox   ng-model="inv" aria-label="Graphy" >
+                            Graphical View?
+                        </md-checkbox>
+                    </div>
+                    <!--invoices-->
+                    <div ng-if="inv">
+                        <canvas id="bar" class="chart chart-bar"
+                                chart-data="data" chart-labels="labels">
+                        </canvas>
+                    </div>
+
+                    <div class="md-block col-md-12 col-sm-4"  ng-if="!inv">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="waste_disposal_list(data)">Search</md-button>
+                        </md-input-container>
+                        <div ng-if="wastes_dispositions && wastes_dispositions.length<1">
+                            No Data Found.....
+                        </div>
+                    </div>
+                    <div id='divtoprint_waste_dis'>
+                        <a ng-click="print_wastes_dispositions()" title="Print" ng-if="wastes_dispositions"
+                           class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                        <strong ng-if="wastes_dispositions"><center>WASTE DISPOSAL SUMMARY</center></strong>
+                    <table ng-if="wastes_dispositions.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                        <thead style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric">s/n</th>
+                        <th class="mdl-data-table__cell--non-numeric">Waste Type</th>
+                        <th class="mdl-data-table__cell--non-numeric">Disposal Method</th>
+                        <th class="mdl-data-table__cell--non-numeric">Amount</th>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="waste_disposition in wastes_dispositions track by $index">
+
+                            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{waste_disposition.waste_type}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{waste_disposition.waste_dispose}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{waste_disposition.waste_disposed}}</td>
+
+                        </tr>
+                        <tr title="" style="background-color:beige">
+
+                            <td class="mdl-data-table__cell--non-numeric" class="badge" colspan="3">Total Waste Disposed </td>
+                            <td class="mdl-data-table__cell--non-numeric" class="badge" colspan="2">{{total_waste_disposed}} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+</div>
+                    </vertical-tab-pane>
+
+                <vertical-tab-pane title="Nuisance Report" ng-click=" ">
+                    <div class="md-block col-md-12 col-sm-4">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="data.start_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="data.end_date" class="md-block col-md-4 col-sm-4" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" class="md-block col-md-4 col-sm-4" ng-click="nuisance_composed(data)">Search</md-button>
+                        </md-input-container>
+                        <div ng-if="nuisance_compose && nuisance_compose.length<1">
+                            No Data Found.....
+                        </div>
+                    </div>
+                    <div id='divtoprint_nuise'>
+                        <a ng-click="print_nuisance()" title="Print" ng-if="nuisance_compose"
+                           class="no-print "><b class="glyphicon glyphicon-print "></b> </a>
+                        <strong ng-if="nuisance_compose"><center>NUISANCE REPORT SUMMARY</center></strong>
+                    <table ng-if="nuisance_compose.length>0"  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                        <thead style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric">#</th>
+                        <th class="mdl-data-table__cell--non-numeric">Nuisance</th>
+                        <th class="mdl-data-table__cell--non-numeric">Location</th>
+                        <th class="mdl-data-table__cell--non-numeric">Cause</th>
+                        <th class="mdl-data-table__cell--non-numeric">Abatement</th>
+                        <th class="mdl-data-table__cell--non-numeric">Date</th>
+
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="nuisanced in nuisance_compose">
+
+                            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{nuisanced.nuisance}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{nuisanced.location}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{nuisanced.cause}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{nuisanced.abatement}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{nuisanced.event_date}}</td>
+
+
+                        </tr>
+                        <tr title="" style="background-color:beige">
+
+
+                            <td class="mdl-data-table__cell--non-numeric" class="badge" colspan="2"> Total </td>
+                            <td class="mdl-data-table__cell--non-numeric" class="badge" colspan="2">{{nuisance_compose.length}} </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+</div>
+                    </vertical-tab-pane>
+</vertical-tabs>
+
+        </md-content>
+    </md-tab>
+    <md-tab label="SETTINGS">
+        <md-content class='md-padding'>
+
+            <vertical-tabs>
+                <vertical-tab-pane title="Nuisance Register" ng-click=" ">
+
+
+                    <div class="">
+
+
+
+                        <md-input-container class="md-block col-md-6 col-sm-4">
+                            <input type="text" id="nuisenace" autocomplete="off"
+                                   data-toggle="tooltip"
+                                   title="Register  Nuisance Type"
+                                   placeholder="Register  Nuisance Type"
+                                   ng-model="nuisance.nuisance">
+                        </md-input-container>
+
+                        <md-button class="md-primary md-raised"
+                                   ng-click="nuisance_registration(nuisance)">
+                            Register
+                        </md-button>
+                        <p></p>
+
+
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"
+                               >
+
+
+                            <thead>
+                            <tr>
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    No#
+
+                                </td>
+
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    Nuisance
+
+
+                                </td>
+
+                                <td  class="mdl-data-table__cell--non-numeric">
+
+                                    Edit
+
+                                </td>
+                                <td  class="mdl-data-table__cell--non-numeric" ng-if="!e">
+
+                                    X
+
+                                </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="nuisance in nuisances | filter:search track by $index">
+                                <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{
+                                    nuisance.nuisance }}</b>
+                                    <h3 ng-if="e">
+
+                                        <md-input-container class="md-block">
+                                            <input type="text" class="md-block"
+                                                   placeholder="nuisance name"
+                                                   ng-model="nuisance.nuisance">
+                                        </md-input-container>
+
+
+                                    </h3>
+                                </td>
+
+                                <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+
+                                    <div class=" ">
+
+
+                                        <md-button class="md-primary md-raised"
+                                                   data-toggle="tooltip"
+                                                   title="Click to Update This Record"
+                                                   ng-click="nuisance_update(nuisance)">
+                                            Update
+                                        </md-button>
+
+                                    </div>
+                                    <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+                                </td>
+                                <td  class="mdl-data-table__cell--non-numeric">
+                                    <input type="checkbox" class="md-block"
+                                           ng-model="e">Edit
+                                </td>
+                                <td ng-if="!e">
+                                    <!--<md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</md-button>-->
+                                </td>
+                                <!--<td>{{ region.tastiness }}</td>-->
+                            </tr>
+                            </tbody>
+
+                        </table>
+</div>
+</vertical-tab-pane>
+
+                <vertical-tab-pane title="Equipment Type Register" >
+
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <input type="text" id="equip" autocomplete="off"
+                               data-toggle="tooltip"
+                               title="Register Equipment and Tools"
+                               placeholder="Register Equipment and Tools"
+                               ng-model="equipment_type.equipment_type">
+                    </md-input-container>
+
+                    <md-button class="md-primary md-raised"
+                               ng-click="environment_equipment_type_registration(equipment_type)">
+                        Register
+                    </md-button>
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                        <thead>
+                        <tr>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                No#
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Equipment Type
+
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Edit
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="!e">
+
+                                X
+
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="equipment_type in equipment_types | filter:search track by $index">
+                            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{equipment_type.equipment_type }}</b>
+                                <h3 ng-if="e">
+
+                                    <md-input-container class="md-block">
+                                        <input type="text" class="md-block"
+                                               placeholder="equipment type"
+                                               ng-model="equipment_type.equipment_type">
+                                    </md-input-container>
+
+
+                                </h3>
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+
+                                <div class=" ">
+
+
+                                    <md-button class="md-primary md-raised"
+                                               data-toggle="tooltip"
+                                               title="Click to Update This Record"
+                                               ng-click="equipment_type_update(equipment_type)">
+                                        Update
+                                    </md-button>
+
+                                </div>
+                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric">
+                                <input type="checkbox" class="md-block"
+                                       ng-model="e">Edit
+                            </td>
+                            <td ng-if="!e">
+                                <!--<md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</md-button>-->
+                            </td>
+                            <!--<td>{{ region.tastiness }}</td>-->
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </vertical-tab-pane>
+                <vertical-tab-pane title="Equipments List"  >
+                    <md-checkbox  ng-model="inv" aria-label="" class="pull-right" >
+                       Add Equipment
+                    </md-checkbox>
+                    <i ng-if="inv">
+                        <hr>
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <label >Choose Equipment Type</label>
+                        <md-select ng-model="equipment_list.equipment_type" required>
+                            <md-option value={{equipment_type.id}} ng-repeat="equipment_type in equipment_types">{{equipment_type.equipment_type}}</md-option>
+                        </md-select>
+</md-input-container>
+                    <md-input-container class="md-block col-md-3 col-sm-4">
+                        <input type="text" id="equip1" autocomplete="off"
+                               data-toggle="tooltip"
+                               title="Equipment Name "
+                               placeholder="Register  Equipment Name"
+                               ng-model="equipment_list.equipment_name" required>
+                    </md-input-container>
+
+                    <md-input-container class="md-block col-md-3 col-sm-4">
+                        <label for="">Equipment/Tool Status</label>
+                        <md-select ng-model="equipment_list.status" required>
+                            <md-option value="Available">Available</md-option>
+                            <md-option value="Not Available">Not Available</md-option>
+                              </md-select>
+                    </md-input-container>
+
+                    <md-button class="md-primary md-raised"
+                               ng-click="environment_equipment_registration(equipment_list)">
+                        Register
+                    </md-button>
+                    </i>
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                        <thead>
+                        <tr>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                No#
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Equipment Name
+
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Equipment Type
+
+
+                            </td>
+
+
+                           <td  class="mdl-data-table__cell--non-numeric">
+
+                               Status
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Edit
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="!e">
+
+                                X
+
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="equipment in equipments | filter:search track by $index">
+                            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{equipment.equipment_name }}</b>
+                                <h3 ng-if="e">
+
+                                    <md-input-container class="md-block">
+                                        <input type="text" class="md-block"
+                                               placeholder="equipment Name"
+                                               ng-model="equipment.equipment_name">
+                                    </md-input-container>
+
+
+                                </h3>
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{equipment.equipment_type }}</b>
+
+                                <h3 ng-if="e">
+
+                                    <md-input-container class="md-block">
+                                        <md-select ng-model="equipment.equipment_type_id" required>
+                                            <md-option value={{equipment.equipment_type_id}}>{{equipment.equipment_type}}</md-option>
+                                            <md-option value={{equipment_type.id}} ng-repeat="equipment_type in equipment_types">{{equipment_type.equipment_type}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+
+
+                                </h3>
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{equipment.status}}</b>
+
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                <label for="">Equipment/Tool Status</label>
+                                <md-select ng-model="equipment.status" required>
+                                    <md-option value="Available">Available</md-option>
+                                    <md-option value="Not Available">Not Available</md-option>
+                                </md-select>
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+
+                                <div class=" ">
+
+
+                                    <md-button class="md-primary md-raised"
+                                               data-toggle="tooltip"
+                                               title="Click to Update This Record"
+                                               ng-click="environment_equipment_update(equipment)">
+                                        Update
+                                    </md-button>
+
+                                </div>
+                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+                            </td>
+
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+                                <input type="checkbox" class="md-block"
+                                       ng-model="e">Edit
+                            </td>
+                            <td ng-if="!e">
+                                <!--<md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</md-button>-->
+                            </td>
+                            <!--<td>{{ region.tastiness }}</td>-->
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </vertical-tab-pane>
+
+                <vertical-tab-pane title="Waste Type Register" >
+
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <input type="text" id="waste" autocomplete="off"
+                               data-toggle="tooltip"
+                               title="Register Waste Type"
+                               placeholder="Register Waste Type"
+                               ng-model="waste.waste_type">
+                    </md-input-container>
+
+                    <md-button class="md-primary md-raised"
+                               ng-click="environment_waste_registration(waste)">
+                        Register
+                    </md-button>
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                        <thead>
+                        <tr>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                No#
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Waste Type
+
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Edit
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="!e">
+
+                                X
+
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="waste_type in waste_types | filter:search track by $index">
+                            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{waste_type.waste_type }}</b>
+                                <h3 ng-if="e">
+
+                                    <md-input-container class="md-block">
+                                        <input type="text" class="md-block"
+                                               placeholder="Waste type"
+                                               ng-model="waste_type.waste_type">
+                                    </md-input-container>
+
+
+                                </h3>
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+
+                                <div class=" ">
+
+
+                                    <md-button class="md-primary md-raised"
+                                               data-toggle="tooltip"
+                                               title="Click to Update This Record"
+                                               ng-click="waste_type_update(waste_type)">
+                                        Update
+                                    </md-button>
+
+                                </div>
+                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric">
+                                <input type="checkbox" class="md-block"
+                                       ng-model="e">Edit
+                            </td>
+                            <td ng-if="!e">
+                                <!--<md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</md-button>-->
+                            </td>
+                            <!--<td>{{ region.tastiness }}</td>-->
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </vertical-tab-pane>
+
+                <vertical-tab-pane title="Disposal Methods" >
+
+                    <md-input-container class="md-block col-md-6 col-sm-4">
+                        <input type="text" id="disposal" autocomplete="off"
+                               data-toggle="tooltip"
+                               title="Register Disposal Method"
+                               placeholder="Register Disposal Methods"
+                               ng-model="disposal.waste_dispose">
+                    </md-input-container>
+
+                    <md-button class="md-primary md-raised"
+                               ng-click="environment_waste_dispose_registration(disposal)">
+                        Register
+                    </md-button>
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                        <thead>
+                        <tr>
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                No#
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Disposal Method
+
+
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                Edit
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="!e">
+
+                                X
+
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="waste_dispose in waste_disposes | filter:search track by $index">
+                            <td  class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                            <td  class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{waste_dispose.waste_dispose }}</b>
+                                <h3 ng-if="e">
+
+                                    <md-input-container class="md-block">
+                                        <input type="text" class="md-block"
+                                               placeholder="Waste dispose"
+                                               ng-model="waste_dispose.waste_dispose">
+                                    </md-input-container>
+
+
+                                </h3>
+                            </td>
+
+                            <td  class="mdl-data-table__cell--non-numeric" ng-if="e">
+
+                                <div class=" ">
+
+
+                                    <md-button class="md-primary md-raised"
+                                               data-toggle="tooltip"
+                                               title="Click to Update This Record"
+                                               ng-click="waste_dispose_update(waste_dispose)">
+                                        Update
+                                    </md-button>
+
+                                </div>
+                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+                            </td>
+                            <td  class="mdl-data-table__cell--non-numeric">
+                                <input type="checkbox" class="md-block"
+                                       ng-model="e">Edit
+                            </td>
+                            <td ng-if="!e">
+                                <!--<md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List"  ng-click="exemption_type_delete(exemption_type.exemption_name,exemption_type.id)">Delete</md-button>-->
+                            </td>
+                            <!--<td>{{ region.tastiness }}</td>-->
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </vertical-tab-pane>
+
+
+
+
+                <vertical-tab-pane title="Notifiable Diseases">
+
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <md-input-container class="md-block">
+                                    <input type="text" ng-model="selectedProvisional" id="disease" autocomplete="off" typeahead-on-select="addNotifiable(selectedProvisional)"
+                                           placeholder="Register a New Notifiable Diagnosis"
+                                           uib-typeahead="prov as prov.description+' '+prov.code for prov in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+                                </md-input-container>
+
+
+                                <div>
+                                    <table ng-if="diagnosisTemp.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                                        <thead>
+                                        <tr>
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                No#
+
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                Disease
+
+
+                                            </td>
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                Remove
+
+
+                                            </td>
+</tr>
+                                        </thead>
+
+                                        <tr ng-repeat="prov in diagnosisTemp track by $index">
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                {{$index+1}}
+
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                {{prov.description}}
+
+
+                                            </td>
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                <md-button class="md-raised md-warn" ng-click="removeFromSelection(prov,diagnosisTemp)">Remove</md-button>
+
+
+                                            </td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <th colspan="3">
+                                                <md-button class="md-raised md-primary  " ng-click="save_notifiable_Diagnosis(diagnosisTemp)">Save</md-button>
+
+
+                                            </th>
+                                        </tr>
+                                        </table>
+
+
+ <table ng-if="notifiables.length>0 && diagnosisTemp.length<1" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+
+                                        <thead>
+                                        <tr>
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                No#
+
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                Disease
+
+
+                                            </td>
+
+</tr>
+                                        </thead>
+
+                                        <tr ng-repeat="prov in notifiables track by $index">
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                {{$index+1}}
+
+                                            </td>
+
+                                            <td  class="mdl-data-table__cell--non-numeric">
+
+                                                {{prov.description}}
+
+
+                                            </td>
+
+                                        </tr>
+
+                                        </table>
+
+
+
+                                </div>
+                            </div>
+</div>
+                        </div>
+                    </vertical-tab-pane>
+                </vertical-tabs>
+
+
+
+        </md-content>
+</md-tab>
+
+
+</md-tabs>

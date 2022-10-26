@@ -1,0 +1,338 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1100px;
+    }
+
+</style>
+<div class="app-modal-window wrapper wrapper-content animated fadeInRight" ng-controller="ctcController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p><span class="fa fa-desktop"></span>{{ctcQues.first_name}} {{ctcQues.middle_name}} {{ctcQues.last_name}} ({{ctcQues.medical_record_number}})
+
+                                <span class="pull-right"> DOB: {{ctcQues.dob}} &nbsp;&nbsp; GENDER: {{ctcQues.gender}}  </span>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+
+                        <div class="row">
+                            <div class="form-group col-md-7 col-sm-7">
+                                <label for="form1">DRUG ALLERGIES :</label>
+                                <div class="md-form form-sm">
+                                    <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3">
+                                <div class="md-form form-sm">
+                                   <button class="btn btn-success">SAVE</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+           <div class="row">
+                            <div class="form-group col-md-5 col-sm-5">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                    PRIOR ARV EXPOSURE(tick appropriate)
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <fieldset class="form-group">
+                                                <input type="checkbox">
+                                                <label></label>
+                                            </fieldset>
+                                        </td>
+                                        <td>NONE</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <fieldset class="form-group">
+                                                <input type="checkbox"   >
+                                                <label></label>
+                                            </fieldset>
+                                        </td>
+                                        <td>PRIOR THERAPY (transfer in without records)</td>
+
+                                    </tr>
+                                    <tr>
+                                         <td>
+                                            <fieldset class="form-group">
+                                                <input type="checkbox"    >
+                                                <label></label>
+                                            </fieldset>
+                                        </td>
+                                        <td>PMTCT MONOTHERAPY</td>
+
+                                    </tr>
+
+                                    <tr>
+                                         <td>
+                                            <fieldset class="form-group">
+                                                <input type="checkbox"    >
+                                                <label></label>
+                                            </fieldset>
+                                        </td>
+                                        <td>PMTCT COMBINATION THERAPY</td>
+
+                                    </tr>
+
+                                    <tr>
+                                       <td>
+                                            <fieldset class="form-group">
+                                                <input type="checkbox"    >
+                                                <label></label>
+                                            </fieldset>
+                                        </td>
+                                        <td>PEP</td>
+
+                                    </tr>
+                                                                       </tbody>
+                                </table>
+                            </div>
+
+               <div class="form-group col-md-7 col-sm-7">
+                   <label for="form1">HUWANYU/HBC No.</label>
+                   <div class="md-form form-sm">
+                       <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                   </div>
+                   <br>
+
+                   <table class="table table-bordered">
+                       <thead>
+                       VIRAL LOAD TESTING
+                       </thead>
+                       <tbody>
+                       <tr>
+                           <td>
+                              TEST NUMBER
+                           </td>
+                           <td> <input type="text"   ></td><td> <input type="text"   ></td><td> <input type="text"   ></td>
+
+                       </tr>
+
+
+                       <tr>
+                           <td>
+                              SAMPLE DATE
+                           </td>
+                           <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+
+                       </tr>
+
+                       <tr>
+                           <td>
+                              VL RESULTS(Copies/ML)
+                           </td>
+                           <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+                       </tr>
+                       </tbody>
+                   </table>
+
+
+               </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+                                <div class="col-md-12">
+
+
+                                    <div class="form-group col-md-3 col-sm-3">
+                                        <label for="form1">DATE CONFIRMED HIV+</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+                                     <div class="form-group col-md-3 col-sm-3">
+                                        <label for="form1">DATE ENROLLED IN CARE</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-md-3 col-sm-3">
+                                        <label for="form1">DATE MEDICALLY ELIGIBLE</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-md-3 col-sm-3">
+                                        <label>DATE START ART</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                    </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-primary">
+                                    <div class="form-top">WHY ELIGIBLE:</div>
+                                    <div class="panel-body">
+
+
+
+                                    <div class="form-group col-md-3 col-sm-3">
+                                        <label for="form1">WHO STAGE(1-4)</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+                                     <div class="form-group col-md-3 col-sm-3">
+                                        <label for="form1">CD4 COUNT/%</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-md-3 col-sm-3">
+                                        <label for="form1">BREAST FEEDING</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-md-3 col-sm-3">
+                                        <label>PREGNANCY</label>
+                                        <div class="md-form form-sm">
+                                            <input type="text" id="form1" ng-model="patient.allergy" class="form-control">
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                    </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-primary">
+                                    <div class="form-top">STATUS AT ART START:</div>
+                                    <div class="panel-body">
+
+
+                                        <div class="row">
+                                            <div class="form-group col-md-2 col-sm-2">
+                                                <label for="form1">AGE</label>
+                                                <div class="md-form form-sm">
+                                                    <input type="text" ng-model="patient.withrecords" id="form1"  class="form-control">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-3 col-sm-3">
+                                                <label>WHO STAGE(1-4)</label>
+                                                <div class="md-form form-sm ">
+
+                                                    <input type="text" id="form2" ng-model="patient.no_records" class="form-control" >
+                                                    <button class="btn btn-success" ng-click="saveCTCNewAttendance(patient,ctcQues)">SAVE</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-2 col-sm-2">
+                                                <label for="form3">CD4 COUNT/%</label>
+                                                <div class="md-form form-sm">
+                                                    <input type="text" id="form3" ng-model="patient.in_care" class="form-control">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-2 col-sm-2">
+                                                <label for="form4">FUNCTIONAL STATUS</label>
+                                                <div class="md-form form-sm">
+                                                    <input type="text" id="form4" ng-model="patient.on_art" class="form-control">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-2 col-sm-2">
+                                                <label for="form4">BODY WEIGHT</label>
+                                                <div class="md-form form-sm">
+                                                    <input type="text" id="form4" ng-model="patient.on_art" class="form-control">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </fieldset>
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+</div>

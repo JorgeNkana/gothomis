@@ -1,0 +1,70 @@
+<md-dialog class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <b ng-if="dosageitems.length>0" >{{'Names:&nbsp;&nbsp;'+dosageitems[0].first_name+' '+dosageitems[0].middle_name+' '+dosageitems[0].last_name +'&nbsp;&nbsp;Mrn:&nbsp;&nbsp;'+dosageitems[0].medical_record_number +'&nbsp;&nbsp;Gender:&nbsp;&nbsp;'+dosageitems[0].gender+'&nbsp;&nbsp;D.O.B:&nbsp;&nbsp;'+dosageitems[0].dob}}</b>
+<b ng-if="dosagecompletenesses.length>0">{{'Names:&nbsp;&nbsp;'+dosagecompletenesses[0].first_name+' '+dosagecompletenesses[0].middle_name+' '+dosagecompletenesses[0].last_name +'&nbsp;&nbsp;Mrn:&nbsp;&nbsp;'+dosagecompletenesses[0].medical_record_number +'&nbsp;&nbsp;Gender:&nbsp;&nbsp;'+dosagecompletenesses[0].gender+'&nbsp;&nbsp;D.O.B:&nbsp;&nbsp;'+dosagecompletenesses[0].dob}}</b>
+
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+
+
+        <div layout-gt-sm="row" >
+
+                <div class="md-block" flex-gt-sm="20" ng-if="dosagecompletenesses.length>0">
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+                        <tr style="background-color: gainsboro" class="mdl-data-table__cell--non-numeric  ">
+                            <th class="mdl-data-table__cell--non-numeric  ">Service</th>
+                            <th class="mdl-data-table__cell--non-numeric  ">Time recorded</th>
+                            <th class="mdl-data-table__cell--non-numeric  ">Status</th>
+                            <th class="mdl-data-table__cell--non-numeric  " colspan="2">Staff Name</th>
+
+                        </tr>
+                        <tr ng-repeat="dose in dosagecompletenesses" class="mdl-data-table__cell--non-numeric  ">
+                            <th class="mdl-data-table__cell--non-numeric  ">{{dose.item_name}}</th>
+                            <th class="mdl-data-table__cell--non-numeric  ">{{dose.created_at}}</th>
+                            <th class="mdl-data-table__cell--non-numeric  " > &nbsp;Completed</th>
+                            <th class="mdl-data-table__cell--non-numeric  ">{{dose.name}}</th>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="md-block" flex-gt-sm="10">
+
+
+            </div> <div class="md-block" flex-gt-sm="10">
+
+
+        </div>
+            <div class="md-block" flex-gt-sm="20" ng-if="dosageitems.length>0">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+
+                    <tr  class="mdl-data-table__cell--non-numeric  ">
+                        <th class="mdl-data-table__cell--non-numeric  ">Service</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Time recorded</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">Status</th>
+                        <th class="mdl-data-table__cell--non-numeric  " colspan="2">Staff Name</th>
+
+                    </tr>
+                    <tr ng-repeat="dose in dosageitems" class="mdl-data-table__cell--non-numeric  ">
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.item_name}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.created_at}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  " ng-if="dose.remain>0" ng-click="ViewProgressDosage(dose)">{{dose.remain}} &nbsp;times remain</th>
+                        <th class="mdl-data-table__cell--non-numeric  " ng-if="dose.remain<1"> &nbsp;Completed</th>
+                        <th class="mdl-data-table__cell--non-numeric  ">{{dose.name}}</th>
+                        <th class="mdl-data-table__cell--non-numeric  " ng-if="dose.remain>0"  > <button class="mdl-button mdl-js-button md-button md-raised" ng-click="SaveOpdService(dose)">Give Now</button></th>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

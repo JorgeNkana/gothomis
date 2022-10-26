@@ -1,0 +1,85 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="labController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>                    Panel Name: {{getPanelComponets[0].panel}}
+
+                    <span class="pull-right">Sample No.{{getPanelComponets[0].sample_no}}</span>
+                </h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <h3>      <span ng-if="patientPaticulars[0].admission_id > 0"><span  class="fa fa-bed fa-2x "></span> {{getAdmisionInfos.ward_full_name}}, {{getAdmisionInfos.bed_available}}</span>
+                        </h3>
+                        <table class="table  border='2'">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Component Name</th>
+                                <th>Results </th>
+                                <th>Ranges </th>
+
+                            </tr>
+                            </thead>
+
+                            <tr ng-repeat="getPanelComponet in getPanelComponets  track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{getPanelComponet.panel_compoent_name}}</td>
+
+                                <td>
+                                    <div class="col-xs-8">
+
+                                        <input  name="component"
+                                                type="text"
+                                                id="{{getPanelComponet.panel_compoent_name.replace(regex,'_')}}"
+                                                class="form-control" />
+
+                                        <div ng-message="form.component">
+                                            <div ng-if="form.component.$error" ng-message="required"> Field is required</div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span ng-if="getPanelComponet.minimum_limit !=null">  ( {{getPanelComponet.minimum_limit}}- {{getPanelComponet.maximum_limit}})  {{getPanelComponet.si_units}} </span>
+
+                                </td>
+                            </tr>
+                            <tr >
+                                <td></td>
+                                <td></td>
+
+                                <td>
+                                  </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="saveComponent(getPanelComponet)">
+                SAVE RESULTS
+            </md-button>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

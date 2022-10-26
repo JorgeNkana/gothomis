@@ -1,0 +1,128 @@
+<style>
+    dt {
+        float: left;
+        margin-right: 4%;
+        max-width: 40%;
+        font-weight: bold;
+    }
+    
+    dd {
+        margin-left: 20%;
+        margin-bottom: .5em;
+        color: teal;
+        font-weight: 600;
+        //border-bottom: 2px solid black;
+    }
+    
+    dd::after {
+        content: " ";
+        display: block;
+        clear: left;
+    }
+	
+	.md-dialog-content{
+	min-width:1100px;
+	}
+</style>
+<md-dialog>
+    <form autocomplete="off" ng-cloak>
+       
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+<div style="min-height:1200px;" id="divtoprint">
+
+    <div layout="column">
+        <div layout="row" layout-align="space-between center">
+            <div flex></div>
+            <div flex>
+                <center>
+                    <span style="font-weight:600;">FOMU YA KUPOKEA MAITI</span>
+                </center>
+                <center>
+                    <img height="80" width="80" src="/img/arm.png" />
+                </center>
+            </div>
+            <div flex>
+	
+			
+        </div>
+		
+            </div>
+			
+			<div flex>
+			<center><span>{{facility_address.facility_name}}{{facility_address.facility_address}}</span></center><BR>
+	<center><span>{{facility_address.facility_mobile_number}}</span></center>
+            </div>
+    </div>
+
+ 
+    <div layout="column">
+        <div flex="70" layout-gt-sm="row" layout-padding>
+            <div flex>
+              
+				 				
+            </div>
+           
+        </div>
+    </div>
+	
+	   <table width="100%" border="0">
+                                        
+                                          <tbody>
+										    <tr ng-if="corpseDetails.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                           <strong><p class="md-headline">TAARIFA ZA MAREHEMU</p></strong></td>
+                                          </tr>
+ 
+ <tr><th align="left">Jina la marehemu</th><td>{{corpseDetails[0].first_name+' '+corpseDetails[0].middle_name+' '+corpseDetails[0].last_name}}</td></tr>
+      <tr><th align="left">Jinsia</th><td>{{corpseDetails[0].gender}}</td></tr>
+      <tr><th align="left">Umri</th><td>{{corpseDetails[0].age}}</td></tr>
+      <tr><th align="left">Namba ya faili</th><td>{{corpseDetails[0].corpse_record_number}}</td></tr>
+      <tr><th align="left">Mahali maiti ilipotoka/alipofia</th><td>{{corpseDetails[0].residence_name}}</td></tr>
+       <tr><th align="left">Uraia</th><td>{{corpseDetails[0].country_name}}</td></tr>
+      <tr><th align="left">Tarehe ya kifo</th><td>{{corpseDetails[0].dod}}</td></tr>
+      <tr><th align="left">Maelezo mengineyo</th><td>{{corpseDetails[0].description}}<span ng-if="!corpseDetails[0].description"><i>(Hakuna maelezo yaliyotolewa juu mazingira ya kifo)**</i></span></td></tr>
+      
+      <tr><th align="left">Jina la Aliye Msajili</th><td>{{corpseDetails[0].name}}</td></tr>
+
+
+	  <tr ng-if="corpseDetails.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                           <strong><p class="md-headline">TAARIFA ZA ALIYELETA MAITI</p></strong></td>
+                                          </tr>
+ 
+ <tr><th align="left">Jina </th><td>{{corpseDetails[0].corpse_brought_by}}</td></tr>
+ <tr><th align="left">Anapoishi</th><td>{{corpseDetails[0].residence_name}}</td></tr>
+  <tr><th align="left">Sababu ya kuweka maiti</th><td>
+  <span ng-if="corpseDetails[0].storage_reason==2">KUHIFADHI</span>
+  <span ng-if="corpseDetails[0].storage_reason==1">UCHUNGUZI</span>
+  
+  </td></tr>
+  <tr><th align="left">Namba ya gari iliyoleta maiti</th><td>{{corpseDetails[0].transport}}</td></tr>
+  
+  </tbody>
+                                      </table>
+                      
+            </div>
+        </md-dialog-content>
+
+        
+    </form>
+	<md-dialog-actions layout="row">
+             
+
+            <span flex></span>
+           
+			<md-button class="md-raised md-primary pull-right" ng-click="printForm()">
+                PRINT FORM
+            </md-button> 
+			<md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            
+        </md-dialog-actions>
+</md-dialog>

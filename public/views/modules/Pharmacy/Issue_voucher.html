@@ -1,0 +1,136 @@
+<!--<md-dialog  >-->
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools text-center">
+            ISSUE VOUCHER FORM
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-button ng-click="PrintContent_voucher()" title="Print"
+                   class="no-print pull-right md-raised md-default"><b class="glyphicon glyphicon-print pull-right ">Print</b></md-button>
+        <md-input-container class=" no-print md-block col-md-6 col-md-4  pull-right" >
+            <label>Choose  Receiver</label>
+            <md-select ng-model="receiver_name" md-block>
+                <md-option></md-option>
+                <md-option value="{{target_store_user.name}}" ng-repeat="target_store_user in target_store_users">{{target_store_user.name}}  </md-option>
+            </md-select>
+        </md-input-container>
+        <div id='divtoprintvoucher' >
+
+        <hr>
+
+<center>
+            <table border="1"  style="text-align: center">
+                <tr style="font-family: Tahoma">
+                    <td colspan="2">To: &nbsp;&nbsp; <center> <strong>{{store_issued_name}}</strong></center></td>
+
+                </tr>
+                <tr >
+                    <td style="font-family: san-sarif" >ISSUE VOUCHER <p></p>NO: &nbsp;&nbsp;
+
+                        {{store_issued_name |limitTo:10}}{{ date_.split(['-'])[0]}}{{ date_.split(['-'])[1]}}{{ date_.split(['-'])[2]}}
+
+                        <p></p>DATE: &nbsp;&nbsp;{{ date_}}</td>
+                    <td style="font-family: 'Times New Roman'"> <center>REQUISITION/ISSUE VOUCHER ALLOCATED STORES ONLY <p></p>
+                    Not for use in connection with unallocated stores or local <p></p>Purchase</center>
+                    </td>
+                </tr>
+            </table>
+</center>
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" border="1">
+            <tr style='font-size:12px;font-family:"Tahoma" '>
+                <th class="mdl-data-table__cell--non-numeric  " rowspan="2">#</th>
+                <th class="mdl-data-table__cell--non-numeric  " rowspan="2">Description Of Article</th>
+                <th class="mdl-data-table__cell--non-numeric  " rowspan="2">Unit</th>
+                <th class="mdl-data-table__cell--non-numeric  " colspan="2">Quantity</th>
+                <th class="mdl-data-table__cell--non-numeric  " colspan="2">Ledger Folio</th>
+            </tr>
+            <tr style='font-size:12px;font-family:"serif"'>
+
+
+                <th class="mdl-data-table__cell--non-numeric  ">Required</th>
+                <th class="mdl-data-table__cell--non-numeric  ">Issued</th>
+                <th class="mdl-data-table__cell--non-numeric  ">Issuer</th>
+                <th class="mdl-data-table__cell--non-numeric  ">Receiver</th>
+            </tr>
+            <tr ng-repeat="voucher_detail in voucher_details track by $index" style='font-size:12px;font-family:"Tahoma"'>
+                <th class="mdl-data-table__cell--non-numeric  ">{{$index+1}}</th>
+                <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.item_name}}</th>
+                <th class="mdl-data-table__cell--non-numeric  " ></th>
+                <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.required}}</th>
+                <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.issued}}</th>
+                <th class="mdl-data-table__cell--non-numeric  ">{{voucher_detail.issuer}}</th>
+                <th class="mdl-data-table__cell--non-numeric  ">{{receiver_name}}</th>
+            </tr>
+
+
+
+        </table>
+        <hr>
+        <center style='font-size:12px;font-family:"Lucida Calligraphy"'>
+        REQUISITIONING OFFICER,
+        <p></p>
+        <center>
+            <table>
+                <tr>
+                    <th>................................</th>
+                    <th>................................</th>
+                    <th>................................</th>
+                </tr>
+                <tr>
+                    <th>Signature</th>
+                    <th>Designation</th>
+                    <th>Station</th>
+                </tr>
+            </table>
+        </center>
+        <hr>
+ISSUING OFFICER,
+        <p></p>
+        <center>
+            <table>
+                <tr>
+                    <th>................................</th>
+                    <th>................................</th>
+                    <th>................................</th>
+                </tr>
+                <tr>
+                    <th>Signature</th>
+                    <th>Designation</th>
+                    <th>Station</th>
+                </tr>
+            </table>
+        </center>
+        <p></p>
+            CERTIFIED: <p></p>
+            A. Received in good order. <p></p>
+            B. Taken on charge in my stores ledger/for immediate use. <p></p>
+           <i> (Delete whichever is inapplicable) </i><p></p>
+        RECEIVING OFFICER,
+        <p></p>
+        <center>
+            <table>
+                <tr>
+                    <th>................................</th>
+                    <th>................................</th>
+                    <th>......../......./.....20............</th>
+                </tr>
+                <tr>
+                    <th>Signature</th>
+                    <th>Designation</th>
+                    <th> </th>
+                </tr>
+            </table>
+        </center>
+
+        </center>
+
+            </div>
+
+
+    </md-dialog-content>
+</md-dialog>

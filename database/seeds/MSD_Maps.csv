@@ -1,0 +1,883 @@
+item_id,item_code,item_category
+1,,CONSULTATION
+2,,MEDICAL EXAMINATION
+3,10060042MD,medication
+4,10040018MD,medication
+5,10010040MD,medication
+6,10010074MD,medication
+7,10060039MD,medication
+8,10060040MD,medication
+9,10060070MD,medication
+10,10020002MD,medication
+11,10060072MD,medication
+12,10060050MD,medication
+13,10020042SP,medication
+14,10010003MD,medication
+15,10040004MD,medication
+16,10010038MD,medication
+17,10010012MD,medication
+18,10060024MD,medication
+19,10010021MD,medication
+20,10060055MD,medication
+21,10060056MD,medication
+22,10010046MD,medication
+23,10010045MD,medication
+24,10010048MD,medication
+25,10010036MD,medication
+26,10010228MD,medication
+27,10010203MD,medication
+28,10010196MD,medication
+29,10060008MD,medication
+30,10040030MD,medication
+31,10010081MD,medication
+32,10010014MD,medication
+33,10060018MD,medication
+34,10060047MD,medication
+35,10010052MD,medication
+36,10010066MD,medication
+37,10010030MD,medication
+38,10010125MD,medication
+39,10010041MD,medication
+40,10010053MD,medication
+41,10010128MD,medication
+42,10060092MD,medication
+43,10010005MD,medication
+44,10060009MD,medication
+45,10040008MD,medication
+46,10040007MD,medication
+47,10010025MD,medication
+48,10060027MD,medication
+49,10020019MD,medication
+50,10080001MD,medication
+51,10010055MD,medication
+52,10010007MD,medication
+53,10040010MD,medication
+54,10010127MD,medication
+55,10060011MD,medication
+56,10010167MD,medication
+57,10060013MD,medication
+58,10060014MD,medication
+59,10060073MD,medication
+60,10060016MD,medication
+61,10010013MD,medication
+62,10050013MD,medication
+63,10060017MD,medication
+64,10040011MD,medication
+65,10010059MD,medication
+66,10060020MD,medication
+67,10010020MD,medication
+68,10040015MD,medication
+69,10010024MD,medication
+70,10040003MD,medication
+71,10010026MD,medication
+72,10050007MD,medication
+73,10060032MD,medication
+74,10060031MD,medication
+75,10010042MD,medication
+76,10050015MD,medication
+77,10020016MD,medication
+78,10040013MD,medication
+79,10010047MD,medication
+80,10060046MD,medication
+81,10060061MD,medication
+82,10060236MD,medication
+83,10010336MD,medication
+84,10060334MD,medication
+85,10010544MD,medication
+86,10060034MD,medication
+87,10060108MD,medication
+88,10010071MD,medication
+89,10010017MD,medication
+90,10010069MD,medication
+91,10010218MD,medication
+92,10060058MD,medication
+93,10060059MD,medication
+94,10010065MD,medication
+95,10060012MD,medication
+96,10050004MD,medication
+97,10050014MD,medication
+98,10050001MD,medication
+99,10010124MD,medication
+100,10010031MD,medication
+101,10010035MD,medication
+102,10050017MD,medication
+103,10050018MD,medication
+104,10030005MD,medication
+105,10040005MD,medication
+106,10030002MD,medication
+107,10010004MD,medication
+108,10030003MD,medication
+109,10030001MD,medication
+110,10010011MD,medication
+111,10010064MD,medication
+112,10060026MD,medication
+113,10010023MD,medication
+114,10010033MD,medication
+115,10060035MD,medication
+116,10010039MD,medication
+117,NEW,medication
+118,10010543MD,medication
+119,10010126MD,medication
+120,10060048MD,medication
+121,10060237MD,medication
+122,10010120MD,medication
+123,10010202MD,medication
+124,10010054MD,medication
+125,10060022MD,medication
+126,10060021MD,medication
+127,10010062MD,medication
+128,10050003MD,medication
+129,10050012MD,medication
+130,10010001MD,medication
+131,10060025MD,medication
+132,10010022MD,medication
+133,10040012MD,medication
+134,10050025MD,medication
+135,10010044MD,medication
+136,10010123MD,medication
+137,10060093MD,medication
+138,10010050MD,medication
+139,10070003MD,medication
+140,10070004MD,medication
+141,10070005MD,medication
+142,10070018MD,medication
+143,10070006MD,medication
+144,10020025MD,medication
+145,10070017MD,medication
+146,10070015MD,medication
+147,10070007MD,medication
+148,10070009MD,medication
+149,10070008MD,medication
+150,10010075MD,medication
+151,10070016MD,medication
+152,10070011MD,medication
+153,10070028MD,medication
+154,10050102MD,medication
+155,10070029MD,medication
+156,10010034MD,medication
+157,10010009MD,medication
+158,10010029MD,medication
+159,10060030MD,medication
+160,10010027MD,medication
+161,10010028MD,medication
+162,10060037MD,medication
+163,10020023MD,medication
+164,10020008MD,medication
+165,10020009MD,medication
+166,10020034MD,medication
+167,10060069MD,medication
+168,10060045MD,medication
+169,10010049MD,medication
+170,10020012MD,medication
+171,10020011MD,medication
+172,10020015MD,medication
+173,10020010MD,medication
+174,10020014MD,medication
+175,10020013MD,medication
+176,10060052MD,medication
+177,10020017MD,medication
+178,10050106MD,medication
+179,10060005MD,medication
+180,10060043MD,medication
+181,10060057MD,medication
+182,10060071MD,medication
+183,10060002MD,medication
+184,10060001MD,medication
+185,10060003MD,medication
+186,10060004MD,medication
+187,10060028MD,medication
+188,10010131MD,medication
+189,10060044MD,medication
+190,10010006MD,medication
+191,10010016MD,medication
+192,10010015MD,medication
+193,10060019MD,medication
+194,10060029MD,medication
+195,10060033MD,medication
+196,10010032MD,medication
+197,10010204MD,medication
+198,10060065MD,medication
+199,10060049MD,medication
+200,10060064MD,medication
+201,10050011MD,medication
+202,10060023MD,medication
+203,10050008MD,medication
+204,10060036MD,medication
+205,10010051MD,medication
+206,10010010MD,medication
+207,10010082MD,medication
+208,10060109MD,medication
+209,10060127MD,medication
+210,10060067MD,medication
+211,10010008MD,medication
+212,10060015MD,medication
+213,10060054MD,medication
+214,10010192MD,medication
+215,10010060MD,medication
+216,10040009MD,medication
+217,10060051MD,medication
+218,new,medication
+219,new,medication
+220,new,medication
+221,new,medication
+222,10010057MD,medication
+223,10050010MD,medication
+224,10010119MD,medication
+225,10010129MD,medication
+226,SUB-TOTAL-Pharmaceuticals,medication
+227,MEDICAL SUPPLIES,medication
+228,20010055MD,medication
+229,20010009MD,Medical Supplies
+230,20010007MD,Medical Supplies
+231,20010011MD,Medical Supplies
+232,20010012MD,Medical Supplies
+233,20010013MD,Medical Supplies
+234,20010015MD,Medical Supplies
+235,20010014MD,Medical Supplies
+236,20010016MD,Medical Supplies
+237,20010017MD,Medical Supplies
+238,20010018MD,Medical Supplies
+239,20010019MD,Medical Supplies
+240,20010041MD,Medical Supplies
+241,20010008MD,Medical Supplies
+242,20010010MD,Medical Supplies
+243,20010020MD,Medical Supplies
+244,20010021MD,Medical Supplies
+245,20010023MD,Medical Supplies
+246,20010024MD,Medical Supplies
+247,20010064MD,Medical Supplies
+248,20010061MD,Medical Supplies
+249,20010062MD,Medical Supplies
+250,20010026MD,Medical Supplies
+251,20010043MD,Medical Supplies
+252,20010044MD,Medical Supplies
+253,20010025MD,Medical Supplies
+254,20010027MD,Medical Supplies
+255,20010028MD,Medical Supplies
+256,20010029MD,Medical Supplies
+257,20010065MD,Medical Supplies
+258,20010038MD,Medical Supplies
+259,20010045MD,Medical Supplies
+260,20010046MD,Medical Supplies
+261,20010047MD,Medical Supplies
+262,20010048MD,Medical Supplies
+263,20010049MD,Medical Supplies
+264,20010050MD,Medical Supplies
+265,20010051MD,Medical Supplies
+266,20010052MD,Medical Supplies
+267,20010053MD,Medical Supplies
+268,20010054MD,Medical Supplies
+269,20010032MD,Medical Supplies
+270,20010033MD,Medical Supplies
+271,20010034MD,Medical Supplies
+272,20010035MD,Medical Supplies
+273,20010036MD,Medical Supplies
+274,20010037MD,Medical Supplies
+275,20020001MD,Medical Supplies
+276,20020002MD,Medical Supplies
+277,20020010MD,Medical Supplies
+278,20020009MD,Medical Supplies
+279,20020008MD,Medical Supplies
+280,20020005MD,Medical Supplies
+281,20020006MD,Medical Supplies
+282,20020007MD,Medical Supplies
+283,20020011MD,Medical Supplies
+284,20020012MD,Medical Supplies
+285,20020013MD,Medical Supplies
+286,20030011MD,Medical Supplies
+287,20030010MD,Medical Supplies
+288,20030014MD,Medical Supplies
+289,20030015MD,Medical Supplies
+290,20030016MD,Medical Supplies
+291,20030017MD,Medical Supplies
+292,20030018MD,Medical Supplies
+293,20030019MD,Medical Supplies
+294,20030012MD,Medical Supplies
+295,20030013MD,Medical Supplies
+296,20030027MD,Medical Supplies
+297,20030020MD,Medical Supplies
+298,20030021MD,Medical Supplies
+299,20030022MD,Medical Supplies
+300,20030023MD,Medical Supplies
+301,20030024MD,Medical Supplies
+302,20030025MD,Medical Supplies
+303,20030033MD,Medical Supplies
+304,20030034MD,Medical Supplies
+305,20030043MD,Medical Supplies
+306,20030004MD,Medical Supplies
+307,20030005MD,Medical Supplies
+308,20030007MD,Medical Supplies
+309,20030006MD,Medical Supplies
+310,20030008MD,Medical Supplies
+311,20040001MD,Medical Supplies
+312,20040002MD,Medical Supplies
+313,20040003MD,Medical Supplies
+314,20040028MD,Medical Supplies
+315,20040041MD,Medical Supplies
+316,20040042MD,Medical Supplies
+317,20040043MD,Medical Supplies
+318,20040044MD,Medical Supplies
+319,20040045MD,Medical Supplies
+320,20040046MD,Medical Supplies
+321,20040047MD,Medical Supplies
+322,20040048MD,Medical Supplies
+323,20040049MD,Medical Supplies
+324,20040050MD,Medical Supplies
+325,20040051MD,Medical Supplies
+326,20040052MD,Medical Supplies
+327,20040053MD,Medical Supplies
+328,20040004MD,Medical Supplies
+329,20040005MD,Medical Supplies
+330,20040006MD,Medical Supplies
+331,20040007MD,Medical Supplies
+332,20040008MD,Medical Supplies
+333,20040027MD,Medical Supplies
+334,20040019MD,Medical Supplies
+335,20040020MD,Medical Supplies
+336,20040021MD,Medical Supplies
+337,20040022MD,Medical Supplies
+338,20040023MD,Medical Supplies
+339,20040017MD,Medical Supplies
+340,20040018MD,Medical Supplies
+341,20040015MD,Medical Supplies
+342,20040016MD,Medical Supplies
+343,20040026MD,Medical Supplies
+344,20040024MD,Medical Supplies
+345,20040025MD,Medical Supplies
+346,20040056MD,Medical Supplies
+347,20040057MD,Medical Supplies
+348,20040058MD,Medical Supplies
+349,20040054MD,Medical Supplies
+350,20040055MD,Medical Supplies
+351,20040029MD,Medical Supplies
+352,20040030MD,Medical Supplies
+353,20040014MD,Medical Supplies
+354,20040009MD,Medical Supplies
+355,20040010MD,Medical Supplies
+356,20040011MD,Medical Supplies
+357,20050024MD,Medical Supplies
+358,20050003MD,Medical Supplies
+359,20050004MD,Medical Supplies
+360,20050005MD,Medical Supplies
+361,20050006MD,Medical Supplies
+362,20050007MD,Medical Supplies
+363,20050008MD,Medical Supplies
+364,20050009MD,Medical Supplies
+365,20050010MD,Medical Supplies
+366,20050011MD,Medical Supplies
+367,20050012MD,Medical Supplies
+368,20050013MD,Medical Supplies
+369,20050014MD,Medical Supplies
+370,20050034MD,Medical Supplies
+371,20050015MD,Medical Supplies
+372,20050025MD,Medical Supplies
+373,20050019MD,Medical Supplies
+374,20050020MD,Medical Supplies
+375,20050021MD,Medical Supplies
+376,20050017MD,Medical Supplies
+377,20050018MD,Medical Supplies
+378,20050038MD,Medical Supplies
+379,20050039MD,Medical Supplies
+380,20050040MD,Medical Supplies
+381,20050041MD,Medical Supplies
+382,20060002MD,Medical Supplies
+383,20060003MD,Medical Supplies
+384,20060006MD,Medical Supplies
+385,20060007MD,Medical Supplies
+386,20060008MD,Medical Supplies
+387,20060097MD,Medical Supplies
+388,20060096MD,Medical Supplies
+389,20060010MD,Medical Supplies
+390,20060014MD,Medical Supplies
+391,20060068MD,Medical Supplies
+392,20060059MD,Medical Supplies
+393,20060077MD,Medical Supplies
+394,20060032MD,Medical Supplies
+395,20060058MD,Medical Supplies
+396,20060011MD,Medical Supplies
+397,20060012MD,Medical Supplies
+398,20060013MD,Medical Supplies
+399,20060015MD,Medical Supplies
+400,20060017MD,Medical Supplies
+401,20060018MD,Medical Supplies
+402,20060019MD,Medical Supplies
+403,20060030MD,Medical Supplies
+404,20060031MD,Medical Supplies
+405,20060020MD,Medical Supplies
+406,20060009MD,Medical Supplies
+407,20060023MD,Medical Supplies
+408,20060021MD,Medical Supplies
+409,20070053MD,Medical Supplies
+410,20070002MD,Medical Supplies
+411,20070068MD,Medical Supplies
+412,20070047MD,Medical Supplies
+413,20070055MD,Medical Supplies
+414,20070003MD,Medical Supplies
+415,20070004MD,Medical Supplies
+416,20070005MD,Medical Supplies
+417,20070054MD,Medical Supplies
+418,20070049MD,Medical Supplies
+419,20070048MD,Medical Supplies
+420,20070056MD,Medical Supplies
+421,20070006MD,Medical Supplies
+422,20070007MD,Medical Supplies
+423,20070008MD,Medical Supplies
+424,20070050MD,Medical Supplies
+425,20070070MD,Medical Supplies
+426,20070009MD,Medical Supplies
+427,20070010MD,Medical Supplies
+428,20070011MD,Medical Supplies
+429,20070012MD,Medical Supplies
+430,20070013MD,Medical Supplies
+431,20070014MD,Medical Supplies
+432,20070052MD,Medical Supplies
+433,20070016MD,Medical Supplies
+434,20070017MD,Medical Supplies
+435,20070018MD,Medical Supplies
+436,20070019MD,Medical Supplies
+437,20070020MD,Medical Supplies
+438,20070021MD,Medical Supplies
+439,20070060MD,Medical Supplies
+440,20070022MD,Medical Supplies
+441,20070023MD,Medical Supplies
+442,20070051MD,Medical Supplies
+443,20070025MD,Medical Supplies
+444,20070026MD,Medical Supplies
+445,20070027MD,Medical Supplies
+446,20070028MD,Medical Supplies
+447,20070029MD,Medical Supplies
+448,20070030MD,Medical Supplies
+449,20070031MD,Medical Supplies
+450,20070032MD,Medical Supplies
+451,20070033MD,Medical Supplies
+452,20070034MD,Medical Supplies
+453,20070035MD,Medical Supplies
+454,20070036MD,Medical Supplies
+455,20070037MD,Medical Supplies
+456,20070038MD,Medical Supplies
+457,20070039MD,Medical Supplies
+458,20070057MD,Medical Supplies
+459,20070040MD,Medical Supplies
+460,20070041MD,Medical Supplies
+461,20070042MD,Medical Supplies
+462,20070043MD,Medical Supplies
+463,20070044MD,Medical Supplies
+464,20070066MD,Medical Supplies
+465,20070045MD,Medical Supplies
+466,20070062MD,Medical Supplies
+467,20070069MD,Medical Supplies
+468,20080005MD,Medical Supplies
+469,20080006MD,Medical Supplies
+470,20080014MD,Medical Supplies
+471,20080013MD,Medical Supplies
+472,20080015MD,Medical Supplies
+473,20080003MD,Medical Supplies
+474,20080027MD,Medical Supplies
+475,20080007MD,Medical Supplies
+476,20080004MD,Medical Supplies
+477,20080001MD,Medical Supplies
+478,20080002MD,Medical Supplies
+479,20090003MD,Medical Supplies
+480,20090004MD,Medical Supplies
+481,20090038MD,Medical Supplies
+482,20090019MD,Medical Supplies
+483,20090006MD,Medical Supplies
+484,20090005MD,Medical Supplies
+485,20090008MD,Medical Supplies
+486,20090023MD,Medical Supplies
+487,20090009MD,Medical Supplies
+488,20090040MD,Medical Supplies
+489,20090025MD,Medical Supplies
+490,20090021MD,Medical Supplies
+491,20090036MD,Medical Supplies
+492,20090013MD,Medical Supplies
+493,20090014MD,Medical Supplies
+494,20090015MD,Medical Supplies
+495,20090016MD,Medical Supplies
+496,20100013MD,Medical Supplies
+497,20100002MD,Medical Supplies
+498,20100008MD,Medical Supplies
+499,20100019MD,Medical Supplies
+500,20100009MD,Medical Supplies
+501,20100018MD,Medical Supplies
+502,20100010MD,Medical Supplies
+503,20100011MD,Medical Supplies
+504,20100017MD,Medical Supplies
+505,20100040MD,Medical Supplies
+506,20100021MD,Medical Supplies
+507,20100006MD,Medical Supplies
+508,20100007MD,Medical Supplies
+509,20100022MD,Medical Supplies
+510,20100029MD,Medical Supplies
+511,20100033MD,Medical Supplies
+512,20110025MD,Medical Supplies
+513,20110024MD,Medical Supplies
+514,20110017MD,Medical Supplies
+515,20110029MD,Medical Supplies
+516,20110045MD,Medical Supplies
+517,20110033MD,Medical Supplies
+518,20110034MD,Medical Supplies
+519,20110085MD,Medical Supplies
+520,20110095MD,Medical Supplies
+521,20110026MD,Medical Supplies
+522,20110048MD,Medical Supplies
+523,20110084MD,Medical Supplies
+524,20110028MD,Medical Supplies
+525,20110090MD,Medical Supplies
+526,20120001MD,Medical Supplies
+527,20120002MD,Medical Supplies
+528,20140004MD,Medical Supplies
+529,20140017MD,Medical Supplies
+530,20140007MD,Medical Supplies
+531,20140014MD,Medical Supplies
+532,20140009MD,Medical Supplies
+533,20140002MD,Medical Supplies
+534,20140003MD,Medical Supplies
+535,20140005MD,Medical Supplies
+536,20140043MD,Medical Supplies
+537,30010001MD,Medical Supplies
+538,30020012MD,Medical Supplies
+539,30020015MD,Medical Supplies
+540,30020014MD,Medical Supplies
+541,30010002MD,Medical Supplies
+542,30020001MD,Medical Supplies
+543,30020002MD,Medical Supplies
+544,30020018MD,Medical Supplies
+545,30020008MD,Medical Supplies
+546,30020007MD,Medical Supplies
+547,30020011MD,Medical Supplies
+548,30020016MD,Medical Supplies
+549,30020005MD,Medical Supplies
+550,30020004MD,Medical Supplies
+551,xy,Medical Supplies
+552,30020017MD,Medical Supplies
+553,30020006MD,Medical Supplies
+554,30030001MD,Medical Supplies
+555,30030004MD,Medical Supplies
+556,30030002MD,Medical Supplies
+557,30030003MD,Medical Supplies
+558,30030007MD,Medical Supplies
+559,30030008MD,Medical Supplies
+560,30030009MD,Medical Supplies
+561,30030010MD,Medical Supplies
+562,30050008MD,Medical Supplies
+563,30050002MD,Medical Supplies
+564,30050006MD,Medical Supplies
+565,30050007MD,Medical Supplies
+566,30040006MD,Medical Supplies
+567,30040007MD,Medical Supplies
+568,30040002MD,Medical Supplies
+569,30040009MD,Medical Supplies
+570,30040009MD,Medical Supplies
+571,30050002MD,Medical Supplies
+572,30040005MD,Medical Supplies
+573,30050003MD,Medical Supplies
+574,30050004MD,Medical Supplies
+575,30050005MD,Medical Supplies
+576,30050001MD,Medical Supplies
+577,SUB-TOTAL-Medical supplies,Medical Supplies
+578,LAB REAGENTS,Medical Supplies
+579,40090016MD,Medical Supplies
+580,40090207MD,Medical Supplies
+581,40090205MD,Medical Supplies
+582,40090208MD,Medical Supplies
+583,40090206MD,Medical Supplies
+584,40100014MD,Medical Supplies
+585,40040018MD,Medical Supplies
+586,40050023MD,Medical Supplies
+587,40070008MD,Medical Supplies
+588,40030029MD,Medical Supplies
+589,40070003MD,Medical Supplies
+590,40040022MD,medication
+591,40020026MD,medication
+592,40030094MD,medication
+593,40030095MD,medication
+594,40030099MD,medication
+595,40020007MD,medication
+596,40030093MD,medication
+597,40030085MD,medication
+598,40030113MD,medication
+599,40030114MD,medication
+600,40030115MD,medication
+601,40030112MD,medication
+602,40020005MD,medication
+603,40020006MD,medication
+604,40020004MD,medication
+605,40020014MD,medication
+606,40030086MD,medication
+607,40020010MD,medication
+608,40020030MD,medication
+609,40020013MD,medication
+610,40020024MD,medication
+611,40020012MD,medication
+612,40020019MD,medication
+613,40020022MD,medication
+614,40020029MD,medication
+615,40020011MD,medication
+616,40020016MD,medication
+617,40020017MD,medication
+618,40020015MD,medication
+619,40020028MD,medication
+620,40020001MD,medication
+621,40020031MD,medication
+622,40020025MD,medication
+623,40040002MD,medication
+624,40020023MD,medication
+625,40030104MD,medication
+626,40090067MD,medication
+627,40090068MD,medication
+628,40020008MD,medication
+629,40020021MD,medication
+630,40090071MD,medication
+631,40040020MD,medication
+632,40090076MD,medication
+633,40090059MD,medication
+634,40090075MD,medication
+635,40030043MD,medication
+636,40030037MD,medication
+637,40030063MD,medication
+638,40030038MD,medication
+639,40050016MD,medication
+640,40090078MD,medication
+641,40050021MD,medication
+642,40050017MD,medication
+643,40050019MD,medication
+644,40050014MD,medication
+645,40040001MD,medication
+646,40050005MD,medication
+647,40050007MD,medication
+648,40050008MD,medication
+649,40050011MD,medication
+650,40050010MD,medication
+651,40050018MD,medication
+652,40050002MD,medication
+653,40050006MD,medication
+654,40050003MD,medication
+655,40050013MD,medication
+656,40050001MD,medication
+657,40050015MD,medication
+658,40050009MD,medication
+659,40090072MD,medication
+660,40040010MD,medication
+661,40040012MD,medication
+662,40040019MD,medication
+663,40040009MD,medication
+664,40040007MD,medication
+665,40040008MD,medication
+666,40040013MD,medication
+667,40040006MD,medication
+668,40040005MD,medication
+669,40040004MD,medication
+670,40030122MD,medication
+671,40040021MD,medication
+672,40040003MD,medication
+673,40030056MD,medication
+674,40050012MD,medication
+675,40050022MD,medication
+676,40050020MD,medication
+677,40040016MD,medication
+678,40040011MD,medication
+679,40040015MD,medication
+680,40070016MD,medication
+681,40070012MD,medication
+682,40040014MD,medication
+683,40070037MD,medication
+684,40020018MD,medication
+685,40070100MD,medication
+686,40070101MD,medication
+687,40070038MD,medication
+688,40030064MD,medication
+689,40010001MD,medication
+690,40060005MD,medication
+691,40070004MD,medication
+692,40060009MD,medication
+693,40030128MD,medication
+694,40030096MD,medication
+695,40030054MD,medication
+696,40030067MD,medication
+697,40030045MD,medication
+698,40010002MD,medication
+699,40010003MD,medication
+700,40030055MD,medication
+701,40030070MD,medication
+702,40030010MD,medication
+703,40030031MD,medication
+704,40030032MD,medication
+705,40010005MD,medication
+706,40010006MD,medication
+707,40070036MD,medication
+708,40030009MD,medication
+709,40030016MD,medication
+710,40030060MD,medication
+711,40060008MD,medication
+712,40060007MD,medication
+713,40100019MD,medication
+714,40100007MD,medication
+715,40030024MD,medication
+716,40100018MD,medication
+717,40030044MD,medication
+718,40070002MD,medication
+719,40060001MD,medication
+720,40090048MD,medication
+721,40060004MD,medication
+722,40060002MD,medication
+723,40090162MD,medication
+724,40030030MD,medication
+725,40100002MD,medication
+726,40070009MD,medication
+727,40030058MD,medication
+728,40030013MD,medication
+729,40030014MD,medication
+730,40030015MD,medication
+731,40030053MD,medication
+732,40030004MD,medication
+733,40030119MD,medication
+734,40030132MD,medication
+735,40030120MD,medication
+736,40030121MD,medication
+737,40030127MD,medication
+738,40030129MD,medication
+739,40030130MD,medication
+740,40030111MD,medication
+741,40030116MD,medication
+742,40030100MD,medication
+743,40030109MD,medication
+744,40030101MD,medication
+745,40030102MD,medication
+746,40030108MD,medication
+747,40030106MD,medication
+748,40030088MD,medication
+749,40030105MD,medication
+750,40030091MD,medication
+751,40080047MD,medication
+752,40030089MD,medication
+753,40030092MD,medication
+754,40030090MD,medication
+755,40030042MD,medication
+756,40030087MD,medication
+757,40030073MD,medication
+758,40030072MD,medication
+759,40030097MD,medication
+760,40030098MD,medication
+761,40030079MD,medication
+762,40030080MD,medication
+763,40030076MD,medication
+764,40030075MD,medication
+765,40030078MD,medication
+766,40030084MD,medication
+767,40030040MD,medication
+768,40030082MD,medication
+769,40030003MD,medication
+770,40030074MD,medication
+771,40030083MD,medication
+772,40030081MD,medication
+773,40030061MD,medication
+774,40030001MD,medication
+775,40030071MD,medication
+776,40030027MD,medication
+777,40030002MD,medication
+778,40030110MD,medication
+779,40030025MD,medication
+780,40030026MD,medication
+781,40030022MD,medication
+782,40030005MD,medication
+783,40030065MD,medication
+784,40030066MD,medication
+785,40030006MD,medication
+786,40030123MD,medication
+787,40030039MD,medication
+788,40030008MD,medication
+789,40030021MD,medication
+790,40030069MD,medication
+791,40030057MD,medication
+792,40030124MD,medication
+793,40030051MD,medication
+794,40030023MD,medication
+795,40030050MD,medication
+796,40030036MD,medication
+797,40030028MD,medication
+798,40030041MD,medication
+799,40030011MD,medication
+800,40030007MD,medication
+801,40030012MD,medication
+802,40030052MD,medication
+803,40090156MD,medication
+804,40090140MD,medication
+805,40090081MD,medication
+806,40090087MD,medication
+807,40090103MD,medication
+808,40090017MD,medication
+809,40030034MD,medication
+810,40030103MD,medication
+811,40090154MD,medication
+812,40090001MD,medication
+813,40030118MD,medication
+814,40030117MD,medication
+815,40090051MD,medication
+816,40090061MD,medication
+817,40090063MD,medication
+818,40090062MD,medication
+819,40090163MD,medication
+820,40090164MD,medication
+821,40030017MD,medication
+822,40030019MD,medication
+823,40090165MD,medication
+824,40090166MD,medication
+825,40090167MD,medication
+826,40030131MD,medication
+827,40090168MD,medication
+828,40090169MD,medication
+829,40090170MD,medication
+830,40090171MD,medication
+831,40090172MD,medication
+832,40090173MD,medication
+833,40030035MD,medication
+834,40090174MD,medication
+835,40090111MD,medication
+836,40090175MD,medication
+837,40090176MD,medication
+838,40090177MD,medication
+839,40090178MD,medication
+840,40090073MD,medication
+841,40090180MD,medication
+842,40090072MD,medication
+843,40090183MD,medication
+844,40090184MD,medication
+845,40090207MD,medication
+846,40090047MD,medication
+847,40090067MD,medication
+848,40090059MD,medication
+849,40090075MD,medication
+850,40090185MD,medication
+851,40090187MD,medication
+852,40090188MD,medication
+853,40090189MD,medication
+854,40090190MD,medication
+855,40090195MD,medication
+856,40090191MD,medication
+857,40090080MD,medication
+858,40090057MD,medication
+859,40090069MD,medication
+860,40090193MD,medication
+861,40090194MD,medication
+862,40090070MD,medication
+863,40090045MD,medication
+864,40090046MD,medication
+865,40100002MD,medication
+866,40100003MD,medication
+867,40100004MD,medication
+868,40100005MD,medication
+869,40100006MD,medication
+870,40100019MD,medication
+871,40100007MD,medication
+872,40100045MD,medication
+873,40100044MD,medication
+874,40100010MD,medication
+875,40100020MD,medication
+876,40100053MD,medication
+877,40100011MD,medication
+878,40100016MD,medication
+879,40100017MD,medication
+880,40100013MD,medication
+881,20110094MD,medication
+882,40100018MD,medication

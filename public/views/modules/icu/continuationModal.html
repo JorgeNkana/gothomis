@@ -1,0 +1,29 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="ipdController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><i class="fa fa-bed" aria-hidden="true">Summary Notes</i><span class="pull-right">{{"Name: " +patientDetails.first_name}} {{patientDetails.middle_name}} {{patientDetails.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+patientDetails.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+patientDetails.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+patientDetails.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+patientDetails.gender}}</span> </h4>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <textarea class="form-control" ng-model="note.notes" placeholder="Write continuation notes for this patient here"></textarea>
+                                <br>
+                                <div><button class="btn btn-primary pull-right" ng-click="contNotes(note,patientDetails)">Save Notes</button></div>
+                            </div>
+                            <br>
+                            <br>
+                            <ul class="col-md-6 list-group" ng-repeat="prev in prevNotes">
+                                <li class="list-group-item">{{prev.notes}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

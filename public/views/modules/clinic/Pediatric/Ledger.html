@@ -1,0 +1,338 @@
+<style>
+    .app-modal-window .modal-dialog {
+        width: 1200px;
+    }
+    .chip {
+        display: inline-block;
+        padding: 0 25px;
+        height: 50px;
+        font-size: 15px;
+        line-height: 50px;
+        border-radius: 25px;
+        background-color: rgba(3, 12, 9, 0.47);
+    }
+    .chip img {
+        float: left;
+        margin: 0 10px 0 -25px;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+    .closebtn:hover {
+        color: #000;
+    }
+    .horizontal-collapse {
+        height: 70px;
+    }
+    .navbar-collapse.in {
+        overflow-y: hidden;
+    }
+
+
+
+
+
+    .card .card-image{
+        overflow: hidden;
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+        -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .card .card-image img{
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -ms-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    /*.card .card-image:hover img{*/
+    /*-webkit-transform: scale(1.2) rotate(-7deg);*/
+    /*-moz-transform: scale(1.2) rotate(-7deg);*/
+    /*-ms-transform: scale(1.2) rotate(-7deg);*/
+    /*-o-transform: scale(1.2) rotate(-7deg);*/
+    /*transform: scale(1.2) rotate(-7deg);*/
+    /*}*/
+
+    .card{
+        font-family: 'Roboto', sans-serif;
+        margin-top: 10px;
+        position: relative;
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 4 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .card .card-content {
+        padding: 10px;
+    }
+
+    .card .card-content .card-title, .card-reveal .card-title{
+        font-size: 24px;
+        font-weight: 200;
+    }
+
+    .card .card-action{
+        padding: 20px;
+        border-top: 1px solid rgba(160, 160, 160, 0.2);
+    }
+    .card .card-action a{
+        font-size: 15px;
+        color: #ffab40;
+        text-transform:uppercase;
+        margin-right: 20px;
+        -webkit-transition: color 0.3s ease;
+        -moz-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        -ms-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+    .card .card-action a:hover{
+        color:#ffd8a6;
+        text-decoration:none;
+    }
+
+    .card .card-reveal{
+        padding: 20px;
+        position: absolute;
+        background-color: #FFF;
+        width: 100%;
+        overflow-y: auto;
+        /*top: 0;*/
+        left:0;
+        bottom:0;
+        height: 100%;
+        z-index: 1;
+        display: none;
+    }
+
+    .card .card-reveal p{
+        color: rgba(0, 0, 0, 0.71);
+        margin:20px ;
+    }
+
+    .btn-custom{
+        background-color: transparent;
+        font-size:12px;
+    }
+    .my-legend .legend-scale ul {
+        margin: 0;
+        margin-bottom: 5px;
+        padding: 0;
+        float: left;
+        list-style: none;
+    }
+    .my-legend .legend-scale ul li {
+        display: inline-block;
+        Font-Family: Metric-Regular;
+        Font-Size: 12px;
+        Color: #666666;
+        list-style: none;
+        line-height: 18px;
+        vertical-align: text-top;
+    }
+    .my-legend ul.legend-labels li span {
+        display: inline-block;
+        height: 9px;
+        width: 9px;
+        margin-right: 5px;
+        margin-left: 10px;
+    }
+</style>
+
+<br><br>
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller='PediatricController'>
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="clinical-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4 >LEDGER SUMMARY</h4>
+                        </div>
+                    </div>
+                    <div class="">
+                        <input type="datetime" ng-model="data.start_date">
+                        <input type="datetime" ng-model="data.end_date">
+                        <button   ng-click="LedgerSearch(data)" class="glyphicon glyphicon-search ">Search</button>
+                    </div>
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="row">
+                            <div class="col-md-12 form-box">
+                                <form   role="form" class="registration-form" action="javascript:void(0);">
+                                    <fieldset>
+                                        <div class="form-bottom">
+                                            <div id='divtoprint'>
+
+                                                <div style="background-color:#c1c1c1" class="col-md-12">
+
+                                                    <div class="col-md-1">Tarehe </div>
+                                                    <div class="col-md-2" >Kumbukumbu za kuagizia/kutoa</div>
+                                                    <div class="col-md-2" >Kiasi kilichopokelewa</div>
+                                                    <div class="col-md-1"  >Kiasi kilichotolewa</div>
+                                                    <div class="col-md-2"  >Marekebisho (Upotevu,kurudishwa)</div>
+                                                    <div class="col-md-2"  >Kiasi kilichopo</div>
+                                                    <div class="col-md-1"  >Maelezo</div>
+
+                                                </div>
+                                                <div style="" class="col-md-12"   >
+
+                                                    <div    ng-repeat="ledger0 in ledgers0 track by $index">
+
+                                                    <div  class="col-md-1" >{{ledger0.created_at}}</div>
+                                                    <div class="col-md-2" >{{ledger0.batch_no}}</div>
+                                                    <div class="col-md-2">{{ledger0.kilichopokelewa}}</div>
+
+                                                    <div class="col-md-1"></div>
+
+                                                    <div    ng-repeat="ledger1 in ledgers1 track by $index">
+                                                    <div  class="col-md-1">{{ledger1.kilichotolewa}}</div>
+                                                    <div class="col-md-2">{{ledger1.marekebisho}}</div>
+                                                    <div class="col-md-2" >{{ledger1.kilichopo}}</div>
+
+                                                    <div class="col-md-1"></div>
+                                                </div>
+                                                </div>
+
+
+                                                <p></p>
+                                                <a onclick="PrintContent();"   title="Print" class="no-print   "><b class="glyphicon glyphicon-print "></b>  </a>
+                                                <b class="row table-responsive">
+                                                    <table class="table table-bordered" border="1">
+                                                        <caption> <b class="">
+                                                            <div class="text-center"> <h8>'SIRI'</h8></div>
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA, MAENDELEO YA JAMII, JINSIA, WAZEE NA WATOTO  </h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="public/img/arm.png" width="40px" height="40px" /></div>
+                                                            <div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+                                                            <div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+                                                            <div  class="text-center"> <h5>  KITABU CHA 4: LEJA</h5></div>
+
+                                                            <hr>
+
+                                                            <b class="col-md-4">Jina la Kituo....  {{menudetalis[0].facility_name}}     ........................ </b>
+                                                            <b class="col-md-4">Wilaya........ {{menudetalis[0].council_name}} ....................  </b>
+                                                            <b class="col-md-4">Mkoa............... {{menudetalis[0].region_name}} ............... </b>
+
+                                                            <hr>
+                                                        </b></caption>
+
+
+
+                                                        <tr style="background-color:#c1c1c1">
+
+                                                            <th >Tarehe </th>
+                                                            <th >Kumbukumbu za kuagizia/kutoa</th>
+                                                            <th >Kiasi kilichopokelewa</th>
+
+                                                            <th  >Kiasi kilichotolewa</th>
+                                                            <th  >Marekebisho (Upotevu,kurudishwa)</th>
+                                                            <th  >Kiasi kilichopo</th>
+                                                            <th  >Maelezo</th>
+
+                                                        </tr>
+                                                        <pre>{{ledgers0}}</pre>
+
+
+                                                        <tr  ng-repeat="ledger0 in ledgers0 track by $index">
+
+
+                                                            <th   >{{ledger0.created_at}}</th>
+                                                            <th  >{{ledger0.batch_no}}</th>
+                                                            <th >{{ledger0.kilichopokelewa}}</th>
+                                                            <th  >{{ledger0.kiasi_kilicho_tolewa}}</th>
+                                                            <th >{{ledger0.Marekebisho_upotevu}}</th>
+                                                            <th  >{{ledger0.kiasi_kilichopo}}</th>
+
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr  ng-repeat="ledger1 in ledgers1 track by $index">
+
+
+                                                            <th   >{{ledger1.created_at}}</th>
+                                                            <th  >{{ledger1.batch_no}}</th>
+                                                            <th >{{ledger1.kilichopokelewa}}</th>
+                                                            <th  >{{ledger1.kilichotolewa}}</th>
+                                                            <th >{{ledger1.marekebisho}}</th>
+                                                            <th  >{{ledger1.kilichopo}}</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr  ng-repeat="ledger2 in ledgers2 track by $index">
+
+
+                                                            <th   >{{ledger2.created_at}}</th>
+                                                            <th  >{{ledger2.batch_no}}</th>
+                                                            <th >{{ledger2.kilichopokelewa}}</th>
+                                                            <th  >{{ledger2.kilichotolewa}}</th>
+                                                            <th >{{ledger2.marekebisho}}</th>
+                                                            <th  >{{ledger2.kilichopo}}</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr  ng-repeat="ledger3 in ledgers3 track by $index">
+
+
+                                                            <th   >{{ledger3.created_at}}</th>
+                                                            <th  >{{ledger3.batch_no}}</th>
+                                                            <th >{{ledger3.kilichopokelewa}}</th>
+                                                            <th  >{{ledger3.kilicho_tolewa}}</th>
+                                                            <th >{{ledger3.marekebisho}}</th>
+                                                            <th  >{{ledger3.kilichopo}}</th>
+
+                                                            <th> </th>
+
+
+                                                        </tr>
+
+
+                                                    </table>
+
+
+
+                                            </div>
+
+
+                                        </div>
+                            </div>
+
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+
+
+<script>
+
+    function PrintContent()
+    {
+//location.reload();
+        var DocumentContainer = document.getElementById('divtoprint');
+
+        var WindowObject = window.open("", "PrintWindow",
+                "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.title = " GoT-HOMIS";
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+
+        setTimeout(function(){
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        },2000);
+
+
+
+    }
+</script>

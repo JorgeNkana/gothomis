@@ -1,0 +1,53 @@
+<md-dialog  class="fullscreen-dialog">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <div layout="row"  layout-align="space-between center">
+        <h2 class="md-display-1">{{patientData.first_name| uppercase}}&nbsp;{{patientData.middle_name| uppercase}}&nbsp;{{patientData.last_name| uppercase}} &nbsp;&nbsp;</h2>
+
+        <h3 class="md-title"> ({{patientData.medical_record_number}})</h3>
+
+        <span class="md-subhead">&nbsp;&nbsp;&nbsp;&nbsp;LIST OF CLINICS</span>
+      </div>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+
+
+
+      <div ng-cloak>
+        <md-list flex layout="row" layout-align="center center">
+          <md-list-item>
+            <div>
+              <md-button class="md-grid-item-content" ng-click="enterEncounter(patientData,encounter,1)">
+                <md-icon md-svg-src="/svg/doctor_opd.svg"></md-icon>
+                <div class="md-grid-text"> OPD </div>
+              </md-button>
+            </div>
+          </md-list-item>
+
+
+
+          <div layout="row">
+            <md-chips>
+              <md-chip ng-repeat="item in departments" ng-click="enterEncounter(patientData,encounter,item.id)" style="cursor: pointer">
+                {{ item.department_name | uppercase}}
+              </md-chip>
+            </md-chips>
+          </div>
+
+
+
+
+
+        </md-list>
+      </div>
+    </div>
+  </md-dialog-content>
+
+</md-dialog>

@@ -1,0 +1,60 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1" width="100%">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA  NA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO </h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>  {{facility_address.facility_name}}
+															{{facility_address.description}}<br>
+															{{facility_address.facility_address}} </h8></div>
+                                                            <div  class="text-center"><h8> <i>NURSING CARE PLAN</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{SelectedPatient.fullname}} </b>
+                                                            <b class="col-md-4">REG :{{SelectedPatient.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                             <b class="col-md-4">WARD:{{SelectedPatient.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{nursingCares[0].bed_name}} </b>
+                                                            <b class="col-md-4">ADMISSION DATE: {{SelectedPatient.admission_date}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                         <tr style="background-color:#c1c1c1">
+                                                          <th>No.</th>  <th>Date</th><th>TIME</th><th>NURSING DIAGNOSIS</th><th>OBJECTIVE OF CARE</th><th>IMPLENTATIONS</th><th>EVALUATION</th><th>NURSE NAME</th></tr>
+                                                        <tr ng-repeat="nursingCare in nursingCares track by $index"><td>{{$index+1}}</td>
+                                                       
+                                                       <td> {{nursingCare.date_planned}} </td>
+                                                       <td >{{nursingCare.time_planned}}</td>
+                                                      <td >{{nursingCare.diagnosis_name}}</td>
+                                                      <td >{{nursingCare.objective}}</td>
+                                                      <td>{{nursingCare.implementation}}</td>
+                                                      <td>{{nursingCare.evaluation}}</td>
+                                                      <td>{{nursingCare.name}}</td>
+                                                      
+                                                       </tr>
+
+
+                                                    </table>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+  </md-dialog>

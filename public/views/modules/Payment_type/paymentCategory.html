@@ -1,0 +1,106 @@
+<md-tabs md-dynamic-height md-border-bottom >
+    <md-tab label="PATIENT CATEGORY">
+        <div class="form-bottom">
+            <div class="row">
+                <div class="form-group col-md-6 col-sm-4">
+                    <label> Patient Category Name</label>
+                    <select ng-model="payment_sub_category.pay_cat_id" class="form-control">
+
+                        <option ng-value="payment_category.id" ng-repeat="payment_category in payment_categories">{{payment_category.category_description}}</option>
+                    </select>
+
+
+                </div>
+
+                <div class="form-group col-md-6 col-sm-4">
+                    <label> Payment Sub Category Name</label>
+                    <input type="text" class="form-control" placeholder="Enter  payment Sub category" ng-model="payment_sub_category.sub_category_name">
+                    <p></p>
+                    <button class="btn btn-success" ng-click="payment_sub_category_registration(payment_sub_category)" >Register</button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+        </md-tab>
+
+    <md-tab label="PATIENT CATEGORY LIST">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+
+
+            <thead>
+            <tr>
+               <td class="mdl-data-table__cell--non-numeric">
+
+                    No
+
+                </td>
+
+               <td class="mdl-data-table__cell--non-numeric">
+
+                    Payment Type
+
+
+
+                </td>
+
+               <td class="mdl-data-table__cell--non-numeric">
+
+                    Edit
+
+                </td> <td  ng-if="!e">
+
+                X
+
+            </td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="payment_sub_category in payment_sub_categories | filter:search track by $index">
+               <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+               <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ payment_sub_category.sub_category_name }}</b>
+                    <h3 ng-if="e">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="payment Sub  category" ng-model="payment_sub_category.sub_category_name">
+                        </div>
+
+
+                    </h3>
+                </td>
+
+                <td ng-if="e">
+                    <h3 >
+
+                        <div class="form-group">
+
+
+                            <button class="btn btn-success" data-toggle="tooltip" title="Click to Update This Record" ng-click="payment_sub_category_update(payment_sub_category)">Update</button>
+
+                        </div>
+                    </h3>
+                    <!--<button class="btn btn-default" ng-click="edit(region.id)">Edit</button>-->
+
+
+
+
+                </td>
+               <td class="mdl-data-table__cell--non-numeric">
+                    <input type="checkbox" class="btn btn-info" ng-model="e">Edit
+                </td><td  ng-if="!e">
+                <button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="payment_sub_category_delete(payment_sub_category.sub_category_name,payment_sub_category.id)">Delete</button>
+            </td>
+                <!--<td>{{ region.tastiness }}</td>-->
+            </tr>
+            </tbody>
+
+        </table>
+
+
+    </md-tab>
+    </md-tabs>

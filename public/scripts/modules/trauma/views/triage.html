@@ -1,0 +1,152 @@
+<style>
+    td.emergency {
+        font-weight: bold;
+        font-size: 14px;
+        background-color:red;
+    }
+
+    td.priority {
+        font-weight: bold;
+        font-size: 13px;
+        background-color:orange;
+    }
+
+    td.queue {
+        font-weight: bold;
+        font-size: 12px;
+        background-color:green;
+    }
+</style>
+<form autocomplete="off">
+<div ng-cloak>
+	<md-content>
+		<md-tabs md-dynamic-height md-border-bottom>
+			<md-tab label="Triage">
+<div layout="row">
+				<md-input-container flex="50">
+                                              
+                        <input type="text" class="pull-right" ng-model="selectedConfirmed" typeahead-on-select=" "
+                               placeholder="Type MRN to  Search"
+                               uib-typeahead="diag as diag.first_name+' '+diag.last_name+' '+diag.mrn for diag in getTraumaListSearched($viewValue) | filter:$viewValue | limitTo:30">
+
+                    </md-input-container>
+
+                    <md-input-container flex="50">
+<md-button ng-click="showRegisterForm()" title="create new patient" class="md-raised md-primary pull-right" aria-label="NEW PATIENT"><md-icon md-svg-src="/svg/plus.svg"></md-icon>NEW PATIENT</md-button>
+
+                    </md-input-container>
+                    </div>
+				<md-content class="md-padding">
+					<th  ng-if="trauma_lists.length>0" >
+
+						<input type="text" ng-model="search" placeholder="Search Client here...">
+
+					</th>
+					<table class="table table-bordered table-striped">
+						 
+						<thead>
+							<tr style="background-color:#d3d3d3">
+								<th><span>SNO</span></th>                                 
+								<th><span>PATIENT NAME</span></th>                                 
+								<th><span>MRN</span></th>                                 
+								<th><span>AGE</span></th>
+								<th><span>GENDER</span></th>
+								<th><span>ACUITY</span></th>
+								<th><span>VITAL SIGNS</span></th>                               
+								<th><span>Service</span></th>                               
+							</tr>
+						</thead>
+						<tbody>
+						   <tr ng-repeat="patient in trauma_lists|filter:search  track by $index" >
+							   <td style="font-weight:bold; text-align:right" ng-click="triage(patient)">{{$index+1}}.</td>
+							   <td ng-click="triage(patient)"><a ng-click="openDialog(patient)" style="cursor: pointer;decoration:none" >{{patient.surname}}, {{patient.first_name}}</a></td>
+							   <td ng-click="triage(patient)">{{patient.mrn}}</td>
+							   <td ng-click="triage(patient)">{{patient.age}}</td>
+							   <td ng-click="triage(patient)">{{patient.gender}}</td>
+							   <td ng-class="{emergency: patient.triage_category.toLowerCase()=='3', priority: patient.triage_category.toLowerCase()=='2', queue: patient.triage_category.toLowerCase()=='1'}">{{patient.category}}</td>
+							   <td ng-click="triage(patient)">
+									<span ng-if = 'patient.temp'><b>Temp: </b>{{patient.temp}}&deg;C</span>
+									<span ng-if = 'patient.bp'><b>&nbsp;&nbsp;&nbsp;BP: </b>{{patient.bp}}</span>
+									<span ng-if = 'patient.hr'><b>&nbsp;&nbsp;&nbsp;HR: </b>{{patient.hr}}</span>
+									<span ng-if = 'patient.rr'><b>&nbsp;&nbsp;&nbsp;RR: </b>{{patient.rr}}</span>
+									<span ng-if = 'patient.spo2'><b>&nbsp;&nbsp;&nbsp;Sp0<sub>2</sub>: </b>{{patient.spo2+' L'}}</span>
+									<span ng-if = 'patient.weight'><b>&nbsp;&nbsp;&nbsp;Weight: </b>{{patient.weight+' Kg'}}</span>
+									<span ng-if = 'patient.height'><b>&nbsp;&nbsp;&nbsp;Height: </b>{{patient.height+' Cm'}}</span>
+								</td>
+								                               
+								<td ng-click="giveservice(patient)"> <button>Give Service</button></td>
+						   </tr>
+						</tbody>
+					</table>
+				</md-content>
+			</md-tab>
+  
+			<md-tab label="Reports">
+				<div class="pull-right">
+					<input type="datetime" ng-model="data.start_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="Start Date">
+					<input type="datetime"  ng-model="data.end_date" datetime-picker   date-format="yyyy-MM-dd" placeholder="End Date">
+
+					<md-button   ng-click="triageRegisteredReport(data)" class="">Search</md-button>
+
+
+				</div>
+				<md-content class="md-padding">
+					<md-input-container class="md-block">
+						<input type="text"  class="md-block" placeholder=" filtring search" ng-model="search">
+					</md-input-container>
+					<table  style="border: thin solid black" border="1"    width="100%" >
+						<tr>
+						<th style="border-left: thin solid black;">s/n</th>
+						<th style="border-left: thin solid black;">name</th>
+						<th style="border-left: thin solid black;">gender</th>
+						<th style="border-left: thin solid black;">category</th>
+						</tr>
+						<tr ng-repeat="triage in triages  | filter:search track by $index">
+						<td style="border-left: thin solid black;">{{$index+1}}</td>
+						<td style="border-left: thin solid black;">{{triage.first_name}}  &nbsp;{{triage.surname}}</td>
+						<td style="border-left: thin solid black;">{{triage.gender}}</td>
+						<td style="border-left: thin solid black;">{{triage.triage_category}}</td>
+						</tr>
+						<tr ng-if="triages.length<1">
+							<th colspan="4" style="background-color: red"> No record found</th>
+						</tr>
+					</table>
+				</md-content>
+			</md-tab>
+			
+			<md-tab label="COMPLETE REGISTRATION">
+				<md-content class="md-padding">
+					<md-input-container class="md-block">
+						<input type="text" ng-model="search" placeholder="Search Client here...">
+					</md-input-container>
+
+					<table class="table table-bordered table-striped" title="click client to edit informations">
+						<thead>
+
+						</thead>
+						<thead>
+						<tr style="background-color:#d3d3d3">
+							<th><span>SNO</span></th>
+							<th><span>PATIENT NAME</span></th>
+							<th><span>AGE</span></th>
+							<th><span>GENDER</span></th>
+
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="patient in trauma_lists |filter:search  track by $index" >
+							<td style="font-weight:bold; text-align:right">{{$index+1}}.</td>
+							<td><a ng-click="openEditDialog(patient)" style="cursor: pointer;decoration:none" >{{patient.surname}}, {{patient.first_name}}</a></td>
+							<td>{{patient.age}}</td>
+							<td>{{patient.gender}}</td>
+
+						</tr>
+						</tbody>
+					</table>
+				</md-content>
+			</md-tab>
+
+		</md-tabs>
+	</md-content>
+</div>
+</form>

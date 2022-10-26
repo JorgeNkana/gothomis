@@ -1,0 +1,227 @@
+<md-dialog class="fullscreen-dialog">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding" > 
+				<div id="divtoprint">
+
+                      <table class="table table-bordered" border="1" width="100%">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA WAZEE NA WATOTO</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+                                                            <div  class="text-center"> <h8> {{patientData.	sender_facility| uppercase}} </h8></div>
+                                                            <div  class="text-center"><h8> <i>REFFERAL FORM</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{patientData.first_name}}  {{patientData.middle_name}} {{patientData.last_name}}</b>
+                                                            <b class="col-md-4">REG : {{patientData.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4"> </b>
+                                                            <b class="col-md-4">Age:{{patientData.age}} </b>
+                                                            <b class="col-md-4">DATE REFFERED: {{patientData.created_at}} </b>
+                                                            <b class="col-md-4"></b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                         <tr style="background-color:#c1c1c1">
+                                                         <th>REASON FOR TRANSFER</th><th>REFFERED BY</th> <th>DOCTOR MOBILE</th> <th>REFFERAL STATUS</th>  </tr>
+                                                        <tr> <td>{{patientData.summary}}</td>
+														<td>{{patientData.doctor_name}}</td>
+														<td>{{patientData.doctor_number}}</td>
+														<td>
+											<span ng-if='patientData.status==1'>PENDING </span>
+							                <span ng-if='patientData.status==0'>RECEIVED </span>
+							                <span ng-if='patientData.status==2'>CONSULTED </span>
+														</td>  </tr>
+
+                                                    </table>
+													
+											 <table width="100%" border="0">
+                                        
+                                          <tbody>
+                                         
+                          <tr ng-if="historyExaminations.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Complaints</strong></td>
+                                          </tr>
+          <tr ng-repeat="ph in historyExaminations" ng-if="historyExaminations.length>0">
+           <td>{{ph.status}}</td>
+                                <td>
+                                                  {{ph.description+' since '+ph.duration+' '+ph.duration_unit}}
+                                                  
+                                              </td>
+                                          </tr>
+                                          <tr ng-repeat="ot in otherComplaints" ng-if="otherComplaints.length>0">
+                                              <td><span>Other Complaints</span></td>
+                                              <td ng-if="otherComplaints.length>0">
+                                                 {{ot.other_complaints}}
+                                              </td>
+                                          </tr>
+
+            <tr  ng-repeat="h in hpi" ng-if="hpi.length > 0">
+           <td ><span>History of Presenting Illness</span></td>
+               <td ng-if="hpi.length >0">
+                                                {{h.hpi}}
+                                              </td>
+                                          </tr>
+                                        
+                                          <tr ng-if="allergies.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Allergies</strong></td>
+                                          </tr>
+                                          <tr ng-repeat="allergy in allergies" ng-if="allergies.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">{{allergy.status}}</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{allergy.descriptions}}</td>
+                                          </tr>
+                                                                              
+                                          <tr ng-if="historyExaminations[0].gen_examination !=null">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>General examination</strong></td>
+                                          </tr>
+										    <tr ng-if="gn.gen_examination !=null" ng-repeat="gn in historyExaminations">
+                                              <td class="mdl-data-table__cell--non-numeric">General examination</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{gn.gen_examination}}
+                                              </td>
+                                          </tr>
+                                          <tr ng-if="historyExaminations[0].local_examination!=null">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Local examination</strong></td>
+                                          </tr>
+                                          <tr ng-if="historyExaminations[0].local_examination !=null" ng-repeat="lc in historyExaminations">
+                                              <td class="mdl-data-table__cell--non-numeric">Local examination</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{lc.local_examination}}
+                                              </td>
+                                          </tr>
+                                                                        
+                                          <tr ng-if="remoteInvestigationResults.length>0">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                  <strong>Investigations</strong></td>
+                                          </tr>
+                                          <tr ng-repeat=" lb in remoteInvestigationResults" ng-if="remoteInvestigationResults.length>0">
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{lb.item_name}} </td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  {{lb.description+' '+lb.unit}}
+                                              </td>
+                                          </tr>
+										  
+										  
+										  
+										   <tr ng-if="refferal_status.service_status">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                <strong>REFERAL RECEIVING STATUS</strong></td>
+                                          </tr>
+                                          <tr ng-if="refferal_status.service_status">                         										  
+											  <td class="mdl-data-table__cell--non-numeric">Patient Status</td>
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                 {{refferal_status.patient_status}}
+                                              </td> 
+											  
+											 
+                                          </tr>
+										  
+										  
+										  
+										  
+										   <tr ng-if="refferal_status.service_status">
+                                              <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                <strong>REFERAL RECEIVING COMMENTS</strong></td>
+                                          </tr>
+                                          <tr ng-if="refferal_status.service_status">                         										  
+											  <td class="mdl-data-table__cell--non-numeric">Comments</td>
+                                                                                                                                 <td >
+                                                 {{refferal_status.remarks}}
+                                              </td>
+                                          </tr>
+										  
+										  
+										  
+										  
+										  
+										  
+                                          <tr ng-repeat=" rd in remoteInvestigationResults" ng-if="remoteInvestigationResults.remarks !=null">
+                                              <td class="mdl-data-table__cell--non-numeric">
+                                                  <div class="card">
+                                                      <div class="card-image">
+                                                          <!--<a><img class="img-responsive" src="/uploads/{{img.attached_image}}" width="100px;" height="100px"></a>-->
+                                                      </div>
+                                                      <!-- card image -->
+                                                      <div class="card-content">{{img.description}}</div>
+                                                      <!-- card content -->
+                                                  </div>
+                                              </td>
+                                          </tr>
+										  
+										  
+										  
+										
+                                                                                   
+                                          </tbody>
+                                      </table>	
+</div>									  
+													
+
+                                                     <div layout="row">
+                              <div flex="20">
+							   <md-input-container>
+							   <label>RECEIVING STATUS</label>
+         <md-select ng-model="refferal_status.service_status"  placeholder="Select" class="md-no-underline">
+          <md-option value='0'>RECEIVED</md-option>
+          <md-option value='2'>CONSULTED</md-option>
+          </md-select>
+		    </md-input-container>
+		  </div>
+		  <div flex="20">
+		     <md-input-container>
+							   <label>RECEIVING STATUS</label>
+		  <md-select ng-model="refferal_status.patient_status"  placeholder="Select" class="md-no-underline">
+          <md-option value=''>PATIENT STATUS</md-option>
+          <md-option value='1'>RECEIVED ALIVE</md-option>
+          <md-option value='2'>DEAD ON THE WAY</md-option>
+          <md-option value='3'>DEAD ON RECEIVING</md-option>
+          </md-select>
+		    </md-input-container>
+                                </div> 
+								<div flex="60">
+		     <md-input-container class="md-block">
+							   <label>REMARKS</label>
+		 <input type="text" ng-model="refferal_status.remarks"  >
+		    </md-input-container>
+                                </div>
+                                                              
+                            </div>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+		
+		
+
+        <md-dialog-actions layout="row">
+		<div layout="row" class="pull-rigt"> <md-button  class="md-raised md-primary pull-left"    ng-click="printForm()">
+                PRINT FORM
+            </md-button></div>
+            <span flex></span>
+			
+				
+			
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+
+             <md-button  class="md-raised md-primary"    ng-click="saveReferralStatus(refferal_status,remoteInvestigationResults,allergies,hpi,historyExaminations,otherComplaints,patientData)" class="md-primary">
+                Save Changes
+            </md-button>
+			
+			
+           
+        </md-dialog-actions>
+  </md-dialog>

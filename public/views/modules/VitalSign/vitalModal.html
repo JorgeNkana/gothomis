@@ -1,0 +1,116 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="VitalSignController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form">
+                <fieldset>
+                    <div class="form-top">
+                        <h3 style="font-size: 19px;">
+                            NAME: {{vitalQue.first_name | uppercase}} {{vitalQue.middle_name | uppercase}} {{vitalQue.last_name | uppercase}} GENDER: {{vitalQue.gender | uppercase}}
+                            MRN:{{vitalQue.medical_record_number | uppercase}} AGE:  {{vitalQue.age | uppercase}}
+
+                        </h3>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="col-sm-3" ng-repeat="Vital in Vitals">
+                                <label>{{Vital.vital_name}}({{Vital.si_unit}})</label>
+
+                                    <md-content class="md-padding">
+                                        <md-input-container>
+                                            <input type="number" id="{{Vital.vital_name.replace(regex, '_')}}" min="0"  style="font-size: 1.8rem;">
+                                        </md-input-container>
+                                    </md-content>
+
+                            </div>
+                        </div>
+                        <button  type="submit" class="btn btn-success" ng-click="vitalRegister(vitalQue.account_id)">SAVE VITALS</button>
+                       <br><br><br><br>
+                        <div class="row">
+                            <button uib-popover="View Vitals" popover-trigger="'mouseenter'"  ng-click="getVitalPatient_id(vitalQue.patient_id)" data-toggle="modal" data-target="#basicExample" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored pull-right">
+                                <i class="material-icons">list</i>
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-full-height modal-top" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 align="center" style="font-size: 22px; font-weight: 100" class="title">
+                        NAME: {{vitalQue.first_name | uppercase}} {{vitalQue.middle_name | uppercase}} {{vitalQue.last_name | uppercase}} GENDER: {{vitalQue.gender | uppercase}}
+                        MRN:{{vitalQue.medical_record_number | uppercase}} AGE:  {{vitalQue.age | uppercase}}
+
+                    </h3>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+
+
+
+                    <div class="row">
+                        <div class="col-sm-12" ng-repeat="account in accountVital">
+
+
+                            <uib-accordion close-others="oneAtATime" >
+
+                                <div ng-click="vitalsDate(account.account_id)" uib-accordion-group  heading="{{account.visit_date}}">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+
+                                                    <th class="">Vital Name</th>
+                                                    <th>Vital Data</th>
+                                                    <th class="">Si unit</th>
+                                                    <th>Date Taken</th>
+                                                    <th>Time Taken</th>
+                                                    <th>Registered by</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="vitalvalues in vitalDatas">
+
+                                                    <td><p align="left">{{vitalvalues.vital_name}}</p></td>
+                                                    <td>{{vitalvalues.vital_sign_value}}</td>
+                                                    <td>{{vitalvalues.si_unit}}</td>
+                                                    <td>{{vitalvalues.date_taken}}</td>
+                                                    <td>{{vitalvalues.time_taken}}</td>
+                                                    <td>{{vitalvalues.submited_by}}</td>
+
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </uib-accordion>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <!--Footer-->
+                <div class="">
+
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Modal -->
+</div>

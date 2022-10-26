@@ -1,0 +1,81 @@
+<div style="padding-right: 5px; width:103%">
+    <md-content  class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <ul class="breadcrumb">
+                <li><a ui-sref="general_laboratory()">Sample Collection</a></li>
+                <li><a ui-sref="all_regions()"></a></li>
+            </ul>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="SAMPLE COLLECTION" ng-click="loadDistrict()">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/micro.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Sample Collection to Client</span>
+                                    <span ng-show="loadedSample==true" class="md-subhead"><strong>{{mrn}}</strong></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <div ng-show="loadedSample==false" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                            </div>
+                            <div ng-show="loadedSample==true">
+                                <md-table-container>
+                                    <table md-table md-row-select="options.rowSelection"
+                                           multiple="{{options.multiSelect}}"
+                                           ng-model="selected"
+                                           md-progress-linear ng-if="!promise">
+                                        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                        <tr md-row>
+                                            <th style="text-align: left; padding-left: 0px;"><span style="padding-left: 20px;"><strong>Doctor Name</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Test Name</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Sub-department</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Sample Type</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Actions</strong></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row md-select="user"
+                                            md-on-select="logItem(user)"
+                                            md-auto-select="options.autoSelect"
+                                            ng-disabled="false"
+                                            ng-repeat="user in patientsSample.data">
+                                            <td md-cell><strong>{{user.doctor }}</strong></td>
+                                            <td md-cell>{{user.item_name}}</td>
+                                            <td md-cell>{{user.sub_department_name}}</td>
+                                            <td md-cell><md-input-container class="md-block" flex-gt-sm>
+                                                <label>Sample Type</label>
+                                                <md-select ng-model="user.sample_type" >
+                                                    <md-option value="">Please select sample type</md-option>
+                                                    <md-option value="blood">Blood</md-option>
+                                                    <md-option value="urine">Urine</md-option>
+                                                    <md-option value="stool">Stool</md-option>
+                                                    <md-option value="sputum">Sputum</md-option>
+                                                    <md-option value="serum">Serum</md-option>
+                                                    <md-option value="plasma">Plasma</md-option>
+                                                    <md-option value="body tissue">Body Tissue</md-option>
+                                                </md-select>
+                                            </md-input-container></td>
+                                            <td md-cell layout="row" class="action-table-data">
+                                                <md-button class="md-raised md-primary"
+                                                           ng-click="createSample(user,mrn)">SAMPLE
+                                                </md-button>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                            </div>
+                        </md-card>
+
+                    </md-content>
+            </md-tabs>
+
+        </div>
+    </md-content>
+
+
+</div>

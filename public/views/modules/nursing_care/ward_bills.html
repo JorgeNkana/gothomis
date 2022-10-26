@@ -1,0 +1,124 @@
+<style>
+    dt {
+        float: left;
+        margin-right: 4%;
+        max-width: 40%;
+        font-weight: bold;
+    }
+    
+    dd {
+        margin-left: 20%;
+        margin-bottom: .5em;
+        color: teal;
+        font-weight: 600;
+        //border-bottom: 2px solid black;
+    }
+    
+    dd::after {
+        content: " ";
+        display: block;
+        clear: left;
+    }
+	
+	.md-dialog-content{
+	min-width:1100px;
+	}
+</style>
+<md-dialog>
+    <form autocomplete="off" ng-cloak>
+       
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+<div style="min-height:195px;" id="divtoprint">
+
+   
+	<div >
+    <div>
+        <div id="contentToPrint" class="container-fluid">
+            <div class="row">
+                <div class="col-md-12" style="text-align:center">
+                    <br/>
+                    {{menu[0].facility_name}}&nbsp;&nbsp;
+                        {{menu[0].description}}<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                    {{menu[0].address}}<br/>
+                    {{menu[0].email}}<br>
+                    {{date | date:'yyyy-MM-dd HH:mm:ss'}}<br>
+                    <p><B>BILL TO BE CLEARED</B></p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6-offset-2" ng-if="bill[0].patient_id">
+                    <br/> <br/>
+                    Patient Names:{{bill[0].name.split("#")[0]}} <br />
+                    MRN:{{bill[0].name.split("#")[1]}}<br />
+                    Ward Name: {{selectedPatient.ward_name}}<br />
+                    Nurse Names: {{staff_name}}<br /> <br>
+                </div> 
+
+				
+				
+				
+            </div>
+            <div class="row">
+            <div class="col-md-12">
+         <table class="table table-responsive  table-striped">
+                            <thead>
+                            <th>Item Name</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Discount</th>
+                            <th>Sub Total</th>
+                            <th>Date Time</th>
+                            </thead>
+                            <tr ng-repeat="item in bill">
+                                <td>{{item.item_name}}</td>
+                                <td >{{item.price}}</td>
+                                <td >{{item.quantity}}</td>
+                                <td >{{item.discount}}</td>
+                                <td>{{item.price*item.quantity - item.discount | currency : 'Tshs ' : 2}}</td>
+							 <td>{{item.created_at}}</td>
+								
+                            </tr><tr>
+                            <td class="empty"></td>
+                            <td class="empty"></td>
+                            <td class="empty"></td>
+                            <td><br> <strong>Grand Total: </strong></td>
+                            <td><br><strong>{{totalCost() | currency: ' Tshs ' : 2}}</strong></td>
+							<td class="empty"></td>
+                        </tr>
+                        </table>
+                    </div> </div>
+        </div>
+       
+    </div>
+</div>
+	
+	   
+
+
+ 
+    
+                       
+            </div>
+        </md-dialog-content>
+
+       
+    </form>
+	 <md-dialog-actions layout="row">         
+
+           
+			<md-button class="md-raised md-primary pull-right" ng-click="printForm()">
+                PRINT BILL
+            </md-button> 
+			<md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            
+        </md-dialog-actions>
+</md-dialog>

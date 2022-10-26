@@ -1,0 +1,252 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+
+    .not_applicable {
+        background-color:#c1c1c1;
+    }
+
+    @media print {
+        .no-print{display:none;}
+    }
+</style>
+
+<md-dialog class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <b> NAME: {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} MRN: {{selectedPatient.medical_record_number}} GENDER:{{selectedPatient.gender}}<p></p>
+
+            </b>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <hr>
+        <center>
+        <md-radio-group layout="row" ng-model="is">
+            <md-radio-button value="bill" class="md-primary">Bills</md-radio-button>
+            <md-radio-button value="inv" class="md-primary">Billing Form </md-radio-button>
+        </md-radio-group>
+            <button ng-click="temp_exe_invoice();" ng-if="is=='inv'" title="Print"    class="no-print pull-right"><b class="glyphicon glyphicon-print ">Print</b>  </button>
+
+            <hr>
+            <div class=" " ng-if="is=='bill'">
+
+<div class="col-md-12">
+<div class="col-md-6">
+
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+        <thead>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric"></th>
+            <th class="mdl-data-table__cell--non-numeric">#</th>
+            <th class="mdl-data-table__cell--non-numeric">Item</th>
+            <th class="mdl-data-table__cell--non-numeric">Discount</th>
+            <th class="mdl-data-table__cell--non-numeric">Amount</th>
+            <th class="mdl-data-table__cell--non-numeric">Grand Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="exemption in temporary_exemptions | filter:search track by $index">
+            <td class="mdl-data-table__cell--non-numeric"><input type="checkbox" ng-model="ed" ng-click="temporary_exemption_checked(exemption,ed)"  class="fa fa-pencil no-print" title="Edit"> </td>
+            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{exemption.item_name}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{exemption.discount | currency : 'Tshs ' : 2}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{exemption.price*exemption.quantity | currency : 'Tshs ' : 2}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{(exemption.price*exemption.quantity)- (exemption.discount) | currency : 'Tshs ' : 2}}</td>
+
+            <td ng-if="ed"><a ng-click="temporary_exemption_status_single_row_update(selectedPatient,exemption)" class="md-raised md-default" title="Save Changes">SAVE</a></td>
+
+
+        </tr>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric"></th>
+            <th class="mdl-data-table__cell--non-numeric"> </th>
+            <th class="mdl-data-table__cell--non-numeric"> </th>
+            <th class="mdl-data-table__cell--non-numeric">{{discount | currency : 'Tshs ' : 2}} </th>
+            <th class="mdl-data-table__cell--non-numeric"> {{Total | currency : 'Tshs ' : 2}}</th>
+            <th class="mdl-data-table__cell--non-numeric">{{grandTotal | currency : 'Tshs ' : 2}}</th>
+        </tr>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric"></th>
+            <th class="mdl-data-table__cell--non-numeric"> </th>
+            <th class="mdl-data-table__cell--non-numeric"> </th>
+            <th class="mdl-data-table__cell--non-numeric">  </th>
+            <th class="mdl-data-table__cell--non-numeric">  </th>
+            <th class="mdl-data-table__cell--non-numeric">  </th>
+
+            <td ng-if="checkedList.length>0"></td>
+
+        </tr>
+    </table>
+
+</div>
+
+
+    <div class="col-md-6" ng-if="checkedList.length>0">
+
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric"></th>
+                            <th class="mdl-data-table__cell--non-numeric">#</th>
+                            <th class="mdl-data-table__cell--non-numeric">Item</th>
+                            <th class="mdl-data-table__cell--non-numeric">Discount</th>
+                            <th class="mdl-data-table__cell--non-numeric">Amount</th>
+                            <th class="mdl-data-table__cell--non-numeric">Grand Total</th>
+                        </tr>
+                        <tr ng-repeat="exemption_ in checkedList | filter:search track by $index">
+                            <td class="mdl-data-table__cell--non-numeric"><md-button     ng-click="temporary_exemption_removed($index)"  class="md-warn" title="Remove"> X</md-button></td>
+                            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{exemption_.item_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{exemption_.discount | currency : 'Tshs ' : 2}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{exemption_.price*exemption_.quantity | currency : 'Tshs ' : 2}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{(exemption_.price*exemption_.quantity)- (exemption_.discount) | currency : 'Tshs ' : 2}}</td>
+
+
+                        </tr>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric"></th>
+                            <th class="mdl-data-table__cell--non-numeric"> </th>
+                            <th class="mdl-data-table__cell--non-numeric"> </th>
+                            <th class="mdl-data-table__cell--non-numeric">  </th>
+                            <th class="mdl-data-table__cell--non-numeric">  </th>
+                            <th class="mdl-data-table__cell--non-numeric">{{grandTotalPay | currency : 'Tshs ' : 2}}</th>
+                        </tr>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric"></th>
+                            <th class="mdl-data-table__cell--non-numeric"> </th>
+                            <th class="mdl-data-table__cell--non-numeric"> </th>
+                            <th class="mdl-data-table__cell--non-numeric">  </th>
+                            <th class="mdl-data-table__cell--non-numeric">  </th>
+                            <th class="mdl-data-table__cell--non-numeric">  </th>
+
+                            <td ng-if="checkedList.length>0"><a ng-click="temporary_exemption_status_update(selectedPatient)" class="md-raised md-primary" title="Save Changes">SAVE ALL </a></td>
+
+                        </tr>
+                    </table>
+</div>
+
+
+            </div>
+
+
+
+</div>
+        <div ng-if="is=='inv'" id="invoice_id">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" BORDER="1" style="font-size: medium">
+                <thead>
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" colspan="5">BILLING FORM</th>
+
+
+
+                </tr>
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Namba ya Hospitali ya Mgonjwa(MRN)</th>
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">{{selectedPatient.medical_record_number}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">Tarehe (ya kujaza form)
+
+                    </th>
+                </tr>
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Tarehe ya kuruhusiwa Hospitali</th>
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">
+                        {{dt_start2}}
+                        <md-input-container class="md-block no-print" >
+
+                            <md-datepicker ng-model="dt_start2"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                           required></md-datepicker>
+                        </md-input-container>
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        {{dt_start1}}
+                        <md-input-container class="md-block no-print" >
+
+                        <md-datepicker ng-model="dt_start1"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                       required></md-datepicker>
+                    </md-input-container></th>
+                </tr>
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Jumla ya kiasi Cha fedha anachodaiwa(Tshs.)</th>
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">{{grandTotal | currency : '' : 2}}</th>
+                    <th class="mdl-data-table__cell--non-numeric"></th>
+                </tr>
+
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" rowspan="2">Majina ya Mgonjwa</th>
+                    <th class="mdl-data-table__cell--non-numeric" >jina la kwanza</th>
+                    <th class="mdl-data-table__cell--non-numeric" >jina la pili</th>
+                    <th class="mdl-data-table__cell--non-numeric">jina la tatu</th>
+                    <th class="mdl-data-table__cell--non-numeric">Jinsia</th>
+                </tr>
+                <tr style="font-family: 'Times New Roman'">
+
+                    <th class="mdl-data-table__cell--non-numeric" > {{selectedPatient.first_name}}</th>
+
+                    <th class="mdl-data-table__cell--non-numeric">{{selectedPatient.middle_name}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">{{selectedPatient.last_name}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">{{selectedPatient.gender}}</th>
+                </tr>
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric">Kitongoji/Mtaa</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Kijiji</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Kata</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Haurimashauri</th>
+
+
+
+                    <th class="mdl-data-table__cell--non-numeric">Namba ya Simu Ya Mgonjwa</th>
+                </tr>
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" colspan="4" >{{selectedPatient.residence}}</th>
+
+                    <th class="mdl-data-table__cell--non-numeric">{{selectedPatient.mobile_number}}</th>
+                </tr>
+                <tr style="font-family: 'Times New Roman'" >
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">Huduma Anayodaiwa</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Kiasi Cha fedha(Tshs)</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Jina la aliyetoa huduma</th>
+                    <th class="mdl-data-table__cell--non-numeric">Jina la aliyeingiza kwenye komputer</th>
+
+                </tr>
+                <tr style="font-family: 'Times New Roman'" ng-repeat="exemption in temporary_exemptions | filter:search track by $index">
+                    <th class="mdl-data-table__cell--non-numeric" colspan="2">{{exemption.item_name}}</th>
+                    <th class="mdl-data-table__cell--non-numeric" >{{(exemption.price*exemption.quantity)- (exemption.discount) | currency : '' : 2}}</th>
+                    <th class="mdl-data-table__cell--non-numeric" >{{selectedPatient.name}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">{{selectedPatient.name}}</th>
+
+                </tr>
+
+
+                <tr style="font-family: 'Times New Roman'">
+                    <th class="mdl-data-table__cell--non-numeric" rowspan="2">jina la aliyeidhinisha mkopo huu</th>
+                    <th class="mdl-data-table__cell--non-numeric" >1</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Jina:______________________________</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Cheo: ________________________</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Sahihi: </th>
+
+                </tr><tr style="font-family: 'Times New Roman'">
+
+                    <th class="mdl-data-table__cell--non-numeric" >2</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Jina:______________________________</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Cheo: ________________________</th>
+                    <th class="mdl-data-table__cell--non-numeric" >Sahihi: </th>
+
+                </tr>
+
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </center>
+            </div>
+
+
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,158 @@
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <p style="text-align: right;" ng-if="selectedPatient.first_name.length >0"><span><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;{{selectedPatient.first_name}}
+                {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;
+                {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp;
+                {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                {{"Age: "+selectedPatient.age}}</p>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+<table  border="1">
+    <tr>
+        <th class="mdl-data-table__cell--non-numeric">Preliminary</th>
+        <th class="mdl-data-table__cell--non-numeric">Extra Symptoms</th>
+        <th class="mdl-data-table__cell--non-numeric">Treatment</th>
+        <th class="mdl-data-table__cell--non-numeric">Take Home Medications</th>
+        <th class="mdl-data-table__cell--non-numeric">Patient Duration attained In DTC</th>
+        <th class="mdl-data-table__cell--non-numeric">Output</th>
+    </tr>
+    <tr >
+
+        <td>
+
+            <md-input-container class="md-block" >
+                <label> Dirhear Duration(Days)</label>
+                <input ng-model="dtc.dir_duration" type="number" min="0" title="Ameharisha kwa muda gani?(siku)">
+
+            </md-input-container >
+            <md-input-container class="md-block" title="Kiwango cha upungufu wa maji na chumvichumvi mwilini" >
+                <label> Water and Sugar Loss</label>
+
+                <md-select ng-model="dtc.water_sugar_loss">
+                    <md-option ></md-option>
+                    <md-option value="H">H</md-option>
+                    <md-option value="K">K</md-option>
+                    <md-option value="M">M</md-option>
+                </md-select>
+            </md-input-container >
+         </td>
+        <td>
+            <md-input-container class="md-block" title="Damu katika kinyesi" >
+                <label>  Blood In Stool</label>
+                <md-select ng-model="dtc.stool_blood">
+                    <md-option ></md-option>
+                    <md-option value="N">YES</md-option>
+                    <md-option value="H">NO</md-option>
+
+                </md-select>
+            </md-input-container >
+
+            <md-input-container class="md-block" title="Homa" >
+                <label>  Fever</label>
+                <md-select ng-model="dtc.fever">
+                    <md-option ></md-option>
+                    <md-option value="N">YES</md-option>
+                    <md-option value="H">NO</md-option>
+
+                </md-select>
+            </md-input-container >
+            <md-input-container class="md-block" title="Kutapika" >
+                <label>  Vomiting</label>
+                <md-select ng-model="dtc.vomiting">
+
+                    <md-option ></md-option>
+                    <md-option value="N">YES</md-option>
+                    <md-option value="H">NO</md-option>
+
+                </md-select>
+            </md-input-container >
+            <md-input-container class="md-block" title="Dalili Nyinginezo" >
+                <label>  Other Symptoms</label>
+                <textarea ng-model="dtc.other_sign">
+                       </textarea>
+            </md-input-container >
+
+         </td>
+        <td>
+
+            <md-input-container class="md-block" title="Kiasi cha ORS solution (ml)" >
+                <label>  ORS solution (ml)</label>
+                <input ng-model="dtc.ors_in">
+
+            </md-input-container >
+            <md-input-container class="md-block" title="Maji kwa njia ya mshipa (mls)" >
+                <label>  Water for Inj solution (ml)</label>
+                <input ng-model="dtc.intravesel_water">
+
+            </md-input-container >
+            <md-input-container class="md-block" title="Zinki (mg)" >
+                <label> Zinki (mg)</label>
+                <input ng-model="dtc.zink_in">
+
+            </md-input-container >
+            <md-input-container class="md-block" title="Matibabu Mengineyo" >
+                <label>  Other Treatment</label>
+                <textarea ng-model="dtc.other_treatment">
+                     </textarea>
+            </md-input-container >
+
+         </td>
+        <td>
+            <md-input-container class="md-block" title="ORS solution (ml)" >
+                <label> ORS Solution (ml)</label>
+                <input ng-model="dtc.ors_out">
+
+            </md-input-container >
+            <md-input-container class="md-block" title="Zinki (mg)" >
+                <label> Zinki (mg)</label>
+                <input ng-model="dtc.zink_out">
+
+            </md-input-container >
+        </td>
+        <td>   <md-input-container class="md-block" title="Enter Patient Duration attained In DTC"  >
+
+                <input ng-model="dtc.dct_duration" type="number" min="0" placeholder="Enter Patient Duration attained In DTC">
+
+            </md-input-container >
+            <md-input-container class="md-block" title="Unit" >
+                <label >DTC Unit</label>
+                <md-select ng-model="dtc.dtc_unit">
+                    <md-option  > </md-option>
+                    <md-option value="M">Minute(s)</md-option>
+                    <md-option value="H">Hour(s)</md-option>
+                    <md-option value="D">Day(s)</md-option>
+
+
+                </md-select>
+            </md-input-container >
+         </td>
+        <td>  <md-input-container class="md-block">
+                <md-select ng-model="dtc.output">
+                    <label >DTC Output</label>
+                    <md-option  > </md-option>
+                    <md-option value="ADM">Admitted</md-option>
+                    <md-option value="DISC">Discharged</md-option>
+                    <md-option value="REF">Referral</md-option>
+                    <md-option value="DEAD">Deceased</md-option>
+
+                </md-select>
+            </md-input-container>
+         </td>
+
+    </tr>
+    <tr><th colspan="6"><div class="text-center" >
+        <md-button ng-click="SaveDTC(dtc,selectedPatient)" class="text-center  md-raised md-primary" >Submit</md-button>
+    </div></th></tr>
+</table>
+
+
+        </md-dialog-content>
+    </md-dialog>

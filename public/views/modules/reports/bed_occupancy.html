@@ -1,0 +1,140 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >BED OCCUPANCY SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"   style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print">
+		<style type="text/css">
+				.not_applicable {
+						background-color:#c1c1c1;
+					}
+				tr.captions{
+						border: thin solid black;
+						background-color:#c1c1c1;
+				}
+				#sno{
+						vertical-align:middle;
+						text-align:right;
+					}
+				#data{
+					text-align:right;
+				}
+				#last_data{
+					border-right: none;
+					text-align:right;
+				}
+				#title{
+					text-align:center;
+				}
+				table{
+					border:thin solid black;
+				}
+				th{
+					border-right: thin solid black;
+					border-bottom: thin solid black;
+				}
+				td{
+					border-right: thin solid black;
+					border-bottom: thin solid black;
+				}
+				.totals{
+					background-color:rgb(238,238,238);
+				}
+				.separator{
+					background-color:rgb(224,224,224);
+				}
+				@media print{tr.captions{border: thin solid black !important;background-color:#c1c1c1 !important;}#sno{vertical-align:middle !important;}#data{text-align:right !important;}#last_data{border-right:none !important;text-align:right !important;}#title{text-align:center !important;}table{border:thin solid black !important;}th{border-right: thin solid black !important;border-bottom:thin solid black !important;}td{border-right: thin solid black !important;border-bottom: thin solid black !important;}.totals{background-color:rgb(238,238,238) !important;!important !important;}.separator{background-color:rgb(224,224,224) !important;}}
+			</style>
+			<table class="table-responsive" style="border:thin solid black;width:100%">
+			<tr class = ""><td colspan="21" style="border:none">
+				<b class="">
+					<div id="title"> <h8>'SIRI'</h8></div>
+					<div  id="title"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  id="title"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  id="title"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  id="title"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  id="title"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  id="title"> <h5>TAARIFA YA MWENENDO WA KULAZA WAGONJWA KATIKA KITUO</h5></div>
+
+					<hr>
+					<b>Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					&nbsp;&nbsp;&nbsp;<b>Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<P></P><P></P>
+					<b>Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					&nbsp;&nbsp;&nbsp;<b>Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<P></P><P></P><P></P><P></P>
+				</b>
+			</td></tr>
+             <tr class = "captions">
+
+                <th>Na</th>
+                <th colspan="4">Maelezo</th>
+                <th >Wodi ya wazazi</th>
+                <th >Wodi Zingine za kulaza Wagonjwa (IPD)</th>
+            </tr>
+			<tr style="" ng-repeat="report in bed_occupancy_report">
+                <td id = "data" colspan="">{{report.entry}}</td>
+                <td colspan="4">{{report.description}}</td>
+                <td >{{report.martenity}}</td>
+                <td >{{report.non_martenity}}</td>
+            </tr>
+        </table>
+		</div>
+		
+		
+		<div class="row no-print">
+			<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:14px" ng-click="setParameters('bed_occupancy')">
+					SEND TO DHIS
+				</button>
+		</div>
+		<form id="BED_OCCUPANCY_MTUHA" method="post" action="/api/pdfPrinting" target="BED_OCCUPANCY_MTUHA">
+			<input type="hidden" name="html" value="{{html}}" />
+			<input type="hidden" name="orientation" value="landscape" />
+			<input type="hidden" name="facility_id" value="{{facility_id}}" />
+		</form>
+	</div>
+
+    </md-dialog-content>
+</md-dialog>

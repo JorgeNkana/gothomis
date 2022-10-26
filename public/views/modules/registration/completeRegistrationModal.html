@@ -1,0 +1,117 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="patientController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>COMPLETE REGISTRATION FOR {{selectedPatient.first_name}} {{selectedPatient.middle_name}}
+                    {{selectedPatient.last_name}} ({{selectedPatient.medical_record_number}})</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container flex="40">
+                            <label>MARITAL STATUS</label>
+
+                            <md-select ng-model="others.marital">
+                                <md-option value=""></md-option>
+                                <md-option ng-repeat="marital in maritals" ng-value={{marital.id}}>
+                                    {{marital.marital_status}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex="100">
+                            <label>Occupation *</label>
+                            <input type="text" ng-model="others.occupation"
+                                   uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue"
+                            >
+                            <div ng-messages="projectForm.payment_category.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="100">
+                            <label>Country</label>
+                            <input type="text" ng-model="others.country"
+                                   uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                            <div ng-messages="projectForm.payment_category.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+
+                    </div>
+
+
+                    <div layout="row">
+
+                        <md-input-container flex="100">
+                            <label>Next of Kin Name *</label>
+                            <input type="text" ng-model="others.next_of_kin_name">
+                            <div ng-messages="projectForm.payment_category.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-autocomplete flex flex
+                                         md-search-text="search"
+                                         md-input-name="patient"
+                                         md-no-cache="false"
+                                         md-items="item in getResidence(search)"
+                                         md-item-text="item.residence_name"
+                                         md-selected-item-change="selectedResidence(item)"
+                                         md-floating-label="Residence of Next of Kin:"
+                                         md-min-length="3" md-autofocus>
+                            <md-item-template>
+                                <span md-highlight-text="searchText">{{item.residence_name}}</span>
+                            </md-item-template>
+                        </md-autocomplete>
+                    </div>
+
+                    <div layout="row">
+                        <md-input-container flex="40">
+                            <label>Relationship</label>
+
+                            <md-select ng-model="others.relationship">
+                                <md-option ng-value=""></md-option>
+                                <md-option ng-repeat="relationship in relationships" ng-value="relationship.id">
+                                    {{relationship.relationship }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-input-container flex="100">
+                            <label>Mobile Number</label>
+                            <input id="mobile_number" type="text" ng-model="others.mobile_number_next_kin">
+                            <div ng-messages="projectForm.payment_category.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+
+                    </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button class="md-raised md-primary" ng-click="completeRegistration(selectedPatient,others,residence)"
+                       class="md-primary">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

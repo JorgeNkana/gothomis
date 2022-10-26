@@ -1,0 +1,719 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                 <md-tab label="Storage Request" ng-click="getPendingOutsideCorpses()">
+                   <md-content class="md-padding">
+                       <div    >
+                           <md-input-container class="md-block ">
+                               <label> Filter  corpse here...</label>
+                               <input type="text"  class="md-block" typeahead-on-select="" ng-model="search"    class="md-block"  >
+
+                           </md-input-container>
+                       </div>
+
+        <h2 ng-if="PendingOutsideCorpses.length==0" align="center">NO PENDING REQUEST FOR STORAGE SENT RIGHT NOW.</h2>
+
+ <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ng-if="PendingOutsideCorpses.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             CORPSE NAME 
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>RECORD NUMBER</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>WARD</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+							<th sortable='total.value' class="sortable">
+                                <span>TIME REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="PendingOutsideCorpse in PendingOutsideCorpses|filter:search track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{PendingOutsideCorpse.corpse_name}} {{PendingOutsideCorpse.inside_corpse_name}}</td>
+                            <td >{{PendingOutsideCorpse.corpse_record_number}}</td>
+                              <td >{{PendingOutsideCorpse.ward_name}}</td>
+                              <td>{{PendingOutsideCorpse.doctor_requested}}</td>
+                              <td>{{PendingOutsideCorpse.created_at}}</td>
+                             <td><md-button class="md-raised md-primary" ng-click="giveCorpseCabinet(PendingOutsideCorpse)">STORE</md-button></td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+<md-tab label="Mortuary Class" >
+    <md-content class="md-padding">
+	
+	
+	 <div layout="row">
+     <md-input-container class="md-block" flex-gt-sm>
+                                   <label>MORTUARY GRADE</label>
+                                <input type="text" ng-model="mortuary.class">
+                                 </md-input-container>
+                                                         								 							                     
+								
+								
+								
+								
+								<md-input-container class="md-block" flex-gt-sm>
+                               <md-button class="md-raised md-primary" ng-click="addMortuaryClass(mortuary)">SAVE</md-button>
+                            
+                                </md-input-container>
+                        
+
+                         
+
+                                </div>
+	
+	
+
+   
+
+
+
+</md-content>
+
+</md-tab>
+
+<md-tab label="Storage Cost" >
+   <md-content class="md-padding">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in mortuaryGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for mortuary grade to set price">
+        </md-input-container>
+
+          
+                                                             
+
+        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                            <label class="control-label">storage Cost</label>
+                 <input  type="text" ng-model="item_price.price" >
+                              
+                            </md-input-container>
+                               
+                            </div>
+
+
+                             <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label> Starting  Year</label>
+                                <md-datepicker ng-model="item_price.startingFinancialYear"></md-datepicker>                              
+                                </md-input-container>
+
+                                 <md-input-container class="md-block" flex-gt-sm>
+                                    <label> Ending   Year</label>
+                                <md-datepicker ng-model="item_price.endingFinancialYear"></md-datepicker>                              
+                                </md-input-container>
+
+
+                                 <md-input-container class="md-block" flex-gt-sm>
+                                 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                 <md-button class="md-raised md-primary" ng-click="item_price_registration(item_price)">SAVE</md-button>
+                                </section>
+                               
+                               
+                                 </md-input-container>
+
+               
+                            </div>
+
+
+
+
+                            
+
+
+    </md-content>
+
+</md-tab>
+
+<md-tab label="Mortuary">
+    <md-content class="md-padding">
+
+       <div layout="row">
+     <md-input-container class="md-block" flex-gt-sm>
+                                    <label>MORTUARY NAME</label>
+                                    <input type="text" ng-model="mortuary.mortuary_name">
+                                </md-input-container>
+                                
+                               								 							
+								
+								<md-autocomplete flex required flex
+                                               md-search-text="searchText"
+                                               md-input-name="patients"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in showSearchMortuaryClass(searchText)"
+                                               md-item-text="item.item_name+' '+item.price"
+											   md-selected-item-change="selectedGrade(item,$event)"
+                                              
+                                               md-floating-label="Storage Service Cost Grade "
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.item_name}} {{item.price}}  </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+								
+								
+								
+								
+								
+								
+                                   
+								
+								
+								
+								
+								<md-input-container class="md-block" flex-gt-sm>
+                                  <md-button  class="md-raised md-primary"   ng-click="addMortuary(mortuary)" class="md-primary">
+                Save
+            </md-button>
+                                </md-input-container>
+                        
+
+                         
+
+                                </div>
+
+</md-content>
+
+</md-tab>
+<md-tab label="Cabinets" ng-click="getMortuary()">
+    <md-content class="md-padding">
+
+       <h2 ng-if="getMortuaryLists.length==0" align="center">NO REGISTERED MORTUARY ROOM.</h2>
+
+ <table class="table table-bordered table-striped" ng-if="getMortuaryLists.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             MORTUARY ROOM NAME 
+                            </th>
+                            
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                  <tr  ng-repeat="getMortuaryList in getMortuaryLists track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td>{{getMortuaryList.mortuary_name}} </td>                        
+                             <td>
+						  
+	<md-button  class="md-raised md-primary"   ng-click="getCabinetsFromThisMortuary(getMortuaryList)" class="md-primary">
+								ADD CABINET
+								</md-button>
+							</td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+</md-content>
+
+</md-tab>
+<md-tab label="Corpse Services" ng-click="getApprovedCorpses()">
+    <md-content class="md-padding">
+        <div    >
+            <md-input-container class="md-block ">
+                <label> Filter  corpse here...</label>
+                <input type="text"  class="md-block" typeahead-on-select="" ng-model="search"    class="md-block"  >
+
+
+
+            </md-input-container>
+        </div>
+
+        <h2 ng-if="approvedCorpses.length==0" align="center">NO APPROVED REQUEST FOR STORAGE SENT RIGHT NOW.</h2>
+
+ <table class="table table-bordered table-striped" ng-if="approvedCorpses.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             CORPSE NAME 
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>RECORD NUMBER</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>CORPSE CATEGORY</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+							<th sortable='total.value' class="sortable">
+                                <span>TIME REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="approvedCorpse in approvedCorpses |filter:search track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{approvedCorpse.corpse_name}} {{approvedCorpse.inside_corpse_name}}</td>
+                            <td >{{approvedCorpse.corpse_record_number}}</td>
+                              <td >{{approvedCorpse.corpse_category}}</td>
+                              <td>{{approvedCorpse.doctor_requested}}</td>
+                              <td>{{approvedCorpse.created_at}}</td>
+                             <td>
+							 
+							<md-button  class="md-raised md-primary"   ng-click="giveCorpseServices(approvedCorpse)" class="md-primary">
+								GIVE SERVICE
+								</md-button> 
+							 
+							 
+							  
+							</td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+
+</md-tab>
+                <md-tab label="Gate Pass" ng-click="getApprovedCorpses()">
+                    <vertical-tabs >
+                        <vertical-tab-pane title="TAARIFA ZA MTOA MAITI">
+                            <form  name="searchForm3">
+                                <div layout-gt-sm="row">
+                                    <md-autocomplete flex required flex
+                                                     md-search-text="searchText3"
+                                                     md-input-name="corpses"
+                                                     md-no-cache="false"
+                                                     md-clear-button="true"
+                                                     md-items="item in getCorpses(searchText3)"
+                                                     md-item-text="item.first_name+'  '+item.middle_name+' '+item.last_name+',Reg#.'+item.corpse_record_number"
+                                                     md-item-text="item.corpse_record_number"
+                                                     md-selected-item-change="getCorpseDetails(item)"
+                                                     md-floating-label="Search for Corpses to get form"
+                                                     md-min-length="4" md-autofocus>
+                                        <md-item-template>
+                                            <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.corpse_record_number}} {{item.mobile_number}} </span>
+                                        </md-item-template>
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+
+                            <span ng-if="selectedCorpse.first_name">
+
+      <div layout="row">
+        <md-input-container flex>
+        <label>Names</label>
+        <input required  ng-model="corpseTaker.names">
+        </md-input-container>
+
+         <md-autocomplete flex  flex
+                          md-search-text="search6"
+                          md-input-name="CorpseTakerResidences"
+                          md-no-cache="false"
+                          md-items="item in getResidence(search6)"
+                          md-item-text="item.residence_name+' '+item.council_name"
+                          md-selected-item-change="corpseTakerResidence(item)"
+                          md-floating-label="Residences"
+                          md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+
+              <md-input-container    flex>
+                            <label>Relationship</label>
+                            <md-select ng-model="corpseTaker.relationship">
+                              <md-option value=""></md-option>
+                              <md-option ng-repeat="relationship in relationships" value={{relationship.id}}>{{relationship.relationship  }}</md-option>
+                            </md-select>
+                          </md-input-container>
+
+        </div>
+
+     <div layout="row">
+        <md-input-container flex>
+        <label>Mobile Number</label>
+        <input  ng-model="corpseTaker.mobile_number">
+        </md-input-container>
+
+         <md-autocomplete flex  flex
+                          md-search-text="funeral"
+                          md-input-name="whereFuneral"
+                          md-no-cache="false"
+                          md-items="item in getResidence(funeral)"
+                          md-item-text="item.residence_name+' '+item.council_name"
+                          md-selected-item-change="selectedResidenceWhereFuneral(item)"
+                          md-floating-label="Where Funeral takes place"
+                          md-min-length="3" md-autofocus>
+                            <md-item-template>
+                              <span md-highlight-text="searchTextA">{{item.residence_name}} {{item.council_name}}</span>
+                            </md-item-template>
+                          </md-autocomplete>
+
+        <md-input-container flex>
+        <label>Vehicle Number</label>
+        <input   ng-model="corpseTaker.vehicle_number">
+        </md-input-container>
+
+        </div>
+
+     <div layout="row">
+        <md-input-container flex>
+        <label>Identity Number</label>
+        <input  name="firstName" ng-model="corpseTaker.identityNumber">
+        </md-input-container>
+
+         <md-input-container flex>
+        <label>Identity Issuer</label>
+        <md-select name="type" ng-model="corpseTaker.identityType" required>
+        <md-option value="NIDA">NIDA </md-option>
+        <md-option value="NEC">NEC</md-option>
+        <md-option value="NHIF">NHIF</md-option>
+        <md-option value="CHF">CHF</md-option>
+            <md-option value="DRIVING LICENCE">DRIVING LICENCE</md-option>
+        <md-option value="OTHER">OTHER</md-option>
+        <md-option value="NONE">NONE</md-option>
+        </md-select>
+        </md-input-container>
+
+
+        </div>
+
+
+                     <div layout="row" class="pull-right">
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+         <md-button class="md-raised md-primary" ng-click="corpseDischarge(corpseTaker)">Save</md-button>
+
+        </section>
+           </div>
+
+          </span>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="  GATE PASS">
+                            <md-content class="md-padding">
+
+                                    <div    >
+                                        <md-input-container class="md-block ">
+                                            <label> Filter  corpse here...</label>
+                                            <input type="text"  class="md-block" typeahead-on-select="" ng-model="search"    class="md-block"  >
+
+
+
+                                        </md-input-container>
+                                    </div>
+
+                                <h2 ng-if="approvedCorpses.length==0" align="center">NO APPROVED REQUEST FOR STORAGE SENT RIGHT NOW.</h2>
+
+                                <table class="table table-bordered table-striped"  >
+                                    <thead>
+                                    <tr>
+                                        <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                            <span>No.</span>
+                                        </th>
+                                        <th class="st-sort-disable th-dropdown">
+                                            CORPSE NAME
+                                        </th>
+                                        <th sortable="placed" class="sortable">
+                                            <span>RECORD NUMBER</span>
+                                        </th>
+
+                                        <th sortable="placed" class="sortable">
+                                            <span>CORPSE CATEGORY</span>
+                                        </th>
+
+                                        <th sortable='total.value' class="sortable">
+                                            <span>DOCTOR REQUESTED</span>
+                                        </th>
+                                        <th sortable='total.value' class="sortable">
+                                            <span>TIME REQUESTED</span>
+                                        </th>
+                                        <th sortable='total.value' class="sortable">
+                                            <span>ACTION</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr  ng-repeat="approvedCorpse in approvedCorpses |filter:search track by $index"  >
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            {{$index+1}}
+                                        </td>
+                                        <td >{{approvedCorpse.corpse_name}} {{approvedCorpse.inside_corpse_name}}</td>
+                                        <td >{{approvedCorpse.corpse_record_number}}</td>
+                                        <td >{{approvedCorpse.corpse_category}}</td>
+                                        <td>{{approvedCorpse.doctor_requested}}</td>
+                                        <td>{{approvedCorpse.created_at}}</td>
+                                        <td>
+
+                                            <md-button  class="md-raised md-primary"   ng-click="giveGatePass(approvedCorpse)" class="md-primary">
+                                                ALLOW
+                                            </md-button>
+
+
+
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </md-content>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+                </md-tab>
+
+<md-tab label="Discharge" ng-click="getApprovedCorpses()">
+     <md-content class="md-padding">
+         <div    >
+             <md-input-container class="md-block ">
+                 <label> Filter  corpse here...</label>
+                 <input type="text"  class="md-block" typeahead-on-select="" ng-model="search"    class="md-block"  >
+
+
+
+             </md-input-container>
+         </div>
+
+        <h2 ng-if="approvedCorpses.length==0" align="center">NO APPROVED REQUEST FOR STORAGE SENT RIGHT NOW.</h2>
+
+ <table class="table table-bordered table-striped" ng-if="approvedCorpses.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             CORPSE NAME 
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>RECORD NUMBER</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>CORPSE CATEGORY</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+							<th sortable='total.value' class="sortable">
+                                <span>TIME REQUESTED</span>
+                            </th>
+                            <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="approvedCorpse in approvedCorpses |filter:search track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{approvedCorpse.corpse_name}} {{approvedCorpse.inside_corpse_name}}</td>
+                            <td >{{approvedCorpse.corpse_record_number}}</td>
+                              <td >{{approvedCorpse.corpse_category}}</td>
+                              <td>{{approvedCorpse.doctor_requested}}</td>
+                              <td>{{approvedCorpse.created_at}}</td>
+                             <td>
+							  <md-button class="md-raised md-primary" ng-click="dischargeRequest(approvedCorpse)">DISCHARGE</md-button>
+							 
+							</td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+    </md-content>
+</md-tab>
+
+
+<md-tab label="Reports">
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs >
+                            <vertical-tab-pane title="Corpses Stored">
+                              <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+						 <md-input-container >
+                            <md-button class="md-raised md-primary" ng-click="getReportBasedOnThisDate(pef)">Search</md-button>
+                       </md-input-container>
+                    </div>
+                               
+                                <div layout="row" ng-click="getReportBasedOnThisDate(pef)">
+								
+                                    <div flex="85" ng-if="results.length>0">
+
+							<table class="table table-bordered table-striped" ng-if="results.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             CORPSE NAME 
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>RECORD NUMBER</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>CORPSE CATEGORY</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+							<th sortable='total.value' class="sortable">
+                                <span>TIME REQUESTED</span>
+                            </th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="result in results track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{result.corpse_name}} {{result.inside_corpse_name}}</td>
+                            <td >{{result.corpse_record_number}}</td>
+                              <td >{{result.corpse_category}}</td>
+                              <td>{{result.doctor_requested}}</td>
+                              <td>{{result.created_at}}</td>
+                            
+
+                               </tr>
+                        </tbody>
+                    </table>		
+									
+								 </div>	
+									
+                                </div>
+                              
+                            </vertical-tab-pane>
+							
+							<vertical-tab-pane title="Corpses Discharged">
+                              <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+						 <md-input-container >
+                            <md-button class="md-raised md-primary" ng-click="getReportBasedOnThisDate(pef)">Search</md-button>
+                       </md-input-container>
+                    </div>
+                               
+                                <div layout="row" ng-click="getReportBasedOnThisDate(pef)">
+								
+                                    <div flex="85" ng-if="dischargedResults.length>0">
+                               
+									
+							<table class="table table-bordered table-striped" ng-if="dischargedResults.length>0">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             CORPSE NAME 
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>RECORD NUMBER</span>
+                            </th>
+
+                              <th sortable="placed" class="sortable">
+                                <span>CORPSE CATEGORY</span>
+                            </th>
+
+                             <th sortable='total.value' class="sortable">
+                                <span>DOCTOR REQUESTED</span>
+                            </th>
+							<th sortable='total.value' class="sortable">
+                                <span>TIME DISCHARGED</span>
+                            </th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="dischargedResult in dischargedResults track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{dischargedResult.corpse_name}} {{dischargedResult.inside_corpse_name}}</td>
+                            <td >{{dischargedResult.corpse_record_number}}</td>
+                              <td >{{dischargedResult.corpse_category}}</td>
+                              <td>{{dischargedResult.doctor_requested}}</td>
+                              <td>{{dischargedResult.updated_at}}</td>
+                                                           </tr>
+                        </tbody>
+                    </table>		
+									
+								 </div>	
+									
+                                </div>
+                              
+                            </vertical-tab-pane>
+							<vertical-tab-pane title="Corpse Details">
+                                <md-input-container class="md-block   col-md-6 col-sm-4">
+                                    <label> Search Corpse By Corpse Number </label>
+
+                                    <input type="text"  class="md-block" typeahead-on-select="CorpseDetailedReport(corpse)" ng-model="corpse"   uib-typeahead ="corpse as corpse.first_name +' '+corpse.middle_name+' '+corpse.last_name+' '+corpse.corpse_record_number    for corpse in showSearchCorpse($viewValue)  | filter:$viewValue">
+
+                                </md-input-container>
+                            </vertical-tab-pane>
+
+                           
+                            
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+
+
+
+
+</md-tabs>
+</md-content>
+</div>

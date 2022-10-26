@@ -1,0 +1,18 @@
+<md-dialog class="fullscreen-dialog">
+
+<md-toolbar>
+	<div class="md-toolbar-tools">
+		<div layout="row"  layout-align="space-between center">
+			<h2 class="md-display-1">MONTHLY CLAIM SUMMARY FORM</h2>
+		</div>
+		<span flex></span>
+		<md-button class="md-icon-button" ng-click="cancel()">
+			<md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+		</md-button>
+	</div>
+</md-toolbar>
+<md-dialog-content>
+	<div class="md-dialog-content">
+	<iframe src="/nhif_files/claim_summary.pdf" width="100%" height="1000px"></iframe>
+</md-dialog-content>
+</md-dialog>

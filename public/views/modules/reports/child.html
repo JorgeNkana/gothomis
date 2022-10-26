@@ -1,0 +1,933 @@
+<style>
+    .md-datepicker-input-container{
+        width:100%;
+    }
+	
+	.not_applicable {
+		background-color:#c1c1c1;
+	}
+	
+	@media print {
+		.no-print{display:none;}
+	}
+</style>
+
+
+
+<md-dialog  class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools no-print">
+            <h4 >ANC HMIS SUMMARY</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout-padding style="width:90%;margin:0 auto;">
+            <div layout-gt-sm="row" flex="75" class="no-print">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kuanza</label>
+                    <md-datepicker ng-model="dt_start"  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Tarehe ya kumaliza</label>
+                    <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                   required></md-datepicker>
+                </md-input-container>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Load
+                    </md-button>
+					 <md-button class="md-primary md-raised" ng-click="print()">
+                        Print
+                    </md-button>
+                </div>
+            </div>
+
+
+		<div class="to-print"><style>.not_applicable {background-color:#c1c1c1;}"</style>
+			<table class="table-responsive"  style="border:thin solid black; width:100%">
+				<caption> <b class="">
+					<div class="text-center"> <h8>'SIRI'</h8></div>
+					<div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+					<div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII,JINSIA,WAZEE NA WATOTO</h8></div>
+					<div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+					<div  class="text-center"> <h8>  MFUMO WA TAARIFA ZA UENDESHAJI WA HUDUMA ZA AFYA</h8></div>
+					<div  class="text-center"><h8> <i> MTUHA TOLEO LA TATU: MWAKA 2014</i></h8></div>
+					<div  class="text-center"> <h5>FOMU YA TAARIFA YA KITABU CHA 7: REJESTA YA WATOTO</h5></div>
+
+					<hr>
+
+					<b class="col-md-4">Jina la Kituo: {{loginUserFacilityDetails[0].facility_name}} </b>
+					<b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}}  </b>
+					<b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+					<P></P>
+					<P></P>
+					<P></P>
+					<b class="col-md-4">Tarehe ya Kuanza:{{start_date | date:'dd.MM.yyyy'}} </b>
+					<b class="col-md-4">Tarehe ya Kumaliza:{{end_date | date:'dd.MM.yyyy'}} </b>
+					<hr>
+				</b></caption>
+				<tr style="background-color:#c1c1c1">
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">No</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelekezo</th>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;"> </th>
+					<th colspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">  Idadi</th>
+
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">1 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto walioandikishwa na kupewa vyeti vya
+						kuzaliwa </td>
+					<td style="background-color:#c1c1c1;border-right: thin dotted black;border-bottom: thin dotted black;" > </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[10][0].total_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[10][0].total_female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[10][0].total_gender}} </td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2</td>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left;">Aina ya Chanjo kwa Umri  </th>
+					<td style="background-color:#c1c1c1"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> BCG Umri mwaka <1 (Ndani ya eneo la huduma) </td>
+					<td style="background-color:#c1c1c1"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].male_less_year_inplace}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].female_less_year_inplace}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].total_less_year_inplace}} </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> BCG Umri mwaka 1+ (Ndani ya eneo la huduma) </td>
+					<td style="background-color:#c1c1c1"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].male_above_year_inplace}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].female_above_year_inplace}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].total_above_year_inplace}} </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> BCG Umri mwaka <1 (Nje ya eneo la huduma) </td>
+					<td style="background-color:#c1c1c1"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].male_less_year_outplace}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].female_less_year_outplace}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].total_less_year_outplace}} </td>
+
+
+				</tr> <tr>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2d</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> BCG Umri mwaka 1+ (Nje ya eneo la huduma) </td>
+				<td style="background-color:#c1c1c1"> </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].male_above_year_outplace}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].female_above_year_outplace}} </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[5][0].total_above_year_outplace}} </td>
+
+			</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2e</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Polio Umri mwaka <1 (Ndani ya eneo la huduma) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 0 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_0}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_0}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_0}}  </td>
+
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_1}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_2}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_3}}  </td>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2f</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Polio Umri mwaka 1+ (Ndani ya eneo la huduma) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_male_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_female_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_total_dose_1}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_male_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_female_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_total_dose_2}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_male_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_female_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_total_dose_3}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2g</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Polio Umri mwaka <1(Nje ya eneo la huduma </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_1_out}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_2_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_dose_3_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2h</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Polio Umri mwaka 1+ (Nje ya eneo la huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_male_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_female_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_total_dose_1_out}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_male_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_female_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_total_dose_2_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_male_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_female_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_total_dose_3_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2i</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Polio ya sindano Miezi 18 ( Ndani ya eneo la huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_polio_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_polio_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_polio_dose_1}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2j</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Polio ya sindano miezi 18 ( Nje ya eneo la huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_polio_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_polio_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_polio_dose_1_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2k</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Rota umri wiki 6 hadi 15 ( Ndani ya eneo la huduma )</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_rota_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_rota_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_rota_dose_1}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2l</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Rota umri wiki 6 hadi 15 ( Nje ya eneo la huduma</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_rota_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_rota_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_rota_dose_1_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2m</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Rota umri wiki 10 hadi 32 (Nje ya eneo la huduma )</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_rota_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_rota_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_rota_dose_2_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2n</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Rota umri wiki 10 hadi 32 ( Ndani ya eneo la huduma</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_rota_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_rota_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_rota_dose_2}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2o</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> PENTA Umri mwaka <1 (Ndani ya eneo la huduma) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_penta_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_penta_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_penta_dose_1}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_penta_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_penta_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_penta_dose_2}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_penta_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_penta_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_penta_dose_3}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2p</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> PENTA Umri mwaka 1+ (Ndani ya eneo la huduma) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_male_dose_1 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_female_dose_1 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_total_dose_1 }}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_male_dose_2 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_female_dose_2 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_total_dose_2 }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_male_dose_3 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_female_dose_3 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_total_dose_3 }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2q</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> PENTA Umri mwaka <1 (Nje ya eneo la huduma) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_penta_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_penta_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_penta_dose_1_out}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_penta_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_penta_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_penta_dose_2_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_penta_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_penta_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_penta_dose_3_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2r</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> PENTA Umri mwaka 1+ (Nje ya eneo la huduma) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_male_dose_1_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_female_dose_1_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_total_dose_1_out }}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_male_dose_2_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_female_dose_2_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_total_dose_2_out }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_male_dose_3_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_female_dose_3_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_penta_total_dose_3_out }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2s</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Pneumococcal (PCV13) <1 ( Ndani ya eneo la
+						huduma ) </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_pneu_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_pneu_dose_1}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_pneu_dose_1}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_pneu_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_pneu_dose_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_pneu_dose_2}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_pneu_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_pneu_dose_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_pneu_dose_3}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2t</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Pneumococcal (PCV13) 1+ ( Ndani ya eneo la
+						huduma )</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_male_dose_1 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_female_dose_1 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_total_dose_1 }}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_male_dose_2 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_female_dose_2 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_total_dose_2 }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_male_dose_3 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_female_dose_3 }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_total_dose_3 }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2u</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Pneumococcal (PCV13)< 1 ( Nje ya eneo la huduma )</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_pneu_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_pneu_dose_1_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_pneu_dose_1_out}}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_pneu_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_pneu_dose_2_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_pneu_dose_2_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].male_pneu_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].female_pneu_dose_3_out}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].total_pneu_dose_3_out}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2v</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Pneumococcal (PCV13) 1+ ( Nje ya eneo la huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_male_dose_1_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_female_dose_1_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_total_dose_1_out }}  </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_male_dose_2_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_female_dose_2_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_total_dose_2_out }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 3</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_male_dose_3_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_female_dose_3_out }}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[6][0].above_year_pneu_total_dose_3_out }}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2w</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Surua/ Rubela umri miezi 9 (Ndani ya eneo la
+						huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].male_rubela_dose_1 }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].female_rubela_dose_1 }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].total_rubela_dose_1 }}</td>
+
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2x</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Surua/ Rubela umri miezi 9 (Nje ya eneo la huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 1</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].male_rubela_dose_1_out }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].female_rubela_dose_1_out }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].total_rubela_dose_1_out }}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2y</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Surua/Rubella umri miezi 18 ( Ndani ya Eneo la
+						huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].male_rubela_dose_2 }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].female_rubela_dose_2 }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].total_rubela_dose_2 }}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">2z</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Surua/ Rubela umri miezi 18 (Nje ya eneo la
+						huduma)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Dozi 2</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].male_rubela_dose_2_out }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].female_rubela_dose_2_out }}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[6][0].total_rubela_dose_2_out }}</td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black;">3</th>
+					<th class='text-center' colspan="5" style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">Hali ya Chanjo ya Pepo punda kwa mama wakati wa kujifungua</th>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Idadi ya watoto walioandikishwa  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Waliokingwa </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[0].total_gender}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[4][0].male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[4][0].female}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[4][0].total}} </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Wasiokuwa na Kinga </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[0].total_gender}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[0].total_male- deworms[4][0].male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[0].total_female - deworms[4][0].female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[0].total_gender - deworms[4][0].total}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">3c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Haijulikani </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[0].total_gender}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">0 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">0</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">0 </td>
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4</td>
+					<th >Mahudhuri na uwiano wa uzito, umri na urefu;
+						umri ch ini ya mwaka 1 </th>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelezo </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Jumla</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">4a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla ya Mahudhurio ya Watoto </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[10][0].total_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[10][0].total_female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[10][0].total_gender}} </td>
+
+				</tr>
+				<tr>
+					<td rowspan="3"style="border-right: thin dotted black;border-bottom: thin dotted black;" >4b</td>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uwiano wa uzito kwa umri </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> >80% au >-2SD </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_above_80}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_above_80}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_above_80}}  </td>
+				</tr>
+
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">60-80% au -2 hadi -3SD</td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_between_60_80}}  </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_between_60_80}}  </td>
+				<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_between_60_80}}  </td>
+
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><60% au <-3SD </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_less_60}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_less_60}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_less_60}}  </td>
+
+				</tr>
+				<!--temporary---------------------------------------------------->
+				<tr>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">4c</td>
+
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uwiano wa uzito kwa urefu</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> >-2SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_height_greater_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_height_greater_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_height_greater_2}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">-2 hadi -3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_height_between_2_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_height_between_2_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_height_between_2_3}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><-3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_height_less_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_height_less_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_height_less_3}}  </td>
+
+					<!--temporary---------------------------------------------------->
+				<tr>
+				<tr>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">4d</td>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uwiano wa urefu kwa umri</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> >-2SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_height_greater_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_height_greater_2}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_height_greater_2}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">-2 hadi -3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_height_between_2_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_height_between_2_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_height_between_2_3}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><-3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].male_height_less_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].female_height_less_3}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[8][0].total_height_less_3}}  </td>
+
+
+				</tr>
+				<tr>
+
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5</td>
+					<th style="border-right: thin dotted black;border-bottom: thin dotted black; text-align:left">Mahudhuri na uwiano wa uzito, umri na urefu; umri mwaka 1 mpaka 5 </th>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+				</tr>
+
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">5a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla ya mahudhurio</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+				</tr>
+				<tr>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">5b</td>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uwiano wa uzito kwa umri </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> >80% au >-2SD </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_above_80_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_above_80_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_above_80_1_5}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">60-80% au -2 hadi -3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_between_60_80_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_between_60_80_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_between_60_80_1_5}}  </td>
+
+
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><60% au <-3SD </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_less_60_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_less_60_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_less_60_1_5}}  </td>
+
+
+				</tr>
+				<tr>
+				<tr>
+					<!--temporary------------------------------------------>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">5c</td>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uwiano wa uzito kwa urefu</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> >-2SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_height_greater_2_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_height_greater_2_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_height_greater_2_1_5}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">-2 hadi -3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_height_between_2_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_height_between_2_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_height_between_2_3_1_5}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><-3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_height_less_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_height_less_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_height_less_3_1_5}}  </td>
+
+
+
+				</tr>
+				<!--temporay------------------------------------------------------------->
+				<tr>
+				<tr>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">5d</td>
+					<td rowspan="3" style="border-right: thin dotted black;border-bottom: thin dotted black;">Uwiano wa urefu kwa umri</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> >-2SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_height_greater_2_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_height_greater_2_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_height_greater_2_1_5}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">-2 hadi -3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_height_between_2_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_height_between_2_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_height_between_2_3_1_5}}  </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"><-3SD</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].male_height_less_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].female_height_less_3_1_5}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[9][0].total_height_less_3_1_5}}  </td>
+
+
+				</tr>
+				<tr>
+
+				<tr>
+
+					<th class='text-center' colspan="6" style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">6. Nyongeza ya Vitamini A</th>
+
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Maelezo</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto umri wa miezi 6 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].six_month_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].six_month_female}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].six_month_total}} </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto chini ya umri wa mwaka 1 </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].one_year_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].one_year_female}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].one_year_total}} </td>
+
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">6c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto umri zaidi ya mwaka 1 - 5</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].one_five_year_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].one_five_year_female}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[3][0].one_five_year_total}} </td>
+				</tr>
+				<tr>
+
+				<tr>
+
+					<th class='text-center' colspan="6" style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">7. Waliopewa Mebendazole/ Albendazole</th>
+
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelezo  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">   </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">7a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto umri wa mwaka 1 hadi 5</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[0][0].male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[0][0].female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[0][0].total}}</td>
+				</tr>
+
+				<tr>
+
+					<th class='text-center' colspan="6" style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">8. Ulishaji wa Watoto Wachanga</th>
+
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelezo  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto wachanga wanaonyonya maziwa ya mama pekee (EBF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[11][0].ebf_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[11][0].ebf_female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[11][0].ebf_total}} </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">8b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto wachanga wanaopewa maziwa mbadala (RF)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[11][0].rf_male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[11][0].rf_female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[11][0].rf_total}} </td>
+				</tr>
+				<tr>
+
+					<th class='text-center' colspan="6" style="border-right: thin dotted black;border-bottom: thin dotted black;text-align:left">9.Taarifa za PMTCT / waliopewa hati punguzo</th>
+
+				</tr>
+				<tr style="background-color:#c1c1c1">
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"></td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Maelezo  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> ME</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">KE </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Jumla </td>
+				</tr>
+
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9a</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">Watoto waliozaliwa na mama mwenye maambukizi ya VVU/ wat oto wenye HEID no.</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[2][0].male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[2][0].female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[2][0].total}}</td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9b</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto waliohamishiwa Kliniki ya huduma na matibabu kwa
+						wenye VVU (CTC)</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[7][0].male}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[7][0].female}}  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[7][0].total}}  </td>
+				</tr>
+				<tr>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">9c</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> Watoto waliopatiwa hati punguzo ya chandarua</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">  </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[1][0].male}} </td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{deworms[1][0].female}}</td>
+					<td style="border-right: thin dotted black;border-bottom: thin dotted black;"> {{deworms[1][0].total}}</td>
+				</tr>
+			</table>
+			<div class="">
+			<p></p>
+				<div class="text-center">   <b>   Jina la Mtayarishaji wa Ripoti ..................................... Cheo ............................. Sahih..............................</b></div>
+				<p></p>
+				<div class="text-center">  <b> Tarehe ------/-----/----- Imepitiwa na ................................, ..............................................., ..........................</b></div>
+				<p></p>
+				<div class="text-center"> <b> Namba ya simu ya Kituo......................................................................................................................................</b></div>
+				<p></p>
+				<div class="text-center"> <b> Imepokelewa wilayani tarehe................./..................../.............................</b></div>
+			</div>
+		</div>
+		<div class="row no-print">
+			<table width="100%">
+				<tr><td>
+					<button type="button" class="btn btn-default" style="width:100%;font-family:book antiqua;font-weight:bold;font-size:16px" ng-click="setParameters('child_health')">
+					SEND TO DHIS
+				</button>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+    </md-content>
+</md-dialog>

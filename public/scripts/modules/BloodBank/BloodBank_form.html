@@ -1,0 +1,1396 @@
+<md-tabs md-dynamic-height md-border-bottom >
+
+    <md-tab label="REQUISITIONS" ng-click="Blood_request_queue()">
+
+        <!--&lt;!&ndash; <div id="container" style="width:100%; height:400px;"></div> &ndash;&gt;-->
+        <!--<highchart id="chart1" config="chartConfig"></highchart>-->
+
+        <hr>
+        <h1 class="text-center" ng-if="blood_requests.length<1">No Blood Request Found..</h1>
+        <div layout="row"  ng-if="blood_requests.length>0" >
+            <div ng-repeat="pt in blood_requests" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="Issue_blood_request(pt)">
+                <a href="">
+                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                    <span class="mdl-chip__text" >{{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.medical_record_number | uppercase}} </span>
+                    <a  class="mdl-chip__action"></a>
+                </a>
+            </div>
+        </div>
+        <hr>
+        </md-tab>
+        <md-tab label="REGISTRATION">
+
+                    <md-input-container class="md-block">
+                        <input type="text" autocomplete="off"
+                               placeholder="Search for any Client" name="search"
+                               uib-typeahead="patient as patient.fullname+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                               ng-model="selectedPatient"
+                               typeahead-on-select="openDialogForServices(selectedPatient)">
+                    </md-input-container>
+
+
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>First name</label>
+                            <input type="text" ng-model="patient.first_name">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Middle Name</label>
+                            <input type="text" ng-model="patient.middle_name">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Last Name</label>
+                            <input type="text" ng-model="patient.last_name">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Gender</label>
+                            <md-select ng-model="patient.gender">
+                                <md-option value="">Please select gender</md-option>
+                                <md-option value="Male">Male</md-option>
+                                <md-option value="Female">Female</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class='md-block' flex-gt-sm>
+                            <label>Date of birth</label>
+                            <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="calculateAge('date')"></md-datepicker>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm class="md-block">
+                            <label>Age</label>
+                            <input type="number" min='0' ng-model="patient.age" ng-Blur="calculateAge('age')">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Unit</label>
+                            <md-select ng-model="patient.age_unit" ng-Blur="exemption_calculateAge('unit')">
+                                <md-option value="Years" selected="selected">Year(s)</md-option>
+                                <md-option value="Months">Month(s)</md-option>
+                                <md-option value="Days">Day(s)</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container flex-gt-sm>
+                             
+                            <!--<input type="text" ng-model="patient.resedence_id" uib-typeahead="resdata as resdata.residence_name+', '+resdata.council_name for resdata in showSearchResidences($viewValue) | filter:$viewValue">-->
+                        <md-autocomplete flex  flex
+                                             md-search-text="search"
+                                             md-input-name="patient"
+                                             md-no-cache="false"
+                                             md-items="item in getResidence(search)"
+                                             md-item-text="item.residence_name+' '+item.council_name"
+                                             md-selected-item-change="selectedResidence(item)"
+                                             md-floating-label="Search Residence"
+                                             md-min-length="3" md-autofocus>
+                                <md-item-template>
+                                    <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                </md-item-template>
+                            </md-autocomplete>
+
+					   </md-input-container>
+
+                        <md-input-container flex-gt-sm>
+                            <label for="mobile_number">Mobile Number</label>
+                            <input id="mobile_number" type="text" ng-model="patient.mobile_number">
+                        </md-input-container>
+                    </div>
+
+
+                    <div layout-gt-sm="row">
+                        <md-input-container flex-gt-sm>
+                            <label>Marital Status*</label>
+
+                          <!--  <input type="text" ng-model="patient.marital"  class="md-block" flex-gt-sm
+                                   id="Marital" autocomplete="off"
+                                   
+								   uib-typeahead="marital as marital.marital_status for marital in showSearchMarital($viewValue) | filter:$viewValue">
+                       -->
+					   
+					   <md-select ng-model="patient.marital">
+                              <md-option value=""></md-option>
+                              <md-option ng-repeat="marital in maritals" value={{marital.id}}>{{marital.marital_status}}</md-option>
+                            </md-select>
+                          </md-input-container>
+
+					   </md-input-container>
+						
+						
+                        <md-input-container flex-gt-sm>
+                            <label>Occupation *</label>
+                            <input type="text" ng-model="patient.occupation"  class="md-block" flex-gt-sm
+                                   autocomplete="off"
+                                   uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue"
+                            >
+                        </md-input-container>
+
+                    </div>
+
+
+                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                        <md-button class="md-raised md-primary" ng-click="Register_donor(patient,item)">  Register</md-button>
+                        <!--<md-button class="md-raised" ng-click="showNextForm(patient)">Next</md-button>-->
+
+                    </section>
+
+                </md-content>
+
+
+        </md-content>
+    </md-tab>
+
+    <md-tab label="STOCK">
+        <vertical-tabs>
+        <vertical-tab-pane title="BLOOD BANK BALANCE" ng-click=" ">
+
+            <md-button ng-if="!blood_stocks" class="md-primary md-raised"  ng-click="blood_stocks_balance()">Click To View</md-button>
+            <md-button ng-if="blood_stocks.length<0" class="md-warn md-raised"  ng-click="blood_stocks_balance()">No data Found...</md-button>
+
+            <div layout="row" >
+                <div flex="80"></div>
+                <md-checkbox  ng-model="inv" aria-label="Graphy" >
+                    Graphical View?
+                </md-checkbox>
+            </div>
+            <!--invoices-->
+            <div ng-if="inv">
+            <canvas id="bar" class="chart chart-bar"
+                    chart-data="data" chart-labels="labels">
+            </canvas>
+                </div>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="blood_stocks.length>0 && !inv">
+                <thead style="background-color:beige">
+                <th class="mdl-data-table__cell--non-numeric">Group</th>
+                <th class="mdl-data-table__cell--non-numeric">Unit</th>
+
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="blood_stock in blood_stocks">
+
+                    <td class="mdl-data-table__cell--non-numeric">{{blood_stock.blood_group}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{blood_stock.available_unit}}</td>
+
+                </tr>
+                <tr title="Total Number Unit Available [{{Total_unit_balance}}]" style="background-color:beige">
+
+                    <td class="mdl-data-table__cell--non-numeric">Total Number Unit Available</td>
+                    <td class="mdl-data-table__cell--non-numeric" class="badge">{{Total_unit_balance}}</td>
+
+                </tr>
+                </tbody>
+            </table>
+
+
+        </vertical-tab-pane>
+
+             <vertical-tab-pane title="UNIT ISSUED/USED">
+                 <div layout="row">
+                     <div flex="40">
+
+                         <md-radio-group layout="row" ng-model="outreach">
+                             <md-radio-button value="patient" md-checked class="md-primary">Internal</md-radio-button>
+                             <md-radio-button value="outreach" class="md-primary">External </md-radio-button>
+                         </md-radio-group>
+                     </div>
+                     <div flex="60">
+                     <md-input-container >
+                         <label>Choose Start Date</label>
+                         <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                     </md-input-container>
+                     <md-input-container >
+                         <label>Choose End Date</label>
+                         <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                     </md-input-container>
+                     <md-input-container>
+                         <md-button class="md-raised md-primary" ng-click="blood_stocks_issued(data)">Search</md-button>
+                     </md-input-container>
+                         </div>
+
+                 </div>
+
+
+                 <div ng-if="blood_stock_issues && blood_stock_issues.length<1" style="color:red;">No Record Found</div>
+                 <div  ng-if="outreach=='patient'">
+
+                     <div layout="row" >
+                         <div flex="80"></div>
+                         <md-checkbox  ng-model="inv1" aria-label="Graphy" >
+                             Graphical View?
+                         </md-checkbox>
+                     </div>
+                     <!--invoices-->
+                     <div  >
+                         <canvas id="bar" class="chart chart-bar" ng-if="inv1"
+                                 chart-data="data1" chart-labels="labels1">
+                         </canvas>
+                     </div>
+
+                 <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="blood_stock_issues.length>0 && !inv1">
+                    <caption> <b class="md-headline">BLOOD UNITS USED TO PATIENTS</b>[{{data.start_date| date:'yyyy-MM-dd'}}--{{data.end_date| date:'yyyy-MM-dd'}}]</caption>
+                     <thead style="background-color:beige">
+                     <th class="mdl-data-table__cell--non-numeric">Group</th>
+                     <th class="mdl-data-table__cell--non-numeric">Unit Used</th>
+
+                     </thead>
+
+                     <tbody>
+
+                     <tr ng-repeat="issued in blood_stock_issues[0]">
+                         <td class="mdl-data-table__cell--non-numeric">{{issued.blood_group}}</td>
+                         <td class="mdl-data-table__cell--non-numeric"> <b ng-if="issued.unit_issued>0">{{issued.unit_issued}}</b>
+                             <b ng-if="issued.unit_issued < 1 ">0</b></td>
+
+                     </tr>
+                     <tr title="Total Number Unit Available [{{Total_unit_issued}}]" style="background-color:beige">
+
+                         <td class="mdl-data-table__cell--non-numeric">Total Number Unit Used</td>
+                         <td class="mdl-data-table__cell--non-numeric">{{Total_unit_issued}}</td>
+
+                     </tr>
+                     </tbody>
+                 </table>
+                 </div>
+                 <div  ng-if="outreach=='outreach'">
+
+
+                 <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="blood_stock_issues.length>0" >
+                    <caption><b class="md-headline">BLOOD UNITS ISSUED TO ANOTHER FACILITY</b>[{{data.start_date| date:'yyyy-MM-dd'}}--{{end.end_date| date:'yyyy-MM-dd'}}]</caption>
+                     <thead style="background-color:beige">
+                     <th class="mdl-data-table__cell--non-numeric">Group</th>
+                     <th class="mdl-data-table__cell--non-numeric">Unit Used</th>
+                     <th class="mdl-data-table__cell--non-numeric">Facility</th>
+
+                     </thead>
+
+                     <tbody>
+
+                     <tr ng-repeat="issued in blood_stock_issues[1]">
+                         <td class="mdl-data-table__cell--non-numeric">{{issued.blood_group}}</td>
+                         <td class="mdl-data-table__cell--non-numeric"> <b ng-if="issued.unit_issued>0">{{issued.unit_issued}}</b>
+                             <b ng-if="issued.unit_issued < 1 ">0</b></td>
+                         <td class="mdl-data-table__cell--non-numeric">{{issued.unit_issued_out}}</td>
+                     </tr>
+                     <tr title="Total Number Unit Available [{{Total_unit_issued}}]" style="background-color:beige">
+
+                         <td class="mdl-data-table__cell--non-numeric">Total Number Unit Used</td>
+                         <td class="mdl-data-table__cell--non-numeric" colspan="2">{{Total_unit_issued_out}}</td>
+
+
+
+                     </tr>
+                     </tbody>
+                 </table>
+                     </div>
+            </vertical-tab-pane>
+
+             <vertical-tab-pane title="BLOOD ISSUING">
+
+
+                 <div layout="row"  >
+                     <div flex="80"></div>
+                     <md-checkbox  ng-model="issue.outt" id="out" aria-label="Issue Out Of Facility?">
+                         Issue Out Of Facility?
+                     </md-checkbox>
+                 </div>
+                 <div ng-if="issue.outt">
+                 <div class="form-top" ng-if="selectedPatient.patient_id" >
+
+                     <div class="form-top-left" >
+
+                         <b> NAME: {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} MRN: {{selectedPatient.medical_record_number}} GENDER:{{selectedPatient.gender}}<p></p>
+                         </b>
+                     </div>
+
+                 </div>
+
+                 <div  >
+                     <md-input-container class="md-block">
+
+                         <input type="text" autocomplete="off"
+                                placeholder="Search for any Client" name="search"
+                                uib-typeahead="patient as patient.first_name+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                                ng-model="selectedPatient"
+                                typeahead-on-select=" ">
+                     </md-input-container>
+                 </div>
+                 <div class="col-md-6" ng-if="issue.outt">
+                     <md-input-container class="md-block" >
+                         <label>Enter Place or Facility You want To Issue</label>
+                         <input type="text" min="0" class="md-block" autocomplete="off" id="unit_issued_out" ng-model="issue.unit_issued_out">
+                     </md-input-container>
+                 </div>
+                 <div class="col-md-12" >
+                     <div class="col-md-4">
+                         <md-input-container class="md-block" >
+                             <label >Choose Blood Group</label>
+                             <md-select ng-model="issue.blood_group">
+                                 <md-option value="A+">A+</md-option>
+                                 <md-option value="A-">A-</md-option>
+                                 <md-option value="B+">B+</md-option>
+                                 <md-option value="B-">B-</md-option>
+                                 <md-option value="AB+">AB+</md-option>
+                                 <md-option value="AB-">AB-</md-option>
+                                 <md-option value="O+">O+</md-option>
+                                 <md-option value="O-">O-</md-option>
+                             </md-select>
+                         </md-input-container>
+                     </div>
+                     <div class="col-md-4">
+                         <md-input-container class="md-block" >
+                             <label>Enter Number Of unit To Issue</label>
+                             <input type="number" min="0" autocomplete="off" id="unit" class="md-block" ng-model="issue.unit">
+                         </md-input-container>
+                     </div>
+                     <div class="col-md-4" ng-if="issue.unit>0">
+                         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                             <md-button class="md-raised md-primary" ng-click="blood_stock_issuing(issue,selectedPatient)">  Issue</md-button>
+
+                         </section>
+                     </div>
+
+
+                 </div>
+</div>
+            </vertical-tab-pane>
+ <vertical-tab-pane title="RECEIVING STOCK">
+     <div class="col-md-12">
+         <div class="col-md-4">
+             <md-input-container class="md-block" >
+                 <label >Choose Blood Group</label>
+                 <md-select ng-model="stock.blood_group">
+                     <md-option value="A+">A+</md-option>
+                     <md-option value="A-">A-</md-option>
+                     <md-option value="B+">B+</md-option>
+                     <md-option value="B-">B-</md-option>
+                     <md-option value="AB+">AB+</md-option>
+                     <md-option value="AB-">AB-</md-option>
+                     <md-option value="O+">O+</md-option>
+                     <md-option value="O-">O-</md-option>
+                 </md-select>
+             </md-input-container>
+         </div>
+         <div class="col-md-4">
+             <md-input-container class="md-block" >
+                 <label>Enter Number Of unit</label>
+                 <input type="number" min="0" class="md-block" ng-model="stock.unit">
+             </md-input-container>
+         </div>
+         <div class="col-md-4">
+             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                 <md-button class="md-raised md-primary" ng-click="Add_blood_stock(stock)">  Add To List</md-button>
+
+             </section>
+         </div>
+         <div class="col-md-12" ng-if="blood_arrays.length>0">
+
+
+             <table  class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                 <tr style="background-color:beige">
+                     <th class="mdl-data-table__cell--non-numeric">Blood Group</th>
+                     <th class="mdl-data-table__cell--non-numeric">Unit</th>
+                     <th class="mdl-data-table__cell--non-numeric"> </th>
+                 </tr>
+                 <tr ng-repeat="blood_array in blood_arrays">
+                     <td class="mdl-data-table__cell--non-numeric">{{blood_array.blood_group}}</td>
+                     <td class="mdl-data-table__cell--non-numeric">{{blood_array.unit}}</td>
+
+                     <td class="mdl-data-table__cell--non-numeric">
+                         <a ng-click="removeBloodArray($index)"
+                            style="color:maroon"
+                            title="Remove from list">Remove</a></td>
+                 </tr>
+                 <tr style="background-color:beige">
+                     <th class="mdl-data-table__cell--non-numeric" >Total Unit</th>
+                     <th class="mdl-data-table__cell--non-numeric" colspan="2">{{Total_unit}}</th>
+                 </tr>
+             </table>
+             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+                 <md-button class="md-raised md-primary" ng-click="blood_stock(stock)">  Save</md-button>
+             </section>
+         </div>
+     </div>
+
+            </vertical-tab-pane>
+
+        </vertical-tabs>
+
+    </md-tab>
+    <md-tab label="Blood Screening">
+        <vertical-tabs>
+        <vertical-tab-pane title="SCREENING REPORT">
+
+            <div layout="row" class="pull-right">
+                <md-input-container >
+                    <label>Choose Start Date</label>
+                    <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                </md-input-container>
+                <md-input-container >
+                    <label>Choose End Date</label>
+                    <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                </md-input-container>
+                <md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="getBloodScreening(data)">Search</md-button>
+                </md-input-container>
+            </div>
+            <b ng-if="screenings.length>0">   Number Of Donations:&nbsp;&nbsp;&nbsp;{{screenings.length}} &nbsp;&nbsp;&nbsp;[
+
+                {{screenings[0].donor_number}}-
+                {{screenings[screenings.length-1].donor_number}}]</b>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   ng-if="screenings.length>0">
+                <thead style="background-color:beige">
+                <th class="mdl-data-table__cell--non-numeric">status</th>
+                <th class="mdl-data-table__cell--non-numeric">Number</th>
+                <th class="mdl-data-table__cell--non-numeric">Group</th>
+                <th class="mdl-data-table__cell--non-numeric">RH</th>
+                <th class="mdl-data-table__cell--non-numeric">RPR</th>
+                <th class="mdl-data-table__cell--non-numeric">HBSAG</th>
+                <th class="mdl-data-table__cell--non-numeric">HCV</th>
+                <th class="mdl-data-table__cell--non-numeric">HIV</th>
+                </thead>
+
+                <tbody >
+                <tr ng-repeat="screening in screenings">
+                    <td class="mdl-data-table__cell--non-numeric"><b ng-if="screening.rpr=='POSITIVE'|| screening.hbsag=='POSITIVE' || screening.hcv=='POSITIVE' || screening.hiv=='POSITIVE'"  class="md-remove">&#10005;</b>
+                        <b ng-if="screening.rpr!='POSITIVE' && screening.hbsag!='POSITIVE' && screening.hcv!='POSITIVE' && screening.hiv!='POSITIVE'"  class="md-ok">&#10003;</b></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{screening.donor_number}}</td>
+                    <td class="mdl-data-table__cell--non-numeric" >{{screening.blood_group}}</td>
+                    <td class="mdl-data-table__cell--non-numeric"  >{{screening.rh}}</td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.rpr=='POSITIVE'"><u><i>{{screening.rh}}</i></u></td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.rpr!='POSITIVE'">{{screening.rh}}</td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.hbsag=='POSITIVE'"><u><i>{{screening.hbsag}}</i></u></td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.hbsag!='POSITIVE'">{{screening.hbsag}}</td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.hcv=='POSITIVE'"><u><i>{{screening.hcv}}</i></u></td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.hcv!='POSITIVE'">{{screening.hcv}}</td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.hiv=='POSITIVE'"><u><i>{{screening.hiv}}</i></u></td>
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="screening.hiv!='POSITIVE'">{{screening.hiv}}</td>
+
+                </tr>
+                </tbody>
+            </table>
+
+
+            </vertical-tab-pane>
+
+            <vertical-tab-pane title="BLOOD SCREENING">
+                <div class="form-top" ng-if="selectedPatient.patient_id" >
+
+                    <div class="form-top-left" >
+
+                        <b> NAME: {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} MRN: {{selectedPatient.medical_record_number}} GENDER:{{selectedPatient.gender}}<p></p>
+                        </b>
+                    </div>
+
+                </div>
+
+                <div  >
+                    <md-input-container class="md-block">
+
+                        <input type="text" autocomplete="off"
+                               placeholder="Search for any Client" name="search"
+                               uib-typeahead="patient as patient.first_name+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                               ng-model="selectedPatient"
+                               typeahead-on-select=" ">
+                    </md-input-container>
+                </div>
+
+                <div class="col-md-12" >
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >Choose Blood Group</label>
+                            <md-select ng-model="screen.blood_group">
+                                <md-option value="A">A</md-option>
+                                <md-option value="B">B</md-option>
+                                <md-option value="AB">AB</md-option>
+                                <md-option value="O">O</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >RH</label>
+                            <md-select ng-model="screen.rh">
+                                <md-option value="POSITIVE">POSITIVE</md-option>
+                                <md-option value="NEGATIVE">NEGATIVE</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >RPR</label>
+                            <md-select ng-model="screen.rpr">
+                                <md-option value="POSITIVE">POSITIVE</md-option>
+                                <md-option value="NEGATIVE">NEGATIVE</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >HBSAG</label>
+                            <md-select ng-model="screen.hbsag">
+                                <md-option value="POSITIVE">POSITIVE</md-option>
+                                <md-option value="NEGATIVE">NEGATIVE</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >HCV</label>
+                            <md-select ng-model="screen.hcv">
+                                <md-option value="POSITIVE">POSITIVE</md-option>
+                                <md-option value="NEGATIVE">NEGATIVE</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >HIV</label>
+                            <md-select ng-model="screen.hiv">
+                                <md-option value="POSITIVE">POSITIVE</md-option>
+                                <md-option value="NEGATIVE">NEGATIVE</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-4">
+                        <md-input-container class="md-block" >
+                            <label >ASSAY Type</label>
+                            <md-select ng-model="screen.assay_type">
+                                <md-option value="in">INITIAL ASSAY</md-option>
+                                <md-option value="sup">SUPPLIMENTARY ASSAY</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+
+                    <div class="col-md-4">
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                            <md-button class="md-raised md-primary" ng-click="blood_bank_screening(screen,selectedPatient)">  Save</md-button>
+
+                        </section>
+                    </div>
+
+
+                </div>
+
+            </vertical-tab-pane>
+            </vertical-tabs>
+
+    </md-tab>
+
+
+
+
+    <md-tab label="collection TOOL">
+        <md-content class='md-padding'>
+
+
+
+
+            <div layout="row" class="pull-right">
+                <md-input-container >
+                    <label>Choose Start Date</label>
+                    <input ng-model="data.start_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                </md-input-container>
+                <md-input-container >
+                    <label>Choose End Date</label>
+                    <input ng-model="data.end_date" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                </md-input-container>
+                <md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="NumberOfBloodUnitCollected(data)">Search</md-button>
+                </md-input-container>
+            </div>
+            <div>
+
+                <div layout="row" layout-align="space-between center">
+                    <div flex></div>
+                    <div flex>
+                        <center>
+                            <span style="font-weight:600;">The United Republic of Tanzania</span>
+                        </center>
+                        <center>
+                            <img height="80" width="80" src="/img/arm.png" />
+                        </center>
+                        <center>
+                            <h3 class="md-title">Ministry of Health,Community Development,Gender,Elderly And Children</h3>
+                        </center>
+                    </div>
+                    <div flex>
+                    </div>
+                </div>
+
+                <div style="border-top:2px solid black;border-bottom:2px solid black;margin-top:1em;">
+                    <center>
+                        <h3 class="md-headline">NATIONAL BLOOD TRANSFUSION SERVICE</h3>
+                    </center>
+                </div>
+                <div style="border-bottom:2px solid black;margin-bottom:2em;">
+                    <center>
+                        <h3 class="md-title">MONTHLY BLOOD COLLECTION DATA COLLECTION TOOL</h3>
+                    </center>
+                </div>
+                <div layout="row">
+                    <div flex="30">
+                        <center>Document Control # BDM 026</center>
+                    </div>
+                    <div flex="30">
+                        <center>Version # 1.0</center>
+                    </div>
+                    <div flex="30">
+                        <center>Effective date 01/08/2016</center>
+                    </div>
+                </div>
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric" colspan="9" style="background-color:#c0c0c0;"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">INDICATORS</th>
+                        <th class="mdl-data-table__cell--non-numeric">PERFORMANCE INDICATORS - EXPLANATION</th>
+                        <th class="mdl-data-table__cell--non-numeric">week 1</th>
+                        <th class="mdl-data-table__cell--non-numeric">week 2</th>
+                        <th class="mdl-data-table__cell--non-numeric">week 3</th>
+                        <th class="mdl-data-table__cell--non-numeric">week 4</th>
+                        <th class="mdl-data-table__cell--non-numeric">week 5</th>
+                        <th class="mdl-data-table__cell--non-numeric">Total</th>
+                    </tr>
+                    <!-- donors multi rows -->
+                    <tr>
+                        <td rowspan="6">1</td>
+                        <td rowspan="6">NUMBER OF BLOOD UNITS COLLECTED</td>
+                        <td class="mdl-data-table__cell--non-numeric">Blood units collected from Voluntary Non Renumarations Blood Donors(VNRBD)-Male
+                            Donors
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[0][0].vnr_male}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Blood units collected from Voluntary Non Renumarations Blood Donors(VNRBD)-Female
+                            Donors
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[0][0].vnr_female}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Blood units collected from Voluntary family replacement donors-Male Donors
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[0][0].fr_male}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Blood units collected from Voluntary family replacement donors-Female Donors
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[0][0].fr_female}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            TOTAL Units of blood collected
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[0][0].total_collected}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of repeat donors
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[0][0].total_donor_repeaters}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <!-- end of donors multi row -->
+                    <tr>
+                        <td colspan="9" style="background-color:black;"></td>
+                    </tr>
+                    <!-- second row screened blood donrors -->
+                    <tr>
+                        <td  class="mdl-data-table__cell--non-numeric" rowspan="14">2</td>
+                        <td  class="mdl-data-table__cell--non-numeric" rowspan="14">SCREENED BLOOD UNITS WITH INITIAL ASSAY</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of blood units sample transported to zone for screening
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_exported}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HIV from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].hiv_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HIV from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].hiv_vnr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr style="background-color:#c0c0c0;">
+                        <td  class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HIV
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_hiv}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HBV from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].hbsag_vnr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HBV from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].hbsag_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr style="background-color:#c0c0c0;">
+                        <td  class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HBV
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_hbsag}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HCV from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].hcv_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HCV from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].hcv_nvr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr style="background-color:#c0c0c0;">
+                        <td >
+                            Total sample tested positive for HCV
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_hcv}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for SYPHILIS from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].rpr_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for SYPHILIS from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].rpr_nvr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr style="background-color:#c0c0c0;">
+                        <td  class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for SYPHILIS
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_rpr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr style="background-color:#c0c0c0;">
+                        <td  class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for all TTIs
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_tti}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <!-- end second row donor screening -->
+                    <tr>
+                        <td  class="mdl-data-table__cell--non-numeric" colspan="9" style="background-color:black;"></td>
+                    </tr>
+                    <!-- 3rd row supplimentary assay -->
+                    <tr>
+                        <td  class="mdl-data-table__cell--non-numeric" rowspan="17">3</td>
+                        <td  class="mdl-data-table__cell--non-numeric" rowspan="17">SCREENED BLOOD UNITS WITH SUPPLIMENTARY ASSAY</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HIV on initial assay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested for HIV from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hiv_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HIV from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hiv_vnr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr  style="background-color:#c0c0c0;">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HIV on supplimentary essay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].total_hiv}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HBV on initial assay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].total_hbsag}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HBV from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hbsag_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HBV from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hbsag_vnr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr  style="background-color:#c0c0c0;">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HBV on supplimentary essay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hbsag_total}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HCV on initial assay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_hcv}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HCV from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hcv_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for HCV from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].hcv_nvr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr  style="background-color:#c0c0c0;">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for HCV on supplimentary essay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].total_hcv}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for SYPHILIS on initial assay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[1][0].total_rpr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for SYPHILIS from F/R
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].rpr_fr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Number of sample tested positive for SYPHILIS from VNRDB
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].rpr_nvr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+                    <tr  style="background-color:#c0c0c0;">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for SYPHILIS on supplimentary essay
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].total_rpr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                    <tr  style="background-color:#c0c0c0;">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            Total sample tested positive for all TTIs
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">{{bloods[2][0].total_tti}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+
+
+
+
+
+                </table>
+
+            </div>
+
+
+
+        </md-content>
+    </md-tab>
+    <md-tab label="DODOSO">
+        <md-content class='md-padding'>
+
+            <style>
+                dt {
+                    float: left;
+                    margin-right: 4%;
+                    max-width: 40%;
+                    font-weight: bold;
+                }
+
+                dd {
+                    margin-left: 20%;
+                    margin-bottom: .5em;
+                    color: teal;
+                    font-weight: 600;
+                //border-bottom: 2px solid black;
+                }
+
+                dd::after {
+                    content: " ";
+                    display: block;
+                    clear: left;
+                }
+            </style>
+
+            <div>
+
+                <div layout="row" layout-align="space-between center">
+                    <div flex></div>
+                    <div flex>
+                        <center>
+                            <span style="font-weight:600;">The United Republic of Tanzania</span>
+                        </center>
+                        <center>
+                            <img height="80" width="80" src="/img/arm.png" />
+                        </center>
+                        <center>
+                            <h3 class="md-title">Ministry of Health,Community Development,Gender,Elderly And Children</h3>
+                        </center>
+                    </div>
+                    <div flex>
+                    </div>
+                </div>
+
+
+
+                <div style="border-bottom:3px solid grey;margin-bottom:2em;margin-top:1em;">
+
+                    <center>
+                        <h3 class="md-headline">MPANGO WA TAIFA WA DAMU SALAMA</h3>
+                    </center>
+                    <center>
+                        <h3 class="md-title">DODOSO KWA MCHANGIA DAMU</h3>
+                    </center>
+                </div>
+                <div flex="100" layout-padding>
+                    <p>
+                        Ninaelewa na ninaridhia kuwa ninaweza kutokewa na athari wakati wa kutoa damu na
+                        ninaelewa na kuridhia damu yangu kupimwa VVU,Hepatisi B na C, na kaswende
+                        na niko tayari kupokea majibu hayo ya vipimo vyangu kutoka Mpango wa
+                        Taifa wa damu salama. Nina ridhia majibu yangu. Ninaridhia kuwa na
+                        mawasiliano zaidi na vitua vya Damu Salama kuhusu kiliniki za mchangia
+                        damu na kampeni kwa siku zijazo.
+                    </p>
+                </div>
+
+                <div flex="100" layout-gt-sm="row" layout-padding>
+                    <div flex-gt-sm>
+                        <dt>Saini ya mchangiaji</dt>
+                        <dd>asdjkh</dd>
+                    </div>
+                    <div flex-gt-sm>
+                        <dt>Tarehe</dt>
+                        <dd>11/12/2009</dd>
+                    </div>
+                </div>
+                <h3 class="md-headline">Kwa Matumizi maalumu:</h3>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Uchunguzi</th>
+                        <th class="mdl-data-table__cell--non-numeric">Hb
+                            < 12.5 dl/L</th>
+                        <th class="mdl-data-table__cell--non-numeric">Hb > 12.5 dl/L</th>
+                        <th class="mdl-data-table__cell--non-numeric">Uzito</th>
+                        <th class="mdl-data-table__cell--non-numeric">
+                            < Kg 50 /> Kg 50</th>
+                        <th class="mdl-data-table__cell--non-numeric"> Pulse(PR):</th>
+                        <th class="mdl-data-table__cell--non-numeric"> BP: mmHg</th>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Hb imepimwa na:</th>
+                        <td colspan="3">
+                            <div flex="100" layout-gt-sm="row">
+                                <div flex-gt-sm>
+                                    <dt>Jina</dt>
+                                    <dd>Simon Surname</dd>
+                                </div>
+                                <div flex-gt-sm>
+                                    <dt>Saini</dt>
+                                    <dd>asd</dd>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td colspan="3">
+                            <div flex="100" layout-gt-sm="row">
+                                <div flex-gt-sm>
+                                    <dt>Uzito umepimwa na; Jina</dt>
+                                    <dd>John Surname</dd>
+                                </div>
+                                <div flex-gt-sm>
+                                    <dt>Saini</dt>
+                                    <dd>asd</dd>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Tathmini ya mwisho ya mchangiaji</th>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Mchangiaji amekubali</center>
+                            <center>Ndio</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Kuahirisha kwa muda</center>
+                            <center>Hapana</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Kuahirisha kwa kudumu</center>
+                            <center>Hapana</center>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Sababu za kuahirishwa</th>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Tiba</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Kiasi kidogo cha damu</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Umri</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Shinikizo la Damu</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Uzito</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Kijamii</center>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Mitara</th>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Ndio</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Hapana</center>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <center>Idadi ya wake</center>
+                        </td>
+                    </tr>
+                </table>
+
+                <h4 class="md-subhead">Maoni</h4>
+                <p>asd sad sadasdqwe sadasdhjgmndcv hjsgadjwquei jasgdhj adgajdg some maoni goes
+                    herer iuyqwe
+                </p>
+
+                <div flex="100" layout-gt-sm="row">
+                    <div flex-gt-sm>
+                        <dt>Jina la Mnasihi</dt>
+                        <dd>Joseph Surname</dd>
+                    </div>
+                    <div flex-gt-sm>
+                        <dt>Saini</dt>
+                        <dd>asgjdjh</dd>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Kuingiza sindano</th>
+                        <th class="mdl-data-table__cell--non-numeric">Kuchomoa sindano</th>
+                        <th colspan="2">Utoboaji wa mshipa wa vena haukufanikiwa</th>
+                        <th class="mdl-data-table__cell--non-numeric">Kiasi kidogo cha damu</th>
+                        <th class="mdl-data-table__cell--non-numeric">Utoaji wa damu umefanikiwa</th>
+                    </tr>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Saa :</th>
+                        <td class="mdl-data-table__cell--non-numeric">Saa :</td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                    </tr>
+                </table>
+
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                    <tr>
+                        <th  class="mdl-data-table__cell--non-numeric" rowspan="2">Tukio baya kwa Mchangiaji</th>
+                        <th  class="mdl-data-table__cell--non-numeric" class="mdl-data-table__cell--non-numeric">Mkusanyiko wa damu</th>
+                        <th  class="mdl-data-table__cell--non-numeric" colspan="3">Kupoteza fahamu</th>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"></td>
+                        <td class="mdl-data-table__cell--non-numeric">Sio kali</td>
+                        <td class="mdl-data-table__cell--non-numeric">Wastani</td>
+                        <td class="mdl-data-table__cell--non-numeric">Kali</td>
+                    </tr>
+                </table>
+
+                <h4 class="md-subhead">Maoni</h4>
+                <p>asd sad sadasdqwe sadasdhjgmndcv hjsgadjwquei jasgdhj adgajdg some maoni goes
+                    herer iuyqwe
+                </p>
+
+                <br />
+                <div flex="100" layout-gt-sm="row">
+                    <div flex-gt-sm>
+                        <dt>Jina la Mtoa samu</dt>
+                        <dd>Edward Surname</dd>
+                    </div>
+                    <div flex-gt-sm>
+                        <dt>Saini</dt>
+                        <dd>asgjdjh</dd>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+        </md-content>
+    </md-tab>
+
+    <md-tab label="products">
+        <md-content class='md-padding'>
+
+            number of blood products produced
+
+
+        </md-content>
+    </md-tab>
+
+    <md-tab label="non comformaties">
+        <md-content class='md-padding'>
+
+            non comformaties
+
+
+        </md-content>
+    </md-tab>
+</md-tabs>

@@ -1,0 +1,58 @@
+<style>
+    .app-modal-window {
+        width: 70%;
+        margin: 0 auto;
+        text-align: center;
+        height: 90px;
+    }
+
+    .std {
+        padding: 20px;
+    }
+
+    @media print {
+        .no-print {
+            display: none;
+        }
+    }
+</style>
+<md-dialog>
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>BARCODE FOR {{last_name}}-{{sample_number}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <div id="divtoprint" class="app-modal-window">
+                            <div class="row" style="float:left;">{{test_name}}-{{sub_department_name}}
+							{{time_generated}}<br>
+                                <img src="data:image/png;base64, {{image_code}}" alt="Barcode"/><br>
+                                {{last_name}}-{{sample_number}}
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary"    ng-click="PrintBarcodeContent()" class="md-primary">
+                PRINT BARCODE
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

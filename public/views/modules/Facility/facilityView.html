@@ -1,0 +1,1012 @@
+<md-tabs md-dynamic-height md-border-bottom >
+
+    <md-tab label="FACILITY REGISTRATION">
+        <md-content class='md-padding'>
+
+            <div class="form-bottom">
+
+                <div >
+
+
+
+                    <div class="row">
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                            <input type="text" class="md-block" placeholder="Enter  facility Code" ng-model="facility.facility_code">
+
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                            <input type="text" class="md-block" placeholder="Enter  facility Name" ng-model="facility.facility_name">
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                            <input type="text" class="md-block" placeholder="Enter  facility Address" ng-model="facility.address">
+                        </md-input-container>
+                    </div>
+
+                    <div class="row">
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                            <input type="text" class="md-block" placeholder="Enter  facility  Email" ng-model="facility.email">
+
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                            <input type="text" class="md-block" placeholder="Enter  facility  Phone Number" ng-model="facility.mobile_number">
+
+
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+
+                            <md-select ng-model="facility.facility_type_id" class="md-block">
+                                <label >Choose Facility Type</label>
+                                <md-option ng-value="facility_type.id" ng-repeat="facility_type in facility_types">{{facility_type.description}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+
+                    <div class="row">
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+                            <label>Choose Council</label>
+                            <md-select ng-model="facility.council_id" class="md-block">
+
+                                <md-option ng-value="council.id" ng-repeat="council in councils">{{council.council_name}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 col-sm-4">
+                            <label>Enter Region</label>
+                            <md-select ng-model="facility.region_id" class="md-block">
+
+                                <md-option ng-value="region.id" ng-repeat="region in regions">{{region.region_name}}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                    </div>
+
+                </div>
+
+
+
+                <md-button class="md-raised md-primary" ng-click="facility_registration(facility)" >Register</md-button>
+                <p></p>
+
+
+
+            </div>
+
+
+        </md-content>
+    </md-tab>
+    <md-tab label="DEPARTMENT REGISTRATION">
+        <md-content class='md-padding'>
+
+            <md-input-container class="md-block ">
+                <input type="text"  class="md-block"  typeahead-on-select=" " ng-model="search"   placeholder="Quick Search... "  >
+
+            </md-input-container>
+              
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+
+                    <md-checkbox  ng-model="dept" aria-label="Create New Invoice" class="pull-right">
+                        Create New Department
+                    </md-checkbox>
+                                <div   ng-if="dept">
+                                    <div class="row col-md-12" >
+                                        <md-input-container class="md-block col-md-10 col-sm-4">
+                                            
+                                            <input type="text" class="md-block" placeholder="Enter  new department" ng-model="department.department_name">
+
+                                        </md-input-container>
+<div class="md-block col-md-2 col-sm-4">
+    <md-button class="md-raised md-primary  " ng-click="department_registration(department)" >Register</md-button>
+
+
+</div>
+
+
+
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <div class="">
+
+                        </div>
+                        <p></p>
+                        <p></p>
+                        <form  role="form" class="" >
+                            <fieldset>
+
+                                <div class="form-bottom">
+                                    <!--department list-->
+
+                                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   >
+
+                                        <thead style="background-color: beige">
+
+                                        <tr>
+                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                No
+
+                                            </td>
+
+                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                Department
+
+
+
+                                            </td>
+
+                                            <td class="mdl-data-table__cell--non-numeric">
+
+                                                Edit
+
+                                            </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                            X
+
+                                        </td>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr ng-repeat="department in departments | filter:search track by $index">
+                                            <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                            <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ department.department_name }}</b>
+                                                <h3 ng-if="e">
+
+                                                    <md-input-container class="md-block">
+                                                        <input type="text" class="md-block" placeholder="department" ng-model="department.department_name">
+                                                    </md-input-container>
+
+
+                                                </h3>
+                                            </td>
+
+                                            <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                                <h3 >
+
+                                                    <div class="md-block">
+
+
+                                                        <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="department_update(department)">Update</md-button>
+
+                                                    </div>
+                                                </h3>
+                                                <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <md-checkbox class="" ng-model="e">Edit</md-checkbox>
+                                            </td><td  ng-if="!e">
+                                            <md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="department_delete(department.department_name,department.id)">Delete</md-button>
+                                        </td>
+                                            <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--department list-->
+
+        </md-content>
+    </md-tab>
+
+    <md-tab label="FACILITY TYPE REGISTRATION">
+        <md-content class='md-padding'>
+
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-md-12 form-box">
+                        <form  role="form" class="" >
+                            <fieldset>
+
+                                <div class=" ">
+                                    <div class="row">
+                                        <md-input-container class="md-block col-md-8 col-sm-4">
+
+                                            <input type="text" data-toggle="tooltip" title="Enter  Facility Type" class="md-block" placeholder="Enter  Facility Type" ng-model="facility_type.description">
+
+                                            <p></p>
+                                            <md-button class="md-raised md-primary" ng-click="facility_type_registration(facility_type)" >Register</md-button>
+
+                                        </md-input-container>
+
+
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--department list-->
+
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ing-if="facility_types" >
+                <b>Facility Type Total:{{facility_types.length}}</b>
+                <div class="md-block">
+                    <div class="md-block">
+
+
+                    </div>
+                </div>
+                <thead>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">
+
+                        No#
+
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+
+                        Facility Type
+
+
+
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+
+                        Edit
+
+                    </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                    X
+
+                </td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="facility_type in facility_types | filter:search track by $index">
+                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                    <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ facility_type.description }}</b>
+                        <h3 ng-if="e">
+
+                            <md-input-container class="md-block">
+                                <input type="text" class="md-block" placeholder="facility_type" ng-model="facility_type.description">
+                            </md-input-container>
+
+
+                        </h3>
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                        <h3 >
+
+                            <div class="md-block">
+
+
+                                <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="facility_type_update(facility_type)">Update</md-button>
+
+                            </div>
+                        </h3>
+                        <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                    </td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <md-checkbox type="checkbox" class="" ng-model="e">Edit</md-checkbox>
+                    </td><td  ng-if="!e">
+                    <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Delete from List" ng-click="facility_type_delete(facility_type.description,facility_type.id)">Delete</md-button>
+                </td>
+                    <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                </tr>
+                </tbody>
+
+            </table>
+
+
+        </md-content>
+    </md-tab>
+    <md-tab label="FACILITY LIST">
+        <md-content class='md-padding'>
+
+            <div class="row">
+                <div class="col-md-12 form-box">
+                    <md-input-container class="md-block ">
+                        <input type="text"  class="md-block"  typeahead-on-select=" " ng-model="search"   placeholder="Quick Search... "  >
+
+                    </md-input-container>
+                    <form  role="form" class="" >
+                        <fieldset>
+
+                                <md-button ng-if="!facilities" ng-click="facility_list()" class="md-raised md-primary pull-right" title="Click this md-button to view FACILITY LIST "> View Facility</md-button>
+                            </div>
+                            <div ng-if="!facilities" >
+
+
+                                Click <b>FACILITY VIEW</b>  above to view Facility List </div>
+
+
+
+
+
+
+
+
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="facilities" >
+
+                                <div class="md-block">
+                                    <div class="md-block">
+
+
+
+                                    </div>
+                                </div>
+                                <thead>
+                                <tr>
+                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                        No#
+
+                                    </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                        facility Code
+
+
+
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                        facility Name
+
+
+
+                                    </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric">
+
+                                        Edit
+
+                                    </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                    X
+
+                                </td>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr ng-repeat="facility in facilities | filter:search track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                    <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ facility.facility_code }}</b>
+                                        <h3 ng-if="e">
+
+                                            <md-input-container class="md-block">
+                                                <input type="text" class="md-block" placeholder="facility" ng-model="facility.facility_code">
+                                            </md-input-container>
+
+
+                                        </h3>
+                                    </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ facility.facility_name }}</b>
+                                        <h3 ng-if="e">
+
+                                            <md-input-container class="md-block">
+                                                <input type="text" class="md-block" placeholder="facility" ng-model="facility.facility_name">
+                                            </md-input-container>
+
+
+                                        </h3>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric"><b ng-if="e"></b>
+                                        <h3 ng-if="e">
+
+                                            <md-select ng-model="facility.facility_type_id" class="md-block">
+                                                <label >Choose Facility Type</label>
+                                                <md-option ng-value="facility_type.id" ng-repeat="facility_type in facility_types">{{facility_type.description}}</md-option>
+                                            </md-select>
+                                        </h3>
+                                    </td>
+
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                        <h3 >
+
+                                            <div class="md-block">
+
+
+                                                <md-button class="md-raised md-primary" ng-click="facility_update(facility)">Update</md-button>
+
+                                            </div>
+                                        </h3>
+                                        <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <md-checkbox   class=" " ng-model="e">Edit</md-checkbox>
+                                    </td><td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+                                    <md-button class="md-primary md-raised" ng-click="facility_delete(facility.facility_name,facility.id)">Delete</md-button>
+                                </td>
+                                    <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+
+ </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+
+
+        </md-content>
+    </md-tab>
+
+
+
+        <md-tab label="Residences">
+            <md-content class='md-padding'>
+                <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+                    <collapsible-item item-title="residence">
+
+
+
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+
+
+
+                                <form  role="form" class="" >
+                                    <fieldset>
+
+                                        <div class="form-bottom">
+
+
+                                            <div class="md-block">
+                                                <div class="md-block">
+                                                    <md-input-container class="md-block">
+
+                                                        <input type="text" class="md-block" data-toggle="tooltip" title="Enter Residence name" placeholder="Enter  Residence name" ng-model="residence.residence_name">
+
+                                                    </md-input-container>
+                                                </div>
+
+                                                <div class="md-block">
+                                                    <div  >
+                                                        <md-input-container class="md-block ">
+                                                            <label for="">  Council Name</label>
+
+                                                            <md-select ng-model="residence.council_id" class="md-block" data-toggle="tooltip" title="Choose Council">
+
+                                                                <md-option ng-value="council.id" ng-repeat="council in councils">{{council.council_name}}</md-option>
+                                                            </md-select>
+                                                        </md-input-container>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <md-button class='md-raised md-primary' ng-click="residence_registration(residence)" >Register</md-button>
+
+                                            </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+                    </collapsible-item>
+                </ang-accordion>
+                <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+                    <collapsible-item item-title="region">
+
+
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+
+                                <div class="col-md-12 form-box">
+
+
+                                            <div class="form-bottom">
+
+
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+
+
+                                                        <input type="text" class="md-block" data-toggle="tooltip" title="Enter Region code" placeholder="Enter Region Code" ng-model="region.region_code">
+                                                        <i ng-if="region.region_code.length>3 && region.region_code.length !=0">
+                                                            Region Code Should not exceed Three letters
+                                                        </i>
+                                                        <i ng-if="region.region_code.length==null">
+                                                            Region Code Should not exceed Three letters
+                                                        </i>
+                                                            </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+
+                                                        <input type="text" class="md-block" data-toggle="tooltip" title="Enter Region Name" placeholder="Enter Region Name" ng-model="region.region_name">
+</md-input-container>
+                                                    </div>
+
+                                                </div>
+
+                                                <md-button ng-if="region.region_code.length <4 && region.region_name.length !=0 " class='md-raised md-primary' ng-click="region_registration(region)" >Register</md-button>
+                                                <p></p>
+
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </collapsible-item>
+                </ang-accordion>
+
+
+
+                <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+                    <collapsible-item item-title="council types">
+
+
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+
+                                <div class="col-md-12 form-box">
+
+                                    <form  role="form" class="" >
+                                        <fieldset>
+
+
+
+                                            <div class="form-bottom">
+
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+
+
+                                                        <input type="text" data-toggle="tooltip" title="Enter Council Type" class="md-block" placeholder="Enter  Council Type" ng-model="council_type.description">
+</md-input-container>
+                                                    </div>
+                                                </div>
+
+
+                                                <md-button class='md-raised md-primary' ng-click="council_type_registration(council_type)" >Register</md-button>
+
+                                                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ing-if="regions" >
+                                                    <b>Council Type Total:{{council_types.length}}</b>
+                                                    <div class="md-block">
+
+                                                    </div>
+                                                    <thead>
+                                                    <tr>
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            No#
+
+                                                        </td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            Council Type
+
+
+
+                                                        </td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            Edit
+
+                                                        </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                                        X
+
+                                                    </td>
+                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                    <tr ng-repeat="council_type in council_types | filter:search track by $index">
+                                                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ council_type.description }}</b>
+                                                            <h3 ng-if="e">
+
+                                                                <md-input-container class="md-block">
+                                                                    <input type="text" data-toggle="tooltip" title="Council Type" class="md-block" placeholder="council_type" ng-model="council_type.description">
+                                                                </md-input-container>
+
+
+                                                            </h3>
+                                                        </td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                                            <h3 >
+
+                                                                <div class="md-block">
+
+
+                                                                    <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="council_type_update(council_type)">Update</md-button>
+
+                                                                </div>
+                                                            </h3>
+                                                            <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">
+                                                            <md-checkbox   class="md-block" ng-model="e">Edit</md-checkbox>
+                                                        </td><td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+                                                        <md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="council_type_delete(council_type.description,council_type.id)">Delete</md-button>
+                                                    </td>
+                                                        <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                                    </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </collapsible-item>
+                </ang-accordion>
+
+
+                <ang-accordion close-icon-url="/svg/chevron-sign-to-right.svg" open-icon-url="/svg/chevron-sign-down.svg">
+                    <collapsible-item item-title="councils">
+
+
+
+
+                        <div class="wrapper wrapper-content animated fadeInRight">
+                            <div class="row">
+
+                                <div class="col-md-12 form-box">
+
+                                    <form  role="form" class="" >
+                                        <fieldset>
+
+
+
+                                            <div class="form-bottom">
+
+
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+
+
+                                                        <input type="text" data-toggle="tooltip" title="Enter Council Code" class="md-block" placeholder="Enter  Council Code" ng-model="council.council_code">
+</md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+
+
+                                                        <input type="text" class="md-block" data-toggle="tooltip" title="Enter Council Name" placeholder="Enter  Council Name" ng-model="council.council_name">
+</md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+
+                                                            <label>Council type</label>
+                                                        <md-select ng-model="council.council_types_id" class="md-block" data-toggle="tooltip" title="Choose Council Type">
+
+                                                            <md-option ng-value="council_type.id" ng-repeat="council_type in council_types">{{council_type.description}}</md-option>
+                                                        </md-select>
+                                                    </md-input-container>
+                                                </div>
+                                                <div class="md-block">
+                                                    <div class="md-block">
+                                                        <md-input-container class="md-block">
+<label>Region</label>
+                                                        <md-select ng-model="council.regions_id" class="md-block" data-toggle="tooltip" title="Choose Region">
+
+                                                            <md-option ng-value="region.id" ng-repeat="region in regions">{{region.region_name}}</md-option>
+                                                        </md-select>
+                                                    </md-input-container>
+                                                </div>
+
+
+                                                <md-button class='md-raised md-primary' ng-click="council_registration(council)" >Register</md-button>
+                                                <p></p>
+
+                                                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ing-if="councils" >
+                                                    <b>Councils Total:{{councils.length}}</b>
+                                                    <div class="md-block">
+
+                                                    </div>
+                                                    <thead>
+                                                    <tr>
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            No#
+
+                                                        </td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            Council Code
+
+
+
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            Council Name
+
+
+
+                                                        </td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric">
+
+                                                            Edit
+
+                                                        </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                                        X
+
+                                                    </td>
+                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                    <tr ng-repeat="council in councils | filter:search track by $index">
+                                                        <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ council.council_code }}</b>
+                                                            <h3 ng-if="e">
+
+                                                                <md-input-container class="md-block">
+                                                                    <input type="text" class="md-block" data-toggle="tooltip" title="Council Code" placeholder="council" ng-model="council.council_code">
+                                                                </md-input-container>
+
+
+                                                            </h3>
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ council.council_name }}</b>
+                                                            <h3 ng-if="e">
+
+                                                                <md-input-container class="md-block">
+                                                                    <input type="text" class="md-block" data-toggle="tooltip" title="Council Name" placeholder="council" ng-model="council.council_name">
+                                                                </md-input-container>
+
+
+                                                            </h3>
+                                                        </td>
+
+                                                        <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                                            <h3 >
+
+                                                                <div class="md-block">
+
+
+                                                                    <md-button class="md-raised md-primary"data-toggle="tooltip" title="Click To Update This Record" ng-click="council_update(council)">Update</md-button>
+
+                                                                </div>
+                                                            </h3>
+                                                            <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+                                                        </td>
+                                                        <td class="mdl-data-table__cell--non-numeric">
+                                                            <md-checkbox   class="md-block" ng-model="e">Edit</md-checkbox>
+                                                        </td><td  ng-if="!e">
+                                                        <md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="council_delete(council.council_name,council.id)">Delete</md-button>
+                                                    </td>
+                                                        <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                                    </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </collapsible-item>
+                </ang-accordion>
+
+
+
+
+
+
+            </md-content>
+        </md-tab>
+
+
+        <md-tab label="professionals">
+            <md-content class='md-padding'>
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+
+                        <md-checkbox  ng-model="dept" aria-label="Create New Invoice" class="pull-right">
+                            Enter  new Profession
+                        </md-checkbox>
+                        <div   ng-if="dept">
+                            <div class="row col-md-12" >
+                                <md-input-container class="md-block col-md-10 col-sm-4">
+
+                                    <input type="text" class="md-block" placeholder="Enter  new Profession" ng-model="prof_name.prof_name">
+
+                                </md-input-container>
+                                <div class="md-block col-md-2 col-sm-4">
+                                    <md-button class="md-raised md-primary  " ng-click="professional_registration(prof_name)" >Register</md-button>
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                        </fieldset>
+                        </form>
+                    </div>
+                </div>
+                </div>
+
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12 form-box">
+                            <div class="">
+
+                            </div>
+                            <p></p>
+                            <p></p>
+                            <form  role="form" class="" >
+                                <fieldset>
+
+                                    <div class="form-bottom">
+                                        <!--department list-->
+
+                                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%"   >
+
+                                            <thead>
+
+                                            <tr>
+                                                <td class="mdl-data-table__cell--non-numeric">
+
+                                                    No
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric">
+
+                                                    Professional name
+
+
+
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric">
+
+                                                    Edit
+
+                                                </td> <td class="mdl-data-table__cell--non-numeric"  ng-if="!e">
+
+                                                X
+
+                                            </td>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="professional in professional | filter:search track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">{{ $index+1 }}</td>
+
+                                                <td class="mdl-data-table__cell--non-numeric"><b ng-if="!e">{{ professional.prof_name }}</b>
+                                                    <h3 ng-if="e">
+
+                                                        <md-input-container class="md-block">
+                                                            <input type="text" class="md-block" placeholder="professional name" ng-model="professional.prof_name">
+                                                        </md-input-container>
+
+
+                                                    </h3>
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="e">
+                                                    <h3 >
+
+                                                        <div class="md-block">
+
+
+                                                            <md-button class="md-raised md-primary" data-toggle="tooltip" title="Click to Update This Record" ng-click="update_professional(professional)">Update</md-button>
+
+                                                        </div>
+                                                    </h3>
+                                                    <!--<md-button class="btn btn-default" ng-click="edit(region.id)">Edit</md-button>-->
+
+
+
+
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <md-checkbox class="" ng-model="e">Edit</md-checkbox>
+                                                </td><td  ng-if="!e">
+                                                <md-button class="alert-danger" data-toggle="tooltip" title="Click to Delete from List" ng-click="(professional)">Delete</md-button>
+                                            </td>
+                                                <!--<td class="mdl-data-table__cell--non-numeric">{{ region.tastiness }}</td>-->
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+
+
+                                    </div>
+</fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+            </md-content>
+        </md-tab>
+    </md-tabs>

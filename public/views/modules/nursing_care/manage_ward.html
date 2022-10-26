@@ -1,0 +1,377 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Wards" ng-click="setTabWards(1)">
+
+                    <md-content class="md-padding">
+
+
+ <h2 ng-if="getWards.length==0" align="center">NO WARD REGITERED</h2>
+
+ <table class="md-block mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" ng-if="getWards.length>0">
+                        <thead>
+                        <tr>
+                           <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             NAME OF THE WARD
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>WARD TYPE</span>
+                            </th>
+
+                                <th sortable='total.value' class="sortable">
+                                <span>ACTION</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="getWard in getWards track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td align="left">{{getWard.ward_name}}</td>
+                            <td >{{getWard.ward_type_name}}</td>
+                               <td><md-button class="md-raised md-primary" ng-click="getWardDetails(getWard)" >View Beds</md-button></td>
+
+                               </tr>
+                        </tbody>
+                    </table>
+
+                      <div  role="form">
+ 
+</form>
+</div>
+</md-content>
+
+ <div class="new-button md-fab lock-size"
+     layout="row"
+     layout-align="center center"
+     ng-cloak class="md-padding actionButtons" layout="column">
+    <md-fab-speed-dial style="position: fixed; right: 0px; bottom: 180px;"  md-open="isOpen" md-direction="up" ng-class="selectedMode"
+                       class="md-fling md-fab-bottom-right md-hover-full speed-dial">
+        <md-fab-trigger>
+            <md-button aria-label="Menu"  ng-click="wardRegistration()" class="md-fab md-warn">
+                <md-icon class="menu-icon" md-svg-src="/svg/home.svg"></md-icon>
+                <md-tooltip md-direction="down"   md-visible="tooltipVisible">Ward Setup</md-tooltip>
+
+            </md-button>
+        </md-fab-trigger>
+
+    </md-fab-speed-dial>
+</div>
+
+
+</md-tab>
+<md-tab label="Ward Types" >
+    <md-content class="md-padding">
+
+                       <div  role="form">
+                             <md-content class="md-padding" style="padding:2em;">
+                               
+                                 <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD TYPE</label>
+                                    <input type="text" ng-model="wards.ward_category">
+                                </md-input-container>
+                                 </div>
+                             <div layout-gt-sm="row">                               
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <md-button class="md-raised md-primary" ng-click="addWardTypes(wards)">Register</md-button>
+                                <div class="label">Raised</div>
+                            </section>
+                             </div>
+
+                            </md-content>
+
+
+
+
+
+
+
+
+</form>
+</div>
+
+
+
+</md-content>
+
+</md-tab>
+
+<md-tab label="Ward Grade">
+    <md-content class="md-padding">
+
+                       <div  role="form">
+                             <md-content class="md-padding" style="padding:2em;">
+                               
+                                 <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD GRADE</label>
+                                    <input type="text" ng-model="wards.ward_class">
+                                </md-input-container>
+                                 </div>
+                             <div layout-gt-sm="row">                               
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <md-button class="md-raised md-primary" ng-click="addWardGrade(wards)">Register</md-button>
+                                <div class="label">Raised</div>
+                            </section>
+                             </div>
+
+                            </md-content>
+
+</form>
+</div>
+
+</md-content>
+
+</md-tab>
+<md-tab label="Create Ward ">
+    <md-content class="md-padding">
+ <div layout="row">
+     <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD NAME</label>
+                                    <input type="text" ng-model="wards.ward_name">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD TYPES</label>
+                                    <input type="text" ng-model="wards.ward_type" uib-typeahead ="ward_type as ward_type.ward_type_name for ward_type in showSearchWardTypes($viewValue) | filter:$viewValue">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>WARD CLASS</label>
+                                    <input type="text" ng-model="ward_class.ward_class_id" uib-typeahead ="ward_class as ward_class.item_name for ward_class in showSearchWardClass($viewValue) | filter:$viewValue">
+                                </md-input-container> <md-input-container class="md-block" flex-gt-sm>
+                                  <md-button  class="md-raised md-primary"   ng-click="addWard(wards,ward_class)" class="md-primary">
+                Save
+            </md-button>
+                                </md-input-container>
+                        
+
+                         
+
+                                </div>
+
+</md-content>
+
+</md-tab>
+
+<md-tab label="Accomodation Fee" >
+     <md-content class="md-padding" ng-controller="itemPriceController">
+        <md-input-container class="md-block">
+            <input type="text" typeahead-on-select="" ng-model="item_price.selectedItem" uib-typeahead ="item as item.item_name  for item in itemWardGradeSearch($viewValue) | limitTo:8 | filter:$viewValue" placeholder="Search for any ward grade to set price" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient">
+        </md-input-container>
+
+                      
+                                                             
+
+        <div layout-gt-sm="row">
+                              <span ng-repeat="category in payment_sub_categories" ng-if="category.main_category != 'Exemption'">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label class="  control-label">{{category.sub_category_name}}:</label>
+                                    <input  type="text" id="{{category.sub_category_name.replace(' ', '_')}}" >
+                                                 
+                                </md-input-container>
+                                   <input type="text"   id="status_{{category.sub_category_name.replace(' ', '_')}}" class="hidden" value="active" />
+                        
+                              </span>
+                                
+                            </div>
+
+
+                             <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label> Starting  Year</label>
+                                <md-datepicker ng-model="item_price.startingFinancialYear"></md-datepicker>                              
+                                </md-input-container>
+
+                                 <md-input-container class="md-block" flex-gt-sm>
+                                    <label> Ending   Year</label>
+                                <md-datepicker ng-model="item_price.endingFinancialYear"></md-datepicker>                              
+                                </md-input-container>
+
+
+                                 <md-input-container class="md-block" flex-gt-sm>
+                                 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                 <md-button class="md-raised md-primary" ng-click="item_price_registration(item_price)">SAVE</md-button>
+                                </section>
+                               
+                               
+                                 </md-input-container>
+
+               
+                            </div>
+
+
+
+
+                            
+
+
+    </md-content>
+</md-tab>
+
+<md-tab label="Nurses Allocation">
+    <md-content class="md-padding">
+	
+	 <vertical-tabs >
+                            <vertical-tab-pane title="Nurse Assignment">
+                                <div layout="row">
+                                   <md-input-container >
+                                    <label>WARD NAME</label>
+                                    <input ng-model="selectedWard" type="text" uib-typeahead="ward as ward.ward_full_name for ward in nurseWard($viewValue)  |filter:$viewValue |limitTo:5">
+                                </md-input-container>
+                                                                <md-autocomplete flex required flex
+                                               md-search-text="searchText"
+                                               md-input-name="patients"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in nurseName(searchText)"
+                                               md-item-text="item.name+'  '+item.mobile_number+'  '+item.prof_name"
+                                               md-selected-item-change="selectedNurses(item)"
+                                               md-floating-label="NURSE NAME"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.name}} {{item.mobile_number}} {{item.prof_name}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+
+                                    
+									<md-input-container >
+                                        <md-button class="md-raised md-primary" ng-click="addNurse(selectedWard)">ALLOCATE</md-button>
+                                    </md-input-container>
+                                </div>
+
+                              
+                            </vertical-tab-pane>  
+							<vertical-tab-pane title="Nurse List">
+                               
+							   <div layout="row">
+							   
+							    <md-input-container >
+                                                                <md-autocomplete flex required flex
+                                               md-search-text="searchText"
+                                               md-input-name="patients"
+                                               md-no-cache="false"
+                                               md-clear-button="true"
+                                               md-items="item in nurseName(searchText)"
+                                               md-item-text="item.name+'  '+item.mobile_number+'  '+item.prof_name"
+                                               md-selected-item-change="selectedNurses(item)"
+                                               md-floating-label="NURSE NAME"
+                                               md-min-length="4" md-autofocus>
+                                  <md-item-template>
+                                      <span md-highlight-text="searchText">{{item.name}} {{item.mobile_number}} {{item.prof_name}} </span>
+                                  </md-item-template>
+                              </md-autocomplete>
+
+                                </md-input-container>
+								</div><div layout="row">
+							   
+                               <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th sortable="code" class="sortable mdl-data-table__cell--non-numeric">
+                                <span>No.</span>
+                            </th>
+                            <th class="st-sort-disable th-dropdown">
+                             NURSE NAME
+                            </th>
+                            <th sortable="placed" class="sortable">
+                                <span>TITLE</span>
+                            </th>
+
+                            
+                            <th  class="sortable">
+                                <span>STATUS</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr grid-item ng-repeat="nurseAssign in nurseAssignes track by $index"  >
+                            <td class="mdl-data-table__cell--non-numeric">
+                               {{$index+1}}
+                            </td>
+                            <td >{{nurseAssign.name}}</td>
+                            <td >{{nurseAssign.ward_name}}</td>
+                             <td>
+			<button ng-if="nurseAssign.deleted==1" ng-click="changeNurseStatus(nurseAssign)" style="background-color: red" title="Now is OFF"> Allocate</button>
+			<button ng-if="nurseAssign.deleted==0" ng-click="changeNurseStatus(nurseAssign)" style="background-color: green" title="Now is ON">Deallocate</button>
+
+			</td> 
+                                
+                               </tr>
+                        </tbody>
+                    </table>     
+								   
+								   
+								   
+                                </div>   
+
+                              
+                            </vertical-tab-pane> 
+							</vertical-tabs >
+
+                       
+
+</md-content>
+</md-tab>
+
+
+
+<md-tab label="Ward State" ng-click="setTabWards(1)">
+    <md-content class="md-padding">
+
+                       <div  role="form">
+                             <md-content class="md-padding" style="padding:2em;">
+                               
+                                 <div layout="row">
+                                   <md-input-container>
+                                    <label>WARD NAME</label>
+                                    <md-select ng-model="patient.ward_name">
+                                        <md-option value="">Please select ward</md-option>
+                                        <md-option ng-repeat="getWard in getWards" ng-value=getWard.ward_id >{{getWard.ward_name}}</md-option>
+                                        
+                                    </md-select>
+                                </md-input-container>
+
+                                 <md-input-container>
+                                    <label>BED STATE</label>
+                                    <md-select ng-model="patient.bed_state" ng-click="getFacilities()">
+                                        <md-option value="">Please select Bed State</md-option>
+                                        <md-option value="{{bedState.id}}" ng-repeat="bedState in wardStatus">{{bedState.TemplateName}}</md-option>
+                                      </md-select>
+                                </md-input-container>
+
+                                 <md-input-container flex-gt-sm>
+                                    <label>Starting Date</label>
+                                    <md-datepicker ng-model="patient.starting_date" ng-Blur="calculateAge('date')"></md-datepicker>
+                                </md-input-container>
+
+                                 <md-input-container flex-gt-sm>
+                                    <label>EndingDate</label>
+                                    <md-datepicker ng-model="patient.ending_date" ng-Blur="calculateAge('date')"></md-datepicker>
+                                </md-input-container>
+                                 </div>
+                             <div layout-gt-sm="row">                               
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <md-button class="md-raised md-primary" ng-click="addWardgGrade(wards,ward_class)">Register</md-button>
+                                <div class="label">Raised</div>
+                            </section>
+                             </div>
+
+                            </md-content>
+
+</form>
+</div>
+
+</md-content>
+
+</md-tab>
+
+
+</md-tabs>
+</md-content>
+</div>

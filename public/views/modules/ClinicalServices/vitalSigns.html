@@ -1,0 +1,39 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span class="fa fa-circle" aria-hidden="true">Vitals as at:{{admissionDetails[0].time_attended}}</span><span class="pull-right">{{"Name: " +admissionDetails.first_name}} {{admissionDetails.middle_name}} {{admissionDetails.last_name}}&nbsp;&nbsp;&nbsp; {{"Age: "+admissionDetails.age}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+admissionDetails.gender}}</span> </h4>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                        <th>Temperature</th>
+                        <th>Systolic(mmHg)</th>
+                        <th>Diastolic(mmHg)</th>
+                        <th>PR</th>
+                        <th>Oxy. Sat.</th>
+                        <th>Weight(kg)</th>
+                        <th>Height(cm)</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{admissionDetails[0].Body_temperature}}</td>
+                            <td>{{admissionDetails[0].Systolic_pressure}}</td>
+                            <td>{{admissionDetails[0].Diastolic_pressure}}</td>
+                            <td>{{admissionDetails[0].Pulse_rate}}</td>
+                            <td>{{admissionDetails[0].Oxygen_saturation}}</td>
+                            <td>{{admissionDetails[0].Body_weight}}</td>
+                            <td>{{admissionDetails[0].height_length}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

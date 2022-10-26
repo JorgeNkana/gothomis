@@ -1,0 +1,35 @@
+<md-dialog aria-label="Confirm Payment" style="width: 900px; height: 500px;" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h6>CONFIRM PAYMENT</h6>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="closeDialog($event)">
+                    <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <div style="padding: 0px 5px;">
+            <md-dialog-content>
+                <md-content layout-padding layout="column" layout-fill>
+                    <md-input-container flex>
+                        <input type="text" name="reference" placeholder="Enter Cheque Number" ng-model="payment.reference" />
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>Confirmation Date</label>
+                        <md-datepicker flex ng-model="payment.confirmation_date" md-placeholder="Payment Confirmation Date">
+                        </md-datepicker>
+                    </md-input-container>
+                </md-content>
+            </md-dialog-content>
+
+            <md-dialog-actions class="row">
+                <md-button ng-click="confirmPay(payment)" class="md-primary">
+                    PREVIEW VOUCHER
+                </md-button>
+            </md-dialog-actions>
+        </div>
+    </form>
+</md-dialog>

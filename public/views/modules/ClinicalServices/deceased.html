@@ -1,0 +1,42 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <span class="form-top-left">
+                            {{"Name: " +admissionDetails.first_name}} {{admissionDetails.middle_name}} {{admissionDetails.last_name}}&nbsp;&nbsp;&nbsp;  {{"Corpse number: "+admissionDetails.corpse_record_number}}&nbsp;&nbsp;&nbsp;  {{"DoB: "+admissionDetails.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+admissionDetails.gender}}
+						</span>
+						<!--<span class="form-top-right">
+							<md-button class="md-icon-button" ng-click="cancel()">
+								<md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+							</md-button>
+						</span>-->
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <md-input-container class="md-block">
+                                    <textarea ng-model="notes.immediate_cause" id="immediate_cause" placeholder="Write immediate cause here..." md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-4">
+                                <md-input-container class="md-block">
+                                    <textarea ng-model="notes.underlying_cause" id="underlying_cause" placeholder="Write underlying condition here..." md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-4">
+                                <md-input-container class="md-block">
+                                    <input type="text" ng-model="notes.selectedDiagnosis" typeahead-on-select="addDiagnosis($item,selectedPatient,'Differential')"
+                                           placeholder="Diagnosis"
+                                           uib-typeahead="diff as diff.description+' '+diff.code for diff in showDiagnosis($viewValue) | filter:$viewValue | limitTo:25">
+                                </md-input-container>
+                                <md-button class="md-raised md-primary pull-right" ng-click="certifyCorpse(admissionDetails,notes,notes)">Certify</md-button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

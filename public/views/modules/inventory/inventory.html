@@ -1,0 +1,410 @@
+<div ng-cloak="">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="home" ng-click="availableLedgers()">
+                <md-content class="md-padding">
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Available ledgers">
+                            <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Ledger name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Ledger code</th>
+                                <th class="mdl-data-table__cell--non-numeric">Descriptions</th>
+                                <th class="mdl-data-table__cell--non-numeric">Action</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="ledger in ledgers track by $index ">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{ledger.ledger_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-input-container class="md-block">
+                                            <input type="text"  placeholder=" " ng-model="ledger.ledger_name">
+                                        </md-input-container>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{ledger.ledger_code}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-input-container class="md-block">
+                                            <input type="text"  placeholder=" " ng-model="ledger.ledger_code">
+                                        </md-input-container>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{ledger.description}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-input-container class="md-block">
+                                            <input type="text"  placeholder=" " ng-model="ledger.description">
+                                        </md-input-container>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m"><md-button class="md-raised md-primary" ng-click="updateLegder(ledger)">update</md-button></td>
+                                    <td class="mdl-data-table__cell--non-numeric"><md-checkbox type="checkbox" class="" ng-model="m">Edit</md-checkbox></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Registered items">
+                            <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item code</th>
+                                <th class="mdl-data-table__cell--non-numeric">Action</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in items track by $index ">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{item.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-input-container class="md-block">
+                                            <input type="text"  placeholder=" " ng-model="item.item_name">
+                                        </md-input-container>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="!m">{{item.item_code}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m">
+                                        <md-input-container class="md-block">
+                                            <input type="text"  placeholder=" " ng-model="item.item_code">
+                                        </md-input-container>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric" ng-if="m"><md-button class="md-raised md-primary" ng-click="updateItem(item)">update</md-button></td>
+                                    <td class="mdl-data-table__cell--non-numeric"><md-checkbox type="checkbox" class="" ng-model="m">Edit</md-checkbox></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Create new ledger">
+                            <md-content class="md-padding">
+                                <div layout="row">
+                                    <div flex="25">
+                                        <md-input-container class="md-block">
+                                            <input type="text" id="new_ledger" autocomplete="off"
+                                                   data-toggle="tooltip"
+                                                   title="Create new ledger"
+                                                   placeholder="Create new ledger"
+                                                   ng-model="inv.ledger_name" required>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="5"></div>
+                                    <div flex="15">
+                                        <md-input-container class="md-block">
+                                            <input type="text" id="ledger_code" autocomplete="off"
+                                                   data-toggle="tooltip"
+                                                   title="Ledger code"
+                                                   placeholder="Ledger code"
+                                                   ng-model="inv.ledger_code" required>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="5"></div>
+                                    <div flex="40">
+                                        <md-input-container class="md-block">
+                                            <textarea ng-model="inv.description" placeholder="Ledger description" id="ledger_decription" md-maxlength="500" rows="3" md-select-on-focus required></textarea>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div layout="row">
+                                    <div flex="80"></div>
+                                    <div flex="10"> <md-button class="md-raised md-primary" ng-click="newLedger(inv)">create new ledger</md-button></div>
+                                </div>
+                            </md-content>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="New item">
+                            <md-content class="md-padding">
+                                <div layout="row">
+                                    <div flex="25">
+                                        <md-input-container class="md-block">
+                                            <input type="text" id="new_item" autocomplete="off"
+                                                   data-toggle="tooltip"
+                                                   title="Create new item"
+                                                   placeholder="Create new item"
+                                                   ng-model="inv.item_name" required>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="5"></div>
+                                    <div flex="15">
+                                        <md-input-container class="md-block">
+                                            <input type="text" id="item_code" autocomplete="off"
+                                                   data-toggle="tooltip"
+                                                   title="item code"
+                                                   placeholder="Item code"
+                                                   ng-model="inv.item_code" >
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="5"></div>
+                                    <div flex="20">
+                                        <md-select  ng-model="inv.item_type_id" placeholder="Ledger" class="md-block">
+                                            <md-option  value={{leja.id}} ng-repeat="leja in ledgers">{{leja.ledger_name}}</md-option >
+                                        </md-select>
+                                    </div>
+                                    <div flex="5">
+                                        <md-button class="md-raised md-primary" ng-click="newItem(inv)">create</md-button>
+                                    </div>
+                                </div>
+                            </md-content>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="orders" ng-click="departmentalOrders()">
+                <md-content class="md-padding">
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Orders from departments">
+                            <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Requesting department</th>
+                                <th class="mdl-data-table__cell--non-numeric">Order placed on(date)</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="order in departmentalOrders[0] track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.department_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.created_at}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Quotation Form">
+                            <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                            <thead style="background-color:beige">
+                            <th class="mdl-data-table__cell--non-numeric">SN</th>
+                            <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="order in departmentalOrders[1] track by $index">
+                                <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{order.total_quantity}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><md-button class="md-raised md-primary" ng-click="quotationForm(departmentalOrders[1])">generate quotation</md-button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+
+                </md-content>
+            </md-tab>
+            <md-tab label="receivings" ng-click="inspectOrders()">
+                <md-content class="md-padding">
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Inspection">
+                            <md-chips>
+                                <md-chip ng-repeat="item in pendingOrders[0]" style="cursor: pointer;" ng-click="getOrderItems(item)">
+                                   <span title="{{item.order_number}}"> {{item.order_number}}</span>
+                                </md-chip>
+                            </md-chips>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Accepted list">
+                            <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Batch</th>
+                                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Cost price</th>
+                                <th class="mdl-data-table__cell--non-numeric">Supplier</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="order in pendingOrders[1] track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{order.batch}}
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{order.cost_price}}
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{order.supplier}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Rejected list">
+                            <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color:beige">
+                                <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                <th class="mdl-data-table__cell--non-numeric">Batch</th>
+                                <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Cost price</th>
+                                <th class="mdl-data-table__cell--non-numeric">Supplier</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="order in pendingOrders[2] track by $index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{order.batch}}
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{order.cost_price}}
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        {{order.supplier}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </vertical-tab-pane>
+                    </vertical-tabs>
+                </md-content>
+            </md-tab>
+            <md-tab label="issuing" ng-click="getDepartments()">
+                <md-content class="md-padding">
+                        <md-input-container class="md-block">
+                            <input type="text" placeholder="Search department here"
+                       uib-typeahead="dept as dept.department_name for dept in departments |filter:$viewValue |limitTo:5"
+                        ng-model="selectedDepartment"
+                       typeahead-on-select="getDepartmentOrders($item)" autocomplete="off">
+                        </md-input-container>
+                    <div layout="row">
+                        <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                            <thead style="background-color:beige">
+                            <th class="mdl-data-table__cell--non-numeric">SN</th>
+                            <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                            <th class="mdl-data-table__cell--non-numeric">Quantity requested</th>
+                            <th class="mdl-data-table__cell--non-numeric">User department</th>
+                            <th class="mdl-data-table__cell--non-numeric">Quantity issued</th>
+                            <th class="mdl-data-table__cell--non-numeric">Issued to</th>
+                            <th class="mdl-data-table__cell--non-numeric">Action</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="order in departmentItems track by $index">
+                                <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{order.department_name}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    <md-input-container class="md-block">
+                                        <input type="number" min="1"  placeholder=" " ng-model="x.quantity" required>
+                                    </md-input-container>
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    <md-input-container class="md-block">
+                                        <input type="text" placeholder="Search staff here"
+                                               uib-typeahead="user as user.name for user in SearchUser($viewValue) |filter:$viewValue |limitTo:5"
+                                               typeahead-on-select=" " autocomplete="off" ng-model="selectedUser" required>
+                                    </md-input-container>
+                                </td>
+                                <td><md-button class="md-raised md-primary" ng-click="issueItems(x,selectedUser,order)">issue</md-button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="reports">
+                <md-content class="md-padding">
+                    <vertical-tabs>
+                        <vertical-tab-pane title="Received items">
+                            <div layout="row">
+                                <md-input-container>
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Choose End Date</label>
+                                    <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-click="inventoryReports(dept)">Search</md-button>
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
+                                <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                    <thead style="background-color:beige">
+                                    <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Item Code</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Batch no</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Cost price</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Supplier</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="order in inventoryReports[0] track by $index">
+                                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.item_code}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.batch}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.cost_price}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.supplier}}</td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </vertical-tab-pane>
+                        <vertical-tab-pane title="Issued items">
+                            <div layout="row">
+                                <md-input-container>
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Choose End Date</label>
+                                    <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-click="inventoryReports(dept)">Search</md-button>
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
+                                <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                    <thead style="background-color:beige">
+                                    <th class="mdl-data-table__cell--non-numeric">SN</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Item Code</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Batch no</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Issued to</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="order in inventoryReports[1] track by $index">
+                                        <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.item_code}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.batch}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{order.department_name}}</td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </vertical-tab-pane>
+                        <!--<vertical-tab-pane title="Stock balance">-->
+                            <!--<div layout="row">-->
+                                <!--<md-input-container>-->
+                                    <!--<label>Choose Start Date</label>-->
+                                    <!--<input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>-->
+                                <!--</md-input-container>-->
+                                <!--<md-input-container>-->
+                                    <!--<label>Choose End Date</label>-->
+                                    <!--<input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>-->
+                                <!--</md-input-container>-->
+                                <!--<md-input-container>-->
+                                    <!--<md-button class="md-raised md-primary" ng-click="inventoryReports(dept)">Search</md-button>-->
+                                <!--</md-input-container>-->
+                            <!--</div>-->
+                            <!--<div layout="row"></div>-->
+                        <!--</vertical-tab-pane>-->
+                    </vertical-tabs>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>

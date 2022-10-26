@@ -1,0 +1,17 @@
+<div ng-if='menu.length < 1'>
+    <button class='btn btn-danger align-center'>You are not authorized to access this Options</button>
+</div>
+<div ng-if='menu.length > 1'>
+    <div style="width:800px;margin:0 auto;">
+        <h3>Add a system role</h3>
+        <md-input-container class="md-block">
+            <input placeholder="role title" ng-model="roles.title" id="roles" md-autofocus
+                autofocus>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <input placeholder="description" ng-model="roles.parent" id="roles">
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="saveRoles(roles)">+ Add role</md-button>
+    </div>
+</div>

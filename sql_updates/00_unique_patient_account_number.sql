@@ -1,0 +1,2 @@
+ALTER TABLE `trackables` CHANGE `patient_id` `patient_id` INT(11) NULL;
+-- alter table tbl_accounts_numbers add unique if not exists `patient_account_number`(account_number, date_attended, facility_id);

@@ -1,0 +1,209 @@
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<style>
+
+
+    label input[type=checkbox]:checked ~ span {
+
+        background: url('public/img/checked.png');
+
+        background-size: 100%;
+    }
+
+</style>
+
+
+<div class="wrapper wrapper-content animated fadeInRight"   >
+    <div class="row">
+
+        <div class="col-md-12 form-box">
+            <div class="">
+                <form>
+                    <md-input-container class="md-block">
+                        <input type="text"  class="md-block "  typeahead-on-select="loadBill(selectedPatient)" ng-model="selectedPatient" ng-model="Patient" placeholder="Type medical record number" uib-typeahead ="patient as patient.first_name+' '+patient.last_name+' '+patient.medical_record_number for patient in showSearch($viewValue) | filter:$viewValue">
+
+
+                    </md-input-container>
+
+
+                </form>
+            </div>
+
+            <p></p>
+            <p></p>
+
+            <fieldset>
+                <div class="form-top">
+                    <div class="form-top-left ">
+
+                        <div ng-if="selectedPatient.patient_id && discounts.length>0">
+
+
+                            <strong> MRN:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.medical_record_number}}  &nbsp;&nbsp;&nbsp; <strong>NAME:</strong> &nbsp;&nbsp;&nbsp;{{selectedPatient.first_name +' '+ selectedPatient.middle_name+' '+ selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;<strong> GENDER:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                            <strong>DOB:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                            <strong>MOB NUMBER:</strong>  &nbsp;&nbsp;&nbsp;{{selectedPatient.mobile_number}}&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <b ng-if="selectedPatient.patient_id && discounts.length<1"> No Transactions For Client: <strong> MRN:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.medical_record_number}}  &nbsp;&nbsp;&nbsp; <strong>NAME:</strong> &nbsp;&nbsp;&nbsp;{{selectedPatient.first_name +' '+ selectedPatient.middle_name+' '+ selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;<strong> GENDER:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+                            <strong>DOB:</strong>&nbsp;&nbsp;&nbsp;{{selectedPatient.dob}}&nbsp;&nbsp;&nbsp;
+                            <strong>MOB NUMBER:</strong>  &nbsp;&nbsp;&nbsp;{{selectedPatient.mobile_number}}&nbsp;&nbsp;&nbsp; </b>
+                        <div class="text-center">
+                            <h6 ng-if="selectedPatient.patient_id == nul" >Please Search a client from Search box above to view a list of item for Discount</h6>
+
+                        </div>
+
+                        <p></p>
+
+
+
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div>
+
+
+
+
+
+                        <hr>
+
+
+                        <table class="table  table-bordered" ng-if="selectedPatient.patient_id && discounts.length>0">
+                            {{reducted | currency:"TZS   "}}
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Pev Discount</th>
+                                <th>Current Discount</th>
+                                <th>Balance To Pay </th>
+                                <th>Create Debt </th>
+
+                            </tr>
+
+                            <tr ng-repeat="discount in discounts">
+                                <td>{{discount.item_name}}</td>
+                                <td>{{discount.quantity}}</td>
+                                <td>{{discount.price | currency:"TZS "}}</td>
+                                <td>{{discount.price * discount.quantity | currency:"TZS "}} </td>
+                                <td>{{discount.discount | currency:"TZS "}} </td>
+
+
+                                <td><input type="number" placeholder="discount" class="form-control"  min="0"  ng-blur="discounting(discount)" ng-model="discount.amount">
+                                    <strong ng-if="discount.amount >  (discount.price * discount.quantity)" class="fa fa-remove " style="color:maroon" role="alert"> Discount Exceeds Price by {{discount.amount - (discount.price * discount.quantity) | currency:"TZS "}}</strong>
+                                    <h4 ng-if="discount.amount && discount.amount <= (discount.price * discount.quantity)" style="color:maroon" role="info">{{discount.amount/(discount.price * discount.quantity) * 100 | number:2}}%</h4>
+                                </td>
+                                <td></td>
+                                <td> <md-button  ng-click="Create_debt(discount)" class="md-primary md-raised">Create Debt</md-button></td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+
+                                <td><u>{{jumla | currency:"TZS "}}</u></td>
+                                <th class=""> <u>{{previusDiscount | currency:"TZS  "}}</u>
+                                    <h4   style="color:maroon" role="info">{{(previusDiscount/jumla)*100 | number:2}}%</h4>
+                                </th> <th class=""> <u>{{TotalDiscount | currency:"TZS   "}}</u>
+                                <h4  style="color:maroon" role="info">{{(TotalDiscount/jumla)*100 | number:2}}%</h4>
+                            </th>
+
+                                <th class="">
+                                    <u ng-if="TotalDiscount <1" >{{jumla - previusDiscount | currency:"TZS " }}</u>
+                                    <h4 ng-if="TotalDiscount < 1"  style="color:maroon" role="info">{{((jumla - previusDiscount)/jumla)*100 | number:2}}%</h4>
+
+                                    <u ng-if="TotalDiscount>0" >{{jumla - TotalDiscount | currency:"TZS " }}</u>
+
+                                    <h4  ng-if="TotalDiscount>0"  style="color:maroon" role="info">{{(jumla - TotalDiscount)/jumla *100 | number:2}}%</h4>
+                                </th>
+                                <th colspan="2"></th>
+
+
+
+                            <tr>
+
+                                <th colspan="8" class="text-center" ng-if="TotalDiscount && jumla - TotalDiscount >=0 "><md-button class="md-raised md-primary" ng-click="CommitDiscount()"> Commit Discount</md-button></th>
+
+
+                            </tr>
+
+                            </tr>
+
+
+                        </table>
+
+
+                    </div>
+            </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </div>

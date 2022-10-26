@@ -1,0 +1,155 @@
+<md-dialog >
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div layout="row"  layout-align="space-between center">
+				<h2 class="md-display-1">EMERGENCY PATIENT REGISTRATION&nbsp; &nbsp;&nbsp;</h2>
+				<span class="md-subhead">&nbsp;&nbsp;&nbsp;&nbsp;(TRAUMA REGISTRATION)</span>
+			</div>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+                <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                          <label>Patient Names (Surname, First)</label>
+                          <input type="text" ng-model="patient.names" required>
+                        </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Gender</label>
+                            <md-select ng-model="patient.gender" required>
+                              <md-option value="">...</md-option>
+                              <md-option value="Male">Male</md-option>
+                              <md-option value="Female">Female</md-option>
+                            </md-select>
+                          </md-input-container>
+				</div>
+                <div layout-gt-sm="row">
+                        <md-input-container class='md-block' flex-gt-sm>
+                    <label>Date of birth</label>
+                    <md-datepicker md-hide-icons="calendar" md-open-on-focus ng-model="patient.dob" ng-Blur="exemption_calculateAge(patient,'date')"></md-datepicker>
+                </md-input-container>
+                <md-input-container flex-gt-sm class="md-block">
+                    <label>Age</label>
+                    <input type="number" min='0' ng-model="patient.age" ng-Blur="exemption_calculateAge(patient,'age')">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Unit</label>
+                    <md-select ng-model="patient.age_unit" ng-Blur="exemption_calculateAge(patient,'unit')">
+                        <md-option value="Years" selected="selected">Year(s)</md-option>
+                        <md-option value="Months">Month(s)</md-option>
+                        <md-option value="Days">Day(s)</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Age Group</label>
+                            <md-select ng-model="patient.estimated_age_group">
+                              <md-option value="">--</md-option>
+                              <md-option value="INF" ng-if="patient.gender !='Male'">INFANT</md-option>
+                              <md-option value="CHILD">CHILD</md-option>
+                              <md-option value="ADULT">ADULT</md-option>
+                            </md-select>
+                          </md-input-container>
+				</div>
+                <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                          <label>Residence</label>
+                          <input type="text" ng-model="patient.residence" >
+                        </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Incident Location</label>
+                            <input type="text" ng-model="patient.incident_location" required>
+						</md-input-container>
+				</div>
+            <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                          <label>Arrival Mode</label>
+                            <md-select ng-model="patient.arrival_mode" required="">
+                                <md-option ng-repeat="arrival_mode in arrival_modes" value="{{arrival_mode.id}}">
+                                    {{arrival_mode.mode}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm >
+                            <label>Arrival Date</label>
+                              <md-datepicker md-max-date="today_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus ng-model="patient.arrival_date" required></md-datepicker>
+
+                          </md-input-container>
+            </div>
+                <hr>
+
+<div  >
+
+    <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Marital Status</label>
+                    <md-select ng-model="patient.marital_status">
+                        <md-option value="">--</md-option>
+                        <md-option value="Single">Single</md-option>
+                        <md-option value="Married">Married</md-option>
+                        <md-option value="Divorced">Divorced</md-option>
+                        <md-option value="Widowed">Widowed</md-option>
+                        <md-option value="Unknown">Unknown</md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Occupation of the patient</label>
+                    <md-select ng-model="patient.occupation_of_patient">
+                        <md-option value="">--</md-option>
+                        <md-option value="Public/Private Sector">Public/Private Sector</md-option>
+                        <md-option value="Unemployed">Unemployed</md-option>
+                        <md-option value="Petty Trader">Petty Trader</md-option>
+                        <md-option value="Student">Student</md-option>
+                        <md-option value="Other">Other</md-option>
+                        <md-option value="Unknown">Unknown</md-option>
+                    </md-select>
+                </md-input-container>
+    </div>
+    <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Level Of Education</label>
+                    <md-select ng-model="patient.level_of_education">
+                        <md-option value="">--</md-option>
+                        <md-option value="No Formal education">No Formal education</md-option>
+                        <md-option value="Primary School">Primary School</md-option>
+                        <md-option value="Secondary School">Secondary School</md-option>
+                        <md-option value="College/University">College/University</md-option>
+                        <md-option value="Unknown">Unknown</md-option>
+                    </md-select>
+                </md-input-container>
+
+    </div>
+
+            </div>
+            <hr>
+            <md-checkbox ng-model="patient.contactperson">Contact Person(<i>next of kin</i>)</md-checkbox>
+            <div layout-gt-sm="row" ng-if="patient.contactperson">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Contact person Names </label>
+                    <input type="text" ng-model="patient.next_kin_name" required>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Contact person Phone </label>
+                    <input type="text" ng-model="patient.next_kin_phone">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Contact person Relation </label>
+                    <input type="text" ng-model="patient.next_kin_relation" required>
+                </md-input-container>
+
+            </div>
+            <hr>
+
+            <section layout="row" layout-sm="column"  class="pull-right" layout-wrap>
+
+					<md-button class="md-raised md-primary" ng-click="addClient(patient)">REGISTER</md-button>
+				</section>
+            </div>
+            </md-dialog-content>
+            </md-dialog>

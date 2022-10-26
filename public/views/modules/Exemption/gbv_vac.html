@@ -1,0 +1,628 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog   flex="80" class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+          REGISTA  YA UKATILI WA KIJINSIA
+            NA UKATILI DHINI YA WATOTO
+            <hr>
+            &nbsp;&nbsp;  Name: {{patientIfor.first_name }} {{patientIfor.middle_name }}&nbsp;{{patientIfor.last_name }}&nbsp;&nbsp; Gender: {{patientIfor.gender}}&nbsp;&nbsp; D.O.B: {{patientIfor.dob}}&nbsp;&nbsp; Residence: {{patientIfor.residence_name}}
+
+            <span flex></span>
+
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content >
+        <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="GBV/VAC Previous History"  ng-if="socialHistories.length>0" ng-click="SocialWelfareDataHistorory()">
+
+            <div style="overflow-x:scroll;" >
+            <table  border="1">
+                <tr>
+                    <th  rowspan="2">Event Date</th>
+                    <th rowspan="2" >Ufuatiliaji(Folloup Visit)</th>
+                    <th rowspan="2" >Hatarishi(Vulnerable)</th>
+
+                    <th rowspan="2">Maswali ya utambuzi(Screening)</th>
+                    <th colspan="4" >Aina ya Ukatili(Violence)</th>
+                    <th rowspan="2">Amefika kituoni ndani nya masaa 72 baada ya tukio</th>
+                    <th  colspan="7" >Huduma za kimatibabu baada ya tukio</th>
+                    <th colspan="3">Majibu baada ya kufanyiwa Vipimo</th>
+                    <th colspan="3"  >Huduma Nyinginezo</th>
+                    <th  rowspan="2">Amepata ulemavu wa kudumu</th>
+                    <th colspan="3"  >Rufaa</th>
+                    <th rowspan="2"  >DateRecorded</th>
+                </tr>
+                <tr>
+                    <th title="Physical Violence">PV</th>
+                    <th title="Sexual Violence">SV</th>
+                    <th title="Emotional Violence">EV</th>
+                    <th title="Neglect">NG</th>
+
+                    <th title="Foreinsic Investigation">FI</th>
+                    <th title="Injuries Management">IM</th>
+                    <th title="Counselling">C</th>
+                    <th title="Post Exposure Prophylaxis">PEP</th>
+                    <th title="Sexual Transmitted Infections">STI</th>
+                    <th title="Emrgency Contraceptive">EC</th>
+                    <th title="Family Planning">FP</th>
+
+                    <th>PT</th>
+                    <th>HIV</th>
+                    <th>STI</th>
+
+
+
+                    <th title="Police">P</th>
+                    <th title="Legal Aid">LA</th>
+                    <th title="Social Welfare Services">SWS</th>
+
+                    <th>Kutoka Nje</th>
+                    <th>Ndani</th>
+                    <th>Kwenda Nje</th>
+                </tr>
+                <tr ng-repeat="social in socialHistories">
+                    <th> {{social.event_date}}  </th>
+                    <th> {{social.followup}}  </th>
+                    <th>  {{social.vulnerable}}  </th>
+
+                    <th> <b ng-if="social.screening"> YES</b>  </th>
+
+                    <th>  {{social.pv_violence}} </th>
+ <th>  {{social.sv_violence}} </th>
+ <th>  {{social.ev_violence}} </th>
+ <th>  {{social.ng_violence}} </th>
+
+
+                    <th>  {{social.within_72_hrs}}   </th>
+
+                    <th> {{social.fi_service}}  </th>
+                    <th> {{social.im_service}}  </th>
+                    <th> {{social.c_service}}  </th>
+                    <th> {{social.pep_service}}  </th>
+                    <th> {{social.sti_service}}  </th>
+                    <th> {{social.ec_service}}  </th>
+                    <th> {{social.fp_service}}  </th>
+
+
+                    <th>
+                        {{social.pt_result}}
+                    </th>
+                    <th>
+                        {{social.hiv_result}}
+                         </th>
+                    <th>
+                        {{social.sti_result}}
+                         </th>
+                    <th>
+                        {{social.p_service}}
+                    </th> <th>
+                        {{social.la_service}}
+                    </th> <th>
+                        {{social.sws_service}}
+                    </th>
+
+                    <th>{{social.disability}}   </th>
+                    <th>
+
+                        {{social.incoming_referral}}
+                        <p></p>
+                        <i style="background-color: greenyellow">  {{social.incoming_from}}</i>
+                    </th>
+                    <th>
+
+                        {{social.internal_referral}}
+                        <p></p>
+                        <i style="background-color: greenyellow">  {{social.dept_name}}</i>
+                    </th>
+                    <th>
+
+                        {{social.outgoing_referral}}
+                        <p></p>
+                        <i style="background-color: greenyellow">  {{social.referred_to}}</i>
+                    </th>
+<th>{{social.created_at}}</th>
+
+
+                </tr>
+
+            </table>
+            </div>
+        </md-tab>
+        <md-tab label="GBV/VAC PANEL">
+            <b  ng-if="!patientIfor.patient_id" style="background-color: red;font-family: 'Lucida Calligraphy';font-size: larger"> NO Patient Information Found..</b>
+
+            <div style="overflow-x:scroll;" >
+            <table border="1" ng-if="patientIfor.patient_id">
+                <tr>
+                    <th  rowspan="2">Event Date</th>
+                    <th rowspan="2" >Ufuatiliaji(Folloup Visit)</th>
+                    <th rowspan="2" >Hatarishi(Vulnerable)</th>
+
+                    <th rowspan="2">Maswali ya utambuzi(Screening)</th>
+                    <th colspan="4" >Aina ya Ukatili(Violence)</th>
+                    <th rowspan="2">Amefika kituoni ndani nya masaa 72 baada ya tukio</th>
+                    <th  colspan="7" >Huduma za kimatibabu baada ya tukio</th>
+                    <th colspan="3">Majibu baada ya kufanyiwa Vipimo</th>
+                    <th colspan="3"  >Huduma Nyinginezo</th>
+                    <th  rowspan="2">Amepata ulemavu wa kudumu</th>
+                    <th colspan="3"  >Rufaa</th>
+                </tr>
+                <tr>
+                    <th title="Physical Violence">PV</th>
+                    <th title="Sexual Violence">SV</th>
+                    <th title="Emotional Violence">EV</th>
+                    <th title="Neglect">NG</th>
+
+                    <th title="Foreinsic Investigation">FI</th>
+                    <th title="Injuries Management">IM</th>
+                    <th title="Counselling">C</th>
+                    <th title="Post Exposure Prophylaxis">PEP</th>
+                    <th title="Sexual Transmitted Infections">STI</th>
+                    <th title="Emrgency Contraceptive">EC</th>
+                    <th title="Family Planning">FP</th>
+
+                    <th>PT</th>
+                    <th>HIV</th>
+                    <th>STI</th>
+
+
+
+                    <th title="Police">P</th>
+                    <th title="Legal Aid">LA</th>
+                    <th title="Social Welfare Services">SWS</th>
+
+                    <th>Kutoka Nje</th>
+                    <th>Ndani</th>
+                    <th>Kwenda Nje</th>
+                </tr>
+                <tr>
+                    <th> <md-input-container class="md-block" flex-gt-sm>
+                        <label>Tarehe ya Tukio</label>
+                        <md-datepicker ng-model="record.event_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                       ></md-datepicker>
+                    </md-input-container></th>
+                    <th>  <md-radio-group layout="column" ng-model="record.followup">
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                    </md-radio-group>  </th>
+                    <th> <md-radio-group layout="column" ng-model="record.vulnerable">
+                        <md-radio-button value="YATIMA" class="md-primary">Yatima</md-radio-button>
+                        <md-radio-button value="MTAANI" class="md-primary">Mtaani </md-radio-button>
+                        <md-radio-button value="YATIMA_MTAANI" class="md-primary">Yatima /Mtaani </md-radio-button>
+                    </md-radio-group>   </th>
+
+                    <th>  <md-radio-group layout="column" ng-model="record.screening">
+                        <md-radio-button value="PARENT" class="md-primary">ON BEHALF</md-radio-button>
+                        <md-radio-button value="YES" class="md-primary">Child/Victim </md-radio-button>
+
+                    </md-radio-group>  </th>
+
+
+                    <th>   <md-radio-group layout="column" ng-model="record.sv_violence">
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                    </md-radio-group> </th>
+                    <th>   <md-radio-group layout="column" ng-model="record.ev_violence">
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                    </md-radio-group> </th>
+                    <th>   <md-radio-group layout="column" ng-model="record.ng_violence">
+                    <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                    <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                </md-radio-group> </th>
+
+                    <th>   <md-radio-group layout="column" ng-model="record.pv_violence">
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                    </md-radio-group> </th>
+
+                    <th>   <md-radio-group layout="column" ng-model="record.within_72_hrs">
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                        <md-radio-button value="UNKNOWN" class="md-primary">UNKNOWN </md-radio-button>
+
+                    </md-radio-group> </th>
+
+
+
+                   <th> <md-radio-group layout="column" ng-model="record.fi_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                    <th> <md-radio-group layout="column" ng-model="record.im_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                    <th> <md-radio-group layout="column" ng-model="record.c_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="PARENT" class="md-primary">ON BEHALF </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                    <th> <md-radio-group layout="column" ng-model="record.pep_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                   <th> <md-radio-group layout="column" ng-model="record.sti_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                  <th> <md-radio-group layout="column" ng-model="record.ec_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                    <th> <md-radio-group layout="column" ng-model="record.fp_service">
+                       <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                       <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                   </md-radio-group></th>
+                    <th>
+                        <md-radio-group layout="column" ng-model="record.pt_result">
+                            <md-radio-button value="POSITIVE" class="md-primary">Positive</md-radio-button>
+                            <md-radio-button value="NEGATIVE" class="md-primary">Negative </md-radio-button>
+                            <md-radio-button value="UNKNOWN" class="md-primary">Unknown </md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th>
+                        <md-radio-group layout="column" ng-model="record.hiv_result">
+                            <md-radio-button value="POSITIVE" class="md-primary">Positive</md-radio-button>
+                            <md-radio-button value="NEGATIVE" class="md-primary">Negative </md-radio-button>
+                            <md-radio-button value="UNKNOWN" class="md-primary">Unknown </md-radio-button>
+                        </md-radio-group></th>
+                    <th>
+                        <md-radio-group layout="column" ng-model="record.sti_result">
+                            <md-radio-button value="POSITIVE" class="md-primary">Positive</md-radio-button>
+                            <md-radio-button value="NEGATIVE" class="md-primary">Negative </md-radio-button>
+                            <md-radio-button value="UNKNOWN" class="md-primary">Unknown </md-radio-button>
+                        </md-radio-group></th>
+
+                    <th>  <md-radio-group layout="column" ng-model="record.p_service">
+                        <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                    </md-radio-group>
+                    </th>
+                    <th>  <md-radio-group layout="column" ng-model="record.la_service">
+                        <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                    </md-radio-group>
+                    </th>
+                    <th>  <md-radio-group layout="column" ng-model="record.sws_service">
+                        <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                    </md-radio-group>
+                    </th>
+
+                    <th>  <md-radio-group layout="column" ng-model="record.disability">
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                    </md-radio-group></th>
+                    <th>  <md-radio-group layout="column" ng-model="record.incoming_referral">
+                        <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                    </md-radio-group>
+                        <p></p>
+                        <md-input-container class="md-block   col-md-12 col-sm-4" >
+                            <textarea  ng-model="record.incoming_from" placeholder="Ingiza Kituo anachotoka"  title="Ingiza Kituo anachotoka">
+
+                </textarea>
+                    </th>
+                    <th>  <md-radio-group layout="column" ng-model="record.internal_referral">
+                        <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                    </md-radio-group>
+                        <p></p>
+                        <md-input-container class="md-block   col-md-12 col-sm-4" >
+                            <textarea  ng-model="record.dept_name" placeholder="Ingiza idara anakokwenda "  title="Ingiza idara aliyo au alizokwenda ">
+
+                </textarea>
+                    </th>
+                    <th>  <md-radio-group layout="column" ng-model="record.outgoing_referral">
+                        <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                        <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                    </md-radio-group>
+                        <p></p>
+                        <md-input-container class="md-block   col-md-12 col-sm-4" >
+                            <textarea  ng-model="record.referred_to" placeholder="Ingiza Kituo anakokwenda"  title="Ingiza Kituo anakokwenda ">
+
+                </textarea>
+                    </th>
+
+
+
+                </tr>
+                <tr>
+                    <th colspan="27">
+                        <md-button class="md-raised md-primary col-md-12"   ng-click="SocialWelfareData(record,patientIfor)">Save</md-button>
+
+                    </th>
+                </tr>
+            </table>
+            </div>
+        </md-tab>
+            <md-tab label="GBV/VAC Update Record"  ng-if="socialHistories.length>0" ng-click="SocialWelfareDataHistorory()">
+
+                <div style="overflow-x:scroll;" >
+                    <table  border="1">
+                        <tr>
+                            <th  rowspan="2">Event Date</th>
+                            <th rowspan="2" >Ufuatiliaji(Folloup Visit)</th>
+                            <th rowspan="2" >Hatarishi(Vulnerable)</th>
+                            <th rowspan="2">Maswali ya utambuzi(Screening)</th>
+                            <th colspan="4" >Aina ya Ukatili(Violence)</th>
+                            <th rowspan="2">Amefika kituoni ndani nya masaa 72 baada ya tukio</th>
+                            <th  colspan="7">Huduma za kimatibabu baada ya tukio</th>
+                            <th colspan="3">Majibu baada ya kufanyiwa Vipimo</th>
+                            <th colspan="3"  >Huduma Nyinginezo</th>
+                            <th  rowspan="2">Amepata ulemavu wa kudumu</th>
+                            <th colspan="3"  >Rufaa</th>
+                            <th  rowspan="2" > Save or Cancel Changes</th>
+                        </tr>
+                        <tr>
+                            <th title="Physical Violence">PV</th>
+                            <th title="Sexual Violence">SV</th>
+                            <th title="Emotional Violence">EV</th>
+                            <th title="Neglect">NG</th>
+
+                            <th title="Foreinsic Investigation">FI</th>
+                            <th title="Injuries Management">IM</th>
+                            <th title="Counselling">C</th>
+                            <th title="Post Exposure Prophylaxis">PEP</th>
+                            <th title="Sexual Transmitted Infections">STI</th>
+                            <th title="Emrgency Contraceptive">EC</th>
+                            <th title="Family Planning">FP</th>
+
+                            <th>PT</th>
+                            <th>HIV</th>
+                            <th>STI</th>
+
+
+
+                            <th title="Police">P</th>
+                            <th title="Legal Aid">LA</th>
+                            <th title="Social Welfare Services">SWS</th>
+
+                            <th>Kutoka Nje</th>
+                            <th>Ndani</th>
+                            <th>Kwenda Nje</th>
+                        </tr>
+                        <tr ng-repeat="social in socialHistories">
+                            <th ng-if="!social.event_date"> <md-input-container class="md-block" flex-gt-sm>
+                                <label>Tarehe ya Tukio</label>
+                                <md-datepicker ng-model="social.event_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                ></md-datepicker>
+                            </md-input-container></th>
+                            <th ng-if="social.event_date"> {{social.event_date}}  </th>
+                            <th  ng-if="!social.followup">  <md-radio-group layout="column" ng-model="social.followup">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group>  </th>
+                            <th ng-if="social.followup"> {{social.followup}}  </th>
+                            <th ng-if="!social.vulnerable"> <md-radio-group layout="column" ng-model="social.vulnerable">
+                                <md-radio-button value="YATIMA" class="md-primary">Yatima</md-radio-button>
+                                <md-radio-button value="MTAANI" class="md-primary">Mtaani </md-radio-button>
+                                <md-radio-button value="YATIMA_MTAANI" class="md-primary">Yatima /Mtaani </md-radio-button>
+                            </md-radio-group>   </th>
+                            <th ng-if="social.vulnerable">  {{social.vulnerable}}  </th>
+                            <th ng-if="!social.screening">  <md-radio-group layout="column" ng-model="social.screening">
+                                <md-radio-button value="PARENT" class="md-primary">Parent On behalf of Child/Victim</md-radio-button>
+                                <md-radio-button value="YES" class="md-primary">Child/Victim </md-radio-button>
+
+                            </md-radio-group>  </th>
+
+                            <th ng-if="social.screening"> <b ng-if="social.screening"> YES</b>  </th>
+                            <th ng-if="!social.pv_violence">  <md-radio-group layout="column" ng-model="social.pv_violence">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.pv_violence">  {{social.pv_violence}} </th>
+                            <th ng-if="!social.sv_violence">  <md-radio-group layout="column" ng-model="social.sv_violence">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.sv_violence">  {{social.sv_violence}} </th>
+                            <th ng-if="!social.ev_violence">  <md-radio-group layout="column" ng-model="social.ev_violence">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.ev_violence">  {{social.ev_violence}} </th>
+                            <th ng-if="!social.ng_violence">  <md-radio-group layout="column" ng-model="social.ng_violence">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.ng_violence">  {{social.ng_violence}} </th>
+                            <th ng-if="!social.within_72_hrs">   <md-radio-group layout="column" ng-model="social.within_72_hrs">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+                                <md-radio-button value="UNKNOWN" class="md-primary">UNKNOWN </md-radio-button>
+
+                            </md-radio-group> </th>
+
+                            <th ng-if="social.within_72_hrs">  {{social.within_72_hrs}}   </th>
+
+                            <th ng-if="!social.fi_service">  <md-radio-group layout="column" ng-model="social.fi_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.fi_service">  {{social.fi_service}} </th>
+                            <th ng-if="!social.im_service">  <md-radio-group layout="column" ng-model="social.im_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.im_service">  {{social.im_service}} </th>
+                            <th ng-if="!social.c_service">  <md-radio-group layout="column" ng-model="social.c_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="PARENT" class="md-primary">ON BEHALF</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.c_service">  {{social.c_service}} </th>
+
+                            <th ng-if="!social.pep_service">  <md-radio-group layout="column" ng-model="social.pep_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.pep_service">  {{social.pep_service}} </th>
+
+                            <th ng-if="!social.sti_service">  <md-radio-group layout="column" ng-model="social.sti_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.sti_service">  {{social.sti_service}} </th>
+                            <th ng-if="!social.ec_service">  <md-radio-group layout="column" ng-model="social.ec_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.ec_service">  {{social.ec_service}} </th>
+
+                            <th ng-if="!social.fp_service">  <md-radio-group layout="column" ng-model="social.fp_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.fp_service">  {{social.fp_service}} </th>
+                            <th ng-if="!social.pt_result">
+                                <md-radio-group layout="column" ng-model="social.pt_result">
+                                    <md-radio-button value="POSITIVE" class="md-primary">Positive</md-radio-button>
+                                    <md-radio-button value="NEGATIVE" class="md-primary">Negative </md-radio-button>
+                                    <md-radio-button value="UNKNOWN" class="md-primary">Unknown </md-radio-button>
+
+                                </md-radio-group>
+                            </th>
+                            <th ng-if="social.pt_result">   {{social.pt_result}} </th>
+                            <th ng-if="!social.hiv_result">
+                                <md-radio-group layout="column" ng-model="social.hiv_result">
+                                    <md-radio-button value="POSITIVE" class="md-primary">Positive</md-radio-button>
+                                    <md-radio-button value="NEGATIVE" class="md-primary">Negative </md-radio-button>
+                                    <md-radio-button value="UNKNOWN" class="md-primary">Unknown </md-radio-button>
+
+                                </md-radio-group>
+                            </th>
+                            <th ng-if="social.hiv_result">
+                                {{social.hiv_result}}
+                            </th>
+                            <th ng-if="!social.sti_result">
+                                <md-radio-group layout="column" ng-model="social.sti_result">
+                                    <md-radio-button value="POSITIVE" class="md-primary">Positive</md-radio-button>
+                                    <md-radio-button value="NEGATIVE" class="md-primary">Negative </md-radio-button>
+                                    <md-radio-button value="UNKNOWN" class="md-primary">Unknown </md-radio-button>
+
+                                </md-radio-group>
+                            </th>
+                            <th ng-if="social.sti_result">
+                                {{social.sti_result}}
+                            </th>
+                            <th ng-if="!social.p_service">  <md-radio-group layout="column" ng-model="social.p_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.p_service">  {{social.p_service}} </th>
+        <th ng-if="!social.la_service">  <md-radio-group layout="column" ng-model="social.la_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.la_service">  {{social.la_service}} </th>
+                            <th ng-if="!social.sws_service">  <md-radio-group layout="column" ng-model="social.sws_service">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+                            </md-radio-group></th>
+                            <th ng-if="social.sws_service">  {{social.sws_service}} </th>
+
+                            <th ng-if="!social.disability">  <md-radio-group layout="column" ng-model="social.disability">
+                                <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                            </md-radio-group></th>
+                            <th ng-if="social.disability">{{social.disability}}   </th>
+                            <th>  <md-radio-group ng-if="!social.incoming_referral" layout="column" ng-model="social.incoming_referral">
+                                <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                            </md-radio-group>
+                                {{social.incoming_referral}}
+                                <p></p>
+                                <md-input-container class="md-block   col-md-12 col-sm-4" >
+                            <textarea  ng-model="social.incoming_from" placeholder="Ingiza Kituo anachotoka"  title="Ingiza Kituo anachotoka">
+
+                </textarea>
+                            </th>
+                            <th>  <md-radio-group ng-if="!social.internal_referral" layout="column" ng-model="social.internal_referral">
+                                <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                            </md-radio-group>
+                                {{social.internal_referral}}
+                                <p></p>
+                                <md-input-container class="md-block   col-md-12 col-sm-4" >
+                            <textarea  ng-model="social.dept_name" placeholder="Ingiza idara anakokwenda "  title="Ingiza idara aliyo au alizokwenda ">
+
+                </textarea>
+                            </th>
+                            <th>  <md-radio-group ng-if="!social.outgoing_referral" layout="column" ng-model="social.outgoing_referral">
+                                <md-radio-button value="YES" class="md-primary">YES </md-radio-button>
+                                <md-radio-button value="NO" class="md-primary">NO </md-radio-button>
+
+
+                            </md-radio-group>
+                                {{social.outgoing_referral}}
+                                <p></p>
+                                <md-input-container class="md-block   col-md-12 col-sm-4" >
+                            <textarea  ng-model="social.referred_to" placeholder="Ingiza Kituo anakokwenda"  title="Ingiza Kituo anakokwenda ">
+
+                </textarea>
+                            </th>
+
+
+
+                            <th>
+                                <button ng-click="UpdateSocialWelfareData(social)">Save </button> ||
+                                <button ng-click=" SocialWelfareDataHistorory()">Cancel</button>
+                            </th>
+
+
+                        </tr>
+
+                    </table>
+                </div>
+            </md-tab>
+
+        </md-tabs>
+    </md-dialog-content>
+</md-dialog>

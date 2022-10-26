@@ -1,0 +1,42 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="radiologyDepartmentController">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form  role="form" class="payments-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h4><span class="">
+                                <b ng-if="deviceSetting.on_off==1"><img alt="image" class="" src="public/img/tick.png" width="28px" height="28px" /></b>
+                                <b ng-if="deviceSetting.on_off==0"><img alt="image" class="" src="public/img/cancel.png" width="28px" height="28px" /></b>
+
+                            </span> {{deviceSetting.equipment_name | uppercase}} </span> </h4>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                               {{deviceSetting.status_name | uppercase}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Status *</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="equipment.status_name" placeholder="Search Status"
+                                       uib-typeahead ="equipment as equipment.status_name
+                    for equipment in equipments | limitTo:8 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+                            </div>
+
+                        </div>
+                        <button ng-if="equipment.status_name"  type="submit" class="btn btn-success" ng-click="equipmentOnOff(equipment,deviceSetting.equipment_id)">UPDATE</button>
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

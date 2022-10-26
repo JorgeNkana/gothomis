@@ -1,0 +1,65 @@
+<div ng-cloak="">
+    <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="item requests" ng-click="refreshItems()">
+            <md-content class="md-padding">
+                <div layout="row">
+                    <div flex="30">
+                        <md-input-container class="md-block">
+                            <input type="text" placeholder="Search departments here"
+                                   uib-typeahead="dept as dept.department_name for dept in departments |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedDepartment"
+                                   typeahead-on-select="" autocomplete="off">
+                        </md-input-container>
+                    </div>
+                    <div flex="5"></div>
+                    <div flex="30">
+                        <md-input-container class="md-block">
+                            <input type="text" placeholder="Search items here" id="item"
+                                   uib-typeahead="item as item.item_name for item in items |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedItem"
+                                   typeahead-on-select="" autocomplete="off">
+                        </md-input-container>
+                    </div>
+                    <div flex="5"></div>
+                    <div flex="10">
+                        <md-input-container class="md-block">
+                            <input type="number" min="1"  id="qty" placeholder="Quantity requesting..." ng-model="x.quantity" required>
+                        </md-input-container>
+                    </div>
+                    <div flex="5"></div>
+                    <div flex="10">
+                        <md-button class="md-raised md-primary" ng-click="addItems(selectedDepartment,selectedItem,x)">add to wish list</md-button>
+                    </div>
+                </div>
+                <div layout="row" ng-if="selectedOrders.length>0">
+                    <table   class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                        <thead style="background-color:beige">
+                        <th class="mdl-data-table__cell--non-numeric">SN</th>
+                        <th class="mdl-data-table__cell--non-numeric">Item Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Quantity</th>
+                        <th class="mdl-data-table__cell--non-numeric">Department</th>
+                        <th class="mdl-data-table__cell--non-numeric">Action</th>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="order in selectedOrders track by $index">
+                            <td class="mdl-data-table__cell--non-numeric">{{$index+1}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{order.item_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{order.quantity}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{order.department_name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric"><span
+                                    ng-click="removeFromSelection(order,selectedOrders)"
+                                    style="cursor: pointer;">Remove</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div layout="row" ng-if="selectedOrders.length>0">
+                    <div flex="90"></div>
+                    <div flex="10">
+                        <md-button class="md-raised md-primary pull-right" ng-click="saveRequest(selectedOrders)">save requests</md-button>
+                    </div>
+                </div>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+</div>

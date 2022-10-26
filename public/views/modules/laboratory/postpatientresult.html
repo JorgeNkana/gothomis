@@ -1,0 +1,90 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12">
+<form  role="form">
+<fieldset>
+
+<div class="form-top">
+<div class="form-top-left">
+<h3><span></span>SEND PATIENT LABORATORY RESULTS</h3>
+
+</div>
+
+</div>
+<div class="form-bottom">
+<table class="table table-bordered">
+<h2><b><p align="center" class="text-navy">POST PATIENT LABORATORY RESULTS</p></b></h2> 
+ 
+<tr> 
+<td class="text-navy">PATIENT NAME:</td> 
+<td class="text-navy">GENDER:</td>
+<td class="text-navy">DOB:</td> 
+<td class="text-navy">MRN:</td>
+<td class="text-navy">SAMPLE NO:</td>
+</tr>
+<tr>
+<td>{{loadpostresultform.patientorder[0].first_name}}&nbsp;
+{{loadpostresultform.patientorder[0].middle_name}}&nbsp;
+{{loadpostresultform.patientorder[0].last_name}}
+</td>
+<td>{{loadpostresultform.patientorder[0].gender}}</td>
+<td>{{loadpostresultform.patientorder[0].dob}}</td> 
+
+<td>{{loadpostresultform.patientorder[0].medical_record_number}}</td>
+<td>{{loadpostresultform.patientorder[0].sample_no}}</td> 
+</tr>
+
+</table>
+
+<table class="table table-bordered" width="400">  
+<tr> 
+<td class="text-navy">ORDER ID:</td> 
+<td class="text-navy">INVESTIGATION:</td> 
+<td class="text-navy">SAMPLE:</td>
+<td class="text-navy">NORMAL:</td>
+<td class="text-navy">VALUE:</td>
+<td class="text-navy">UNIT:</td> 
+<td class="text-navy">SELECT RESULT'S TYPE:</td>
+<td class="text-navy">RESULT:</td>
+
+</tr>
+<tr>
+<td>{{loadpostresultform.patientorder[0].laborderid}}</td>
+<td>{{loadpostresultform.patientorder[0].item_name}}</td>
+<td>{{loadpostresultform.patientorder[0].sample_to_collect}}</td>
+<td>{{loadpostresultform.patientorder[0].item_indicator}}</td> 
+<td>{{loadpostresultform.patientorder[0].item_range}}</td>
+<td>{{loadpostresultform.patientorder[0].unit}}</td> 
+<td>
+<select class="btn-sm" ng-model="rs">
+<option value="" selected disabled><b>RESULT TYPE</b></option>
+<option ng-value="1">quantitative</option>
+<option ng-value="2">qualitative</option>
+<option ng-value="3">other</option>
+</select>
+</td> 
+<td align="center">
+<input ng-model="loadpostresultform.results" ng-if="rs==1" type="text" data-toggle="tooltip" class="form-control" placeholder="Enter Patient Lab Sample Results">
+<select class="btn-sm" ng-model="loadpostresultform.results" ng-if="rs==2">
+<option value="" selected disabled><b>SELECT RESULT</b></option>
+<option>POSITIVE</option>
+<option>NEGATIVE</option>
+</select>
+</td> 
+</tr>
+<tr>
+<th class="text-navy" colspan="2">UPLOAD ATTACHEMENT:</th>
+<td colspan="6">
+<input type="file" name="fileupload" value="fileupload" id="fileupload"> <label for="fileupload"></label>
+</td>
+</tr>
+</table>
+<button type="submit" class="btn btn-success pull-right" ng-Click="send_lab_result(loadpostresultform)">
+<span fa fa-upload></span>Send Lab Results
+</button>
+<br>
+
+</div>
+</div>
+</div>
+</div>

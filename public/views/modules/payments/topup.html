@@ -1,0 +1,213 @@
+<head>
+	 <style>
+		tr.paid td{
+			font-weight:bold;
+			font-size:18px;
+			background-color:#efeae8;
+		}
+		
+		tr.waiting td{
+			font-size:18px;
+			font-color:#fdffaa;
+			background-color:#fcd202;
+		}
+		
+		tr.waiting_cntr td{
+			font-size:18px;
+			background-color:#c9c1bd;
+		}
+	</style>
+</head>
+<md-input-container class="md-block">
+<input data-toggle="tooltip" title="Click here to search patients" type="text" placeholder="Click here to search patients" typeahead-on-select="LoadCHFTOPUPDETAILS(selectedPatient)"
+       uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showSearch($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+        autocomplete="off">
+</md-input-container>
+<md-content class="md-padding">
+    <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm="20">
+            <input type="text" id="item" placeholder="Enter CHF TOP UP Amount" ng-model="chf.amount" ng-keyup="getQuantity(chf.amount)" onkeyup="money(this, event)">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="30" ng-if="chf.amount">
+            <label >Choose Department</label>
+            <md-select ng-model="chf.dept_id" class="md-block" id="dept_id">
+                <md-option ng-value="department.id" ng-repeat="department in departments">{{department.department_name}}</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="30" ng-if="chf.amount">
+            <label >Choose Transaction Mode</label>
+            <md-select  ng-model="chf.billmode" class="md-block" >
+                <md-option value="2" title="Processing bill and printing receipt">Processing Bill</md-option>
+                <md-option value="1" title="creating a bill to be paid at Bills payment Module">Creating Bill</md-option> </md-select>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="10" ng-if="chf.amount">
+            <input type="number" id="qty" ng-model="chf.quantity" placeholder="Quantity" min="0" disabled>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm="10" ng-if="chf.amount">
+            <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="addItem(selectedPatient,chf)">Add</button>
+        </md-input-container>
+    </div>
+    <div layout="row" layout-sm="column" layout-xs="column">
+        <md-card flex-gt-sm="80" ng-if="itemData.length>0">
+            <md-card-content>
+				 
+                <table class="mdl-data-table mdl-js-data-table" width="100%" >
+                    <thead>
+					<tr>
+                        <th class="text-center" colspan="5"><h5>{{"Names : "+selectedPatient.first_name+' '+selectedPatient.middle_name+' '+selectedPatient.last_name}}&nbsp;&nbsp;
+					{{"Mrn : "+selectedPatient.medical_record_number}}&nbsp;&nbsp; {{"DoB : "+selectedPatient.dob}}&nbsp;&nbsp; {{"Gender : "+selectedPatient.gender}}
+						</h5></th>
+					</tr>
+                    </thead>
+					<thead>
+					<tr>
+                        <th class="text-left"><strong>Item Name</strong></th>
+                        <th class="text-center"><strong>Imaginary Unit Price</strong></th>
+                        <th class="text-center"><strong>Quantity</strong></th>
+                        <th class="text-right"><strong>Sub Total</strong></th>
+                        <th class="text-right"><strong>Action</strong></th>
+					</tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in itemData">
+                        <td>{{item.item_name}}</td>
+                        <td class="text-center">{{item.price}}</td>
+                        <td class="text-center">{{item.quantity}}</td>
+                        <td class="text-right">{{item.sub_total | currency : 'Tshs ' : 2}}</td>
+                        <td><span ng-click="removeItem(item)" style="cursor: pointer">Remove</span></td>
+                    </tr>
+                    <tr>
+                        <td class="emptyrow"></td>
+                        <td class="emptyrow text-center"><strong>Grand Total</strong></td>
+                        <td class="emptyrow text-right">{{toto | currency : 'Tshs ' : 2}}</td>
+
+                    </tr>
+					<tr>
+						<td class="emptyrow" colspan="4"  >
+
+                        </td>
+						<td class="emptyrow text-right" ng-if="chf.billmode=='2'">
+							<table style="display:block" width="100%">
+							<tr>
+								<td width="5%"><input type="radio" ng-click="paymentMethod='cash'" ng-model="paymentMethod" value="cash"  style="width:20px;height:20px;" /></td>
+								<td  width="5%" style="font-weight:bold"  ng-click="paymentMethod='cash'">Cash</td>
+								<td  width="20%">&nbsp;</td>
+								<td width="5%"><input type="radio" ng-click="paymentMethod='gepg'" ng-model="paymentMethod" value="gepg"  style="width:20px;height:20px;" /></td>
+								<td  width="5%" style="font-weight:bold" ng-click="paymentMethod='gepg'">GePG</td><td>&nbsp;</td></tr>
+								</table>
+						</td>
+					</tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="processSales(paymentMethod,selectedPatient)" ng-if="itemData.length>0 && chf.billmode=='2'">Process Sale</button>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="Create_bill()" ng-if="itemData.length>0 && chf.billmode=='1'">Craete Bill</button>
+            </md-card-content>
+        </md-card>
+    </div>
+    <!--transaction checker starts-->
+    <div flex-gt-sm="50">
+        <md-checkbox ng-model="data.cb" aria-label="Check balance">
+            Check balance
+        </md-checkbox>
+        <div ng-if=" data.cb ==true">
+            <md-input-container >
+                <label>Choose Start Date</label>
+                <input ng-model="cs.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container >
+                <label>Choose End Date</label>
+                <input ng-model="cs.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+            </md-input-container>
+            <md-input-container>
+                <md-button class="md-raised md-primary" ng-click="cashiersBalance(cs)">Search</md-button>
+            </md-input-container>
+        </div>
+        <md-content ng-if="transactions.length>0 && data.cb ==true ">
+            Dear <strong>{{transactions[0].user_name}}</strong> you have a total of {{transactions[0].sub_total | currency : ' Tshs. ' :2}}
+                from  {{transactions[0].transactions}} transactions. <br> Thank you!
+        </md-content>
+    </div>
+	<div flex="100"  ng-show="pendingGePGConfirmations.length > 0">
+		 <div class="row " style="padding-left:4px;padding-right:4px" >
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<th colspan="3" style="background-color:#f0f5f5; font-weight:bold;">GEPG BILLS</th>
+					<th style="background-color:#c9c1bd; font-weight:bold;">WAITING CNTRL NUMBER</th>
+					<th style="background-color:#fcd202; font-weight:bold;">WAITING PAYMENT</th>
+					<th style="background-color:#efeae8; font-weight:bold;">PAID</th>
+				</thead>
+				<thead>
+					<th colspan="6" class="input">
+						<input type="text"   ng-model="search" placeholder="Quick Search....." class=" form form-control"/>
+					</th>
+				</thead>
+				<thead>
+					<th style="text-align:left;background-color:#ccddee"></th>
+					<th style="text-align:left;background-color:#ccddee">Name</th>
+					<th style="text-align:left;background-color:#ccddee">Control#</th>
+					<th style="text-align:left;background-color:#ccddee">Cancel</th>
+					<th style="text-align:left;background-color:#ccddee">Receipt</th>
+					<th style="text-align:left;background-color:#ccddee">Remove</th>
+				</thead>
+				<tbody >
+					<tr ng-repeat="bill in pendingGePGConfirmations | filter:search track by $index" ng-class="{ paid: bill.paid.toString() == '1', waiting: bill.paid.toString() == '0' && bill.PayCntrNum != '', waiting_cntr: bill.paid.toString() == '0' && bill.PayCntrNum == ''}">
+						<td style="text-align:right">{{$index+1}}.</td>
+						<td style="text-align:left">{{bill.name}}</td>
+						<td><strong>{{bill.PayCntrNum.replace(regex,' ')}}</strong></td>
+						<td ng-click="cancelBill(bill,$index);" style="text-align:center; vertical-align:middle"><ng-md-icon icon="close" size="30" ng-if="bill.paid.toString() == '0'"></ng-md-icon></td>
+						<td ng-click="GePGReceipt(bill);" style="text-align:center; vertical-align:middle"><ng-md-icon icon="print" size="30" ng-if="bill.paid.toString() == '1'"></ng-md-icon>
+						</td>
+						<td  ng-click="Processed(bill,$index)" style="text-align:center; vertical-align:middle"><ng-md-icon icon="check" size="30" ng-if="bill.paid.toString() == '1'"></ng-md-icon></td>
+					</tr>
+					<thead>
+					<tr>
+						<th colspan="6" style="text-align:left;background-color:#ccddee"></th>
+					</tr>
+				</thead>
+				
+				</tbody>
+			</table>
+		 </div> 
+	 </div>
+    <!--transaction checker ends-->
+</md-content>
+<script>
+    $(document).ready(function () {
+        $('input.number').keyup(function(event) {
+            // skip for arrow keys
+            if(event.which >= 37 && event.which <= 40)
+                return;
+
+            // format number
+            $(this).val(function(index, value) {
+                value += '';
+                var dec = '';
+
+                var parts = value.split('.');
+                dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+                return parts[0]
+                    .replace(/\D/g, '')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+            });
+        });
+
+    });
+
+    function money(field,event){
+        if(event.which >= 37 && event.which <= 40)
+            return;
+
+        // format number
+        $(field).val(function(index, value) {
+            value += '';
+            var dec = '';
+
+            var parts = value.split('.');
+            dec = parts.length > 1 ? '.' + parts[1].replace(/\D/g, '') : '';
+            return parts[0]
+                .replace(/\D/g, '')
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')+dec;
+        });
+    }
+</script>

@@ -1,0 +1,117 @@
+<div class="wrapper wrapper-content animated fadeInRight"  >
+<!--<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DispensingController">-->
+    <style>
+        table td {
+            border-top: none !important;
+        }
+        hr {
+            display: block;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: 16em;
+            margin-right: 16em;
+            border-style: inset;
+            border-width: 3px;
+        }
+    </style>
+    <div >
+        <div>
+
+            <div id='divtoprint' class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center">
+                        <br/>
+                        <a onclick="PrintContent();"    title="Print" class="no-print   pull-right"><b class="glyphicon glyphicon-print "></b>  </a>
+
+                        {{menu[0].facility_name}}&nbsp;&nbsp;
+                        {{menu[0].description}}
+						<br/>
+                    <span><img alt="image" class="" src="/img/arm.png" width="90px" height="90px" />
+                    </span><br/>
+                        {{menu[0].address}}<br/>
+                        {{menu[0].email}}<br>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table width="800px"  border="1">
+                        <th> <div class="text-center">
+                            <br/> <br/>
+                            Patient Names:{{prescriptions[0].first_name}} {{prescriptions[0].middle_name}} {{prescriptions[0].last_name}} <br />
+
+                            MRN:{{prescriptions[0].medical_record_number}}<br />
+                            Gender:{{prescriptions[0].gender}}<br />
+
+
+                        </div></th>
+
+
+                        <th> <div class="text-center">
+                            <br/> <br/>
+
+                            Staff Names: {{currentUser.name}}<br /> <br>
+                            Prescribed By: {{prescriptions[0].doctor}}<br /> <br>
+                            Date Prescribed: {{date | date:'yyyy-MM-dd HH:mm:ss'}}<br /> <br>
+                        </div></th>
+                    </table>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table width="800px"  border="1">
+                            <thead>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Instructions</th>
+                            <th>Formula</th>
+                            <th>Start Date</th>
+                            <th>remark</th>
+                            </thead>
+                            <tr ng-repeat="item in prescriptions">
+                                <td>{{item.item_name}}</td>
+                                <td >{{item.quantity}}</td>
+                                <td >{{item.instruction}}</td>
+                                <td>  {{item.frequency}}*{{item.duration}}/24*{{item.dose}}</td>
+                                <td>  {{item.start_date}} </td>
+                                <td ><i ng-if="item.os=='OS'">OS</i> <i ng-if="item.os!='OS'">Dispensed</i>   </td>
+                            </tr><tr>
+
+
+                        </tr>
+                        </table>
+                    </div> </div>
+            </div>
+
+
+        </div>
+        </div>
+
+
+</div>
+
+
+<script>
+
+    function PrintContent()
+    {
+        //location.reload();
+        var DocumentContainer = document.getElementById('divtoprint');
+
+        var WindowObject = window.open("", "PrintWindow",
+                "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.title = " GoT-HOMIS";
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+
+        setTimeout(function(){
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        },1000);
+
+
+
+    }
+</script>

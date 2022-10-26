@@ -1,0 +1,107 @@
+<md-dialog class="fullscreen-dialog" ng-controller="radiologyDepartmentController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Sub-Department Registration</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="SUB-DEPARTMENT REGISTRATION">
+                    <md-content class="md-padding">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Register Sub-Department</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <script type="text/ng-template" id="customTemplate.html">
+                            <a>
+                                <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                            </a>
+                        </script>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Department name</label>
+                                <input type="text"  ng-model="department.department_name"
+                                       uib-typeahead ="registered as registered.department_name
+          for registered in registered | limitTo:8 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                      typeahead-show-hint="true" typeahead-min-length="0" autocomplete="off">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Sub-department Name</label>
+                                <input type="text" ng-model="department.name" autocomplete="off">
+                            </md-input-container>
+                        </div>
+                        <br><br>
+                        <md-button style="width: 15%;" class="md-raised md-primary" ng-click="departmentRegistration(department)">
+                            Register
+                        </md-button>
+                    </md-content>
+                </md-tab>
+                <md-tab label="SUB-DEPARTMENTS LIST">
+                    <md-content class="md-padding">
+                        <div flex="100">
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                                <thead>
+                                <tr>
+                                    <th><h5 align="left">Department Name</h5></th>
+                                    <th><h5 align="left">Lastly Updated</h5></th>
+                                    <th><h5 align="left">Switch to edit Sub-Department</h5></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="department in departments | filter:search track by $index">
+                                    <td class="">
+                                        <h5 align="left"><b  ng-if="!depart">{{department.sub_department_name}}</b></h5>
+                                        <b ng-if="depart">
+                                                <md-input-container>
+                                                    <input  type="text" ng-model="department.sub_department_name">
+                                                </md-input-container>
+                                        </b>
+                                    </td>
+                                    <td>
+                                        <h5 align="right"><b ng-if="!depart">{{department.updated_at | date:"dd/MM/yyyy"}}</b></h5>
+                                        <b ng-if="depart">
+                                            <div>
+                                                <md-button style="width: 15%;" class="md-raised md-primary" ng-click="departmentUpdate(department)">
+                                                    update
+                                                </md-button>
+                                            </div>
+                                        </b>
+                                    </td>
+                                    <td class="text-navy">
+                                        <h3 ng-if="depart">
+                                            <div class="form-group">
+                                                <md-button style="width: 15%;" class="md-raised md-warn" ng-click="departmentDelete(department.id)">
+                                                    delete
+                                                </md-button>
+                                            </div>
+                                        </h3>
+                                    </td>
+                                    <td><md-switch  ng-model="depart">
+
+                                    </md-switch>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

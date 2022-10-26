@@ -1,0 +1,75 @@
+<md-dialog class="fullscreen-dialog">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+               <md-dialog-content>
+            <div class="md-dialog-content">
+            <md-content class="md-padding">
+			 <table class="table table-bordered" width="100%" border="1">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA NA MAENDELEO YA JAMII JINSIA, WAZEE NA  WATOTO</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"><h8> <i> {{labSectionUsers[0].sub_department_name}}</i></h8></div>
+                                                                                                       <hr>
+																									   <span ng-if="labSectionUsers.length ==0"><h1 align="center">NO LIST AVAILABLE PLEASE ASSIGN BELOW</h1></span>
+																										 <div layout="row" ng-if="labSectionUsers.length>0">
+                               <table class="table table-bordered" border="1" width="100%">
+                                                       
+
+                                         <tr><td>TECHNOLOGIST NAME</td><td>MOBILE NUMBER</td><td>ACTION
+			</td>  </tr>  
+			
+			
+			<tr ng-repeat="labSectionUser in labSectionUsers"><td>{{labSectionUser.name}}</td><td>{{labSectionUser.mobile_number}}</td><td>
+			
+			<md-switch ng-model="data.switch" ng-checked={{labSectionUser.isAllowed}} 
+			ng-click="changeLabSections(labSectionUser,data.switch)"
+			class="md-warn" ng-true-value="'true'" ng-false-value="'false'">
+	
+  </md-switch>
+			</td>  </tr>                                                                    </table>  
+                                
+                               
+                            </div>
+
+                                                         
+   </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+		
+							   <md-input-container class="md-block">
+         <md-autocomplete flex required flex
+          md-search-text="searchText"
+          md-input-name="patients"
+          md-no-cache="true"
+          md-items="item in labTechnologists(searchText)"
+          md-item-text="item.name"
+          md-selected-item-change="selectedLabTechnologist(item,$event)"
+          md-floating-label="Search Lab Technologist "
+          md-min-length="4" md-autofocus>
+        <md-item-template>
+        <span md-highlight-text="searchText">{{item.name}} </span>
+        </md-item-template>
+        </md-autocomplete>
+		  
+		  
+		  
+        </md-input-container>
+                                                  
+                                  <md-input-container>
+  <md-button  class="md-raised md-primary"  ng-click="saveLabTechnologists(selectedSubDeptId)" class="md-primary"> SAVE
+                                   </md-button>
+                                  </md-input-container>
+                               
+		
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

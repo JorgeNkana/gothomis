@@ -1,0 +1,135 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog   flex="80" class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            <b ng-if="ok !=1"> NAME: {{quick_registration.first_name}} {{quick_registration.middle_name}} {{quick_registration.last_name}} MRN: {{quick_registration.medical_record_number}} GENDER:{{quick_registration.gender}}<p></p>
+ 
+</b>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-dialog-actions layout="row" ng-if="ok ==1" >
+            <span flex></span>
+            <!--<a href="javascript:window.print()" class="no-print btn btn-success pull-right">Print Card</a>-->
+            <md-button class="md-primary md-raised pull-right" ng-click="PrintContentR()">
+                PRINT CARD
+            </md-button>
+        </md-dialog-actions>
+        <div  ng-if="ok ==1">
+            <div id="divtoprintCArd" style="width:100%;height:700px;">
+                <table width="800px" border=0 class="table table-responsive">
+                    <tr>
+                        <td align='center'>{{cardTitle.facility_name}} {{cardTitle.description}} <br> <img alt="Logo" src="/img/arm.png" height="80" width="80" >
+                            <br>{{cardTitle.address}}
+                        </td>
+                    </tr>
+                    <tr>
+	 
+                        <td>
+                            <table align='center'>
+                                <tr> <td colspan='3' style="text-align:center"><b><h4>{{facility_address.facility_name}}<br/>{{facility_address.address}}</h4></b></td> </tr>
+                                <tr> <td> <b> Name:</b>{{quick_registration.first_name+ ' '+ (quick_registration.middle_name != undefined ? quick_registration.middle_name : '')+' '+(quick_registration.last_name != undefined ? quick_registration.last_name : '')}}</td> <td width="20%"></td>  <td><b> MRN : </b>{{quick_registration.medical_record_number}}</td>   </tr>
+                                <tr> <td><b> Address: </b> {{patients_address.residence_name}},{{patients_address.council_name}} </td><td width="20%"></td>  <td><b> Gender : </b>{{quick_registration.gender}}</td> </tr>
+                                <tr> <td><b> Date of Birth: </b>{{patients_address.dob}}</td><td width="20%"></td>  <td><b> Occupation : </b>{{patients_address.occupation_name}}</td></tr>
+                                <tr> <td><b>Contact: </b>{{patients_address.mobile_number}} </td> <td width="20%"></td>  <td><b> Date : </b>
+                                    {{patients_address.created_at}}
+                                </td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- new card ends -->
+
+          </div>
+
+
+        <div  ng-if="ok !=1">
+
+
+
+                <md-input-container  class="md-block col-md-6 col-sm-4" >
+                    <label>Choose exemption type</label>
+                    <md-select ng-model="exempt.exemption_type_id" >
+                        <md-option ng-value={{exemption_type}} ng-repeat="exemption_type in exemption_types">
+                            {{exemption_type.exemption_name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+
+                <md-input-container class="md-block col-md-6 col-sm-4">
+                    <label>Exemption Reason/Refference</label>
+                    <textarea rows="2" cols="2" ng-model="exempt.exemption_reason" md-maxlength="255" rows="5"  md-select-on-focus></textarea>
+                </md-input-container>
+
+
+                <md-input-container class="md-block  col-md-6 col-sm-4">
+                    <label>Choose Service</label>
+                    <input type="text" ng-model="exempt.service" class="md-block  "
+                           uib-typeahead =" exemption_service as exemption_service.item_name   for  exemption_service in exemption_services | filter:$viewValue"
+                           typeahead-template-url="customTemplate.html"
+                            typeahead-show-hint="true" typeahead-min-length="0">
+
+                </md-input-container>
+            <md-input-container class="form-group col-md-6 col-sm-4">
+                <label> Choose Clinic To Send This Client</label>
+
+
+                <md-select type="text" ng-model="exempt.referral_id">
+
+                    <md-option ng-value="1">OUT PATIENT DEPT(OPD)</md-option>
+                    <md-option  ng-value="{{department.id}}"
+                                ng-repeat="department in departments">
+                        {{department.department_name}}
+                    </md-option>
+
+
+                </md-select>
+
+            </md-input-container>
+            <md-input-container class="md-block col-md-6 col-sm-4">
+                <label >Upload</label>
+                <input type="file" id="file1"   name="file" multiple class="md-input"
+                       ng-files="getTheFiles($files)"  title="Upload any Document to Support" />
+
+            </md-input-container>
+
+                <div class="md-block col-md-6 col-sm-4">
+
+                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                        <md-button class="md-raised md-primary" ng-click="exemption_registration(exempt,quick_registration)" >Register</md-button>
+                        <p></p>
+                    </section>
+                </div>
+
+
+
+
+
+
+        </div>
+
+
+
+</md-dialog-content>
+    </md-dialog>
+
+
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+
+        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+
+
+</script>

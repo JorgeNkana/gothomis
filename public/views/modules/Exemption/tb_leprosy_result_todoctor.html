@@ -1,0 +1,388 @@
+<style>
+    md-tab {
+        padding-bottom:4em;
+    }
+</style>
+<md-dialog   flex="80" class="fullscreen-dialog" >
+    <md-toolbar>
+        <div class="md-toolbar-tools"  >
+            <b  > NAME: {{patientIfor.first_name}} {{patientIfor.middle_name}} {{patientIfor.last_name}} MRN: {{patientIfor.medical_record_number}} GENDER:{{patientIfor.gender}}<p></p>
+
+            </b>
+
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()" title="Close">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <table class="table table-bordered "  >
+            <caption> <b class="">
+
+                <div  class="text-right"> <h8> TB/LEP01</h8></div>
+                <div  class="text-center"> <h8> The United Republic of Tanzania</h8></div>
+                <div  class="text-center"> <h8> MINISTRY OF HEALTH, COMMUNITY DEVELOPMENT,GENDER, ELDERLY AND CHILDREN</h8></div>
+                <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                <div  class="text-center"> <h8>  National TB and Leprosy Programme</h8></div>
+                <div  class="text-center"><h8> REQUEST AND REPORT FORM FOR BIOLOGICAL SPECIMEN FOR TB AND LEPROSY</h8></div>
+
+            </b></caption>
+            <tr>
+                <td>Name of health facility: {{facilityIn.facility_name}} {{facilityIn.description}} </td>
+                <td>Date of request:{{patientIfor.date_of_request}} </td>
+                <td>Time: {{patientIfor.time_of_request}} </td>
+            </tr>
+            <tr>
+                <td>Name of patient:{{patientIfor.first_name}} {{patientIfor.middle_name}} {{patientIfor.last_name}} </td>
+                <td>Age: {{patientIfor.age}}</td>
+                <td>Sex(M/F): {{patientIfor.gender|limitTo:1}}</td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td>Date of collection:{{patientIfor.date_of_request}} </td>
+                <td>Time:{{patientIfor.time_of_request}}</td>
+            </tr>
+            <tr>
+                <td colspan="3">Physical address (ward,street,village,house number):{{address.residence_name}}  </td>
+
+            </tr>
+            <tr>
+                <td colspan="2">Contact telephone/mobile no:{{patientIfor.mobile_number}} </td>
+                <td>TB District No: </td>
+            </tr>
+            <tr>
+                <td colspan="2">Area leader/neighbor: </td>
+                <td>Laboratory Serial No: {{laboratory_serial_no}}</td>
+            </tr>
+            <tr>
+                <td colspan="3"><b>Reason for examination</b><p></p>
+                    <md-radio-group layout="row" ng-model="reason_for_examination" disabled>
+                        <md-radio-button value="diagnosis_if_tb" class="md-primary">Diagnosis.If diagnosis,TB</md-radio-button>
+                        <md-radio-button value="MDR" class="md-primary">MDR </md-radio-button>
+                        <md-radio-button value="Leprosy" class="md-primary">Leprosy </md-radio-button>
+                        <md-radio-button value="follow-up" class="md-primary">Or Follow-up. ifnfollowup </md-radio-button>
+                    </md-radio-group>
+                    <p></p>
+
+                    <md-input-container class="md-block " ng-if="reason_for_examination=='follow-up'" disabled>
+                        <label>Month on treatment</label>
+                        <input type="text" ng-model="month_on_treatment" disabled  >
+
+                    </md-input-container>
+
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3">
+                    HIV status: <p></p>
+                    <md-radio-group layout="row" ng-model="hiv_status" disabled>
+                        <md-radio-button value="Reactive" class="md-primary">Reactive</md-radio-button>
+                        <md-radio-button value="Nonreactive" class="md-primary">Non reactive </md-radio-button>
+                        <md-radio-button value="Unknown" class="md-primary">Unknown </md-radio-button>
+                    </md-radio-group>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Previously treated for TB ? <p></p>
+                    <md-radio-group layout="row" ng-model="pre_tb_treatment" disabled>
+                        <md-radio-button value="YES" class="md-primary">YES</md-radio-button>
+                        <md-radio-button value="No" class="md-primary">No </md-radio-button>
+
+                    </md-radio-group>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    Specimen type
+                    <p></p>
+                    <md-radio-group layout="row" ng-model="specimen_type" disabled="">
+                        <md-radio-button value="Sputum" class="md-primary">Sputum</md-radio-button>
+                        <md-radio-button value="CSF" class="md-primary">CSF </md-radio-button>
+                        <md-radio-button value="Peritoneal_fluid" class="md-primary">Peritoneal fluid </md-radio-button>
+                        <md-radio-button value="Skin_Smear" class="md-primary">Skin Smear </md-radio-button>
+                        <md-radio-button value="Pleural_fluid" class="md-primary">Pleural fluid </md-radio-button>
+                        <md-radio-button value="Lymph_node" class="md-primary">Lymph node </md-radio-button>
+
+                    </md-radio-group>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Test(s) requested  <p></p>
+
+                    <md-radio-group layout="row" ng-model="test_requested" disabled="">
+                        <md-radio-button value="Microscope" class="md-primary">Microscope</md-radio-button>
+                        <md-radio-button value="Xpert_MTB_RIF" class="md-primary">Xpert MTB/RIF </md-radio-button>
+
+                    </md-radio-group>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Name and signature of person requesting examination:&nbsp;<b><u>{{patientIfor.requested_by}}</u></b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" >
+
+                    <b class="text-center">Contacts for results feedback(if RR for Xpert MTB/RIF) DTLC/RTLC</b>
+                    <p></p>
+
+                    <div  class="md-block   col-md-12">
+
+
+                        <md-input-container class="md-block  md-block   col-md-6 col-sm-4 ">
+                            <label> RTLC name: </label>
+                            <input type="text" ng-model="rtlc_name"   >
+
+                        </md-input-container>
+
+
+
+                        <md-input-container class="md-block  md-block   col-md-6 col-sm-4 ">
+                            <label>  Email contact: </label>
+                            <input type="text" ng-model="rtlc_email"   >
+
+                        </md-input-container>
+                        <p></p>
+                        <md-input-container class="md-block md-block   col-md-6 col-sm-4  ">
+                            <label> DTLC name: </label>
+                            <input type="text" ng-model="dtlc_name"   >
+
+                        </md-input-container>
+
+
+
+                        <md-input-container class="md-block  md-block   col-md-6 col-sm-4 ">
+                            <label>  Email contact: </label>
+                            <input type="text" ng-model="dtlc_email"   >
+
+                        </md-input-container>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="!visit_id">
+                <th colspan="3">
+                    <md-button ng-click="saveTbLeprosyRequest(tb)" class="md-primary md-raised">Save</md-button>
+                </th>
+            </tr>
+
+        </table>
+
+        <!--<md-checkbox  ng-model="inv" aria-label="">-->
+        <!--View laboratory result form-->
+        <!--</md-checkbox>-->
+        <div  >
+            <table class="table table-bordered text-center" >
+                <caption>
+
+
+
+                    <div  class="text-center"> <b>Results (to be completed in Laboratory)</b></div>
+                    <p></p>
+
+
+                    <div  class="md-block   col-md-12">
+
+
+                        <md-input-container class="md-block  md-block   col-md-4 col-sm-4 ">
+                            <label> Laboratory Serial no: </label>
+                            <input type="text" ng-model="laboratory_serial_no"  disabled  >
+
+                        </md-input-container>
+
+
+
+                        <md-input-container class="md-block  md-block   col-md-4 col-sm-4 " flex-gt-sm>
+                            <label>  Date and Time of reception </label>
+                            <md-datepicker ng-model="reception_date" disabled  style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                           required></md-datepicker>
+                        </md-input-container>
+
+
+
+                        <md-radio-group layout="row" ng-model="zn_fm"  class="md-block  md-block   col-md-4 col-sm-4 " disabled>
+                            <md-radio-button value="ZN" class="md-primary">ZN</md-radio-button>
+                            <md-radio-button value="FM" class="md-primary">FM </md-radio-button>
+
+                        </md-radio-group>
+
+                    </div>
+
+                </caption>
+                <tr>
+                    <td>Date</td>
+                    <td>Specimen</td>
+                    <td>Received by</td>
+                    <td>Appearance<sup>*</sup></td>
+                    <td colspan="5">Result(Tick one)</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th> <md-input-container class="md-block  md-block  ">
+                        <label>Enter Appearance  </label>
+                        <input type="text" ng-model="appearance" disabled  >
+
+                    </md-input-container></th>
+                    <th style="background:silver">neg</th>
+                    <th style="background:silver">Scanty</th>
+                    <th style="background:silver">1+</th>
+                    <th style="background:silver">2+</th>
+                    <th style="background:silver">3+</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><md-radio-group layout="row" ng-model="specimen"  class="md-block  md-block   " disabled>
+                        <md-radio-button value="A" class="md-primary">A</md-radio-button>
+
+                    </md-radio-group></th>
+                    <th></th>
+                    <th></th>
+                    <th rowspan="2"> <md-radio-group layout="row" ng-model="result" disabled class="md-block  md-block   ">
+                        <md-radio-button value="neg" class="md-primary"></md-radio-button>
+
+                    </md-radio-group></th>
+                    <th rowspan="2">
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="Scanty" class="md-primary"></md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th rowspan="2">
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="1+" class="md-primary"></md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th rowspan="2">
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="2+" class="md-primary"></md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th rowspan="2">
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="3+" class="md-primary"></md-radio-button>
+
+                        </md-radio-group></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><md-radio-group layout="row" ng-model="specimen"  class="md-block  md-block   " disabled>
+                        <md-radio-button value="B" class="md-primary">B</md-radio-button>
+
+                    </md-radio-group></th></th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th style="background:silver">N <sup>#</sup> </th>
+                    <th style="background:silver"> T<sup>#</sup></th>
+                    <th style="background:silver"> TI<sup>#</sup></th>
+                    <th style="background:silver">RR<sup>#</sup></th>
+                    <th style="background:silver">I <sup>#</sup></th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+
+                        <md-radio-group layout="row" ng-model="specimen"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="Xpert_MTB_RIF" class="md-primary">Xpert MTB/RIF</md-radio-button>
+
+                        </md-radio-group></th></td>
+                    <td></td>
+                    <td></td>
+                    <th> <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                        <md-radio-button value="N" class="md-primary"></md-radio-button>
+
+                    </md-radio-group></th>
+                    <th>
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="T" class="md-primary"></md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th>
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="TI" class="md-primary"></md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th>
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="RR" class="md-primary"></md-radio-button>
+
+                        </md-radio-group>
+                    </th>
+                    <th>
+                        <md-radio-group layout="row" ng-model="result"  class="md-block  md-block   " disabled>
+                            <md-radio-button value="I" class="md-primary"></md-radio-button>
+
+                        </md-radio-group></th>
+                </tr>
+                <tr>
+                    <td colspan="9">
+
+                        <sup>*</sup>Visual appearence of sputum(blood stained,purulent,mucous,mucopurulent,salivary)
+                        <p></p>
+                        <sup>#</sup>N=MTB not detected;; T=MTB detected rifampicin resistance not detected;; RR=MTB detected rifampicin resistance  detected <p></p>
+                        ;; TI=MTB detected rifampicin resistance indeterrminate;; I=Error/ No result/Invalid
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="9">Skin Smearbresult(to be completed in laboratory)</th>
+                </tr>
+                <tr>
+                    <td colspan="4">Ear lobe</td>
+                    <td colspan="5">Lesion</td>
+                </tr>
+                <tr>
+                    <td colspan="4"> <md-input-container class="md-block  md-block  ">
+                        <label>Enter  Ear lop  </label>
+                        <input type="text" ng-model="ear_lobe"  disabled >
+
+                    </md-input-container></td>
+                    <td colspan="5">
+                        <md-input-container class="md-block  md-block  " disabled>
+                            <label>Enter Lesion  </label>
+                            <input type="text" ng-model="lesion"   >
+
+                        </md-input-container></td>
+                </tr>
+            </table>
+            <div class="text-center">
+
+
+                Date :&nbsp;&nbsp;&nbsp;&nbsp;{{patientIfor.date_of_request}}&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{{patientIfor.time_of_request}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Examined by :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<b><u>{{patientIfor.requested_by}}</u></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Signature:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p></p>
+                Date :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{reviewed_date}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Time:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{{reviewed_time}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Reviewed by :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{reviewed_by}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Signature:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <p></p>
+                COMMENTS: <md-input-container class="md-block  md-block  ">
+                <label>Comments  </label>
+                <input type="text" ng-model="comment"  disabled >
+
+            </md-input-container>
+                <p></p>
+                Resaits report verified by: :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Time :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Signature :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,137 @@
+<style>
+  .md-datepicker-input-container{
+  width:100%;
+  }
+</style>
+<md-dialog flex="95" ng-controller="emergencyController">
+
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>NAME: {{patientLoaded.first_name}} {{patientLoaded.middle_name}} {{patientLoaded.last_name}} MRN:
+                    {{patientLoaded.medical_record_number}} GENDER: {{patientLoaded.gender | uppercase}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel($event)">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div ng-if="infos.patient_id">
+        <md-dialog-content>
+            <md-fab-toolbar md-open="demo.isOpen" count="demo.count"
+                            md-direction="right">
+                <md-fab-trigger class="align-with-text">
+                    <md-button ng-click="retrievePatients(patient.id)" aria-label="menu" class="md-fab md-primary">
+                        <md-tooltip md-direction="right">Patient Details</md-tooltip>
+                        <md-icon md-svg-src="/svg/menu.svg"></md-icon>
+                    </md-button>
+                </md-fab-trigger>
+
+                    <md-toolbar>
+                        <md-fab-actions class="md-toolbar-tools">
+                            <h4 align="center">MOBILE NUMBER:- {{infos.mobile_number}}. RESIDENCE:-
+                                {{infos.residence_name}} {{infos.ward}}
+                                {{infos.region_name}} {{infos.description}} {{infos.country_name}}. MARITAL STATUS:-
+                                {{infos.marital_status}}. OCCUPATION:- {{infos.occupation_name}}.
+                                FACILITY NAME:- {{infos.facility_name}}. REGISTERED BY:- {{infos.registered_by}} </h4>
+                        </md-fab-actions>
+                    </md-toolbar>
+
+                </div>
+
+            </md-fab-toolbar>
+            <div class="md-dialog-content">
+                <div role="form">
+                    <div ng-if="firstForm==true">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>First name</label>
+                                <input type="text" ng-model="patientLoaded.first_name">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Middle Name</label>
+                                <input type="text" ng-model="patientLoaded.middle_name">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Last Name</label>
+                                <input type="text" ng-model="patientLoaded.last_name">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Gender</label>
+                                <md-select ng-model="patientLoaded.gender">
+                                    <md-option value="Male">Male</md-option>
+                                    <md-option value="Female">Female</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="40">
+                                <label for="mobile_number">Mobile Number</label>
+                                <input id="mobile_number" type="text" ng-model="patientLoaded.mobile_number">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                            <label>Date of birth</label>
+                            <md-datepicker md-max-date="today_date" style="width:100%" md-hide-icons="calendar" md-open-on-focus ng-model="patientLoaded.dob" ng-Blur="calculateAge('date')" required></md-datepicker>
+                          </md-input-container>
+                              <md-input-container class="md-block" flex-gt-sm>
+                            <label>Age</label>
+                            <input type="number" min='0' ng-model="patientLoaded.age" ng-Blur="calculateAge('age')">
+                          </md-input-container>
+                          <md-input-container flex-gt-sm>
+                            <label>Unit</label>
+                            <md-select ng-model="patientLoaded.age_unit" ng-Change="calculateAge('unit')">
+                              <md-option value="Years" selected="selected">Year(s)</md-option>
+                              <md-option value="Months">Month(s)</md-option>
+                              <md-option value="Days">Day(s)</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-autocomplete flex  flex
+                                             md-search-text="search"
+                                             md-input-name="patient"
+                                             md-no-cache="false"
+                                             md-items="item in getResidence(search)"
+                                             md-item-text="item.residence_name+' '+item.council_name"
+                                             md-selected-item-change="selectedResidence(item)"
+                                             md-floating-label="Search Residence"
+                                             md-min-length="3" md-autofocus>
+                                <md-item-template>
+                                    <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                </md-item-template>
+                            </md-autocomplete>
+                            <md-input-container    flex="40">
+                                <label>MARITAL STATUS</label>
+                                <md-select ng-model="patientLoaded.marital">
+                                    <md-option value=""></md-option>
+                                    <md-option ng-repeat="marital in maritals" value={{marital.id}}>{{marital.marital_status}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex-gt-sm>
+                                <label>Tribe</label>
+                                <input type="text" ng-model="patientLoaded.tribe"
+                                      autocomplete="off" uib-typeahead ="tribe as tribe.tribe_name for tribe in seachTribes($viewValue)">
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container class="md-block"  flex="40">
+                                <label>Country</label>
+                                <input type="text" ng-model="patientLoaded.country_name" autocomplete="off" uib-typeahead="country as country.country_name for country in getCountry($viewValue) | filter:$viewValue">
+                            </md-input-container>
+                            <md-input-container   flex="40">
+                                <label>Occupation</label>
+                                <input type="text" ng-model="patientLoaded.occupation" autocomplete="off" uib-typeahead="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue">
+                            </md-input-container>
+                        </div>
+                        <md-button style="width: 15%;" class="md-raised md-primary" ng-click="patient_edit(patientLoaded,residence)">
+                            Update Information
+                        </md-button>
+
+                    </div>
+
+                    <!-- page two -->
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

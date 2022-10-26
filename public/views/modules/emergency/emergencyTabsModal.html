@@ -1,0 +1,2270 @@
+<style>
+    .horizontal-collapse {
+        height: 70px;
+    }
+    .navbar-collapse.in {
+        overflow-y: hidden;
+    }.card .card-image{
+         overflow: hidden;
+         -webkit-transform-style: preserve-3d;
+         -moz-transform-style: preserve-3d;
+         -ms-transform-style: preserve-3d;
+         -o-transform-style: preserve-3d;
+         transform-style: preserve-3d;
+     }
+
+    .card .card-image img{
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -ms-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+    .card{
+        font-family: 'Roboto', sans-serif;
+        margin-top: 10px;
+        position: relative;
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 4 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .card .card-content {
+        padding: 10px;
+    }
+
+    .card .card-content .card-title, .card-reveal .card-title{
+        font-size: 24px;
+        font-weight: 200;
+    }
+
+    .card .card-action{
+        padding: 20px;
+        border-top: 1px solid rgba(160, 160, 160, 0.2);
+    }
+    .card .card-action a{
+        font-size: 15px;
+        color: #ffab40;
+        text-transform:uppercase;
+        margin-right: 20px;
+        -webkit-transition: color 0.3s ease;
+        -moz-transition: color 0.3s ease;
+        -o-transition: color 0.3s ease;
+        -ms-transition: color 0.3s ease;
+        transition: color 0.3s ease;
+    }
+    .card .card-action a:hover{
+        color:#ffd8a6;
+        text-decoration:none;
+    }
+
+    .card .card-reveal{
+        padding: 20px;
+        position: absolute;
+        background-color: #FFF;
+        width: 100%;
+        overflow-y: auto;
+        /*top: 0;*/
+        left:0;
+        bottom:0;
+        height: 100%;
+        z-index: 1;
+        display: none;
+    }
+
+    .card .card-reveal p{
+        color: rgba(0, 0, 0, 0.71);
+        margin:20px ;
+    }
+
+    .btn-custom{
+        background-color: transparent;
+        font-size:12px;
+    }
+    .app-modal-window .modal-dialog {
+        width: 1200px;
+    }
+
+    .button4:hover {background-color: #e7e7e7;}
+    .accordion {
+        margin: auto;
+        width: 1100px;
+    }
+    .accordion input {
+        display: none;
+    }
+    .box {
+        position: relative;
+        background: white;
+        height: 64px;
+        transition: all .15s ease-in-out;
+    }
+    .box::before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    }
+    header.box {
+        background: #26a69a !important;
+        z-index: 100;
+        cursor: initial;
+        box-shadow: 0 -1px 0 #e5e5e5,0 0 2px -2px rgba(0,0,0,.12),0 2px 4px -4px rgba(0,0,0,.24);
+    }
+    header .box-title {
+        margin: 0;
+        font-weight: normal;
+        font-size: 16pt;
+        color: white;
+        cursor: initial;
+    }
+    .box-title {
+        width: calc(100% - 40px);
+        height: 64px;
+        line-height: 64px;
+        padding: 0 20px;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
+    }
+    .box-content {
+        width: calc(100% - 40px);
+        padding: 30px 20px;
+        font-size: 11pt;
+        color: rgba(0,0,0,.54);
+        display: none;
+    }
+    .box-close {
+        position: absolute;
+        height: 64px;
+        width: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        display: none;
+    }
+    input:checked + .box {
+        height: auto;
+        margin: 16px 0;
+        box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
+    }
+    input:checked + .box .box-title {
+        border-bottom: 1px solid rgba(0,0,0,.18);
+    }
+    input:checked + .box .box-content,
+    input:checked + .box .box-close {
+        display: inline-block;
+    }
+    .arrows section .box-title {
+        padding-left: 44px;
+        width: calc(100% - 64px);
+    }
+    .arrows section .box-title:before {
+        position: absolute;
+        display: block;
+        content: '\203a';
+        font-size: 18pt;
+        left: 20px;
+        top: -2px;
+        transition: transform .15s ease-in-out;
+        color: rgba(0,0,0,.54);
+    }
+    input:checked + section.box .box-title:before {
+        transform: rotate(90deg);
+    }
+</style>
+
+<div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-12 form-box">
+                <form  role="form" class="clinical-form" action="javascript:void(0);">
+                    <fieldset>
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                                    {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                                </h3>
+
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="">
+
+
+
+
+                            <uib-tabset justified="true">
+                                <uib-tab index="1">
+                                    <uib-tab-heading>
+                                        <i class="fa fa-laptop"></i>  Previous Visit
+                                    </uib-tab-heading>
+                                    <br>
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-2">
+                                            <p>Previous visits</p>
+                                            <ul class='list-group' ng-repeat="vt in patientsVisits">
+                                                <li class="list-group-item mdl-shadow--2dp mdl-data--selectable" style="cursor: pointer;" ng-click="getPatientReport(vt)">{{vt.date_attended}}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-10" id='divtoprint' >
+
+                                            <a onclick="PrintContent();" title="Print"    class="no-print pull-right"><b class="fa fa-print btn btn-success"></b>  </a>
+
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width" >
+                                                <thead>
+                                                <th class="mdl-data-table__cell--non-numeric">Patient Info</th>
+                                                <th class="mdl-data-table__cell--non-numeric full-width">{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp;<br> {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+                                                </th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-if="vitals.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Vital signs</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="vt in vitals" ng-if="vitals.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{vt.vital_sign}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{vt.vital_sign_value}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{vt.si_unit}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{vt.minimum}}
+                                                    </td>
+
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{vt.maximum}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr ng-if="prevHistory.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Complaints</strong></td>
+                                                </tr>
+                                                <tr ng-if="prevHistory.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{prevHistory[0].status}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric" ><p>{{prevHistory[0].description+ ' for  '+prevHistory[0].duration +' '+prevHistory[0].duration_unit}}</p></td>
+                                                </tr>
+                                                <tr ng-if="prevHistory.length>0" >
+                                                    <td class="mdl-data-table__cell--non-numeric"   ><span>Other Complaints</span></td>
+                                                    <td class="mdl-data-table__cell--non-numeric"   ><p>{{prevHistory[prevHistory.length-1].other_complaints}}</p></td>
+                                                </tr>
+
+                                                <tr ng-if="prevHistory.length>0" >
+                                                    <td   class="mdl-data-table__cell--non-numeric" ><span>History of Presenting Illness</span></td>
+                                                    <td  class="mdl-data-table__cell--non-numeric" ><p><span>{{prevHistory[prevHistory.length-1].hpi}}</span></p></td>
+                                                </tr>
+                                                <tr ng-if="prevRos.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Review of systems</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="ros in prevRos" ng-if="prevRos.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{ros.status}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{ros.name}}
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="prevRos.length>0" >
+                                                    <td   class="mdl-data-table__cell--non-numeric" ><span>Other reviews</span></td>
+                                                    <td  class="mdl-data-table__cell--non-numeric" ><p><span>{{prevRos[prevRos.length-1].review_summary}}</span></p></td>
+                                                </tr>
+
+                                                <tr ng-if="allergies.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Allergies</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="allergy in allergies" ng-if="allergies.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">{{allergy.status}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{allergy.descriptions}}</td>
+                                                </tr>
+                                                <tr ng-if="prevFamily.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Family and Social History</strong></td>
+                                                </tr>
+                                                <tr ng-if="prevFamily.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">Family and social history</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{prevFamily[0].chronic_illness}}.{{prevFamily[0].substance_abuse}}. <br>
+                                                        {{prevFamily[0].adoption}}.{{prevFamily[0].others}}
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="prevDiagnosis.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Diagnosis</strong></td>
+                                                </tr>
+                                                <tr ng-repeat=" diag in prevDiagnosis" ng-if="prevDiagnosis.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric"> {{diag.status}} </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{diag.description}}
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="labInvestigationsz.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Investigations</strong></td>
+                                                </tr>
+                                                <tr ng-repeat=" lb in labInvestigationsz" ng-if="labInvestigationsz.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{lb.item_name}} </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{lb.description+' '+lb.unit}}
+                                                    </td>
+                                                </tr>
+                                                <tr ng-repeat=" rd in radiologyResults" ng-if="radiologyResults.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <div class="card">
+                                                            <div class="card-image">
+                                                                <!--<a><img class="img-responsive" src="public/uploads/{{img.attached_image}}" width="100px;" height="100px"></a>-->
+                                                            </div><!-- card image -->
+                                                            <div class="card-content">{{img.description}}</div><!-- card content -->
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="prevMedicines.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Medications</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="med in prevMedicines" ng-if="prevMedicines.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{med.item_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{med.dose+' units'}}, {{'after every '+med.frequency+' hours'}},{{'for '+ med.duration+' days'}} ==> QTY: {{med.quantity}}</td>
+
+                                                </tr>
+                                                <tr ng-if="pastProcedures.length>0">
+                                                    <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)"> <strong>Procedures</strong></td>
+                                                </tr>
+                                                <tr ng-repeat="pro in pastProcedures" ng-if="pastProcedures.length>0">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{pro.item_name}}</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{pro.item_category}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-2">
+
+                                        </div>
+                                    </div>
+
+                                </uib-tab>
+                                <uib-tab index="2" >
+                                    <uib-tab-heading>
+                                        <i class="fa fa-tasks"></i> Clerk sheet
+                                    </uib-tab-heading>
+                                    <br>
+                                    <nav class="accordion arrows">
+                                        <input type="radio" name="accordion" id="tb5" />
+                                        <section class="box">
+                                            <label class="box-title" for="tb5">Glasgow Coma Scale And Primary Survey</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+
+                                                <div data-toggle="modal" data-target="#scale" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Glasgow Coma Scale Taking</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+                                                <div data-toggle="modal" data-target="#survey"  style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Primary Survey and Nursing Intervention</b>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                        </section>
+                                        <input type="radio" name="accordion" id="cb5" />
+                                        <section class="box">
+                                            <label class="box-title" for="cb5">Patient History and Examination</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+
+                                                <div data-toggle="modal" data-target="#basicExample" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>History Taking</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+                                                <div data-toggle="modal" data-target="#basicExample1"  style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/tick.png" width="28px" height="28px" /></b>
+                                                            <b>Review of System</b>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                        </section>
+
+                                        <input type="radio" name="accordion" id="acc-close" />
+                                        <input type="radio" name="accordion" id="cb6" />
+                                        <section class="box">
+                                            <label class="box-title" for="cb6">Medical History and Physical Examination</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+                                                <div data-toggle="modal" data-target="#basicExample2" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Past Medical History</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+                                                <div data-toggle="modal" data-target="#physical" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Physical Examination</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </section>
+
+                                        <input type="radio" name="accordion" id="cb15" />
+                                        <section ng-if="selectedPatient.gender=='Female'" class="box">
+                                            <label class="box-title" for="cb15">Obstetrics & Gynecology</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+                                                <div data-toggle="modal" data-target="#obs" style="padding-left: 0px" class="col-sm-12">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Obstetrics and Gynecology</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </section>
+                                        <input type="radio" name="accordion" id="cb8" />
+                                        <section ng-if="selectedPatient.age<17" class="box">
+                                            <label class="box-title" for="cb8">Patient Birth History</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+                                                <div data-toggle="modal" data-target="#birth" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Birth History</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </section>
+                                        <input type="radio" name="accordion" id="cb11" />
+                                        <section class="box">
+                                            <label class="box-title" for="cb11"> Family History</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+
+                                                <div data-toggle="modal" data-target="#family" style="padding-left: 0px" class="col-sm-12">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Family and Social History</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </section>
+
+
+                                    </nav>
+
+                                </uib-tab>
+                                <uib-tab index="3">
+                                    <uib-tab-heading>
+                                        <i class="fa fa-briefcase"></i> Diagnosis
+                                    </uib-tab-heading>
+                                    <br>
+
+                                    <nav class="accordion arrows">
+                                        <br>
+
+                                        <input type="radio" name="accordion" id="cb1" />
+                                        <section class="box">
+                                            <label class="box-title" for="cb1"> Provision, Differential and Confirmed Diagnosis</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+                                                <div data-toggle="modal" data-target="#diagnosispre" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Provision and Differential Diagnosis</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+                                                <div data-toggle="modal" data-target="#diagnosisconf" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Confirmed Diagnosis</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </section>
+                                        <input type="radio" name="accordion" id="cb3" />
+                                        <section class="box">
+                                            <label class="box-title" for="cb3">Laboratory and Imaging Patients Results</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+                                                <div data-toggle="modal" data-target="#labresult" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Laboratory Results</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+                                                <div data-toggle="modal" data-target="#imageresults" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Imaging Results</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </section>
+
+
+                                    </nav>
+
+
+
+                                </uib-tab>
+                                <uib-tab index="4">
+                                    <uib-tab-heading>
+                                        <i class="fa fa-newspaper-o"></i> Investigation
+                                    </uib-tab-heading>
+                                    <br>
+                                    <nav class="accordion arrows">
+
+                                        <input type="radio" name="accordion" id="db1" />
+                                        <section  class="box">
+                                            <label class="box-title" for="db1">Laboratory and Imaging Investigation</label>
+                                            <label class="box-close" for="acc-close"></label>
+                                            <div class="box-content">
+                                                <div ng-click="getSubDepts(2)" data-toggle="modal" data-target="#lab" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Laboratory Investigation</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+                                                <div ng-click="getSubDepts(3)" data-toggle="modal" data-target="#rad" style="padding-left: 0px" class="col-sm-6">
+
+                                                    <ul>
+                                                        <li  class="form-top">
+                                                            <b><img alt="image" class="" src="public/img/doctor1.png" width="28px" height="28px" /></b>
+                                                            <b>Imaging Investigation</b>
+                                                        </li>
+
+                                                    </ul>
+
+
+                                                </div>
+
+                                            </div>
+                                            <br><br><br><br><br><br><br><br><br><br>
+
+                                        </section>
+
+                                    </nav>
+
+                                </uib-tab>
+                                <uib-tab index="5">
+                                    <uib-tab-heading>
+                                        <i class="fa fa-medkit"></i> Disposition
+                                    </uib-tab-heading>
+                                    <div class="row">
+                                        <br>
+                                        <div class="col-xs-6">
+                                            <select class="form-control hidden-print"  ng-model="template" ng-options="t.name for t in templates">
+
+                                            </select>
+                                        </div>
+                                        <br>
+                                    </div>
+
+                                    <div ng-include src="template.url" onload="myFunction()">
+
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <!--Admission start -->
+                                        <script type="text/ng-template" id="admission.html"><br>
+                                            <div class="col-xs-3" ng-repeat="ward in wards">
+                                                <div class="list-group form-top" ng-click="patientAdmission(ward,selectedPatient)" style="cursor: pointer;">
+                                                    {{ward.ward_full_name}}
+                                                </div>
+                                            </div>
+                                        </script>
+                                        <!--Admission ends -->
+                                        <!--Internal referral start -->
+                                        <script type="text/ng-template" id="internal.html">
+                                            <div class="col-xs-3" ng-repeat="clinic in clinics"><br>
+                                                <div class="list-group form-top" ng-click="internalTransfer(clinic,selectedPatient)" style="cursor: pointer;">
+                                                    {{clinic.department_name}}
+                                                </div>
+                                            </div>
+                                        </script>
+                                        <script type="text/ng-template" id="referral.html">
+                                            <div class="row">
+                                                <div class="row" ng-if="selectedPatient.first_name.length>0"><br>
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group col-md-6 col-sm-6">
+                                                            <br>
+
+                                                            <label>Search hospital to refer patient</label>
+                                                            <input type="text" class="form-control" placeholder="Search hospital to refer patient" ng-model="selectedFacility" uib-typeahead="facility as facility.facility_name for facility in showFacility($viewValue) |filter:$viewValue |limitTo:5 ">
+
+                                                        </div>
+
+                                                        <div class="form-group col-md-6 col-sm-6">
+                                                            <textarea class="md-textarea" class="form-control" placeholder="Write referral Summary" ng-model="ref.summary"></textarea>
+
+                                                        </div>
+                                                        <br> {{selectedFacility.facility_name}}
+                                                        <button class="btn btn-success  pull-right" ng-click="exReferral(selectedPatient,selectedFacility,ref)">Save</button>
+
+
+                                                    </div>
+
+                                                    <div class="col-xs-6">
+                                                        <!--reserved-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </script>
+                                        <!--Internal referral ends -->
+                                        <script type="text/ng-template" id="deceased.html">
+                                            <div class="row">
+                                                <div class="md-form col-sm-6">
+                                                    <i class="fa fa-comments prefix"></i>
+                                                    <textarea type="text" ng-model="corpse.immediate_cause"  id="form27" class="md-textarea"></textarea>
+                                                    <label for="form27"> Immediate Cause of Death </label>
+                                                </div>
+
+
+                                                <div class="md-form col-sm-6">
+                                                    <i class="fa fa-comments prefix"></i>
+                                                    <textarea type="text"  ng-model="corpse.underlying_cause" id="form28" class="md-textarea"></textarea>
+                                                    <label for="form28"> Other underlying conditions</label>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-danger pull-right" ng-click="deceased(selectedPatient,corpse)">Send to Last office</button>
+
+
+                                        </script>
+                                    </div>
+
+
+                                </uib-tab>
+
+                            </uib-tabset>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+        <div class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <script type="text/ng-template" id="customTemplate.html">
+                            <a>
+
+                                <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+                            </a>
+                        </script>
+                        <div class="row">
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Seach Chief Complain</label>
+                                <input type="text" ng-model="selectedcomplaint" class="form-control" placeholder="Search Chief Complaints" uib-typeahead="complaint as complaint.name for complaint in complaints($viewValue) |filter:$viewValue |limitTo:5">
+
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Duration</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="duration.durationqty" placeholder="Select Duration"
+                                       uib-typeahead ="duration as duration.duration
+                                for duration in duration | limitTo:12 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Duration Unit</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="duration.durationunit" placeholder="Select Duration Unit"
+                                       uib-typeahead ="unit as unit.unit
+                                for unit in unit | limitTo:12 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="row">
+
+                                <div class="">
+                                    <button class="btn btn-success pull-right" ng-click="addComplaint(selectedcomplaint,duration,selectedPatient)">Add</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class=""></div>
+                                <div class="col-sm-4" ng-repeat="c in complaintz">
+                                    {{c.description +' for '+c.duration+' '+c.duration_unit}}&nbsp;&nbsp;&nbsp;<span ng-click="removeFromSelection(c,complaintz)" class="glyphicon glyphicon-minus-sign"></span>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="md-form col-sm-6">
+                                <i class="fa fa-comments prefix"></i>
+                                <textarea type="text" ng-model="hpi.other_complaints"  id="form7" class="md-textarea"></textarea>
+                                <label for="form7"> Write other Complaints </label>
+                            </div>
+
+
+                            <div class="md-form col-sm-6">
+                                <i class="fa fa-comments prefix"></i>
+                                <textarea type="text"  ng-model="hpi.hpi" id="form8" class="md-textarea"></textarea>
+                                <label for="form8"> History of Presenting Illness</label>
+                            </div>
+
+                            <div class="row"><br>
+                                <button class="btn btn-success pull-right" ng-click="saveComplaints(complaintz,hpi)">Save Complaints</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="basicExample1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <br>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Cardiovascular</p>
+                                        <input type="text" class="form-control" ng-model="selectedCardio" typeahead-on-select="reviewOfSystems($item,selectedPatient)" uib-typeahead="cardio as cardio.name for cardio in showCardio($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Respiratory</p>
+                                        <input type="text" class="form-control" ng-model="selectedRespiratory" typeahead-on-select="reviewOfSystems2($item,selectedPatient)"  uib-typeahead="resp as resp.name for resp in showRespiratory($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Gastrointestinal</p>
+                                        <input type="text" class="form-control" ng-model="selectedGastro" typeahead-on-select="reviewOfSystems3($item,selectedPatient)" uib-typeahead="gastro as gastro.name for gastro in showGastro($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Musculoskeletal</p>
+                                        <input type="text" class="form-control" ng-model="selectedMusculo" typeahead-on-select="reviewOfSystems4($item,selectedPatient)" uib-typeahead="musculo as musculo.name for musculo in showMusculo($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <p style="font-weight: 400">Genitourinary</p>
+                                <input type="text" class="form-control" ng-model="selectedGenito" typeahead-on-select="reviewOfSystems5($item,selectedPatient)" uib-typeahead="genito as genito.name for genito in showGenito($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                            </div>
+                            <div class="col-xs-4">
+                                <p style="font-weight: 400">Central Nervous System</p>
+                                <input type="text" class="form-control" ng-model="selectedCNS" typeahead-on-select="reviewOfSystems6($item,selectedPatient)" uib-typeahead="cns as cns.name for cns in showCNS($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                            </div>
+                            <div class="col-xs-4">
+                                <p style="font-weight: 400">Endocrine</p>
+                                <input type="text" class="form-control" ng-model="selectedEndo" typeahead-on-select="reviewOfSystems7($item,selectedPatient)" uib-typeahead="endo as endo.name for endo in showEndo($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="md-form col-sm-12">
+                                <i class="fa fa-comments prefix"></i>
+                                <textarea type="text" ng-model="review_summary"  id="form9" class="md-textarea"></textarea>
+                                <label for="form9"> Review of System Summary </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4" ng-repeat="resp in rosTemp">
+                                <div>{{resp.name}} -> {{resp.status}}&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(resp,rosTemp)"></span></div>
+
+                            </div>
+                        </div>
+                        <button class="btn btn-success pull-right" ng-click="saveRoS(rosTemp,review_summary)">Save</button>
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="basicExample2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <br>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Allergies</p>
+                                        <input type="text" class="form-control" ng-model="selectedAllergy" typeahead-on-select="pastMedicals($item,selectedPatient)" uib-typeahead="allergy as allergy.name for allergy in showAllergy($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Illness</p>
+                                        <input type="text" class="form-control" ng-model="selectedIllness" typeahead-on-select="pastMedicals3($item,selectedPatient)" uib-typeahead="illness as illness.name for illness in showIllness($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Admission</p>
+                                        <input type="text" class="form-control" ng-model="selectedAdmission" typeahead-on-select="pastMedicals4($item,selectedPatient)" uib-typeahead="admisn as admisn.name for admisn in showAdmission($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <p style="font-weight: 400">Immunisation</p>
+                                        <input type="text" class="form-control" ng-model="selectedImmune" typeahead-on-select="pastMedicals5($item,selectedPatient)" uib-typeahead="immune as immune.name for immune in showImmune($viewValue) |filter:$viewValue |limitTo:5"><br>
+
+                                    </div>
+
+                                </div>
+                            <div class="row">
+                                <div class="md-form col-sm-12">
+                                    <i class="fa fa-comments prefix"></i>
+                                    <textarea type="text" ng-model="other_past_medicals"  id="form10" class="md-textarea"></textarea>
+                                    <label for="form10"> Other Past Medical History </label>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6" ng-repeat="resp in pastTemp">
+                                    <div >{{resp.name}} - > {{resp.status}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(resp,pastTemp)"></span></div>
+
+                                </div>
+                            </div>
+                            <button class="btn btn-success pull-right" ng-click="savePastMedical(pastTemp,other_past_medicals)">Save</button>
+
+
+
+                        </div>
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="labresult" tabindex="-1" role="dialog" aria-labelledby="labresult" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <h3 style="font-size: 22px; padding-left: 25px;">Laboratory Results</h3>
+
+                        <div class="col-sm-6">
+                            <div class="panel-body">
+                                <uib-accordion>
+                                    <div uib-accordion-group heading="{{lab.date_attended}}" ng-repeat="lab in labInvestigations" ng-click="getLabResults(lab)">
+                                        <div class="row" ng-if="labInvestigations.length>0">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                <th>Investigation</th>
+                                                <th>Results</th>
+                                                <th>Date</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="rs in labResults">
+                                                    <td>{{rs.item_name}}</td>
+                                                    <td>{{rs.description+' '+rs.unit}}</td>
+                                                    <td>{{rs.created_at}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </uib-accordion>
+                                <ul class="list-group" ng-if="labInvestigations==0">
+                                    <li class="list-group-item">Currently no Lab results for this Patient</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br><br> <br><br> <br><br>
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="imageresults" tabindex="-1" role="dialog" aria-labelledby="imageresults" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <h3  style="font-size: 22px; padding-left: 25px;">Imaging Results</h3>
+                        <div class="panel-body">
+                            <div class="col-sm-6">
+                                <uib-accordion>
+                                    <div uib-accordion-group heading="{{rad.date_attended}}" ng-repeat="rad in radiology" ng-click="getRadResults(rad)">
+
+                                        <div class="row">
+                                            <div class="col-sm-6" ng-repeat="img in radResults">
+                                                <div class="card">
+                                                    <div class="card-image">
+                                                        <a><img class="img-responsive" src="public/uploads/{{img.attached_image}}" width="300px;" height="300px"></a>
+                                                    </div><!-- card image -->
+                                                    <div class="card-content">{{img.description}} </div><!-- card content -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </uib-accordion>
+                            </div>
+                            <ul class="list-group" ng-if="radInvestigations==0">
+                                <li class="list-group-item">Currently no Imaging results for this Patient</li>
+                            </ul>
+                        </div>
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="physical" tabindex="-1" role="dialog" aria-labelledby="physical" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+
+                    <div class="row">
+                        <br>
+                        <uib-tabset   active="activeJustified" justified="true">
+                            <uib-tab index="0" heading="Musculoskeletal">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Musculoskeletal System  <input type="text" class="form-control" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')" ng-model="selectedInspection" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation - Musculoskeletal System <input type="text" class="form-control" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')" ng-model="selectedPalpation" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion - Musculoskeletal System <input type="text" class="form-control" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')" ng-model="selectedPercussion" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation - Musculoskeletal System <input type="text" class="form-control" typeahead-on-select="physicalMusculo($item,selectedPatient,'Musculoskeletal')" ng-model="selectedAuscultation" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalMusculoskeletal">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalMusculoskeletal)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalMusculoskeletal)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="1" heading="Respiratory">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Respiratory System <input type="text" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')" class="form-control" ng-model="selectedInspection1" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation - Respiratory System <input type="text" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')" class="form-control" ng-model="selectedPalpation1" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion - Respiratory System <input type="text" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')" class="form-control" ng-model="selectedPercussion1" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation - Respiratory System <input type="text" typeahead-on-select="physicalResp($item,selectedPatient,'Respiratory')" class="form-control" ng-model="selectedAuscultation1" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalRespiratory">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalRespiratory)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalRespiratory)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="2" heading="Cardiovascular">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Cardiovascular System <input type="text" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')" class="form-control" ng-model="selectedInspection2" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation - Cardiovascular System <input type="text" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')" class="form-control" ng-model="selectedPalpation2" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion - Cardiovascular System <input type="text" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')" class="form-control" ng-model="selectedPercussion2" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation - Cardiovascular System <input type="text" typeahead-on-select="physicalCardio($item,selectedPatient,'Cardiovascular')" class="form-control" ng-model="selectedAuscultation2" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalCardiovascular">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalCardiovascular)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalCardiovascular)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="3" heading="Gastrointestinal">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Gastrointestinal System  <input type="text" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')" class="form-control" ng-model="selectedInspection3" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation  - Gastrointestinal System  <input type="text" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')" class="form-control" ng-model="selectedPalpation3" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion  - Gastrointestinal System  <input type="text" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')" class="form-control" ng-model="selectedPercussion3" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation  - Gastrointestinal System  <input type="text" typeahead-on-select="physicalGastro($item,selectedPatient,'Gastrointestinal')" class="form-control" ng-model="selectedAuscultation3" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalGastrointestinal">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalGastrointestinal)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalGastrointestinal)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="4" heading="Genitourinary">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Genitourinary System  <input type="text" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')" class="form-control" ng-model="selectedInspection4" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation - Genitourinary System <input type="text" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')" class="form-control" ng-model="selectedPalpation4" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion - Genitourinary System <input type="text" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')" class="form-control" ng-model="selectedPercussion4" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation - Genitourinary System <input type="text" typeahead-on-select="physicalGenito($item,selectedPatient,'Genitourinary')" class="form-control" ng-model="selectedAuscultation4" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalGenitourinary">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalGenitourinary)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalGenitourinary)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="5" heading="CNS">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Central Nervous System  <input type="text" typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')" class="form-control" ng-model="selectedInspection5" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation - Central Nervous System <input type="text"  typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')" class="form-control" ng-model="selectedPalpation5" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion - Central Nervous System <input type="text"  typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')" class="form-control" ng-model="selectedPercussion5" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation - Central Nervous System  <input type="text"  typeahead-on-select="physicalCns($item,selectedPatient,'Central Nervous System')" class="form-control" ng-model="selectedAuscultation5" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalCNS">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalCNS)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalCNS)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="6" heading="Endocrine">
+                                <br>
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Inspection - Endocrine System <input type="text" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')" class="form-control" ng-model="selectedInspection6" uib-typeahead="inspect as inspect.name for inspect in showInspection($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Palpation - Endocrine System <input type="text" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')" class="form-control" ng-model="selectedPalpation6" uib-typeahead="palpate as palpate.name for palpate in showPalpation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Percussion - Endocrine System  <input type="text" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')" class="form-control" ng-model="selectedPercussion6" uib-typeahead="percussion as percussion.name for percussion in showPercussion($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                                    Auscultation - Endocrine System  <input type="text" typeahead-on-select="physicalEndo($item,selectedPatient,'Endocrine')" class="form-control" ng-model="selectedAuscultation6" uib-typeahead="aus as aus.name for aus in showAuscultation($viewValue) |filter:$viewValue |limitTo:5"><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped">
+                                                <tr><td>System</td><td>Category</td><td>Observation</td><td>Actions</td></tr>
+                                                <tr ng-repeat="item in physicalEndocrine">
+                                                    <td>{{item.system}}</td><td>{{item.category}}</td><td>{{item.observation}}</td>
+
+                                                    <td><a href="" ng-click="removeFromSelection(item,physicalEndocrine)">Remove</a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <button ng-click="savePhysicalExamination(physicalEndocrine)" class="btn btn-success pull-right">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="family" tabindex="-1" role="dialog" aria-labelledby="family" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+
+                    <div class="row">
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+                                <div class="cardStyle">
+                                    Chronic Illness in the Family
+                                    <textarea class="md-textarea" class="form-control"  ng-model="social.chronic_illness"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+                                <div class="cardStyle">
+                                    Substance Abuse
+                                    <br>
+                                    <textarea class="md-textarea" ng-model="social.substance_abuse" class="form-control"></textarea>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+
+                                <div class="cardStyle">
+                                    Adoption
+                                    <br>
+                                    <textarea class="md-textarea" ng-model="social.adoption" class="form-control"></textarea>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+                                <div class="cardStyle">
+                                    Others<br>
+                                    <textarea class="md-textarea" ng-model="social.others" class="form-control"></textarea><br>
+                                    <button class="btn btn-success pull-right" ng-click="saveSocialCommunity(social,selectedPatient)">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="birth" tabindex="-1" role="dialog" aria-labelledby="birth" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <h4 style="font-weight: 400">Antenatal</h4>
+                                <textarea class="md-textarea" class="form-control" placeholder="Enter Antenatal history here" ng-model="mtoto.antenatal"> </textarea>
+                            </div>
+                            <div class="col-xs-4">
+                                <h4 style="font-weight: 400">Natal</h4>
+                                <textarea class="md-textarea" class="form-control" placeholder="Enter Natal history here" ng-model="mtoto.natal"> </textarea>
+                            </div>
+                            <div class="col-xs-4">
+                                <h4 style="font-weight: 400">Postnatal</h4>
+                                <textarea class="md-textarea" class="form-control" placeholder="Enter Postnatal history here" ng-model="mtoto.post_natal"> </textarea>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <h4 style="font-weight: 400">Nutrition </h4>
+                                <textarea class="md-textarea" class="form-control" placeholder="Enter Nutrition notes here" ng-model="mtoto.nutrition"> </textarea>
+                            </div>
+                            <div class="col-xs-4">
+                                <h4 style="font-weight: 400">Growth</h4>
+                                <textarea class="md-textarea" class="form-control" placeholder="Enter growth notes here" ng-model="mtoto.growth"> </textarea>
+                            </div>
+                            <div class="col-xs-4">
+                                <h4 style="font-weight: 400">Development</h4>
+                                <textarea class="md-textarea" class="form-control" placeholder="Enter Development notes here" ng-model="mtoto.development"> </textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-success pull-right" ng-click="saveBirthHistory(mtoto,selectedPatient)">save</button>
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="obs" tabindex="-1" role="dialog" aria-labelledby="obs" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+
+                                <h3 align="center" style="font-size: 22px;">Obstetrics History</h3>
+
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Contraceptives</label>
+                                        <input type="text" ng-model="obg.contraceptives" class="form-control">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>Pregnancy</label>
+                                        <input type="text" ng-model="obg.pregnancy" class="form-control">
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label>LNMP</label>
+                                        <input type="text" ng-model="obg.lnmp" class="form-control">
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>Gravidity</label>
+                                        <input type="text" ng-model="obg.gravidity" class="form-control">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>Parity</label>
+                                        <input type="text" ng-model="obg.parity" class="form-control">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>Living Children</label>
+                                        <input type="text" ng-model="obg.living_children" class="form-control">
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <br>
+                                <h3 align="center" style="font-size: 22px;">Gynaecology </h3>
+                                <div class="col-sm-4">
+                                    <label>Menarche</label>
+                                     <input type="text" ng-model="obg.menarche" class="form-control">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Menopause</label>
+                                     <input type="text" ng-model="obg.menopause" class="form-control">
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label>Menstrual cycles</label>
+                                     <input type="text" ng-model="obg.menstrual_cycles" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Changing Pads</label>
+                                     <input type="text" ng-model="obg.pad_changes" class="form-control">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Recurrent Menstruation</label>
+                                     <input type="text" ng-model="obg.recurrent_menstruation" class="form-control">
+                                </div>
+
+
+
+                            </div>
+
+
+                                <div class="row">
+                                    <button class="btn btn-success pull-right" ng-click="saveObsGyn(obg,selectedPatient)">Save</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        <div class="modal fade" id="lab" tabindex="-1" role="dialog" aria-labelledby="lab" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <ul class="list-group" ng-repeat="sub in subDepartments" style="cursor: pointer;">
+                                            <li class="list-group-item form-top" ng-click="getTests(sub.id,selectedPatient)">{{sub.sub_department_name}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <div class="row">
+                                                    <div class='row'>
+                                                        <div class='row'>
+                                                            <div ng-repeat="panel in panels">
+                                                                <div class="col-xs-4"><label class="button button4">
+                                                                    <label><input type="checkbox" ng-model="checked" ng-change="orders(panel,checked,selectedPatient)"><span></span></label>
+                                                                    <span style='background-color:red; cursor: pointer;' ng-if="panel.on_off==0" ></span>
+                                                                    {{ panel.item_name}}</label></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <hr>
+                                            <div class='row'>
+                                                <div class='row'>
+                                                    <div  ng-repeat="test in labTests">
+                                                        <div class="col-xs-3">
+                                                            <label>
+                                                                <input type="checkbox" ng-model="checked" ng-change="orders(test,checked,selectedPatient)">
+                                                                <span style='background-color:red; cursor: pointer;' ng-if="test.on_off==0"></span>{{ test.item_name+' - '+test.price+' Tshs'}}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <h3 style="font-size: 22px;">Selected Orders</h3>
+                                <div class="row" ng-repeat="lab in investigationOrders">
+                                    {{lab.item_name}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(lab,investigationOrders)"></span>
+                                </div>
+                                <div class="row" ng-repeat="lab in unavailableOrders">
+                                    {{lab.item_name}}&nbsp;&nbsp;&nbsp; <span style="color: red;" class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(lab,unavailableOrders)"></span>
+                                </div>
+                            </div>
+
+                            <div class="md-form col-sm-4">
+                                <i class="fa fa-comments prefix"></i>
+                                <textarea type="text" ng-model="inv.clinical_note"  id="form17" class="md-textarea"></textarea>
+                                <label for="form17"> Write Clinical Notes Summary </label>
+                            </div>
+
+                            <div class="form-group col-md-2 col-sm-2">
+                                <label>Investigation Priority</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="inv.priority" placeholder="Select Duration Unit"
+                                       uib-typeahead ="urgent as urgent.urgent
+                                for urgent in urgent | limitTo:12 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+                            </div>
+                            <button class="btn btn-success pull-right" ng-click="saveInvestigation(inv,investigationOrders)">Save</button>
+
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="rad" tabindex="-1" role="dialog" aria-labelledby="rad" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <ul class="list-group" ng-repeat="sub in subDepartments" style="cursor: pointer;">
+                                            <li class="list-group-item form-top" ng-click="getTests(sub.id,selectedPatient)">{{sub.sub_department_name}}
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <div class="row">
+                                            <div class="col-xs-3" >
+                                                <div class="row">
+                                                    <div class='my-legend pull-right'>
+                                                        <div class='legend-scale'>
+                                                            <ul class='legend-labels' ng-repeat="test in labTests">
+                                                                <li><label><span style='background-color:red; cursor: pointer;' ng-if="test.on_off==0"></span>
+                                                                    <input type="checkbox"  ng-model="checked" ng-change="orders(test,checked,selectedPatient)">{{ test.item_name+' - '+test.price+' Tshs'}}</label></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <h3 style="font-size: 22px;">Selected Orders</h3>
+                                <div class="row" ng-repeat="lab in investigationOrders">
+                                    {{lab.item_name}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(lab,investigationOrders)"></span>
+                                </div>
+                            </div>
+
+                            <div class="md-form col-sm-4">
+                                <i class="fa fa-comments prefix"></i>
+                                <textarea type="text" ng-model="inv.clinical_note"  id="form19" class="md-textarea"></textarea>
+                                <label for="form19"> Write Clinical Notes Summary </label>
+                            </div>
+
+                            <div class="form-group col-md-2 col-sm-2">
+                                <label>Investigation Priority</label>
+                                <input type="text"
+                                       class="form-control" typeahead-on-select=""
+                                       ng-model="inv.priority" placeholder="Select Duration Unit"
+                                       uib-typeahead ="urgent as urgent.urgent
+                                for urgent in urgent | limitTo:12 | filter:$viewValue"
+                                       typeahead-template-url="customTemplate.html"
+                                       class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
+                                >
+                            </div>
+
+                            <br>
+                            <button class="btn btn-success pull-right" ng-click="saveInvestigation(inv,investigationOrders)">Save</button>
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="survey" tabindex="-1" role="dialog" aria-labelledby="survey" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                    <div class="cardStyle">
+                                        General Appearance
+                                        <textarea class="md-textarea" class="form-control"  ng-model="survey.appearance"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                    <div class="cardStyle">
+                                        Airway
+                                        <textarea class="md-textarea" class="form-control"  ng-model="survey.airway"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+                                    <div class="cardStyle">
+                                        Breathing
+                                        <textarea class="md-textarea" class="form-control"  ng-model="survey.breathing"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+                                    <div class="cardStyle">
+                                        Circulation
+                                        <br>
+                                        <textarea class="md-textarea" ng-model="survey.circulation" class="form-control"></textarea>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+
+                                    <div class="cardStyle">
+                                        Disability
+                                        <br>
+                                        <textarea class="md-textarea" ng-model="survey.disability" class="form-control"></textarea>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3">
+                                    <div class="cardStyle">
+                                        Exposure<br>
+                                        <textarea class="md-textarea" ng-model="survey.exposure" class="form-control"></textarea><br>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                    <div class="cardStyle">
+                                        Nursing Intervention<br>
+                                        <textarea class="md-textarea" ng-model="survey.Intervention" class="form-control"></textarea><br>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-success pull-right" ng-click="saveSurvey(survey,selectedPatient)">Save</button>
+
+
+
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="scale" tabindex="-1" role="dialog" aria-labelledby="scale" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+                            <br>
+
+                            <div class="col-md-4">
+                                <h3 style="font-size: 18px;">Eye opening Response</h3>
+                                <select class="form-control" ng-model="response.eye">
+                                    <option selected disabled >Select Response</option>
+                                    <option value="4" >Spontaneous</option>
+                                    <option value="3" >To speech</option>
+                                    <option value="2" >To pain</option>
+                                    <option value="1" >No response</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 style="font-size: 18px;">Best Verbal response</h3>
+                                <select class="form-control" ng-model="response.verbal">
+                                    <option selected disabled >Select Response</option>
+                                    <option value="5" >Oriented to time, place and person</option>
+                                    <option value="4" >Confused</option>
+                                    <option value="3" >Inappropriate words</option>
+                                    <option value="2" >Incomprehensible sounds</option>
+                                    <option value="1" >No response</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <h3 style="font-size: 18px;">Best Motor response</h3>
+                                <select class="form-control" ng-model="response.motor">
+                                    <option selected disabled >Select Response</option>
+                                    <option value="6" >Obeys commands</option>
+                                    <option value="5" >Move to localized pain</option>
+                                    <option value="4" >Flexion withdrawal from pain</option>
+                                    <option value="3" >Abnormal flexion (decorticate)</option>
+                                    <option value="2" >Abnormal extension (decerebrate)</option>
+                                    <option value="1" >No response</option>
+
+                                </select>
+                            </div>
+
+                            <button ng-click="SaveCommaScale(response,selectedPatient)" class="btn btn-success pull-right">Save response</button>
+                            <button ng-if="response.eye||response.verbal||response.motor" class="btn btn-success pull-right" >Total Score: {{response.eye--response.verbal--response.motor}}</button>
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="diagnosispre" tabindex="-1" role="dialog" aria-labelledby="diagnosispre" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+                            <br>
+
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                                    <h3 style="font-size: 22px;">Provisional Diagnosis</h3>
+                                    <div class="row">
+                                        <input type="text" ng-model="selectedProvisional" typeahead-on-select="addProv($item,selectedPatient,'Provisional')" class="form-control" placeholder="Type ICD10 code or Description to  Search" uib-typeahead ="prov as prov.description+' '+prov.code for prov in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+                                    </div>
+                                    <div class="row" ng-repeat="prov in provisionalDiagnosis"><br>
+                                        {{prov.description}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(prov,provisionalDiagnosis)"></span>
+                                    </div><br>
+                                    <button ng-click="saveDiagnosis(provisionalDiagnosis)" class="btn btn-success pull-right">Save</button>
+                                </div>
+                                <div class="col-xs-2 col-md-2 col-sm-2 col-lg-2">
+                                </div>
+                                <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                                    <h3 style="font-size: 22px;">Differential Diagnosis</h3>
+                                    <div class="row">
+                                        <input type="text" ng-model="selectedDifferential" typeahead-on-select="addDiff($item,selectedPatient,'Differential')" class="form-control" placeholder="Type ICD10 code or Description to  Search" uib-typeahead ="diff as diff.description+' '+diff.code for diff in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+                                    </div>
+                                    <div class="row" ng-repeat="dif in differentialDiagnosis"><br>
+                                        {{dif.description}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(dif,differentialDiagnosis)"></span>
+                                    </div><br/>
+                                    <button ng-click="saveDiagnosis(differentialDiagnosis)" class="btn btn-success pull-right">Save</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <div class="modal fade" id="diagnosisconf" tabindex="-1" role="dialog" aria-labelledby="diagnosisconf" aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-top" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div style="background-color: #26a69a !important;" class="modal-header light-blue darken-3 white-text">
+                        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 style="font-size: 18px;" ng-if="selectedPatient.first_name.length >0"><span ><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;
+                            {{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}}&nbsp;&nbsp;&nbsp;  {{"MRN: "+selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp; {{" A/C#: "+selectedPatient.account_number}}&nbsp;&nbsp;&nbsp; {{"DoB: "+selectedPatient.dob}}&nbsp;&nbsp;&nbsp;  {{"Gender: "+selectedPatient.gender}}&nbsp;&nbsp;&nbsp;  {{"Age: "+selectedPatient.age}}
+
+                        </h3>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="row">
+                            <br>
+                            <br>
+
+                            <div class="col-xs-8">
+                                <p style="font-weight: 400">Confirmed Diagnosis</p>
+                                <input type="text" ng-model="selectedConfirmed" typeahead-on-select="addConf($item,selectedPatient,'Confirmed')" class="form-control" placeholder="Type ICD10 code or Description to  Search Diagnosis" uib-typeahead ="conf as conf.description+' '+conf.code for conf in showDiagnosis($viewValue) | filter:$viewValue | limitTo:5">
+
+                            </div>
+
+
+                        </div>
+                        <div class="row" ng-repeat="conf in confirmedDiagnosis"><br>
+                            {{conf.description}}&nbsp;&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" ng-click="removeFromSelection(conf,confirmedDiagnosis)"></span>
+                        </div>
+
+                        <button ng-click="saveDiagnosis(confirmedDiagnosis)" class="btn btn-success pull-right">Save</button>
+
+
+
+                    </div>
+
+
+
+
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row"></div>
+                    <!--Footer-->
+                    <div class="">
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function PrintContent() {
+//location.reload();
+        var DocumentContainer = document.getElementById('divtoprint');
+        var WindowObject = window.open("", "PrintWindow",
+            "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.title = "  GoT-HOMIS";
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+
+        setTimeout(function () {
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        }, 2000);
+    }
+</script>

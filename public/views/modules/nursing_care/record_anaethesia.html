@@ -1,0 +1,458 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3> PATIENT NAME: {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}}({{patientPaticulars.medical_record_number}}) &nbsp; OPERATION DAY:{{patientPaticulars.operation_date}}  BED:{{admissionInfoData.bed_name}}
+						  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                                                   
+
+
+                                     <div layout="row">
+                        
+
+ <md-list flex>
+   <md-list-item ng-click="toggle.list2 = !toggle.list2">
+    <md-icon>explore</md-icon>
+    <span flex>ASSOCIATE HISTORY</span>
+    <md-icon ng-show="!toggle.list2">expand_more</md-icon>
+    <md-icon ng-show="toggle.list2">expand_less</md-icon>
+  </md-list-item>
+  <span  ng-show="toggle.list2" >
+          
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label> Medical History</label>
+                                    <input type="text" ng-model="associate_history.medical">
+                                                
+                                     </md-input-container>
+
+                                </div>
+
+                                 <div class="row">
+                                    <md-input-container class="md-block">
+                                    <label>Surgical History</label>
+                                    <input type="text" ng-model="associate_history.surgical">
+                                    </md-input-container>
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveAssociateHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+  <md-list-item ng-click="toggle.list3 = !toggle.list3">
+    <md-icon>explore</md-icon>
+    <span flex>PAST HISTORY</span>
+    <md-icon ng-show="!toggle.list3">expand_more</md-icon>
+    <md-icon ng-show="toggle.list3">expand_less</md-icon>
+  </md-list-item>
+    <span  ng-show="toggle.list3">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label> Medical History</label>
+                                    <input type="text" ng-model="associate_history.medical">
+
+                                     </md-input-container>
+
+                                </div>
+
+                                 <div class="row">
+                                    <md-input-container class="md-block">
+                                    <label>Surgical History</label>
+                                    <input type="text" ng-model="associate_history.surgical">
+                                    </md-input-container>
+                                </div>
+                                <div class="row">
+                                    <md-input-container class="md-block">
+                                    <label>Anethetic History</label>
+                                    <input type="text" ng-model="associate_history.anethetic">
+                                    </md-input-container>
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="savePastProceduresHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+     <md-list-item ng-click="toggle.list4 = !toggle.list4">
+    <md-icon>explore</md-icon>
+    <span flex>FAMILY HISTORY</span>
+    <md-icon ng-show="!toggle.list4">expand_more</md-icon>
+    <md-icon ng-show="toggle.list4">expand_less</md-icon>
+  </md-list-item>
+    <span  ng-show="toggle.list4">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label> Family History</label>
+                                    <input type="text" ng-model="associate_history.family_history">
+
+                                     </md-input-container>
+
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveFamilyHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+     <md-list-item ng-click="toggle.list5 = !toggle.list5">
+    <md-icon>explore</md-icon>
+    <span flex>SOCIAL HISTORY</span>
+    <md-icon ng-show="!toggle.list5">expand_more</md-icon>
+    <md-icon ng-show="toggle.list5">expand_less</md-icon>
+  </md-list-item>
+    <span  ng-show="toggle.list5">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label> Social History</label>
+                                    <input type="text" ng-model="associate_history.social_history">
+
+                                     </md-input-container>
+
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveSocialAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+<md-list-item ng-click="toggle.list6 = !toggle.list6">
+    <md-icon>explore</md-icon>
+    <span flex>ALLERGIES</span>
+    <md-icon ng-show="!toggle.list6">expand_more</md-icon>
+    <md-icon ng-show="toggle.list6">expand_less</md-icon>
+  </md-list-item>
+    <span  ng-show="toggle.list6">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>Allergies</label>
+                                    <input type="text" ng-model="associate_history.allergies">
+
+                                     </md-input-container>
+
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveAllergiesAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+<md-list-item ng-click="toggle.list7 = !toggle.list7">
+    <md-icon>explore</md-icon>
+    <span flex>PHYSICAL EXAMINATION</span>
+    <md-icon ng-show="!toggle.list7">expand_more</md-icon>
+    <md-icon ng-show="toggle.list7">expand_less</md-icon>
+  </md-list-item>
+    <span  ng-show="toggle.list7">
+
+         <div layout="row">
+
+                                 <md-input-container>
+                                     <md-select ng-model="associate_history.system_type">
+                                        <md-option value="--Select Options--" selected="selected">System Reviewed</md-option>
+                                        <md-option value="General">General</md-option>
+                                        <md-option value="RS">Respiratory System</md-option>
+                                        <md-option value="CVS">Cardivascular System</md-option>
+                                        <md-option value="GIT">Gastro Intestine System</md-option>
+                                        <md-option value="CNS">Central Nervous System</md-option>
+                                        <md-option value="MISC">Misceleneous</md-option>
+                                    </md-select>
+                                </md-input-container>
+
+                                 <md-input-container flex-gt-sm>
+                                    <label>Descriptions</label>
+                                    <input type="text"   ng-model="associate_history.descriptions" >
+                                </md-input-container>
+                <md-button class="md-raised md-primary" ng-click="savePhysicalAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+
+
+                            </div>
+    </span>
+
+<span ng-click="getTeeth(patientPaticulars)">
+<md-list-item ng-click="toggle.list8 = !toggle.list8">
+    <md-icon>explore</md-icon>
+    <span flex >MOBILE MISSION</span>
+    <md-icon ng-show="!toggle.list8">expand_more</md-icon>
+    <md-icon ng-show="toggle.list8">expand_less</md-icon>
+  </md-list-item>
+    </span>
+    <span  ng-show="toggle.list8">
+          <span  ng-if="dentals.toothStatus ==true">
+
+         <div layout="row">
+                                <md-input-container>
+                                     <md-select  ng-model="dental.dental_status">
+                                        <md-option value="--Select Options--" selected="">Dental Status</md-option>
+                                        <md-option value="2">LOOSE</md-option>
+                                        <md-option value="1">MISSED</md-option>
+                                     </md-select>
+                                 </md-input-container>
+
+                                 <md-button class="md-raised md-primary" ng-click="addDentalInfo(dental,dentals,patientPaticulars)">SAVE</md-button>
+         </div>
+    </span>
+
+         <div layout="row">
+                               <style>
+                             .numberCircle {
+                                 border-radius: 50%;
+
+                                 width: 36px;
+                                 height: 36px;
+                                 padding: 8px;
+
+                                 background: #fff;
+                                 border: 2px solid #666;
+                                 color: #666;
+                                 text-align: center;
+
+                                 font: 32px Arial, sans-serif;
+                             }
+
+                             .missedDental {
+                                 border-radius: 50%;
+
+                                 width: 36px;
+                                 height: 36px;
+                                 padding: 8px;
+
+                                 background: #c72020;
+                                 border: 2px solid #666;
+                                 color: #eee;
+                                 text-align: center;
+
+                                 font: 32px Arial, sans-serif;
+                             }
+
+                             div.square {
+                                 border: solid 5px #307972;
+                                 font-size:30px
+                                 width: 30px;
+                                 height: 30px;
+                             }
+
+                             div.square_upper {
+                                 border: solid 5px #307972;
+                                 font-size:30px
+                                 width: 30px;
+                                 height: 30px;
+                             }
+</style>
+
+<table class="table table-striped" ng-click="getTeeth(patientPaticulars)">
+    <thead>
+      <tr>
+	  <th ng-repeat="teethAbove in teethAboves" style="mouse:pointer;"><div class="square_upper" ng-click="saveDentalStatus(teethAbove.id,teethAbove.teeth_number,patientPaticulars)">
+
+	  {{teethAbove.teeth_number}}</div></th>
+      </tr>
+    </thead>
+    <tbody>
+	     <tr>
+
+       <th ng-repeat="teethBelow in teethBelows"><div class="square"  ng-click="saveDentalStatus(teethBelow.id,teethBelow.teeth_number,patientPaticulars)">{{teethBelow.teeth_number}}</div></th>
+
+      </tr>
+    </tbody>
+  </table>
+                              </div>
+
+
+          <div layout="row">
+
+
+       <h4 ng-if="teeth_patientsAboves[0].teeth_number">Dental Status<h4>
+  <table class="table table-striped" ng-click="getTeeth(selectedPatient)">
+    <thead>
+      <tr>
+	  <th ng-repeat="teeth_patientsAbove in teeth_patientsAboves"><span class="{{teeth_patientsAbove.css_class}}">{{teeth_patientsAbove.teeth_number}}</span></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <th ng-repeat="teeth_patientsBelow in teeth_patientsBelows"><span class="{{teeth_patientsBelow.css_class}}">{{teeth_patientsBelow.teeth_number}}</span></th>
+
+      </tr>
+    </tbody>
+  </table>
+
+       </div>
+    </span>
+
+
+     <md-list-item ng-click="toggle.list9 = !toggle.list9">
+         <md-icon>explore</md-icon>
+         <span flex>Laboratory Status</span>
+         <md-icon ng-show="!toggle.list9">expand_more</md-icon>
+         <md-icon ng-show="toggle.list9">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list9">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>Laboratory Status</label>
+                                    <input type="text" ng-model="associate_history.laboratory_status">
+                                   </md-input-container>
+
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveLaboratoryAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+ <md-list-item ng-click="toggle.list10 = !toggle.list10">
+         <md-icon>explore</md-icon>
+         <span flex>NUTRITION STATUS</span>
+         <md-icon ng-show="!toggle.list10">expand_more</md-icon>
+         <md-icon ng-show="toggle.list10">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list10">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>NUTRITION STATUS</label>
+                                    <input type="text" ng-model="associate_history.nutrition_status">
+                                   </md-input-container>
+
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveNutritionAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+
+ <md-list-item ng-click="toggle.list11 = !toggle.list11">
+         <md-icon>explore</md-icon>
+         <span flex>PHYSICAL STATUS</span>
+         <md-icon ng-show="!toggle.list11">expand_more</md-icon>
+         <md-icon ng-show="toggle.list11">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list11">
+
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>PHYSICAL STATUS</label>
+                                    <input type="text" ng-model="associate_history.physical_status">
+                                   </md-input-container>
+
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="savePhysicalStatusAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+ <md-list-item ng-click="toggle.list12 = !toggle.list12">
+         <md-icon>explore</md-icon>
+         <span flex>LAST ORAL INTAKE</span>
+         <md-icon ng-show="!toggle.list12">expand_more</md-icon>
+         <md-icon ng-show="toggle.list12">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list12">
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>LAST ORAL INTAKE</label>
+                                    <input type="text" ng-model="associate_history.last_oral_intake">
+                                   </md-input-container>
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveLastOralIntakeAnetheticHistory(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+
+ <md-list-item ng-click="toggle.list13 = !toggle.list13">
+         <md-icon>explore</md-icon>
+         <span flex>Pre Anaethetic Order</span>
+         <md-icon ng-show="!toggle.list13">expand_more</md-icon>
+         <md-icon ng-show="toggle.list13">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list13">
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>Pre Anaethetic Order</label>
+                                    <input type="text" ng-model="associate_history.PreAnaetheticOrder">
+                                   </md-input-container>
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="savePreAnaetheticOrder(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+<md-list-item ng-click="toggle.list14 = !toggle.list14">
+         <md-icon>explore</md-icon>
+         <span flex>Anaethetic Technique</span>
+         <md-icon ng-show="!toggle.list14">expand_more</md-icon>
+         <md-icon ng-show="toggle.list14">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list14">
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>Anaethetic Technique</label>
+                                    <input type="text" ng-model="associate_history.anaetheticTechnique">
+                                   </md-input-container>
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveanaetheticTechnique(associate_history,patientPaticulars)">SAVE</md-button>
+                                </div>
+                                </span>
+
+<md-list-item ng-click="toggle.list15 = !toggle.list15">
+         <md-icon>explore</md-icon>
+         <span flex>CONFIRM STARTING OPERATION</span>
+         <md-icon ng-show="!toggle.list15">expand_more</md-icon>
+         <md-icon ng-show="toggle.list15">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list15">
+                                <div class="row">
+                                  <md-input-container class="md-block">
+                                    <label>confirmation Notes</label>
+                                    <input type="text" ng-model="associate_history.confirmation">
+                                   </md-input-container>
+                                </div>
+
+                                <div class="row">
+                                  <md-button class="md-raised md-primary" ng-click="saveConfirmationForOperation(associate_history,patientPaticulars)">Confirm</md-button>
+                                </div>
+                                </span>
+
+
+
+
+</md-list>
+</div>
+   </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,35 @@
+<div class="login-form-container bg-login"  layout="row" layout-align="center center">
+
+    <form name="form" class="login-form md-whiteframe-z2" style="border-radius:10px;background-color:white;border-top:2px solid blue;border-bottom:2px solid green;" novalidate ng-submit="auth.login()">
+
+        <div class="logo-container">
+
+            <img src="/img/thumb_gov_tanzania_logo.png" alt="" class="img-responsive center-block">
+            <div class="logo-text">
+                <h2 style="font-size:18px; font-weight:600;">GoT - HoMIS <small> 3.0 </small></h2>
+            </div>
+        </div>
+        <md-content layout-padding layout="column">
+            <md-input-container>
+                <label>Username</label>
+                <input value="" autocomplete="off" type="email" name="email" ng-model="auth.email" required md-autofocus autofocus/>
+                <div ng-messages="form.email.$error">
+                    <div ng-message="required">Can not be blank.</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Password</label>
+                <input autocomplete="new-password" value="" autocomplete="off" type="password" name="password" ng-model="auth.password" required/>
+                <div ng-messages="form.password.$error">
+                    <div ng-message="required">Can not be blank.</div>
+                </div>
+            </md-input-container>
+        </md-content>
+        <div ng-if="Loads" layout="row" layout-sm="column" layout-align="space-around">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <md-button ng-disabled="form.$invalid" type="submit" class="md-raised md-primary">Sign In</md-button>
+    </form>
+
+</div>

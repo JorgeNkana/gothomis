@@ -1,0 +1,97 @@
+<md-dialog class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>STAFF PERFOMANCE REPORT</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <div layout-padding style="width:80%;margin:0 auto;">
+
+            <div layout="row">
+                <div layout="row">
+                    <md-input-container>
+                        <label>Start date</label>
+                        <md-datepicker ng-model="dt_start" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                       required></md-datepicker>
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>End date</label>
+                        <md-datepicker ng-model="dt_end" style="width:100%" md-hide-icons="calendar" md-open-on-focus
+                                       required></md-datepicker>
+                    </md-input-container>
+
+                </div>
+                <div>
+                    <md-button class="md-primary md-raised" ng-click="getReportBasedOnthisDate(dt_start,dt_end)">
+                        Report
+                    </md-button>
+                </div>
+            </div>
+
+
+            <a onclick="PrintContent();" title="Print" class="no-print   "><b
+            ></b> </a>
+
+            <md-content>
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" border="1">
+                    <caption><b class="">
+
+                        <div class="text-center"><h5> RIPOTI YA USAJILI YA WAGONJWA WA NJE (OPD)</h5></div>
+
+                        <hr>
+
+                        <b class="col-md-4">Jina la Kituo:
+                            {{loginUserFacilityDetails[0].facility_name}} </b>
+                        <b class="col-md-4">Wilaya : {{loginUserFacilityDetails[0].council_name}} </b>
+                        <b class="col-md-4">Mkoa : {{loginUserFacilityDetails[0].region_name}} </b>
+                        <P></P>
+                        <P></P>
+                        <P></P>
+                        <b class="col-md-4">Kuanzia:{{start_date | date:'dd.MM.yyyy'}} </b>
+                        <b class="col-md-4">Hadi:{{end_date | date:'dd.MM.yyyy'}} </b>
+                        <hr>
+                    </b></caption>
+
+
+                    <tr style="background-color:#c1c1c1">
+
+
+                        <th class="mdl-data-table__cell--non-numeric">Na.</th>
+                        <th class="mdl-data-table__cell--non-numeric">Jina la Msajili</th>
+                        <th class="mdl-data-table__cell--non-numeric">Waliohudumiwa</th>
+                    </tr>
+
+                    <tr>
+
+                        <th class="mdl-data-table__cell--non-numeric"> 1</th>
+                        <th class="mdl-data-table__cell--non-numeric"> {{currentUser.name | uppercase}}</th>
+                        <th class="mdl-data-table__cell--non-numeric">{{specificStaff.number_registered}}</th>
+
+
+                    </tr>
+                    <tr>
+
+                        <th class="mdl-data-table__cell--non-numeric"> 2</th>
+                        <th class="mdl-data-table__cell--non-numeric"> Watumishi wengine</th>
+                        <th class="mdl-data-table__cell--non-numeric">{{otherStaff.number_registered}}</th>
+
+                    </tr>
+                </table>
+
+
+            </md-content>
+
+        </div>
+
+        </div>
+        <!-- end content -->
+
+
+    </md-dialog-content>
+</md-dialog>

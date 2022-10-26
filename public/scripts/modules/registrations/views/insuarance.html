@@ -1,0 +1,84 @@
+<md-dialog>
+    <form  autocomplete="off">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                 <h2>NAME: {{patientData.first_name}} {{patientData.middle_name}} {{patientData.last_name}} &nbsp; &nbsp;Sex: {{patientData.gender}}&nbsp;Authorization No: {{patientData.AuthorizationNo}}&nbsp;Membership No: {{patientData.membership_number}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                   
+                        <div layout="row">   
+                        <div flex="20"><div style="display: flex; justify-content: left;">
+                                <img  width="140px" height="140px" class="push-right" src="https://verification.nhif.or.tz/Portal//breeze/Verification/GetImage?CardNo={{patientData.card_no}}" alt="Client Photo">
+                               </div> </div> <div flex="80"> 
+
+                                    <form name="projectForm">
+                                    <div layout="row">                 
+                          
+                                            <md-input-container flex>
+                                                  <label>Occupation</label>
+                                                  <input type="text" ng-model="patient.occupation"    uib-typeahead ="occupation as occupation.occupation_name for occupation in showSearchOccupation($viewValue) | filter:$viewValue">
+                                             </md-input-container>
+                                            
+                                            <md-autocomplete flex flex
+                                                               md-search-text="search"
+                                                               md-input-name="patient"
+                                                               md-no-cache="false"
+                                                               md-items="item in getResidence(search)"
+                                                               md-item-text="item.residence_name+' '+item.council_name"
+                                                               md-selected-item-change="selectedResidence(item)"
+                                                               md-floating-label="Search Residence"
+                                                               md-min-length="3" md-autofocus>
+                                                  <md-item-template>
+                                                      <span md-highlight-text="searchText">{{item.residence_name}} {{item.council_name}}</span>
+                                                  </md-item-template>
+                                                  </md-autocomplete>
+                                                  
+                                          </div>	
+                  
+                                          <div layout="row">
+                                                  <md-input-container flex>
+                                                          <label>Mobile Number</label>
+                                                          <input id="mobile_number" type="text"  ng-model="patient.mobile_number">
+                                                      </md-input-container>
+                                              <md-input-container flex>
+                                                   <label>National ID (NIDA) </label>
+                                                   <input id="national_id" type="text"  ng-model="patient.nida">
+                                               </md-input-container>
+                                             
+                                              <md-input-container flex>
+                                                   <label>Services</label>
+                                               <input type="text" ng-model="patient.payment_services"
+                                                          uib-typeahead ="patientCat as patientCat.item_name +' '+ patientCat.price for  patientCat in patientInsuaranceService($viewValue,patientData) | filter:$viewValue">
+                                               </md-input-container>
+                                           </div>	
+                                       </form>
+                                  </div>
+                               </div>
+
+                                
+					
+				
+                     
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button  ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary" ng-click="savePatientInsuarance(patientData,patient,residence)" class="md-primary">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

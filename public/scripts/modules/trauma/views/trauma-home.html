@@ -1,0 +1,91 @@
+<style>
+	td.emergency {
+		font-weight: bold;
+		font-size: 14px;
+		background-color:red;
+	}
+
+	td.priority {
+		font-weight: bold;
+		font-size: 13px;
+		background-color:orange;
+	}
+
+	td.queue {
+		font-weight: bold;
+		font-size: 12px;
+		background-color:green;
+	}
+</style>
+<div ng-cloak="">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Emergency Queue">
+
+                <md-content class="md-padding">
+                    <md-input-container class="md-block">
+                         <input type="text" class="pull-right" ng-model="selectedConfirmed" typeahead-on-select="consult(selectedConfirmed) "
+                               placeholder="Type MRN to  Search"
+                               uib-typeahead="diag as diag.first_name+' '+diag.last_name+' '+diag.mrn for diag in getTraumaListSearched($viewValue) | filter:$viewValue | limitTo:30">
+                    </md-input-container>
+                    <div layout="row">
+                        <table class="table table-bordered table-striped">
+							<thead>
+								<tr style="background-color:#d3d3d3">
+									<th><span>SNO</span></th>                                 
+									<th><span>PATIENT NAME</span></th>                                 
+									<th><span>MRN</span></th>                                 
+									<th><span>AGE</span></th>
+									<th><span>GENDER</span></th>
+									<th><span>ACUITY</span></th>
+									<th><span>VITAL SIGNS</span></th>                               
+								</tr>
+							</thead>
+							<tbody>
+							   <tr ng-repeat="patient in trauma_lists |filter:search track by $index" ng-click="consult(patient)">	
+								   <td style="font-weight:bold; text-align:right">{{$index+1}}.</td>
+								   <td><a ng-click="openDialog(patient)" style="cursor: pointer;decoration:none" >{{patient.surname}}, {{patient.first_name}}</a></td>
+								   <td>{{patient.mrn}}</td>
+								   <td>{{patient.age}}</td>
+								   <td>{{patient.gender}}</td>
+								   <td ng-class="{emergency: patient.triage_category.toLowerCase()=='3', priority: patient.triage_category.toLowerCase()=='2', queue: patient.triage_category.toLowerCase()=='1'}">{{patient.category}}</td>
+								   <span ng-if = 'patient.temp'><b>Temp: </b>{{patient.temp}}&deg;C</span>
+										<span ng-if = 'patient.bp'><b>&nbsp;&nbsp;&nbsp;BP: </b>{{patient.bp}}</span>
+										<span ng-if = 'patient.hr'><b>&nbsp;&nbsp;&nbsp;HR: </b>{{patient.hr}}</span>
+										<span ng-if = 'patient.rr'><b>&nbsp;&nbsp;&nbsp;RR: </b>{{patient.rr}}</span>
+										<span ng-if = 'patient.spo2'><b>&nbsp;&nbsp;&nbsp;Sp0<sub>2</sub>: </b>{{patient.spo2+' L'}}</span>
+										<span ng-if = 'patient.weight'><b>&nbsp;&nbsp;&nbsp;Weight: </b>{{patient.weight+' Kg'}}</span>
+										<span ng-if = 'patient.height'><b>&nbsp;&nbsp;&nbsp;Height: </b>{{patient.height+' Cm'}}</span>
+									</td>
+							   </tr>
+							</tbody>
+						</table>
+                    </div>
+                </md-content>
+            </md-tab>
+			<!-- <md-tab label="my performance">
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <md-input-container >
+                            <label>Choose Start Date</label>
+                            <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container >
+                            <label>Choose End Date</label>
+                            <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                        </md-input-container>
+                        <md-input-container>
+                            <md-button class="md-raised md-primary" ng-click="getPerformance(pef)">Search</md-button>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" ng-if="performanceRange.length>0 || performanceThisMonth.length>0">
+                        Dear <strong>{{currentUser.name}}</strong>, you have consulted &nbsp; &nbsp;  <strong title=" {{performanceRange[0].total_clients}}   customer(s) consulted" class="badge">{{performanceRange[0].total_clients}}</strong>  &nbsp; &nbsp;  patients from {{ pef.start }} to {{ pef.end }}.
+                        <p></p>
+                        Also a total of {{performanceThisMonth[0].total_patients}} patients this current month. <br> 
+                        Thank you!
+                    </div>
+                </md-content>
+            </md-tab> -->
+        </md-tabs>
+    </md-content>
+</div>

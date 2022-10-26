@@ -1,0 +1,45 @@
+<md-content>
+
+      <table class="table table-striped table-bordered " width="100%">
+                        <thead>
+						<tr>
+                        <th >S/No.</th>
+                        <th >Patient Full Name</th>
+                        <th  ">Gender</th>
+                        <th   >Age</th>
+                        <th   >MRN</th> 
+						<th   >Facility Name</th>
+                      
+                        <th   >Doctor's Name</th>
+                        <th   >Status</th>
+						  <th   >Priority</th>
+                        <th  >Action</th>
+						</tr>
+                        </thead>
+                        <tbody>
+						 
+                        <tr   ng-repeat="outReferral in outReferrals track by $index">
+                       <td   ng-if="outReferral.first_name">{{$index+1}}  </td>
+							
+							<td ng-if="outReferral.first_name">{{outReferral.first_name}} {{outReferral.middle_name}} {{outReferral.last_name}}</td>
+							
+                            <td  ng-if="outReferral.first_name">{{outReferral.gender}}</td>
+                            <td  ng-if="outReferral.first_name">{{outReferral.age}}</td>
+                            <td  ng-if="outReferral.first_name">{{outReferral.medical_record_number}}</td>
+							<td  ng-if="outReferral.first_name">{{outReferral.sender_facility}}</td>
+                            
+                            <td  ng-if="outReferral.first_name">{{outReferral.doctor_name}} ({{outReferral.doctor_number}})
+							</td>
+                            <td  ng-if="outReferral.first_name">
+							<span ng-if='outReferral.status==1'>PENDING </span>
+							<span ng-if='outReferral.status==0'>RECEIVED </span>
+							<span ng-if='outReferral.status==2'>CONSULTED </span>
+							</td>
+							<td ng-if="outReferral.first_name">High</td>
+                            <td  class="mdl-data-table__cell--non-numeric" 
+							ng-if="outReferral.first_name">
+							<md-button class="md-raised md-primary" ng-click="rejectOutReferral(outReferral)">Cancel Request</md-button></td>
+                        </tr>
+                        </tbody>
+                    </table>           
+    </md-content>

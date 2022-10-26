@@ -1,0 +1,116 @@
+<md-dialog class="fullscreen-dialog" ng-controller="nursingCareController">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+               <md-dialog-content>
+            <div class="md-dialog-content">
+            <md-content class="md-padding">
+			 <table class="table table-bordered" width="100%" border="1">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA JINSIA, WAZEE, WATOTO NA WALEMAVU</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <!--<div  class="text-center"> <h8> MWANANYAMALA REGIONAL REFFERAL HOSPITAL </h8></div>-->
+                                                            <div  class="text-center"><h8> <i> OPERATION REPORT</i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{patientPaticulars.first_name}} {{patientPaticulars.middle_name}} {{patientPaticulars.last_name}} </b>
+                                                            <b class="col-md-4">REG : {{patientPaticulars.medical_record_number}} </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4">DIAGNOSIS:........................... </b>
+                                                            <b class="col-md-4">WARD:{{admissionInfoData.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{admissionInfoData.bed_name}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+
+                                                    </table>
+			
+            <div layout="row">
+
+ <md-list flex>
+  
+    
+	 <md-list-item ng-click="toggle.list3 = !toggle.list3">
+         <md-icon>explore</md-icon>
+         <span flex>DESCRIPTION OF PROCEDURES</span>
+         <md-icon ng-show="!toggle.list3">expand_more</md-icon>
+         <md-icon ng-show="toggle.list3">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list3">
+	 
+                              <div class="row">
+							   <md-input-container class="md-block">
+          <label>Descripitions</label>
+          <textarea ng-model="descriptions.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+                                                  
+                                  <md-input-container>
+           <md-button  class="md-raised md-primary"  ng-click="saveDescriptionsProcedures(patientPaticulars,descriptions)" class="md-primary"> SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+
+								
+     </span>
+	 
+	  <md-list-item ng-click="toggle.list4 = !toggle.list4">
+         <md-icon>explore</md-icon>
+         <span flex>POST OPERATIVE ORDERS</span>
+         <md-icon ng-show="!toggle.list4">expand_more</md-icon>
+         <md-icon ng-show="toggle.list4">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list4">
+	  <div class="row">
+							   <md-input-container class="md-block">
+          <label>Descripitions</label>
+          <textarea ng-model="descriptions.operativeOrder" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+                                                  
+                                  <md-input-container>
+           <md-button  class="md-raised md-primary"  ng-click="savePostOperativeOrders(patientPaticulars,descriptions)" class="md-primary"> SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+     </span>
+	 
+	
+	 <md-list-item ng-click="toggle.list9 = !toggle.list9">
+         <md-icon>explore</md-icon>
+         <span flex>ATTENTION</span>
+         <md-icon ng-show="!toggle.list9">expand_more</md-icon>
+         <md-icon ng-show="toggle.list9">expand_less</md-icon>
+     </md-list-item>
+     <span  ng-show="toggle.list9">
+                                <div class="row">
+                                <md-input-container class="md-block">
+                                    <label>Attention</label>
+             <input type="text" ng-model="nursingcare.attention" >
+                                </md-input-container>
+                               
+                                 <md-input-container >
+                                   <md-button  class="md-raised md-primary"    ng-click="saveAtentions(patientPaticulars,nursingcare)" class="md-primary">
+                                    SAVE
+                                   </md-button>
+                                  </md-input-container>
+                                </div> 
+														
+     </span>
+	 
+	</md-list>
+</div>
+   </div>
+
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+         
+        </md-dialog-actions>
+    </form>
+</md-dialog>

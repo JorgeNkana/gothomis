@@ -1,0 +1,13 @@
+<div class="">
+    <form>
+        <div class="input-group">
+            <input data-toggle="tooltip" title="Search Patient Names Here by using MRN " type="text" placeholder="Search Patients" name="search" class="form-control input-lg" uib-typeahead="patientCategory as patientCategory.patient_category for patientCategory in searchPatientCategory($viewValue) | filter:$viewValue">
+            <div class="input-group-btn">
+                <button class="btn btn-lg btn-success" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>

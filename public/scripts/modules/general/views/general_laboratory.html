@@ -1,0 +1,190 @@
+<div style="padding-right: 5px; width:103%">
+    <md-content  class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="SAMPLE COLLECTION" ng-click="loadDistrict()">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/micro.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Sample Collection</span>
+                                    <span class="md-subhead">Collecting Sample</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <form  name="searchForm">
+                                <div flex="100">
+                                    <md-autocomplete  flex
+                                                      md-search-text="searchText10"
+                                                      md-input-name="patients"
+                                                      md-no-cache="true" md-clear-button="true"
+                                                      md-items="item in searchLabPatients(searchText10)"
+                                                      md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                      md-selected-item-change="selectedResidence(item)"
+                                                      md-floating-label="Search Patients for Sample Collection "
+                                                      md-min-length="3" md-autofocus>
+                                        <md-item-template>
+                                            <span  ui-sref="patient_sample({a:item.order_id,b:item.medical_record_number})" md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} </span>
+                                        </md-item-template>
+
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+                            <div ng-show="loadedDistrict==false" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                            </div>
+                            <div layout="row">
+                                <md-chips>
+                                    <md-chip  ng-repeat="pt in laboratoryData.data" ui-sref="patient_sample({a:pt.order_id,b:pt.medical_record_number})" style="cursor: pointer">
+                                        {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}</h5>
+                                    </md-chip>
+                                </md-chips>
+                            </div>
+                            <md-table-pagination md-limit="query.per_page"
+                                                 md-limit-options="limitOptions"
+                                                 md-page="query.page"
+                                                 md-total="{{laboratoryData.total}}"
+                                                 md-page-select="options.pageSelect"
+                                                 md-boundary-links="options.boundaryLinks"
+                                                 md-on-paginate="getLabTestRequests">
+                            </md-table-pagination>
+                            <div ng-show="loadedDistrict==true">
+                                <md-table-pagination md-limit="query.per_page"
+                                                     md-limit-options="limitOptions"
+                                                     md-page="query.page"
+                                                     md-total="{{loaded_districts.total}}"
+                                                     md-page-select="options.pageSelect"
+                                                     md-boundary-links="options.boundaryLinks"
+                                                     md-on-paginate="loadDistrict">
+                                </md-table-pagination>
+                                <md-table-container>
+                                    <table md-table md-row-select="options.rowSelection"
+                                           multiple="{{options.multiSelect}}"
+                                           ng-model="selected"
+                                           md-progress-linear ng-if="!promise">
+                                        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                        <tr md-row>
+                                            <th style="text-align: left; padding-left: 0px;"><span style="padding-left: 20px;"><strong>Region Name</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Vote</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Population</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Centroid</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Registration Number</strong></span></th>
+                                            <th style="text-align: left; padding-left: 0px;"><span><strong>Actions</strong></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row md-select="user"
+                                            md-on-select="logItem(user)"
+                                            md-auto-select="options.autoSelect"
+                                            ng-disabled="false"
+                                            ng-repeat="user in loaded_districts.data">
+                                            <td md-cell><strong>{{user.district_name }}</strong></td>
+                                            <td md-cell>{{user.vote_no}}</td>
+                                            <td md-cell>{{user.population}}</td>
+                                            <td md-cell>{{user.centroid}}</td>
+                                            <td md-cell>{{user.reg_no}}</td>
+                                            <td md-cell layout="row" class="action-table-data">
+                                                <a ng-click="showRegionUpdateDialog(user.id)" aria-label="Edit" class="delete">
+                                                    <ng-md-icon icon="create" size="30" style="fill: green"></ng-md-icon>
+                                                    <md-tooltip md-direction="top" md-visible="false" autohide="true">Edit
+                                                    </md-tooltip>
+                                                </a> <a ng-click="showVerified(user.patient_id)" aria-label="Delete" class="delete">
+                                                <ng-md-icon icon="delete_sweep" size="30" style="fill: red"></ng-md-icon>
+                                                <md-tooltip md-direction="top" md-visible="false" autohide="true">Delete
+                                                </md-tooltip>
+                                            </a>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <md-table-pagination md-limit="query.per_page"
+                                                     md-limit-options="limitOptions"
+                                                     md-page="query.page"
+                                                     md-total="{{loaded_districts.total}}"
+                                                     md-page-select="options.pageSelect"
+                                                     md-boundary-links="options.boundaryLinks"
+                                                     md-on-paginate="loadDistrict">
+                                </md-table-pagination>
+                            </div>
+                        </md-card>
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="SAMPLE TESTING" ng-click="loadTesting()">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/testing.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Sample Testing</span>
+                                    <span class="md-subhead">Laboratory Results</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <form  name="searchForm">
+                                <div flex="100">
+                                    <md-autocomplete  flex
+                                                      md-search-text="searchText11"
+                                                      md-input-name="patients"
+                                                      md-no-cache="true" md-clear-button="true"
+                                                      md-items="item in searchInvestigationPatients(searchText11)"
+                                                      md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number"
+                                                      md-selected-item-change="selectedResidence(item)"
+                                                      md-floating-label="Search Patients for Investigation "
+                                                      md-min-length="3" md-autofocus>
+                                        <md-item-template>
+                                            <span  ui-sref="test_sample({a:item.patient_id,b:item.medical_record_number})" md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} </span>
+                                        </md-item-template>
+
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+                            <div ng-show="loadedTesting==false" layout="row" layout-sm="column" layout-align="space-around">
+                                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                            </div>
+                            <div ng-show="loadedTesting==true" layout="row">
+                                <md-chips>
+                                    <md-chip  ng-repeat="pt in investigation_results.data" ui-sref="test_sample({a:pt.patient_id,b:pt.medical_record_number})" style="cursor: pointer">
+                                        {{pt.first_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase}}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase}}</h5>
+                                    </md-chip>
+                                </md-chips>
+                            </div>
+
+                        </md-card>
+
+                    </md-content>
+                </md-tab>
+                <md-tab label="REPORTS">
+                    <md-content class="md-padding">
+                        <md-card>
+                            <md-card-header>
+                                <md-card-avatar>
+                                    <img src="/svg/chart.svg" class="img-rounded"/>
+                                </md-card-avatar>
+                                <md-card-header-text>
+                                    <span class="md-title">Investigations Results</span>
+                                    <span class="md-subhead">Generating Reports</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <vertical-tabs>
+                                <vertical-tab-pane title="Investigation Reports">
+                                    <br>
+                                    
+                                </vertical-tab-pane>
+
+                            </vertical-tabs>
+                        </md-card>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+
+        </div>
+    </md-content>
+
+
+</div>

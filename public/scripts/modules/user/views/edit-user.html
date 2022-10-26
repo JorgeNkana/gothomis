@@ -1,0 +1,67 @@
+<md-dialog aria-label="Add New Institution" style="width: 640px; height: auto;" ng-cloak>
+  <form autocomplete="off">
+    <md-toolbar class="md-dialog-header">
+      <div class="md-toolbar-tools">
+        <h6>UPDATE USER</h6>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vm.closeDialog($event)">
+          <ng-md-icon icon="close" aria-label="Close dialog"></ng-md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div layout-gt-sm="row">
+        <md-content layout-padding layout="column" layout-fill>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Name</label>
+            <input type="text" ng-model="user.name">
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>E-mail</label>
+            <input type="email" ng-model="user.email">
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Password</label>
+            <input type="password" ng-model="user.password">
+          </md-input-container>
+        </md-content>
+      </div>
+
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Mobile number</label>
+          <input type="text" ng-model="user.mobile_number">
+        </md-input-container>
+        <md-input-container>
+          <label>Gender</label>
+          <md-select ng-model="user.gender">
+            <md-option value="">Please select gender</md-option>
+            <md-option value="Male">Male</md-option>
+            <md-option value="Female">Female</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Facility</label>
+          <md-select ng-model="user.facility_id" ng-click="getFacilities()">
+            <md-option value="">Please select facility</md-option>
+            <md-option ng-value="facility.id" ng-repeat="facility in facilities">{{facility.facility_name}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Professionals</label>
+          <md-select ng-model="user.proffesionals_id" ng-click="getProffesions()">
+            <md-option value="">Please Select Professional</md-option>
+            <md-option ng-value="professional.id" ng-repeat="professional in professionals">{{professional.prof_name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div layout-gt-sm="row">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+          <md-button class="md-raised md-primary" ng-click="update(user)">Update User</md-button>
+        </section>
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>

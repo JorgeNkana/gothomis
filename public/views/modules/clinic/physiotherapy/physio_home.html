@@ -1,0 +1,147 @@
+<div>
+    <div style="padding-right: 10px;">
+        <md-content>
+            <md-card>
+                <md-toolbar class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size: 124%" align="center" flex md-truncate>Physiotherapy Clinic</h2>
+                    </div>
+                </md-toolbar>
+                <br>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="Consultation Queue">
+                        <md-content class="md-padding">
+                            <form  name="searchForm">
+                                <div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Search Patients</label>
+                                        <input  type="text"ng-model="devicesdata.item_name"
+                                                uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showService($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                typeahead-on-select="selectedPatientToSearch($item)" autocomplete="off">
+                                    </md-input-container>
+                                </div>
+                            </form>
+                            <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <div ng-repeat="pt in physioOngoing" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="selectedPatientToSearch(pt)">
+                                    <a style="color: black" href="">
+                                        <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </md-grid-list>
+                            <br><br><br>
+                        </md-content>
+                        <br><br><br>
+                    </md-tab>
+                    <md-tab label="Treatment Queue">
+                        <md-content class="md-padding">
+                            <form  name="searchForm">
+                                <div layout-gt-sm="row">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Search Patients</label>
+                                        <input  type="text"ng-model="devicesdata.item_name"
+                                                uib-typeahead="patient as patient.first_name+' '+patient.middle_name+' '+patient.last_name for patient in showService($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                                typeahead-on-select="selectedPatientToSearch($item)" autocomplete="off">
+                                    </md-input-container>
+                                </div>
+                            </form>
+                            <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <div ng-repeat="pt in patientInvData" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="selectedPatientToSearch(pt)">
+                                    <a style="color: black" href="">
+                                        <span class="mdl-chip__contact mdl-color--orange mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </md-grid-list>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Referred Appointment">
+                        <md-content class="md-padding">
+                            <form  name="searchForm">
+                                <div layout-gt-sm="row">
+                                    <md-autocomplete flex  flex
+                                                     md-search-text="searchTexts"
+                                                     md-input-name="patient"
+                                                     md-no-cache="true"
+                                                     md-items="item in TraumaTreatmentSeachQueue(search)"
+                                                     md-item-text="item.medical_record_number"
+                                                     md-selected-item-change="selectedPatientToSearch(item)"
+                                                     md-floating-label="Search Patients"
+                                                     md-clear-button="true"
+                                                     md-min-length="4" md-autofocus>
+                                        <md-item-template>
+                                            <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}}</span>
+                                        </md-item-template>
+                                    </md-autocomplete>
+                                </div>
+                            </form>
+                            <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                                <div ng-repeat="pt in patientInvData" class="mdl-chip mdl-chip--contact mdl-chip--deletable" ng-click="selectedPatientToSearch(pt)">
+                                    <a style="color: black" href="">
+                                        <span class="mdl-chip__contact mdl-color--orange mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                                        <span class="mdl-chip__text" >{{pt.first_name | uppercase}} {{pt.middle_name| uppercase}} {{pt.last_name|
+                                    uppercase}} </span>
+                                        <a  class="mdl-chip__action"></a>
+                                    </a>
+                                </div>
+                            </md-grid-list>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="APPOINTMENTS LIST">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2"></h1>
+                            <div layout-gt-sm="row">
+                                <md-input-container flex="30" >
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="rec.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container  flex="30">
+                                    <label>Choose End Date</label>
+                                    <input ng-model="rec.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-click="reportRecord(rec)">Search</md-button>
+                                </md-input-container>
+                            </div>
+                            <div layout="row" layout-wrap layout-align="center center">
+                                <md-button style="width: 15%;" ng-if="reports" class="md-raised md-warn">TOTAL APPOINTMENTS: {{totalAppoint}} </md-button>
+                            </div>
+                            <table ng-if="dataApoint.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%" >
+                                <thead style="background-color: beige">
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">FIRST NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">MIDDLE NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">LAST NAME</th>
+                                    <th class="mdl-data-table__cell--non-numeric">MEDICAL RECORD NUMBER</th>
+                                    <th class="mdl-data-table__cell--non-numeric">DATE OF BIRTH</th>
+                                    <th class="mdl-data-table__cell--non-numeric">DATE ATTENDED</th>
+                                    <th class="mdl-data-table__cell--non-numeric">APPOINTMENT NOTES</th>
+                                    <th class="mdl-data-table__cell--non-numeric">MOBILE PHONE</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="emergencies in dataApoint">
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.first_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.middle_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.last_name}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.medical_record_number}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.dob}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.created_at}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.follow_up_status_description.trunc(20)}} <a ng-click="lauchDescription(emergencies)">view more</a></td></td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{emergencies.mobile_number}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-content>
+                    </md-tab>
+
+                </md-tabs>
+
+            </md-card>
+        </md-content>
+    </div>
+</div>

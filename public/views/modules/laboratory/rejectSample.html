@@ -1,0 +1,49 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            
+            <div class="md-toolbar-tools">
+                <h3> PATIENT NAME: {{getTestRequest.first_name}} {{getTestRequest.middle_name}}  {{getTestRequest.last_name}} -  {{getTestRequest.gender}}  ({{getTestRequest.sample_no}}) &nbsp; &nbsp; <span ng-if="admited.length > 0">  WARD:{{admited[0].ward_name}} &nbsp;   BED:{{admited[0].bed_name}}</span>
+			&nbsp; &nbsp; &nbsp;Gender: {{getTestRequest.gender}}
+			  </h3>  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+            </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                        <div layout="row">
+                              <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-xs>
+        <label>Select reason for rejecting sample , if the patient is from the ward his/her nurse will be notify to recollect sample</label>
+        <md-select name="favoriteColor"  ng-model="sample.reason" required>
+          <md-option ng-repeat="sampleStatus in  sampleStatuses"    ng-value="sampleStatus.status"> {{sampleStatus.status}} </md-option>
+         </md-select>
+        <div class="errors" ng-messages="myForm.favoriteColor.$error">
+          <div ng-message="required">Required</div>
+        </div>
+      </md-input-container>
+                                   
+                            </div>
+                             </span>
+                          
+                             </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+            <md-button  class="md-raised md-primary"     ng-click="sampleReject(getTestRequest,sample)" class="md-primary">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

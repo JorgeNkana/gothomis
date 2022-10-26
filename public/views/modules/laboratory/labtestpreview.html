@@ -1,0 +1,157 @@
+<md-dialog aria-dt="Mango (Fruit)">
+    <form name="projectForm" autocomplete="off" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+               <h2 class="md-display-1">General purpose laboratory request form</h2>
+                  <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/close_x.svg" aria-dt="Close dialog"></md-icon>
+                </md-button>
+				
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+                    <div layout="row">
+                        <p>      <span ng-if="getTestRequests[0].admission_id > 0">{{getAdmisionInfos.ward_full_name}}, {{getAdmisionInfos.bed_available}}</span>
+                        </p>
+                    </div>
+
+                    <div layout="column">
+                       
+
+
+
+<div>
+
+    <div layout-gt-sm="row" layout-padding>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>First name</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Middle name</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Last name</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+    </div>
+    <div layout-gt-sm="row" layout-padding>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Registration Number</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Residential address</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+    </div>
+
+    <div layout-gt-sm="row" layout-padding>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Age</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Sex</dt>
+            <md-select ng-model="patient.gender">
+                <md-option value="">Please select sex</md-option>
+                <md-option value="Male">Male</md-option>
+                <md-option value="Female">Female</md-option>
+            </md-select>
+
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Ward/Clinic</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+    </div>
+
+    <h3 class="md-title">Clinical notes, relevant for investigation requested</h3>
+    <div layout-gt-sm="row" layout-padding>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Clinical Notes</dt>
+            <textarea md-maxlength="150" ng-model="clinical_notes" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+    </div>
+
+    <h3 class="md-title">For ward/laboratory where sample is collected</h3>
+    <div layout-gt-sm="row" layout-padding>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Name of collector</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Date Collected</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <dt>Time</dt>
+            <dd>Some text</dd>
+        </md-input-container>
+    </div>
+
+
+</div>
+
+<style>
+    #lab_tests_container {
+        width: 400px;
+    }
+    
+    @media (max-width: 700px) {
+        #lab_tests_container {
+            width: 400px;
+            padding: 7px;
+        }
+    }
+</style>
+
+<div id="lab_tests_container">
+    <div style="border:solid 2px teal;" layout="column" layout-padding >
+        <h3>Clinic Name</h3>
+        <!--     <div layout="column" flex="100"> -->
+                <md-checkbox>
+                    A test
+                </md-checkbox>
+                <md-checkbox>
+                    Another test
+                </md-checkbox>
+                <md-checkbox>
+                    Another test
+                </md-checkbox>
+                <md-checkbox>
+                    A test
+                </md-checkbox>
+                <md-checkbox>
+                    Another test
+                </md-checkbox>
+                <md-checkbox>
+                    Another test
+                </md-checkbox>
+    </div>
+
+</div>
+
+
+
+                    </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

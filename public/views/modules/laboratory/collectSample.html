@@ -1,0 +1,244 @@
+<form autocomplete="off">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Samples" ng-click="setTabSamples(1)">
+
+                    <md-content class="md-padding">
+
+                        <!-- <h3 class="md-display-1">Search re-attended
+                            patients</h3> -->
+                        <!-- register patient  -->
+                        <md-input-container class="md-block">
+                            <input type="text" placeholder="Search Patient for Sample Collection" name="search"
+                                   uib-typeahead="patient as patient.fullname+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedPatient" typeahead-on-select="openDialogForServices(selectedPatient,ev)">
+                        </md-input-container>
+
+         
+
+ <vertical-tabs>
+	<vertical-tab-pane title="Collect Sample">
+	           <div  role="form">
+                   <md-chips>
+
+                       <md-chip ng-repeat="pt in tb_leps" ng-click="getTbLeprosyForm(pt)" style="cursor: pointer">
+                           <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{pt.first_name | limitTo: 1 }}</span>
+                           {{pt.first_name | uppercase }}&nbsp;&nbsp;&nbsp;{{pt.middle_name | uppercase }}&nbsp;&nbsp;&nbsp;{{pt.last_name | uppercase }}{{pt.medical_record_number | uppercase }}
+
+                       </md-chip>
+                   </md-chips>
+                            <md-chips>
+                                <md-chip ng-repeat="LabTestRequest in LabTestRequests | filter:selectedPatient" style="cursor:pointer;" ng-click="getTestRequestAll(LabTestRequest)">
+                                    <strong>{{LabTestRequest.first_name}} {{LabTestRequest.middle_name}} {{LabTestRequest.last_name}}->						
+									{{LabTestRequest.item_name}}</strong>
+                                    <em>({{LabTestRequest.medical_record_number}})</em>
+                                    <sup class="button " style="background-color: red" ng-if="LabTestRequest.priority=='Urgent'">Urgent</sup>
+                                </md-chip>
+                            </md-chips>
+
+							
+</form>
+</div>
+	     </vertical-tab-pane>
+		 <vertical-tab-pane title="Receive Sample">
+	           <div  role="form">
+                            <md-chips>
+                                <md-chip ng-repeat="LabTestRequest in LabTestRequests" style="cursor:pointer;" ng-click="getTestRequestAll(LabTestRequest)">
+                                    <strong>{{LabTestRequest.first_name}} {{LabTestRequest.middle_name}} {{LabTestRequest.last_name}}->						
+									{{LabTestRequest.item_name}}</strong>
+                                    <em>({{LabTestRequest.medical_record_number}})</em>
+                                </md-chip>
+                            </md-chips>
+
+</form>
+</div>
+	     </vertical-tab-pane>
+		 <vertical-tab-pane title="Sample Tracking">
+	           <div  role="form">
+                            <md-chips>
+                                <md-chip ng-repeat="LabTestRequest in LabTestRequests" style="cursor:pointer;" ng-click="getTestRequestAll(LabTestRequest)">
+                                    <strong>{{LabTestRequest.first_name}} {{LabTestRequest.middle_name}} {{LabTestRequest.last_name}}->						
+									{{LabTestRequest.item_name}}</strong>
+                                    <em>({{LabTestRequest.medical_record_number}})</em>
+                                </md-chip>
+                            </md-chips>
+
+</form>
+</div>
+	     </vertical-tab-pane>
+		 
+		 </vertical-tabs>
+
+
+
+
+
+
+
+
+<!-- end register patient -->
+</md-content>
+
+</md-tab>
+<md-tab label="Rejected Sample" ng-click="setTabRejectSample(2)">
+    <md-content class="md-padding">
+               <md-input-container class="md-block">
+            <input type="text" placeholder="Search for any Re-attended Patients" uib-typeahead="patient as patient.fullname+', '+patient.membership_number+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getInsuarancePatients($viewValue) |filter:$viewValue |limitTo:5"
+                   ng-model="selectedPatient" typeahead-on-select="verification(selectedPatient.membership_number)">
+        </md-input-container>
+
+        <div layout="row">
+            <md-chips>
+                <md-chip ng-repeat="cancelledSample in cancelledSamples"  style="cursor:pointer;" ng-click="reCollectTestRequests(cancelledSample)">
+                    <strong>{{cancelledSample.first_name}} {{cancelledSample.middle_name}} {{cancelledSample.last_name}} ({{cancelledSample.sample_no}})</strong>
+
+                </md-chip>
+            </md-chips>
+
+        </div>
+
+
+
+    </md-content>
+</md-tab>
+<md-tab label="Remote Orders">
+    <md-content class="md-padding">
+	
+	<vertical-tabs>
+	<vertical-tab-pane title="EQA">
+	 <div layout-gt-sm="row">
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Location</label>
+                            <input type="text" ng-model="eqa.location" required>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>File Numbers</label>
+                            <input type="text" ng-model="eqa.file_number" required>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm readonly>
+                            <label>Identifier</label>
+                            <input type="text" ng-model="eqa.identifier" required>
+                          </md-input-container>
+                        </div>
+						
+						<div layout-gt-sm="row">
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Lot No.</label>
+                            <input type="text" ng-model="eqa.lot_no" required>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Description</label>
+                            <input type="text" ng-model="eqa.description" required>
+                          </md-input-container>
+                          <md-input-container class="md-block" flex-gt-sm>
+                            <label>Specimen Type</label>
+                            <md-select ng-model="eqa.specimen_type" required>
+                              <md-option value="">Please Specimen Type</md-option>
+                              <md-option value="Blood">Blood</md-option>
+                              <md-option value="Urine">Urine</md-option>
+                              <md-option value="Sputum">Sputum</md-option>
+                              </md-select>
+                          </md-input-container>
+                        </div>
+	
+                <div layout="row" class="pull-right">
+                    
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="rePrintResults(eqa)">SAVE</md-button>
+                    </md-input-container>
+                </div>
+
+                
+            </vertical-tab-pane>
+			<vertical-tab-pane title="Reffered Samples">
+                <div layout="row">
+                    <md-input-container >
+                        <label>Choose Start Date</label>
+                        <input ng-model="pef.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <label>Choose End Date</label>
+                        <input ng-model="pef.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                    </md-input-container>
+                    <md-input-container >
+                        <md-button class="md-raised md-primary" ng-click="rePrintResults(pef)">Search</md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" ng-click="rePrintResults(pef)">
+
+                    <div flex="85" >
+
+                        <table class="table table-bordered table-striped" ng-if="printResults.length > 0">
+                            <thead>
+                            <tr>
+                                
+                                <th >S/No</th>
+                                <th >Sample #</th>
+                                <th >Test Results</th>
+                                <th >Test Name</th>
+                                <th >Medical Record Number</th>
+                                <th >Time</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="printResult in printResults track by $index"  >
+                                <td class="mdl-data-table__cell--non-numeric">
+                                  {{ $index+ 1}}
+                                </td>
+                                <td >{{printResult.sample_no}}</td>
+                                <td >{{printResult.description}}</td>
+                                <td >{{printResult.item_name}}</td>
+                                <td >{{printResult.medical_record_number}}</td>
+                                <td >{{printResult.created_at}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </vertical-tab-pane>
+
+
+
+        </vertical-tabs>
+	      
+    </md-content>
+</md-tab>
+
+
+ <!--md-tab label="REQUEST FORM" ng-click="getCollectedSample()">
+
+                    <md-content class="md-padding">
+
+                        <md-input-container class="md-block">
+                            <input type="text" placeholder="Search Patient for Sample Collection" name="search"
+                                   uib-typeahead="patient as patient.fullname+', '+patient.mobile_number+' ,'+patient.medical_record_number for patient in getPatients($viewValue) |filter:$viewValue |limitTo:5"
+                                   ng-model="selectedPatient" typeahead-on-select="openDialogForServices(selectedPatient,ev)">
+                        </md-input-container>
+
+
+                        <div  role="form">
+                            <md-chips>
+                                <md-chip ng-repeat="collectedSample in collectedSamples" style="cursor:pointer;" ng-click="previewRequest(collectedSample)">
+                                    <strong>{{collectedSample.first_name}} {{collectedSample.middle_name}} {{collectedSample.last_name}}</strong>
+                                    <em>({{collectedSample.medical_record_number}})</em>
+                                </md-chip>
+                            </md-chips>
+
+</form>
+</div>
+</md-content>
+
+</md-tab-->
+
+
+
+</md-tabs>
+</md-content>
+</div>

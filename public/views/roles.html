@@ -1,0 +1,58 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 form-box">
+            <form ng-controller="rolesController" role="form" class="registration-form" action="javascript:void(0);">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3><span><i class="fa fa-user-md" aria-hidden="true"></i></span>Roles Registration</h3>
+
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="row">
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>First Name *</label>
+                                <input type="text" ng-model="patient.first_name" class="form-control" placeholder="Firstname" id="fname">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Middle Name *</label>
+                                <input type="text" ng-model="patient.middle_name" class="form-control" placeholder="Lastname" id="lname">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Last Name *</label>
+                                <input type="text" ng-model="patient.last_name" class="form-control" placeholder="Lastname" id="lname">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Gender *</label>
+                                <select ng-model="patient.gender" class="form-control">
+                                    <option value="" selected disabled>Please select gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Date of birth *</label>
+                                <input type="text" ng-model="patient.dob" class="form-control" placeholder="Date of birth" id="">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <label>Mobile Number:</label>
+                                <input type="text" ng-model="patient.mobile_number" class="form-control" placeholder="Enter Mobile Number">
+                            </div>
+                        </div>
+
+
+
+
+                        <button type="submit" class="btn btn-success" ng-click="patient_registration(patient,residence,marital,occupation,tribe,country)">Register</button>
+                        <button type="button" class="btn btn-next">Next</button>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>

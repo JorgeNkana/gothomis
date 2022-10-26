@@ -1,0 +1,79 @@
+<div ng-controller="MortuaryManagementController"  class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-md-12 form-box">
+<form  role="form" class="mortuary-form" action="javascript:void(0);">
+<fieldset>
+<div class="form-top">
+<div class="form-top-left">
+<h3> {{mortuary[0].mortuary_name}}
+<span class="pull-right">CABINETS:{{totalcabinetnumbers[0].number_of_cabinet}} </span>
+</h3>
+
+</div>
+</div>
+<div class="form-bottom">
+<div class="row">
+
+
+<div class="col-md-6">
+<div class="panel form-top-left">
+<div class="form-top">REGISTERED CABINETS LIST </div><br>
+<div class="">
+<form  >
+<div class="input-group">
+<input type="text" class="form-control input-lg">
+<div class="input-group-btn">
+<button class="btn btn-lg btn-success" type="submit">
+<i class="fa fa-search" aria-hidden="true"></i>
+</button>
+</div>
+</div>
+</form>
+</div>
+<div class="panel-body" ng-if="cabinet_numbers.length>0">
+<ul class="list-group">
+<li ng-repeat="cabinet_number in cabinet_numbers"  
+class="list-group-item form-top"><b>{{cabinet_number.cabinet_name}}</b>
+<b>-- CAPACITY {{cabinet_number.capacity}} </b>
+</li>
+</ul>
+</div>
+
+<div class="panel-body" ng-if="cabinet_numbers.length==0">
+<b>NO CABINET REGISTERED</b>
+</div>
+
+</div>
+</div> <div class="col-md-6">
+<div class="panel panel-primary">
+<div class="form-top">CABINET REGISTRATION FORM</div><br>
+
+
+
+<div class="panel-body">
+<div class="row">
+
+<input type="text" ng-model="cabinet.cabinet_name" class="form-control" placeholder="CABINET NAME"><BR>
+</div>
+
+<div class="row">
+<input type="number" ng-model="cabinet.capacity" class="form-control" placeholder="CAPACITY"><BR>
+</div><BR>
+<button type="submit" class="btn btn-success" ng-click="createcabinet(cabinet,mortuary)">SAVE</button>       
+</div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+</fieldset>          
+</form>
+</div>
+</div>
+</div>

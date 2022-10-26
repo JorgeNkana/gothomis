@@ -1,0 +1,76 @@
+<md-dialog class="fullscreen-dialog" ng-controller="radiologyDepartmentController">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <p style="text-align: right;"><span><i class="fa fa-user" aria-hidden="true"></i></span>
+            <h3>LIST OF USERS FROM {{UserRadiology.sub_department_name}} SUB-DEPARTMENT </h3>
+            </p>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <br>
+    <md-content class="md-padding">
+        <div layout="row">
+            <div flex="1">
+            </div>
+            <div flex="50">
+                <form  name="searchForm">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Search Users</label>
+                            <input  type="text"ng-model="devicesdata.item_name"
+                                    uib-typeahead="item as item.name+', '+item.email for item in showUsers($viewValue) |filter:$viewValue |limitTo:5" ng-model="selectedPatient"
+                                    autocomplete="off">
+                        </md-input-container>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <md-button style="width: 15%;"  class="md-raised md-primary"  ng-click="assignPermision(UserRadiology,devicesdata)">
+                    ASSIGN
+                </md-button>
+            </div>
+        </div>
+
+    </md-content>
+
+    <md-dialog-content>
+        <md-content  class="md-padding">
+            <div layout="row">
+                <table class="table table-bordered" border="1" width="100%">
+                    <tr>
+                        <td>USERNAME </td>
+                        <td>MOBILE NUMBER</td>
+                        <td>STATUS</td>
+                        <td>ACTION
+                        </td>
+                    </tr>
+                    <tr ng-repeat="radiologyUsers in imagingUsers">
+                        <td>{{radiologyUsers.name}}</td>
+                        <td>{{radiologyUsers.mobile_number}}</td>
+                        <td><span ng-if="radiologyUsers.isAllowed==true" class="mdl-chip__contact mdl-color--teal mdl-color-text--white">&#10003;</span>
+                            <span ng-if="radiologyUsers.isAllowed==false" class="mdl-chip__contact mdl-color--red-400 mdl-color-text--white">&#10008;</span></td>
+
+                        <td>
+                            <md-switch ng-model="data.permission"
+                                       ng-change="checkXrayPermissions(data,radiologyUsers,UserRadiology.id)" aria-label="Switch 1"
+                            >
+                                Permission : {{ data.permission }}
+                            </md-switch>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+    </md-dialog-actions>
+
+</md-dialog>

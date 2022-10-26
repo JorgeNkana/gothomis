@@ -1,0 +1,209 @@
+<md-dialog  ng-controller="nursingCareController" class="fullscreen-dialog">
+    <form autocomplete="off" ng-cloak>
+     
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-content class="md-padding">
+
+                      <table class="table table-bordered" border="1">
+                                                        <caption> <b class="">
+                                                            <div  class="text-center"><h8>JAMHURI YA MUUNGANO WA TANZANIA</h8></div>
+                                                            <div  class="text-center"><h8> WIZARA YA AFYA MAENDELEO YA JAMII JINSIA, WAZEE NA WATOTO</h8></div>
+                                                            <div  class="text-center"> <img alt="image" class="img-circle" src="/img/arm.png" width="40px" height="40px" /></div>
+
+                                                            <div  class="text-center"> <h8>
+{{facility_address.facility_name}} {{facility_address.description}}<br/>{{facility_address.address}}
+															</h8></div>
+                                                            <div  class="text-center"><h8> <i> PATIENT MEDICAL HISTORY </i></h8></div>
+                                                                                                        <hr>
+
+                                                            <b class="col-md-4">PATIENT'S NAME: {{SelectedPatient.fullname}} </b>
+                                                            <b class="col-md-4">REG : {{SelectedPatient.medical_record_number}}  </b>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <P></P>
+                                                            <b class="col-md-4"> </b>
+                                                            <b class="col-md-4">WARD:{{SelectedPatient.ward_name}} </b>
+                                                            <b class="col-md-4">BED NO: {{SelectedPatient.bed_name}} </b>
+                                                            <hr>
+                                                        </b></caption>
+
+                                                       
+
+                                                    </table>
+													  <div layout="row">
+
+                                   
+<div flex="100">
+                            <md-card>
+
+                                <md-card-content>
+                                    <table width="100%">
+                                        <thead>
+                                        <th class="mdl-data-table__cell--non-numeric"></th>
+                                        <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-if="vitals.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Vital signs</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="vt in vitals" ng-if="vitals.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">{{vt.vital_name}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{vt.vital_sign_value}} &nbsp; {{vt.si_unit}}
+                                            </td>
+                                        </tr>
+										
+                                        <tr ng-if="patientsVisits.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Complaints</strong></td>
+                                        </tr>
+                                        <tr ng-if="prevHistory.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">{{prevHistory[0].status}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                      <p ng-repeat="prevHistory in prevHistory">{{prevHistory.description+' for '+prevHistory.duration+' '+prevHistory.duration_unit}}</p>
+                                           
+
+
+
+
+										   </td>
+                                        </tr>
+                                        <tr ng-if="prevHistory.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric"><span>Other Complaints</span></td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <p ng-repeat="otherComplain in otherComplains">{{otherComplain.other_complaints}}</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr ng-if="prevHistory.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric"><span>History of Presenting Illness</span></td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <p ng-repeat="hpi in hpis"><span>{{hpi.hpi}}</span></p>
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="prevRos.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Review of systems</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="ros in prevRos" ng-if="prevRos.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">{{ros.status}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{ros.name}}
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="prevRos.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric"><span>Other reviews</span></td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <p><span>{{prevRos[prevRos.length-1].review_summary}}</span></p>
+                                            </td>
+                                        </tr>
+
+                                        <tr ng-if="allergies.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Allergies</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="allergy in allergies" ng-if="allergies.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">{{allergy.status}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{allergy.descriptions}}</td>
+                                        </tr>
+                                        <tr ng-if="prevFamily.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Family and Social History</strong></td>
+                                        </tr>
+                                        <tr ng-if="prevFamily.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">Family and social
+                                                history</td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{prevFamily[0].chronic_illness}}.{{prevFamily[0].substance_abuse}}. <br>                                                                    {{prevFamily[0].adoption}}.{{prevFamily[0].others}}
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="prevDiagnosis.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Diagnosis</strong></td>
+                                        </tr>
+                                        <tr ng-repeat=" diag in prevDiagnosis" ng-if="prevDiagnosis.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric"> {{diag.status}}
+                                            </td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{diag.description}}
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="labInvestigationsz.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Investigations</strong></td>
+                                        </tr>
+                                        <tr ng-repeat=" lb in labInvestigationsz" ng-if="labInvestigationsz.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{lb.item_name}} </td>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{lb.description+' '+lb.unit}}
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat=" rd in radiologyResults" ng-if="radiologyResults.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <div class="card">
+                                                    <div class="card-image">
+                                                        <!--<a><img class="img-responsive" src="/uploads/{{img.attached_image}}" width="100px;" height="100px"></a>-->
+                                                    </div>
+                                                    <!-- card image -->
+                                                    <div class="card-content">{{img.description}}</div>
+                                                    <!-- card content -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="prevMedicines.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Medications</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="med in prevMedicines" ng-if="prevMedicines.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{med.item_name}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{med.dose+' units'}},
+                                                {{'after every'+med.frequency+'hours'}},{{'for '+ med.duration}} ==>
+                                                QTY: {{med.quantity}}</td>
+
+                                        </tr>
+                                        <tr ng-if="pastProcedures.length>0">
+                                            <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                <strong>Procedures</strong></td>
+                                        </tr>
+                                        <tr ng-repeat="pro in pastProcedures" ng-if="pastProcedures.length>0">
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                {{pro.item_name}}</td>
+                                            <td class="mdl-data-table__cell--non-numeric">{{pro.item_category}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-card-content>
+                            </md-card>
+
+                        </div>
+                                    
+
+
+                                     
+
+
+                                     
+                                </div>
+
+                    </md-content>
+
+                        
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+			
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+           
+        </md-dialog-actions>
+    </form>
+</md-dialog>

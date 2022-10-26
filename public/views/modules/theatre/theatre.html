@@ -1,0 +1,578 @@
+<md-dialog  class="fullscreen-dialog">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                 <p style="text-align: right;" ng-if="selectedPatient.first_name.length >0"><span><i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;{{selectedPatient.first_name}}
+                    {{selectedPatient.middle_name}} {{selectedPatient.last_name}}(
+                    {{selectedPatient.medical_record_number}})&nbsp;&nbsp;&nbsp;
+                   {{"Age: "+selectedPatient.age}}
+				   &nbsp;&nbsp;&nbsp;
+				   {{"Procedure: "+selectedPatient.item_name}}&nbsp;&nbsp;&nbsp;
+ 
+				   </p>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+		<div class="md-dialog-content">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Previous visits">
+                    <md-content class="md-padding" style="padding:2em;">
+                        <div layout="row">
+                            <div flex="20">
+                                <md-list style="color:white;font-weight:700">
+                                    <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getPatientReport(vt)" class="md-1-line" ng-repeat="vt in patientsVisits">
+                                        {{vt.created_at}}
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                            <div flex="80">
+                                <md-card>
+                                    <md-card-content>
+                                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                            <thead>
+                                            <th class="mdl-data-table__cell--non-numeric"></th>
+                                            <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                            <th class="mdl-data-table__cell--non-numeric full-width"></th>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-if="vitals.length>0">
+                                                <td colspan="2" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Vital signs</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="vt in vitals" ng-if="vitals.length>0">
+                                                <td class="mdl-data-table__cell--non-numeric">{{vt.vital_name}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{vt.vital_sign_value}} &nbsp; {{vt.si_unit}}
+                                                </td>
+                                                <td>Staff names: {{vt.name}} | {{vt.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevHistory.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Complaints</strong></td>
+
+                                            </tr>
+                                            <tr ng-if="!ph.admission_id" ng-repeat="ph in prevHistory">
+                                                <td class="mdl-data-table__cell--non-numeric">{{ph.status}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{ph.description+' since '+ph.duration+' '+ph.duration_unit}}
+                                                    <br>
+                                                </td>
+                                                <td>Staff names: {{ph.name}} | {{ph.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="!ot.admission_id" ng-repeat="ot in otherComplaints">
+                                                <td class="mdl-data-table__cell--non-numeric"><span>Other Complaints</span></td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{ot.other_complaints}}
+                                                </td>
+                                                <td>Staff names: {{ot.name}} | {{ot.prof_name}}</td>
+                                            </tr>
+
+                                            <tr ng-if="!h.admission_id" ng-repeat="h in hpi">
+                                                <td class="mdl-data-table__cell--non-numeric"><span>History of Presenting Illness</span></td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{h.hpi}}
+                                                </td>
+                                                <td>Staff names: {{h.name}} | {{h.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevRos.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Review of systems</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="ros in prevRos" ng-if="!ros.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">{{ros.status}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{ros.name}}
+                                                </td>
+                                                <td>Staff names: {{ros.user_name}} | {{ros.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="!summary.admission_id" ng-repeat="summary in prevRosSummary">
+                                                <td class="mdl-data-table__cell--non-numeric"><span>RoS summary</span></td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{summary.review_summary}}
+                                                </td>
+                                                <td>Staff names: {{summary.name}} | {{summary.prof_name}}</td>
+                                            </tr>
+
+                                            <tr ng-if="allergies[0].length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Allergies</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="allergy in allergies[0]" ng-if="!allergies[0].admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">{{allergy.status}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{allergy.descriptions}}</td>
+                                                <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="allergies[1].length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Past medical history</strong></td>
+                                            </tr>
+                                            <tr ng-if="!allergy.admission_id" ng-repeat="allergy in allergies[1]">
+                                                <td class="mdl-data-table__cell--non-numeric">{{allergy.surgeries}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{allergy.admissions}}</td>
+                                                <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="!allergy.admission_id" ng-repeat="allergy in allergies[1]">
+                                                <td class="mdl-data-table__cell--non-numeric">{{allergy.transfusion}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{allergy.immunisation}}</td>
+                                                <td>Staff names: {{allergy.name}} | {{allergy.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevFamily.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Family and Social History</strong></td>
+                                            </tr>
+                                            <tr ng-if="prevFamily.length>0">
+                                                <td class="mdl-data-table__cell--non-numeric">Family and social
+                                                    history</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{prevFamily[0].chronic_illness}}.{{prevFamily[0].substance_abuse}}. <br>                                                                    {{prevFamily[0].adoption}}.{{prevFamily[0].others}}
+                                                </td>
+                                                <td>Staff names: {{prevFamily[0].name}} | {{prevFamily[0].prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevGen.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>General examination</strong></td>
+                                            </tr>
+                                            <tr ng-if="!gn.admission_id" ng-repeat="gn in prevGen">
+                                                <td class="mdl-data-table__cell--non-numeric">General examination</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{gn.gen_examination}}
+                                                </td>
+                                                <td>Staff names: {{gn.name}} | {{gn.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevLocal.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Local examination</strong></td>
+                                            </tr>
+                                            <tr ng-if="!lc.admission_id" ng-repeat="lc in prevLocal">
+                                                <td class="mdl-data-table__cell--non-numeric">Local examination</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{lc.local_examination}}
+                                                </td>
+                                                <td>Staff names: {{lc.name}} | {{lc.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevSystemic.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Systemic examination</strong></td>
+                                            </tr>
+                                            <tr ng-if="!sys.admission_id" ng-repeat="sys in prevSystemic">
+                                                <td class="mdl-data-table__cell--non-numeric">{{sys.system}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{sys.category +' - '+ sys.observation}}
+                                                </td>
+                                                <td>Staff names: {{sys.name}} | {{sys.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevOtherSystemic.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Other systemic examination</strong></td>
+                                            </tr>
+                                            <tr ng-if="!sys.admission_id" ng-repeat="sys in prevOtherSystemic">
+                                                <td class="mdl-data-table__cell--non-numeric">{{sys.system}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{sys.other_systems_summary}}
+                                                </td>
+                                                <td>Staff names: {{sys.name}} | {{sys.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevSummary[0].summary_examination">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Systemic examination summary</strong></td>
+                                            </tr>
+                                            <tr ng-if="!prevSummary[0].admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric" ng-if="prevSummary[0].summary_examination">Systemic examination summary</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{prevSummary[0].summary_examination}}
+                                                </td>
+                                                <td ng-if="prevSummary[0].summary_examination">Staff names: {{prevSummary[0].name}} | {{prevSummary[0].prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevDiagnosis.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Diagnosis</strong></td>
+                                            </tr>
+                                            <tr ng-repeat=" diag in prevDiagnosis" ng-if="!diag.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric"> {{diag.status}}
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{diag.description}}
+                                                </td>
+                                                <td>Staff names: {{diag.name}} | {{diag.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="labInvestigationsz.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Investigations</strong></td>
+                                            </tr>
+                                            <tr ng-repeat=" lb in labInvestigationsz" ng-if="!lb.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{lb.item_name}} </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{lb.description+' '+lb.unit}}
+                                                </td>
+                                                <td>Staff names: {{lb.name}} | {{lb.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-repeat=" rd in radiologyResults" ng-if="!rd.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{rd.item_name}} </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{rd.description}}
+                                                </td>
+                                                <td>Staff names: {{rd.name}} | {{rd.prof_name}}</td>
+                                            </tr>
+                                            <tr ng-if="prevMedicines[0].length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Medications</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="med in prevMedicines[0]" ng-if="!med.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{med.item_name}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{med.dose}},
+                                                    {{med.frequency}},{{'for '+ med.duration}}</td>
+                                                <td>Staff names: {{med.name}} | {{med.prof_name}}</td>
+
+                                            </tr>
+                                            <tr ng-if="prevMedicines[1].length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Conservative management</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="med in prevMedicines[1]" ng-if="!med.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{med.conservatives}}</td>
+                                                <td>Staff names: {{med.name}} | {{med.prof_name}}</td>
+
+                                            </tr>
+                                            <tr ng-if="pastProcedures.length>0">
+                                                <td colspan="3" style="text-align: left;background-color: rgba(110, 104, 113, 0.41)">
+                                                    <strong>Procedures</strong></td>
+                                            </tr>
+                                            <tr ng-repeat="pro in pastProcedures" ng-if="!pro.admission_id">
+                                                <td class="mdl-data-table__cell--non-numeric">{{pro.item_category}}</td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{pro.item_name}}</td>
+                                                <td>Staff names: {{pro.name}} | {{pro.prof_name}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </md-card-content>
+                                </md-card>
+
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="vital signs" ng-click="getTodaysVitals(selectedPatient)">
+                    <md-content class="md-padding">
+                        <div layout="row">
+                            <div flex="20">
+                                <md-list style="color:white;font-weight:700">
+                                    <md-list-item style="padding:0;background-color:teal;margin:2px;cursor: pointer;" ng-click="getPatientVitals(vt)" class="md-1-line" ng-repeat="vt in vitalTime">
+                                        {{vt.created_at}}
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                            <div flex="80">
+                                <table  ng-if="vitalData.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" width="100%">
+                                    <thead>
+                                    <th class="mdl-data-table__cell--non-numeric">Name</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Value</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Time taken</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Staff's names</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="vt in vitalData">
+                                        <td class="mdl-data-table__cell--non-numeric">{{vt.vital_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">
+                                            {{vt.vital_sign_value}} &nbsp;&nbsp;&nbsp; {{vt.si_unit}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{vt.created_at}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{vt.submited_by}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Findings Sheet" ng-click="getFindings(selectedPatient)">
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs>
+                            <vertical-tab-pane title="PROCEDURE CASE">
+                                <div layout="row">
+                                    <div flex>
+                                        <md-input-container>
+                                            <md-select ng-model="descriptions.cases">
+                                                <md-option value="" >--Select Case--</md-option>
+                                                <md-option value="Elective" >Elective</md-option>
+                                                <md-option value="General">Emergency</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-button class="md-raised md-primary pull-right" ng-click="saveDescriptionsCases(selectedPatient,descriptions)">Save</md-button>
+                                    </div>
+                                </div>
+                            </vertical-tab-pane>
+
+                            <vertical-tab-pane title="PROCEDURES">
+                                <div layout="row">
+                                    <div flex>
+                                        <md-input-container class="md-block">
+                                            <label>Write PROCEDURES here...</label>
+                                            <textarea ng-model="descriptions.description" md-maxlength="500" id="descriptions" autocomplete="off" rows="3" md-select-on-focus></textarea>
+                                        </md-input-container>
+                                        <md-button class="md-raised md-primary pull-right" ng-click="saveDescriptionsProcedures(selectedPatient,descriptions)">Save</md-button>
+                                    </div>
+                                </div>
+                            </vertical-tab-pane>
+
+                            <vertical-tab-pane title="POST OP ORDERS">
+                                <div layout="row">
+                                    <div flex="85">
+                                        <md-input-container class="md-block">
+                                            <label>Write POST OPERATIVE ORDERS here...</label>
+                                            <textarea ng-model="descriptions.operativeOrder" md-maxlength="500" id="operativeOrder" autocomplete="off" rows="3" md-select-on-focus></textarea>
+                                        </md-input-container>
+                                        <md-button class="md-raised md-primary pull-right" ng-click="savePostOperativeOrders(selectedPatient,descriptions)">Save</md-button>
+                                    </div>
+                                </div>
+                            </vertical-tab-pane>
+
+                            <vertical-tab-pane title="ATTENTION">
+                                <div layout="row">
+                                    <div flex="85">
+                                        <md-input-container class="md-block">
+                                            <label>Write ATTENTION here...</label>
+                                            <textarea ng-model="descriptions.attention" md-maxlength="500" id="attention" autocomplete="off" rows="3" md-select-on-focus></textarea>
+                                        </md-input-container>
+                                        <md-button class="md-raised md-primary pull-right" ng-click="saveAtentions(selectedPatient,descriptions)">Save</md-button>
+                                    </div>
+                                </div>
+                            </vertical-tab-pane>
+
+
+
+                            </vertical-tab-pane>
+
+
+
+
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+				<md-tab label="Services & Treatments Order" ng-click="allergyChecker(selectedPatient)">
+                    <md-content class="md-padding">
+                        <!--vertical tabs start-->
+                        <vertical-tabs>
+
+
+                            <vertical-tab-pane title="Services Order">
+                                <div layout="row">
+                                    <div flex="30">
+                                        <md-input-container class="md-block">
+                                            <input type="text" placeholder="Search Procedure by Name"
+                                                   ng-model="selectedProcedures" autocomplete="off" id="procedures" typeahead-on-select="quantity = 1"
+                                                   uib-typeahead="item as item.item_name for item in searchProcedures($viewValue,selectedPatient) | filter:$viewValue | limitTo:5">
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="10"></div>
+                                    <md-input-container class="md-block" flex-gt-sm="10">
+                                        <input type="number" id="qty" ng-model="quantity" placeholder="Quantity" min="0">
+                                    </md-input-container>
+                                    <div flex="10"></div>
+                                    <md-input-container class="md-block" flex-gt-sm="10">
+                                        <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="addProcedure(selectedPatient,selectedProcedures,quantity)">Add</button>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row">
+                                    <div flex="50" ng-if="procedures.length>0">
+                                        <table class="full-width" >
+                                            <thead>
+                                            <tr>
+                                                <th>Service</th>
+                                                <th>Quantity</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="pro in procedures">
+                                                <td>{{pro.item_name}}</td>
+                                                <td>{{pro.quantity}}</td>
+                                                <td>
+                                                                                        <span
+                                                                                                ng-click="removeFromSelection(pro,procedures)"
+                                                                                                style="cursor: pointer;">Remove</span>
+                                                </td>
+                                            </tr>&nbsp;
+                                            </tbody>
+                                        </table>
+                                        <md-button ng-click="saveProcedures(procedures)" class="md-raised md-primary pull-right">Save</md-button>
+                                    </div>
+                                </div>
+                            </vertical-tab-pane>
+                            <vertical-tab-pane title="Previous Services">
+                                <div layout="row">
+                                    <md-button class="md-raised md-primary pull-right" ng-click="prevProcedure(selectedPatient)">Preview</md-button>
+
+                                    <table class="full-width" ng-if="prevProcedures.length>0">
+                                        <thead>
+                                        <tr>
+                                            <th>Service</th>
+                                            <th>
+                                                Type
+                                            </th>
+                                            <th>Date
+                                                Ordered</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="pro in prevProcedures">
+                                            <td>{{pro.item_name}}</td>
+                                            <td>{{pro.item_category}}</td>
+                                            <td>{{pro.created_at}}</td>
+                                        </tr>&nbsp;
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </vertical-tab-pane>
+                           
+                        </vertical-tabs>
+                        <!--vertical tabs end-->
+                    </md-content>
+                </md-tab>
+                <md-tab label="blood request" ng-click="getVipimo(selectedPatient)">
+                    <md-content class="md-padding">
+                        <div layout="row">
+                            <div flex="30">
+                                <table class="full-width">
+                                    <thead ng-if="latestLabResults.length>0">
+                                    <td class="mdl-data-table__cell--non-numeric">Investigation</td>
+                                    <td class="mdl-data-table__cell--non-numeric">Description</td>
+                                    <td class="mdl-data-table__cell--non-numeric">Attachment</td>
+                                    <td class="mdl-data-table__cell--non-numeric">Date</td>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="rs in latestLabResults">
+                                        <td class="mdl-data-table__cell--non-numeric">{{rs.item_name}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{rs.description}}</td>
+                                        <td class="mdl-data-table__cell--non-numeric" ng-if="!rs.attached_image"> </td>
+                                        <td class="mdl-data-table__cell--non-numeric" ng-if="rs.attached_image"><a href="/uploads/{{rs.attached_image}}" style="cursor: pointer">attachment</a></td>
+                                        <td class="mdl-data-table__cell--non-numeric">{{rs.created_at}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div flex="5"></div>
+                                    <div flex="10">
+                                        <md-select ng-model="blood.blood_group" autocomplete="off" id="blood_group" placeholder="Blood group" class="md-no-underline">
+                                            <md-option value="A+">A+</md-option>
+                                            <md-option value="B+">B+</md-option>
+                                            <md-option value="O+">O+</md-option>
+                                            <md-option value="AB+">AB+</md-option>
+                                            <md-option value="A-">A-</md-option>
+                                            <md-option value="B-">B-</md-option>
+                                            <md-option value="O-">O-</md-option>
+                                            <md-option value="AB-">AB-</md-option>
+                                        </md-select>
+                                    </div>
+
+                                    <div flex="10">
+
+                                        <md-input-container class="md-block">
+                                            <input type="text" ng-model="blood.unit_requested" id="unit_requested" autocomplete="off" placeholder="Unit or mills requested" class="md-no-underline">
+                                        </md-input-container>
+                                    </div>
+                            <div flex="15">
+                                <md-select ng-model="blood.request_reason" id="" autocomplete="off" placeholder="Request reason" class="md-no-underline">
+                                    <md-option value="Severe malaria">Severe malaria</md-option>
+                                    <md-option value="Poor dietary intake">Poor dietary intake</md-option>
+                                    <md-option value="Acute haemorrhage">Acute haemorrhage</md-option>
+                                    <md-option value="Septic shock">Septic shock</md-option>
+                                    <md-option value="Anemia in failure">Anemia in failure</md-option>
+                                    <md-option value="Anemia in pregnancy">Anemia in pregnancy</md-option>
+                                    <md-option value="Anemia of prematurity">Anemia of prematurity</md-option>
+                                    <md-option value="Pre OP">Pre OP</md-option>
+                                    <md-option value="Post OP use">Post OP use</md-option>
+                                    <md-option value="PPH">PPH</md-option>
+                                    <md-option value="APH">APH</md-option>
+                                    <md-option value="DIC">DIC</md-option>
+                                </md-select>
+                            </div>
+                                    <div flex="10">
+                                        <md-select ng-model="blood.priority" id="prty" placeholder="Priority" class="md-no-underline">
+                                            <md-option value="Routine">Routine</md-option>
+                                            <md-option value="Urgent">Urgent</md-option>
+                                        </md-select>
+                                    </div>
+                            <div flex="5">
+                                <md-button class="md-raised md-primary" ng-click="requestBlood(selectedPatient,blood)">save</md-button>
+                            </div>
+                        </div>
+                        <div layout="row">
+
+                        </div>
+                    </md-content>
+                </md-tab>
+				
+			 <md-tab label="Disposition">
+                    <md-content class="md-padding">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <select class="form-control hidden-print" ng-model="template" ng-options="t.name for t in templates">
+
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div ng-include src="template.url" onload="myFunction()">
+
+                        </div>
+                                <div class="col-xs-12">
+                                    <!--Admission start -->
+                                    <script type="text/ng-template" id="admission.html"><br>
+                                        <div class="col-xs-3" ng-repeat="ward in wards">
+                                            <div class="list-group form-top" ng-click="patientAdmission(ward,selectedPatient)"
+                                                 style="cursor: pointer;">
+                                                {{ward.ward_full_name}}
+                                            </div>
+                                        </div>
+                                    </script>
+                                    <!--Admission ends -->
+                                    <!--Internal referral starts -->
+                                    
+                                   
+                                    <!--referral ends -->
+                          <script type="text/ng-template" id="deceased.html">
+                                        <div class="row"><br>
+                                            <div class="col-xs-4">
+                                 <md-input-container class="md-block">
+                                                                <textarea ng-model="corpse.immediate_cause" id="immediate_cause" placeholder="Immediate Cause of Death"
+
+                                                                          required="Required"></textarea>
+                                                    </md-input-container>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                           <md-input-container class="md-block">
+                                                                <textarea ng-model="corpse.underlying_cause" id="underlying_cause" placeholder="Other underlying conditions"
+
+                                                                          required="Required"></textarea>
+                                                           </md-input-container>
+                                            </div>
+                                            <div class="col-xs-2"><md-button class="md-raised md-primary pull-right"
+                                                                          ng-click="deceased(selectedPatient,corpse)">Send to Last office</md-button></div>
+                                        </div>
+                                    </script>
+                                </div>
+                    </md-content>
+                </md-tab>	
+				
+
+
+                
+                
+                           
+               
+            </md-tabs>
+  
+  </div>
+
+    </md-dialog>

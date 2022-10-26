@@ -1,0 +1,33 @@
+<div id="wrapper" ng-controller='rolesController'>
+
+
+
+
+
+
+
+
+
+
+    <div class="row">
+
+        <!--  include registration form -->
+        <!---menu warning-->
+        <div ng-if='menu.length >0'>
+            <ng-include src="'/views/modules/admin/process_bill.html'">
+
+        </div>
+        <div ng-if='menu.length < 1'>
+            <button class='btn btn-danger '>The MENU is Temporarily Unavailable</button>
+
+        </div>
+        <!---menu warning-->
+    </div>
+
+
+
+
+
+
+</div>
+</div>

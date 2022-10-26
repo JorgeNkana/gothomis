@@ -1,0 +1,137 @@
+<div ng-controller="mortuaryController"  class="wrapper wrapper-content animated fadeInRight">
+          <div class="row">
+          <div class="col-md-12 form-box">
+          <form  role="form" class="registration-form" action=    "javascript:void(0);">
+          <fieldset>
+          <div class="form-top">
+          <div class="form-top-left">
+              <h3> {{mortuary[0].mortuary_name}}
+			   </h3>
+
+          </div>
+          </div>
+          <div class="form-bottom">
+          <div class="row">
+		  
+		  
+		         <div class="col-md-6">
+                                    <div class="panel form-top-left">
+                                        <div class="form-top">CABINETS AVAILABLE LIST </div><br>
+                                        <div class="">
+                                            <form  >
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-lg btn-success" type="submit">
+                                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+<li ng-repeat="cabinetsList in cabinetsLists"
+
+class="list-group-item form-top"><b>{{cabinetsList.cabinet_name}}, CAPACITY: {{cabinetsList.capacity}}</b>
+ </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> <div class="col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="form-top">CABINETS REGISTRATION FORM</div><br>
+
+                                        
+
+                                        <div class="panel-body">
+										<div class="row">
+             
+                
+                <input type="text" ng-model="cabinets.cabinet_number" class="form-control" placeholder="CABINET NUMBER " id="roles"><BR>
+              </div>
+              
+                 
+
+           <div class="row">
+
+    <input type="text" ng-model="cabinets.capacity" class="form-control" placeholder="CABINET CAPACITY">
+                           
+            </div><BR>
+                      <button type="submit" class="btn btn-success" ng-click="addCabinet(cabinets,mortuary[0].id)">SAVE</button>
+                                        </div>
+										
+										
+										
+                                    </div>
+
+
+
+
+
+                                </div>
+                               
+          </fieldset>          
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function () {
+        $('.registration-form fieldset:first-child').fadeIn('slow');
+
+        $('.registration-form input[type="text"]').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        // next step
+        $('.registration-form .btn-next').on('click', function () {
+            var parent_fieldset = $(this).parents('fieldset');
+            var next_step = true;
+
+            parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    $(this).addClass('input-error');
+                    next_step = false;
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+            if (next_step) {
+                parent_fieldset.fadeOut(400, function () {
+                    $(this).next().fadeIn();
+                });
+            }
+
+        });
+
+        // previous step
+        $('.registration-form .btn-previous').on('click', function () {
+            $(this).parents('fieldset').fadeOut(400, function () {
+                $(this).prev().fadeIn();
+            });
+        });
+
+        // submit
+        $('.registration-form').on('submit', function (e) {
+
+            $(this).find('input[type="text"],input[type="email"]').each(function () {
+                if ($(this).val() == "") {
+                    //e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+
+        });
+
+
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+</script>

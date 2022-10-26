@@ -1,0 +1,62 @@
+<md-dialog  >
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>NAMES:{{selectedPatient.first_name}} {{selectedPatient.middle_name}} {{selectedPatient.last_name}} &nbsp;&nbsp;&nbsp;
+             MRN:{{selectedPatient.medical_record_number}}&nbsp;&nbsp;&nbsp;
+             GENDER:{{selectedPatient.gender}}&nbsp;&nbsp;&nbsp;
+             D.O.B:{{selectedPatient.dob}}     </h2>
+
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+        <!--<div  ng-repeat="contents in Attachments"   style="min-width: 900px;" title="{{contents.file_path}}">-->
+            <!--<embed   src="/uploads/{{pdd}}" type="application/pdf" width="100%" height="100%">-->
+            <!--&lt;!&ndash;<embed   src="{{pdd}}" type="application/pdf" width="100%" height="100%">&ndash;&gt;-->
+        <!--</div>-->
+        <!--{{Attachments[0].file_path}}-->
+        <!--<p></p>-->
+        <!--{{pdd}}-->
+        <!--<div    style="min-width: 900px;">-->
+
+            <!--<embed   src="/uploads/4-150417075955-94778.pdf" type="application/pdf" width="100%" height="100%">-->
+
+            <div class="form-bottom">
+                <div id="example1">
+
+                    {{pdd}}
+
+                </div>
+
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Attachment</th>
+
+                        <th></th>
+
+                    </tr>
+                    <tr ng-repeat="contents in Attachments | filter:search track by $index">
+                        <td>{{$index+1}}</td>
+                        <td>
+                            <md-button class="md-raised md-primary"   ng-click="pdf(contents.file_path)" > view</md-button>   </td>
+
+
+                    </tr>
+
+                    <tr>
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+
+    </md-dialog-content>
+</md-dialog>

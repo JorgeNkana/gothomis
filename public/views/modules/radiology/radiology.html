@@ -1,0 +1,302 @@
+<style>
+    .box {
+        transition: none !important;
+        box-shadow: none !important;
+        background-color: rgba(121, 87, 87, 0);
+    }
+    .breadcrumb {
+        padding: 8px 0px;
+        margin-bottom: 16px;
+        list-style: none;
+        background-color: #f5f5f500;
+        border-radius: unset;
+    }
+    a:hover, a:focus {
+        color: #009688;
+        text-decoration: underline;
+    }
+</style>
+<div>
+    <div>
+        <md-content>
+            <md-card class="box">
+                <md-card-header>
+                    <md-card-avatar>
+                        <div>
+                            <img src="/svg/imagings.svg" class="img-rounded"/>
+                        </div>
+                    </md-card-avatar>
+                    <md-card-header-text>
+            <span style="padding-top: 7px;" class="md-subhead"><strong
+                style="font-size: 20px; color: #283593;">Radiology</strong></span>
+                        <div>
+                            <ul class="breadcrumb">
+                                <li><a ui-sref="dashboard">Dashboard</a></li>
+                                <li><a ui-sref="radiology">Radiology</a></li>
+                            </ul>
+                        </div>
+                    </md-card-header-text>
+                </md-card-header>
+            </md-card>
+            <md-card>
+                <br>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab ng-click = "patientOrders()" label="DIGITAL RADIOGRAPH">
+                        <md-content class="md-padding">
+                            <form  name="searchForm">
+                                <form  name="searchForm">
+                                    <div layout-gt-sm="row">
+                                        <md-autocomplete flex  flex
+                                                         md-search-text="searchText"
+                                                         md-input-name="patients"
+                                                         md-no-cache="false"
+                                                         md-items="item in getPatientQueXrayNotInList(searchText)"
+                                                         md-item-text="item.first_name+' '+item.middle_name+' ' +item.middle_name+' '+item.medical_record_number+' '+item.item_name"
+                                                         md-selected-item-change="getRadiologyModal(item)"
+                                                         md-floating-label="Search Patient"
+                                                         md-min-length="4" md-autofocus>
+                                            <md-item-template>
+                                                <span md-highlight-text="searchText">{{item.first_name}} {{item.middle_name}} {{item.last_name}} {{item.medical_record_number}} {{item.item_name}}</span>
+                                            </md-item-template>
+                                        </md-autocomplete>
+                                    </div>
+                                </form>
+                            </form>
+							<md-chips>
+                                <md-chip ng-repeat="pt in patientXray" ng-click="getRadiologyModal(pt)" >{{pt.first_name}} {{pt.middle_name}} {{pt.last_name+' - '+pt.item_name}}</md-chip>
+                            </md-chips>
+                        </md-content>
+                    </md-tab>
+                    <md-tab ng-click="getXrays()" label="INVESTIGATION VERIFICATION">
+                        <md-content class="md-padding">
+                            <md-content class="md-no-momentum">
+                            </md-content>
+                            <md-chips>
+                                <md-chip  ng-repeat="xray in Xrays" ng-click="imageState(xray.patient_id)" >{{xray.first_name | uppercase}} {{xray.middle_name| uppercase}} {{xray.last_name|
+                                    uppercase}}</md-chip>
+                            </md-chips>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="INVESTIGATION REPORTS">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2"></h1>
+                            <md-content class="md-padding">
+                                <h1 class="md-display-2"></h1>
+
+                                <div layout-gt-sm="row">
+                                    <md-input-container flex="30">
+                                        <label>Choose Start Date</label>
+                                        <input ng-model="rec.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container  flex="30">
+                                        <label>Choose End Date</label>
+                                        <input ng-model="rec.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" />
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <md-button class="md-raised md-primary" ng-click="reportRecord(rec)">Search</md-button>
+                                    </md-input-container>
+                                </div>
+                                <table ng-if="reportData.length>0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                                    <thead style="background-color: beige">
+                                    <tr>
+                                        <th  class="mdl-data-table__cell--non-numeric">FIRST NAME</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">MIDDLE NAME</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">LAST NAME</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">MRN</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">AGE</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">INVESTIGATION NAME</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">INVESTIGATION RESULTS</th>
+                                        <th  class="mdl-data-table__cell--non-numeric">DATE ATTENDED</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="emergencies in reportData">
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.first_name}}</td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.middle_name}}</td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.last_name}}</td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.medical_record_number}}</td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.Ages}}</td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.item_name}}</td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.description.trunc(20)}} <a ng-click="lauchDescription(emergencies)">view more</a></td>
+                                        <td  class="mdl-data-table__cell--non-numeric">{{emergencies.created_at}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </md-content>
+                        </md-content>
+                    </md-tab>
+
+                    <md-tab label="FINANCE REPORTS">
+
+
+                        <div style="overflow-x:scroll;max-width:960px;" >
+                            <div layout="row">
+                                <md-input-container>
+                                    <label>Choose Start Date</label>
+                                    <input ng-model="dept.start" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Choose End Date</label>
+                                    <input ng-model="dept.end" datetime-picker date-format="yyyy-MM-dd HH:mm:ss"/>
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-click="getDetailedReportsdepartmentally(dept)">Search</md-button>
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-primary" ng-if="cashdetailedData"
+                                               ng-click="pharmacashprint()">
+                                        Print
+                                    </md-button>
+                            </div>
+                            <div >
+
+
+                                <md-input-container class="md-block">
+                                    <input type="text" autocomplete="off" ng-model="search" class="md-block" placeholder="Quick Search......">
+                                </md-input-container>
+                                <div id="pharmcash_id">
+                                    <table  class="table-responsive"  style="border:thin solid white; width:100%" >
+                                        <tr style="background-color:white">
+                                            <td align='center' style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                <div>
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div flex>
+                                                            <img style="float:left;" height="80" width="80" src="/img/arm.png"/>
+                                                        </div>
+                                                        <div flex>
+                                                            <center>
+                                                                <h3 class="md-title">{{cardTitle.facility_name}}
+                                                                    {{cardTitle.description}}</h3>
+                                                            </center>
+                                                            <center>
+                                                                <h4 class="md-subhead">{{cardTitle.address}}</h4>
+                                                            </center>
+
+                                                        </div>
+                                                        <div flex>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color:white">
+                                            <td style="border-right: thin dotted black;border-bottom: thin dotted black;">
+                                                <div flex="100" layout="row" layout-padding>
+                                                    <div flex="50">
+                                                        <dt>Start</dt>
+                                                        <dd>{{dept.start}}</dd>
+                                                    </div>
+                                                    <div flex="50">
+                                                        <dt>End</dt>
+                                                        <dd>{{dept.end}}</dd>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color:white">
+                                            <td>
+
+                                                <!-- the actual content -->
+                                                <div flex="100" layout="row" layout-align="space-between center">
+
+
+
+
+                                                    <div>
+                                                        <h4>Generated on {{department_report_generated_on}}</h4>
+                                                        <h4>Generated by {{currentUser.name}}</h4>
+
+                                                    </div>
+                                                </div>
+
+                                                <table class="table-responsive"  style="border:thin solid black; width:100%"
+                                                       width="100%" ng-if="cashdetailedData.length>0">
+                                                    <caption> <h3>Cash Collection Finance Report</h3>
+                                                        <p></p>
+                                                        <h4> Grand Total : {{cashdetailedTotal | currency: 'Tshs. ' :2}}</h4>
+                                                    </caption>
+                                                    <thead>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">s/n</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MRN</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Unit Price</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cost</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="dpt in cashdetailedData |filter:search track by $index">
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.medical_record_number}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.item_name}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.total_items}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.price | currency: 'Tshs. ' :2}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.sub_total | currency: 'Tshs. ' :2}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table class="table-responsive"  style="border:thin solid black; width:100%"
+                                                       width="100%" ng-if="insurancedetailedData.length>0">
+                                                    <caption> <h3>Lab Insurance  Finance Report</h3>
+                                                        <p></p>
+                                                        <h4> Grand Total : {{insurancedetailedTotal | currency: 'Tshs. ' :2}}</h4>
+                                                    </caption>
+                                                    <thead>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">s/n</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MRN</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Unit Price</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cost</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="dpt in insurancedetailedData |filter:search track by $index">
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.medical_record_number}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.item_name}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.total_items}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.price | currency: 'Tshs. ' :2}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.sub_total | currency: 'Tshs. ' :2}}</td>
+                                                    </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                                <table class="table-responsive"  style="border:thin solid black; width:100%"
+                                                       width="100%" ng-if="exemptiondetailedData.length>0">
+                                                    <caption> <h3>Lab Exemption  Finance Report</h3>
+                                                        <p></p>
+                                                        <h4> Grand Total : {{exemptiondetailedTotal | currency: 'Tshs. ' :2}}</h4></caption>
+                                                    <thead>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">s/n</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">MRN</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Item</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Unit Price</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Quantity</th>
+                                                    <th style="border-right: thin dotted black;border-bottom: thin dotted black;">Cost</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="dpt in exemptiondetailedData |filter:search track by $index">
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{$index+1}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.medical_record_number}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.item_name}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.total_items}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.price | currency: 'Tshs. ' :2}}</td>
+                                                        <td style="border-right: thin dotted black;border-bottom: thin dotted black;">{{dpt.sub_total | currency: 'Tshs. ' :2}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+        </md-content>
+    </div>
+
+</div>

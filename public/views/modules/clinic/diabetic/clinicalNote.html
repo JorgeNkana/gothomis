@@ -1,0 +1,42 @@
+<md-dialog flex="100">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>CONTINUATION NOTES FOR: {{patientData.first_name| uppercase}}
+                    {{patientData.middle_name| uppercase}} {{patientData.last_name| uppercase}} {{patientData.age}} ({{patientData.medical_record_number}})
+                </h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="/svg/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-content class="md-padding">
+                <div layout-gt-xs="row">
+                    <div flex="70">
+                        <md-input-container class="md-block">
+                            <h4>Continuation Notes</h4>
+                            <textarea ng-model="notes" md-maxlength="500"  autocomplete="off" rows="3" md-select-on-focus></textarea>
+                        </md-input-container>
+                    </div>
+                    <div flex="30">
+                        <h4 style="padding-left: 18px; padding-top: 68px;">Next-appointment Date</h4>
+                        <md-datepicker ng-model="date" placeholder="Enter date"></md-datepicker>
+                    </div>
+
+                </div>
+                <md-button style="width: 15%;" class="md-raised md-primary"  ng-click="appointmentPhysio(date,patientData,notes)">
+                    SAVE  NOTES
+                </md-button>
+            </md-content>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" style="margin-right:20px;" >
+                CANCEL
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
